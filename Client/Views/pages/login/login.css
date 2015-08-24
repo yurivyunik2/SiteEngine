@@ -1,0 +1,69 @@
+﻿html, body {
+  height: 100%;
+  /*background-color: yellow;
+  padding: 100px;*/
+}
+body {
+  padding: 0;
+  margin: 0;
+}
+
+/*body > div:first-child {
+  height: 100%;
+  width: 100%;
+}*/
+
+.dvInner {
+  background: url('http://localhost:8082/siteengine/client/images/login/back.jpg');
+  height: 100%;
+  width: 100%;
+  display: table;  
+}
+.dvInner .dvTop {
+  text-align: center;
+}
+.dvInner .dvCenter {
+  display: table-cell;
+  vertical-align: middle;  
+}
+.dvInner .dvCenterContent {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 600px;
+  background-color: rgba(0, 0, 0, 0.41);
+  padding: 50px 60px;
+  color: #ffffff;
+  box-shadow: 0px 0px 8px 0px rgba(0,0,0,0.2);
+  box-sizing: border-box;
+}
+.dvInner .dvCenterContent .dvField {
+  font-size: 13px;
+  font-family: arial, serif, sans-serif;
+  margin-top: 15px;
+}
+.dvInner .dvCenterContent .dvField.dvError > div {
+  background-color: brown;
+  padding: 9px;
+  font-size: 15px;
+  /*display: none;*/
+}
+.dvInner .dvCenterContent #btnLogin {
+  height: 45px;
+  background: linear-gradient(to bottom, #289bc8 0%,#207da2 100%);
+}
+
+.dvInner .dvCenterContent .dvField.dvRememberFunc div {
+  display: inline-block;
+  margin-right: 13px;  
+}
+.dvInner .dvCenterContent .dvField.dvRememberFunc label {
+  font-weight: normal;  
+}
+.dvInner .dvCenterContent .dvField.dvRememberFunc label input {
+  position: relative;
+  top: 2px;
+  margin-right: 3px;  
+}
+.dvInner .dvCenterContent .dvField.dvRememberFunc a {
+ color: white;
+}

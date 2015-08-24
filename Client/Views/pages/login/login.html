@@ -1,0 +1,45 @@
+﻿<link rel="stylesheet" type="text/css" href="/SiteEngine/Client/Views/pages/login/login.css">
+
+<div class="dvInner">
+    <div class="dvCenter">
+        <div class="dvCenterContent">
+            <div class="dvTop">
+                <img src="/siteengine/client/images/login/logo.png">
+            </div>
+          <div class="dvMiddle">
+          <div ng-show="(error != '')" class="dvField dvError">
+            <div>
+	            <span>{{error}}</span>
+            </div>  	
+            </div>            
+            <div class="dvField">
+              <span>User name:</span>
+              <input ng-model="userName" name="UserName" type="text" value="" id="UserName" class="form-control" placeholder="Enter user name" autofocus="">
+            </div>
+            <div class="dvField">
+              <span>User password:</span>
+              <input ng-model="userPassword" name="UserPassword" type="password" value="" id="UserPassword" class="form-control" placeholder="Enter user password" autofocus="">
+            </div>
+
+            <div class="dvField">
+              <input id="btnLogin" ng-click="clickLogin($event)" type="submit" value="Log in" class="btn btn-primary btn-block">
+            </div>
+
+            <div class="dvField dvRememberFunc">
+              <div>
+                <label class="">
+                  <input id="RememberMe" type="checkbox" name="RememberMe">Remember me
+                </label>
+              </div>
+              <div>
+                <a href="#" class="show-recovery">Forgot your password?</a>
+              </div>
+            </div>
+
+
+          </div>
+
+
+        </div>
+    </div>
+</div>

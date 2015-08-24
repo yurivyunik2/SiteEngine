@@ -1,0 +1,95 @@
+﻿.dvModalForm-background {
+  z-index: 100;
+  position: absolute;
+  background-color: #1E241E;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
+  opacity: 0.5;
+  text-align: center;
+  vertical-align: middle;
+  display: table;
+}
+
+.dvModalForm {
+  z-index: 1000;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
+  text-align: center;
+  vertical-align: middle;
+  display: table;
+}
+  .dvModalForm .dvContentContainer {
+    display: table-cell;
+    margin-left: auto;
+    margin-right: auto;
+    vertical-align: middle;
+    text-align: center;
+  }
+  .dvModalForm .dvContentForm {
+    min-height: 150px;
+    min-width: 200px;
+    background-color: #E5E5E5;
+    opacity: 1;                                                    
+    display: inline-block;    
+    border-radius: 15px;
+    border: 2px solid #930C0C;
+    text-align: left;                                    
+    position: relative;
+    cursor: pointer;
+  }
+  .dvModalForm .dvButtonsFunctional {
+    display: block;
+    text-align: right;
+    padding-top: 3px;
+    padding-right: 7px;    
+  }
+  .dvModalForm .dvButtonsFunctional img {
+    width: 25px;
+  }
+  .dvModalForm .dvIncludePart {
+    box-sizing: border-box; 
+    padding: 15px;
+    padding-top: 0px;
+    overflow: auto;
+  }
+  .dvModalForm .dvButtonsForm {
+    overflow: auto;
+    bottom: 0px;
+    /*position: absolute;*/
+    width: 100%;
+    border-radius: inherit;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+
+    padding: 15px;
+    background-color: #CFBC38;
+    text-align: right;
+    border-top: 2px solid #A69999;
+  }
+  .dvModalForm .dvButtonsForm label {
+    float: left;
+    margin-top: 7px;
+    color: red;
+  }
+  .dvModalForm .dvButtonsForm button {
+    float: left;
+    margin-left: 5px;
+  }
+
+.btnForm {
+  border: 1px solid #05B0D8;    
+
+  background-color: #EAE5EA;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, .3),              0 2px 2px -1px rgba(0, 0, 0, .5),              0 1px 0 rgba(255, 255, 255, .3) inset;
+  text-shadow: 0 1px 0 rgba(255,255,255, .9);
+
+  font: bold 13px arial, helvetica, sans-serif;
+}
+.btnSelected {
+  background-color: #BFBFBF;
+}

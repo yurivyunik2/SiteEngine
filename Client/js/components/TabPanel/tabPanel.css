@@ -1,0 +1,99 @@
+﻿.button-ribbon {
+  display: inline-block;
+  margin-left: 10px;
+  border-top: 1px solid #96d1f8;
+  background: -webkit-linear-gradient(top, #E8E8E8, #C7B2B2);
+  background: -moz-linear-gradient(top, #c3d1d9, #d8e1e8);
+  background: -ms-linear-gradient(top, #c3d1d9, #d8e1e8);
+  background: -o-linear-gradient(top, #c3d1d9, #d8e1e8);
+  padding: 7px 12px;
+  -webkit-border-radius: 21px;
+  -moz-border-radius: 21px;
+  border-radius: 5px;
+  -webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
+  -moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+  box-shadow: rgba(0,0,0,1) 0 1px 0;
+  text-shadow: rgba(0,0,0,.4) 0 1px 0;
+  color: #242020;
+  font-size: 11px;
+  font-family: arial, Georgia, serif;
+  text-decoration: none;
+  /* vertical-align: middle; */
+}
+a.button-ribbon {
+  text-decoration: none;
+}
+.button-ribbon:hover {
+  border-top-color: #82BA92;
+  background: #5C5E5F;   
+  color: #ccc;
+}
+.button-ribbon:active {
+   border-top-color: #1b435e;
+   background: #A5A5A5;
+}
+
+#dvTabPanel .dvContent {
+  display: table;
+  width: 100%;  
+}
+#dvTabPanel .dvContent .dvTabs {
+  display: table-cell;
+  width: 70%;  
+}
+#dvTabPanel .dvContent .dvUserInfo {
+  display: table-cell;
+  width: 30%;
+  text-align: right;
+  vertical-align: middle;
+  padding-right: 25px;  
+}
+#dvTabPanel .dvContent .dvUserInfo span {
+  margin-left: 5px;
+}
+#dvTabPanel .dvContent .dvUserInfo a {
+  color: #337ab7;
+}
+
+#dvTabPanel #actionPanel {
+  background-color: #6097CD;
+  display: block;
+  width: 100%;
+  height: 51px;
+}
+
+#dvTabPanel #actionPanel #dvTabContent {
+  /*background-color: #6097CD;*/
+  padding: 10px 0px;
+  float: left;
+  width: 50%;
+}
+#dvTabPanel #actionPanel #languageChoosePanel {
+  float: right;
+  width: 50%;
+  text-align: right;  
+  padding: 13px 10px 10px 0px;
+}
+#dvTabPanel #actionPanel #languageChoosePanel select {
+  height: 25px;
+  padding: 0px;
+  display: inline-block;
+  margin-left: 5px;
+}
+#dvTabPanel #actionPanel #languageChoosePanel #selLanguage {
+  width: 80px;
+}
+#dvTabPanel #actionPanel #languageChoosePanel .dvVersion {
+  display: inline-block;
+  margin: 0px 3px;
+}
+#dvTabPanel #actionPanel #languageChoosePanel .dvVersion #removeVersion {
+  display: inline-block;
+  cursor: pointer;
+}
+#dvTabPanel #actionPanel #languageChoosePanel .dvVersion #removeVersion img {
+  width: 16px;
+}
+#dvTabPanel #actionPanel #languageChoosePanel #selVersion {
+  width: 35px;
+}

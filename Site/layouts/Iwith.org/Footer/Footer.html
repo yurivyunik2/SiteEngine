@@ -1,0 +1,62 @@
+﻿<link href="/SiteEngine/Site/layouts/Iwith.org/Footer/Footer.css" rel="stylesheet">
+
+<div id="footer" class="ng-scope">
+  <div class="dvInternal">
+    <div class="dvTop">
+      <div class="dvLogo">
+        <img src="/SiteEngine/Site/images/megaphone.png">
+        <div><span>Collaborate!</span></div>
+      </div>
+      <div class="dvLinks">
+        <ul>
+          <li>Inernet consulting</li>
+          <li>Working online</li>
+          <li>Training</li>
+        </ul>
+        <ul>
+          <li>Google Grants management</li>
+          <li>Email Marketing</li>
+          <li>Web</li>
+        </ul>
+        <ul>
+          <li>Fundraising</li>
+          <li>Social networks</li>
+          <li>Collaborate</li>
+        </ul>
+      </div>
+      <div class="dvContact">
+        <address>
+          <h4 style="color: #ccc;">
+            Contact
+          </h4>
+
+          C/ Cucurulla nº 9, 2º 2ª A
+          <br>
+          08002 Barcelona
+          <br>
+          <a href="mailto:info@iwith.org" style="color: #ccc;">info@iwith.org</a><br>
+                                                                                 Phone: +34 93 181 36 69 
+        </address>
+      </div>
+    </div>
+    <div class="dvBottom">
+      <div class="dvLink">
+        <a href="/en/privacidad.html">Privacy</a>
+      </div>
+  
+      <div class="dvInfo">
+        * We are helping the third and fourth sector –NGOs, associations, social enterpreneurs and socially responsible companies– to make the most of the opportunities that the Internet affords us in creating a world we would like to live in.  Powered by iWith.org
+      </div>
+    </div>
+  </div>
+</div>
+
+<script id="linksTemplate" type="text/template">
+
+  <ul>
+    <% _.each(items,function(item){ %>
+      <li><a href="<%= item.fields[1].value %>" title="Internet consulting"><%= item.fields[0].value %></a></li>
+    <% }) %>
+  </ul>
+
+</script>

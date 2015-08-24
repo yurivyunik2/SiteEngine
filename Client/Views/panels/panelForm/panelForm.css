@@ -1,0 +1,22 @@
+﻿.dvPanelFormContainer {
+  position: absolute;
+  background-color: red;
+  /*top: 100px;
+  left: 100px;*/
+  cursor: pointer;
+}
+.dvPanelFormContainer .dvButtonsFunctional {
+  display: block;
+  text-align: right;
+  padding-top: 3px;
+  padding-right: 7px;    
+}
+.dvPanelFormContainer .dvButtonsFunctional img {
+  width: 25px;
+}
+.dvPanelFormContainer .dvIncludePart {
+  box-sizing: border-box; 
+  padding: 15px;
+  padding-top: 0px;
+  overflow: auto;
+}

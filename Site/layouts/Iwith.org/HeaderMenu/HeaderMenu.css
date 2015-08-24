@@ -1,0 +1,27 @@
+﻿        
+#menuItemContent #title {
+    padding: 15px 0px;
+    font-size: 25px;
+    color: #006E75;
+}
+#menuItemContent #content {
+  overflow: auto;
+}
+#menuItemContent #content #textArea {
+  width: 40%;
+  display: inline-block;
+  height: 100%;
+  float: left;          
+}
+#menuItemContent #content #imgArea {
+  width: 50%;
+  display: inline-block;
+  float: right;
+  padding: 10px;
+  border: 1px solid #D3D3D3;
+}
+#menuItemContent #content #imgArea img {
+  width: 100%;
+  height: 100%;
+}
+

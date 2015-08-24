@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html  style="height: 100%;" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title></title>  
+    
+    <script src="/SiteEngine/Client/js/lib/require.js"></script>    
+    <script src="/SiteEngine/Client/js/lib/angular/angular.js"></script>
+
+  </head>
+  
+    
+<body style="margin: 0;height: 100%;">
+  
+  <div ng-app="app" ng-controller="ctrlApp" style="height: 100%;">
+    <div id="wrapperContent" style="display: table;margin: 0 auto;height: 100%;" >
+      <div id="loadingElem" style="display: table-cell;vertical-align: middle;">      
+        <img src="/SiteEngine/Client/images/loading.gif" style="width: 48px;height: 48px;">
+      </div>
+    </div>
+  </div>
+
+<script>
+
+  var _$scope;
+  var _$compile;
+  var _$http;
+  var app = angular.module("app", []);
+  app.controller("ctrlApp", ["$scope", "$compile", "$http", function ($scope, $compile, $http) {
+    _$scope = $scope;
+    _$compile = $compile;
+    _$http = $http;
+
+    _$scope.wrapperReady = function () {
+      
+    };
+  }]);
+
+
+  require.config({
+    paths: {
+      jquery: "/SiteEngine/Client/js/lib/jquery-1.11.3",
+      jqueryUi: "/SiteEngine/Client/js/lib/jquery-ui/jquery-ui",
+      underscore: "/SiteEngine/Client/js/lib/underscore",
+      bootstrap: "/SiteEngine/Client/js/lib/bootstrap/bootstrap",
+      angular: "/SiteEngine/Client/js/lib/angular/angular",
+      angularRoute: "/SiteEngine/Client/js/lib/angular-route/angular-route",
+
+      CONST: "/SiteEngine/Client/js/const",
+      application: "/SiteEngine/Client/js/application",
+      notification: "/SiteEngine/Client/Views/forms/notificationForm/notification",
+      dataType: "/SiteEngine/Client/js/Common/DataType",
+      
+      siteConst: "/SiteEngine/Site/layouts/Iwith.org/SiteConst",
+    },
+
+    "shim": {
+        angular: { "exports": "angular" },
+        angularRoute: ["angular"],
+
+        bootstrap: ["jquery"],
+        jquery: {
+          exports: "jQuery"
+        },
+        jqueryUi: ["jquery"],
+        application: ["jquery"],
+      },
+    map: {
+      "*": {
+        "css": "/SiteEngine/Client/js/lib/require-css/css.js",
+      }
+    },
+    
+  });
+
+  require(["jquery", "underscore", "application", "CONST", "siteConst", "bootstrap", "css!bootstrap"], function ($, _, application, CONST, siteConst) {
+
+    //var path = "main/test2";
+    //var path = "main";
+    //var serverAddress = "http://localhost:8082/" + path;
+    var serverAddress = CONST.SERVER() + window.location.pathname;
+    
+    
+    
+    application.initialize(_$scope, _$http);
+    application.loadItems(function () {
+      
+    });
+
+    var data = { action: "getContentSite" };
+
+    $.post(serverAddress, data, function (responseData, textStatus, jqXHR) {
+      if (jqXHR && jqXHR.status == 200) {
+        responseData = JSON.parse(responseData);
+        if (responseData.isOK) {
+          if (responseData.data && responseData.data.layoutItem) {
+            var layoutItem = responseData.data.layoutItem;
+            if (layoutItem.layoutContent) {
+
+              var contentSource = layoutItem.layoutContent;
+
+              //var arIncludes = $(contentSource).find("[ng-include]");
+              //_.each(arIncludes, function (includeElem) {
+              //  var includeValue = $(includeElem).attr("ng-include");
+              //  includeValue = includeValue.replace("'", "").replace("'", "");
+              //  var jsFile = includeValue.replace(".html", ".js");
+
+              //  var scriptElem = document.createElement('script');
+              //  scriptElem.setAttribute("type", "text/javascript");
+              //  scriptElem.setAttribute("src", jsFile);
+              //  $("head")[0].appendChild(scriptElem);
+              //});
+
+              var contentFn = _$compile(contentSource);
+              var content = contentFn(_$scope);
+              try {
+                $("#wrapperContent").html(content);
+              } catch(ex) {
+              }
+              _$scope.$apply();
+              
+              if (responseData.data.subLayouts) {
+                var dirSubLayouts = {};
+                _.each(responseData.data.subLayouts, function (subLayout) {
+                  if (subLayout.placeholder && subLayout.placeholder != "" && subLayout.item) {
+                    dirSubLayouts[subLayout.placeholder] = subLayout.item.layoutContent;
+                  }
+                });
+              }
+
+              var populatePlaceholder = function ($elem) {
+                var arPlaceholder = $elem.find(".placeholder");
+                _.each(arPlaceholder, function (placeholder) {
+                  var $placeholder = $(placeholder);
+                  var key = $placeholder.attr("key");
+                  if (key && dirSubLayouts[key]) {
+                    $placeholder.html(dirSubLayouts[key]);
+
+                    populatePlaceholder($placeholder);
+                  }
+                });
+              };
+              populatePlaceholder($("#wrapperContent"));
+            }
+          }
+
+        } else {
+          var error = "UNKNOWN ERROR!";
+          if (responseData.error)
+            error = responseData.error;
+          $("#wrapperContent").html(error);
+        }
+
+      } else {
+
+      }
+
+    });
+
+  });
+
+</script>
+
+  </body>
+</html>
+
+

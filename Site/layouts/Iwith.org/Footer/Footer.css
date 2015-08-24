@@ -1,0 +1,58 @@
+﻿
+#footer {
+  min-height: 100px;
+  background-color: #006E75;
+}
+#footer .dvTop {
+  color: #ccc;
+  padding: 20px 0px;
+  border-bottom: 1px solid #196364;
+  overflow: auto;
+} 
+#footer .dvLogo {
+  float: left;
+}
+#footer .dvLogo img {
+  
+}
+#footer .dvLogo span {
+ letter-spacing: 2px;
+ font-size: 22px;
+}
+#footer .dvLinks {
+  float: left;
+  margin-left: 100px;
+}
+#footer .dvLinks ul {
+  list-style: none;
+  margin: 0;
+  padding: 28px 0px;
+  font-size: 18px;
+}
+#footer .dvLinks ul li {
+  float: left;
+  margin-right: 50px;
+}
+  #footer .dvLinks ul li a {
+    color: #ccc; 
+  }
+#footer .dvContact {
+  border-left: 1px solid #196364;
+  color: white;
+  float: left;
+  padding-left: 10px;
+  margin-left: 30px;
+}
+
+#footer .dvBottom {
+  color: white;
+  padding-top: 50px;
+  padding-bottom: 15px;
+}
+#footer .dvBottom .dvLink {
+  margin-bottom: 30px;
+}
+#footer .dvBottom .dvLink a {
+ color: #ccc;
+ float: right;
+}

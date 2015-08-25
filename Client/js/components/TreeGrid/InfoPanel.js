@@ -1,4 +1,10 @@
-﻿define(["application", "CONST"], function (application, CONST) {
+﻿require.config({
+  paths: {
+    richTextEditor: "js/components/RichTextEditor/RichTextEditor",
+  },
+});
+
+define(["application", "CONST", "richTextEditor"], function (application, CONST, RichTextEditor) {
 
   function InfoPanel($parentElem, treeGrid) {
 
@@ -107,13 +113,16 @@
                 "<tr>";
 
             if (field.type && !isNaN(parseInt(field.type))) {
-              if (parseInt(field.type) == CONST.RICH_TEXT_TYPE()) {
-                html += "<td><textarea id='" + field.fieldId + "' class='scrollCustom itemField'>" + field.value + "</textarea></br></br></td>";
-              } else if (parseInt(field.type) == CONST.INTEGER_TYPE() || parseInt(field.type) == CONST.NUMBER_TYPE()) {
+              if (parseInt(field.type) === CONST.RICH_TEXT_TYPE()) {
+                //html += "<td><textarea id='" + field.fieldId + "' class='scrollCustom itemField'>" + field.value + "</textarea></br></br></td>";
+                html += "<td><div id='rich_" + field.fieldId + "' class='scrollCustom itemField'>" + field.value + "</div></br></br>";
+                html += "<div id='rich2_" + field.fieldId + "' class='scrollCustom itemField'>" + field.value + "</div></br></br>";
+                html += "</td>";
+              } else if (parseInt(field.type) === CONST.INTEGER_TYPE() || parseInt(field.type) === CONST.NUMBER_TYPE()) {
                 //INTEER
-              } else if (parseInt(field.type) == CONST.DATETIME_TYPE()) {
+              } else if (parseInt(field.type) === CONST.DATETIME_TYPE()) {
                 //INTEER
-              } else if (parseInt(field.type) == CONST.IMAGE_TYPE())
+              } else if (parseInt(field.type) === CONST.IMAGE_TYPE())
                 html += "<td>" + field.value + "</br></br></td>";
               else
                 html += "<td><input id='" + field.fieldId + "' class='itemField' onclick='javascript:this.select();return false' value='" + field.value + "'></br></br></td>";
@@ -124,6 +133,14 @@
             "</tr>";
 
             tbody.append(html);
+
+            if (parseInt(field.type) === CONST.RICH_TEXT_TYPE()) {
+              //var $fieldElem = $("id=#" + field.fieldId);
+              var richTextEditor = application.getRichTextEditorCtrl();
+              richTextEditor.convertElement("rich_" + field.fieldId, field.value);
+              richTextEditor.convertElement("rich2_" + field.fieldId, field.value);
+            }
+
           }
         }
 

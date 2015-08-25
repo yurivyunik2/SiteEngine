@@ -12,6 +12,7 @@ define(["CONST", "notification"], function (CONST, Notification) {
     var engineTree;
     var actionCtrl;
     var tabPanel;
+    var richTextEditorCtrl;
 
     var keyDownEventLast;
     var uiComponents = {};
@@ -144,6 +145,13 @@ define(["CONST", "notification"], function (CONST, Notification) {
           modalFormCtrl = _modalFormCtrl;
       },
       getModalFormCtrl: function () { return modalFormCtrl; },
+
+      setRichTextEditorCtrl: function (_richTextEditorCtrl) {
+        if (_richTextEditorCtrl)
+          richTextEditorCtrl = _richTextEditorCtrl;
+      },
+      getRichTextEditorCtrl: function () { return richTextEditorCtrl; },
+      
 
       setActionCtrl: function (_actionCtrl) {
         if (_actionCtrl)

@@ -6,6 +6,7 @@
     layoutFormCtrl: "Views/forms/layoutForm/layoutFormCtrl",
     userManagerFormCtrl: "Views/forms/userManagerForm/userManagerFormCtrl",
     newUserFormCtrl: "Views/forms/newUserForm/newUserFormCtrl",
+    imageGalleryFormCtrl: "Views/forms/imageGalleryForm/imageGalleryFormCtrl",
   },
 });
 
@@ -17,8 +18,9 @@ define(["application", "CONST",
         "layoutFormCtrl",
         "userManagerFormCtrl",
         "newUserFormCtrl",
+        "imageGalleryFormCtrl",
         ],
-function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, InsertOptionsForm, LayoutFormCtrl, UserManagerFormCtrl, NewUserFormCtrl) {
+function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, InsertOptionsForm, LayoutFormCtrl, UserManagerFormCtrl, NewUserFormCtrl, ImageGalleryFormCtrl) {
 
   return function ($scope) {
     
@@ -49,6 +51,11 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
       NEW_USER: {
         form_path: "/SiteEngine/Client/Views/forms/newUserForm/newUserForm.html",
         form_ctrl: new NewUserFormCtrl($scope),
+      },
+
+      IMAGE_GALLERY: {
+        form_path: "/SiteEngine/Client/Views/forms/imageGalleryForm/imageGalleryForm.html",
+        form_ctrl: new ImageGalleryFormCtrl($scope),
       },
 
       UNKNOWN_FORM: {

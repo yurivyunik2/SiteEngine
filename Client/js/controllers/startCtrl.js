@@ -6,6 +6,8 @@
     tabPanel: "js/components/TabPanel/tabPanel",
     panelFormCtrl: "Views/panels/panelForm/panelFormCtrl",
     panelTypes: "/SiteEngine/Client/Views/panels/panelTypes",
+
+    richTextEditor: "js/components/RichTextEditor/RichTextEditor",
   },
 });
 
@@ -18,8 +20,9 @@ define([
     "tabPanel",
     "panelFormCtrl",
     "panelTypes",
+    "richTextEditor",
     ],
-function (application, CONST, EngineTree, ActionCtrl, ModalFormCtrl, TabPanel, PanelFormCtrl, PanelTypes) {
+function (application, CONST, EngineTree, ActionCtrl, ModalFormCtrl, TabPanel, PanelFormCtrl, PanelTypes, RichTextEditor) {
 
   return function ($scope, $http, $window) {
 
@@ -69,13 +72,17 @@ function (application, CONST, EngineTree, ActionCtrl, ModalFormCtrl, TabPanel, P
 
         var modalFormCtrl = new ModalFormCtrl($scope);
         application.setModalFormCtrl(modalFormCtrl);
-        //modalFormCtrl.showType(modalFormCtrl.FORM_TYPE().NEW_USER, {});
+        modalFormCtrl.showType(modalFormCtrl.FORM_TYPE().IMAGE_GALLERY, {});
 
 
         var tabPanel = new TabPanel($("#tabPanelArea"));
         $(tabPanel).on(tabPanel.getEventClickButton(), function (event, actionType) {
           actionCtrl.process({ actionType: actionType });
         });
+
+        //
+        var richTextEditor = new RichTextEditor();
+        application.setRichTextEditorCtrl(richTextEditor);
 
         // users
         application.loadUsers();

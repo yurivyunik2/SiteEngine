@@ -72,7 +72,10 @@ function (application, CONST, EngineTree, ActionCtrl, ModalFormCtrl, TabPanel, P
 
         var modalFormCtrl = new ModalFormCtrl($scope);
         application.setModalFormCtrl(modalFormCtrl);
-        modalFormCtrl.showType(modalFormCtrl.FORM_TYPE().IMAGE_GALLERY, {});
+        setTimeout(function() {
+          modalFormCtrl.showType(modalFormCtrl.FORM_TYPE().IMAGE_GALLERY, {});
+        }, 300);
+        
 
 
         var tabPanel = new TabPanel($("#tabPanelArea"));

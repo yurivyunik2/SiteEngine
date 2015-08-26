@@ -1,63 +1,79 @@
 ﻿define(["application", "CONST"], function (application, CONST) {
 
   return function ($scope) {
-    return {
-      show: function () {
-        var $inName = $("#dvItemName").find(".inName");
-        $inName.val("");
-        $inName.focus();
+
+    var arItemsTest = [
+      { name: "name1", src: "./images/gallery256.png" },
+      { name: "name2", src: "./images/gallery256.png" },
+      { name: "name3", src: "./images/gallery256.png" },
+      { name: "name4", src: "./images/gallery256.png" },
+      { name: "name5", src: "./images/gallery256.png" },
+      { name: "name6", src: "./images/gallery256.png" },
+      //{ name: "name7", src: "./images/gallery256.png" },      
+    ];
+
+    var self;
+
+    var countImgInRow = 4;
+
+    var imageGalleryFormSelector = "#imageGalleryForm";
+    var imgWrapperTemplateSelector = "#imgWrapperTemplate";
+
+    var imgGalleryObj = {
+      constructor: function() {
+        self = this;
       },
 
-      clickOK: function (dataRequest) {
-        if (!dataRequest || !dataRequest.selectedItem || !dataRequest.selectedTemplate)
+      populate: function() {
+        var $imageGalleryFormElem = $(imageGalleryFormSelector);
+        if ($imageGalleryFormElem.length === 0)
           return;
 
-        var curlang = application.getLanguageCurrent();
-        var langCode = "";
-        if (curlang)
-          langCode = curlang.code;
+        var $imgWrapperTemplateElem = $(imgWrapperTemplateSelector);
 
-        $scope.itemName = $("#dvItemName").find(".inName").val();
+        var $tableElem = $imageGalleryFormElem.find("table");
+        $tableElem.html("");
 
-        var action = "createItem";
-        var data = {
-          action: action,
-          item: {
-            name: $scope.itemName,
-            parentId: dataRequest.selectedItem.id,
-            templateId: dataRequest.selectedTemplate.id
-          },
-          lang: langCode
-          //fields: $scope.selTemplate.fields
-        };
-        //var data = {
-        //  method: 'POST',
-        //  url: $scope.server,
-        //  headers: {
-        //    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-        //  },
-        //  //data: "action=" + action + "&name=template1&fields=[1,2,3]&parent=5"
-        //  data: JSON.stringify(data)
-        //};
+        var mediaItems = arItemsTest;
 
-        application.httpRequest(data, function (response) {
-          $scope.isShowModalForm = false;
-          if (response.isOK) {
-            if (response.data && response.data.item) {
-              //application.getEngineTree().refresh(true);
-              var item = response.data.item;
-              var parentObj = { id: item.parentId };
-              var newItem = { id: item.id, name: item.name, templateId: item.templateId };
-              var engineTree = application.getEngineTree();
-              var treeGrid = engineTree.getTreeGrid();
-              treeGrid.addChildNode(parentObj, newItem);
-            }
+        var $imgWrapperTemplate = _.template($imgWrapperTemplateElem.html());
+
+        var indexImgInRow = 0;
+        $tableElem.append("<tr></tr>");
+        var trLast = $tableElem.find("tr").last();
+        _.each(mediaItems, function(item) {
+          var html = $imgWrapperTemplate({item: item});
+          trLast.append(html);
+          indexImgInRow++;
+          if (indexImgInRow >= countImgInRow) {
+            indexImgInRow = 0;
+            $tableElem.append("<tr></tr>");
+            trLast = $tableElem.find("tr").last();
           }
-        }, function (response, status, headers, config) {
         });
 
+        $tableElem.find(".dvImgWrapper").click(self.clickItem);
       },
 
+      show: function () {
+        self.populate();
+      },
+
+      clickItem: function (event) {
+        var $curElem = $(event.currentTarget);
+        if ($curElem.hasClass("dvSelected")) {
+          $curElem.removeClass("dvSelected");
+        } else {
+          $curElem.addClass("dvSelected");
+        }
+      },
+
+      clickOK: function (dataRequest) {        
+
+      },
     };
+    imgGalleryObj.constructor();
+    return imgGalleryObj;
+
   };
 });

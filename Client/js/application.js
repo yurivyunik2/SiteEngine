@@ -430,6 +430,22 @@ define(["CONST", "notification"], function (CONST, Notification) {
         return allLayouts;
       },
 
+      getMediaItems: function () {
+        var mediaItems = [];
+        var items = self.getItems();
+        if (items) {
+          mediaItems = _.where(items, { id: CONST.MEDIA_ROOT_ID() });
+        }
+
+        var allMediaItems = [];
+        _.each(mediaItems, function (item) {
+          //allMediaItems.push(item);
+          self.findChildItems(allMediaItems, item);
+        });
+
+        return allMediaItems;
+      },
+
       getDataTypesItems: function () {
         var typeItems = [];
         var items = self.getItems();
@@ -511,7 +527,7 @@ define(["CONST", "notification"], function (CONST, Notification) {
           return false;
 
         // "Folder"
-        if (item.templateId == CONST.FOLDER_TEMPLATE_ID())
+        if (item.templateId === CONST.FOLDER_TEMPLATE_ID())
           return false;
 
         var isTemplateItem = self.isItemUnderTemplates(item);
@@ -527,7 +543,7 @@ define(["CONST", "notification"], function (CONST, Notification) {
         var index = 0;
         var isItemUnderTemplates = false;
         while (parent && !isItemUnderTemplates && index < maxIndexFind) {
-          isItemUnderTemplates = (parent.id == CONST.TEMPLATES_ROOT_ID());
+          isItemUnderTemplates = (parent.id === CONST.TEMPLATES_ROOT_ID());
           parent = parent.parentObj;
           index++;
         }

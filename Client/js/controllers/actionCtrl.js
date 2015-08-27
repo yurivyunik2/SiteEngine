@@ -39,6 +39,7 @@ function (application, Notification, PanelFormCtrl, PanelTypes) {
         var modalFormCtrl = application.getModalFormCtrl();
         var dataRequest;
         var isItemUnderTemplates;
+        var isTemplateDataItem;
 
         switch (data.actionType) {
           case "insertItem": {
@@ -46,13 +47,14 @@ function (application, Notification, PanelFormCtrl, PanelTypes) {
               if (selectedItem) {
                 treeGrid.selectedTemplate = data.item;
                 isItemUnderTemplates = application.isItemUnderTemplates(selectedItem);
+                isTemplateDataItem = application.isTemplateItem(data.item);
 
                 dataRequest = {
                   selectedItem: treeGrid.selectedItem,
                   selectedTemplate: treeGrid.selectedTemplate
                 };
 
-                if (isItemUnderTemplates) {
+                if (isItemUnderTemplates && isTemplateDataItem) {
                   modalFormCtrl.showType(modalFormCtrl.FORM_TYPE().CREATE_TEMPLATE, dataRequest);
                 } else {
                   modalFormCtrl.showType(modalFormCtrl.FORM_TYPE().CREATE_ITEM, dataRequest);

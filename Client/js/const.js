@@ -24,13 +24,18 @@ define(["dataType"], function (DataType) {
         // ITEMS
       TEMPLATES_ROOT_ID: function() { return 5; },
       LAYOUTS_ROOT_ID: function () { return 4; },
+      MEDIA_ROOT_ID: function () { return 2000; },
       DATA_TYPES_ROOT_ID: function () { return 337; },
       TEMPLATE_FIELD_ID: function() { return 148; },
       FOLDER_TEMPLATE_ID: function() { return 72; },
 
       INSERT_OPTIONS_FIELD_ID: function() { return 80; },
       RENDERINGS_FIELD_ID: function() { return 81; },
-      TYPE_FIELD_ID: function() { return 150; },
+      TYPE_FIELD_ID: function () { return 150; },
+      SRC_MEDIA_FIELDS_ID: function () { return 2004; },
+      WIDTH_MEDIA_FIELDS_ID: function () { return 2005; },
+      HEIGHT_MEDIA_FIELDS_ID: function () { return 2006; },
+      ALTERNATIVE_TEXT_MEDIA_FIELDS_ID: function () { return 2007; },
 
       // TYPES
       SINGLE_LINE_TYPE: function () { return 342; },

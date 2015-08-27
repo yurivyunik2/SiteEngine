@@ -33,7 +33,7 @@
     
     SERVER: {
       LAYOUT_WRAPPER_PATH: "/SiteEngine/Client/layouts/LayoutWrapper.html",
-      SESSION_TIME: 20 * 60 * 1000, // 2 minutes
+      SESSION_TIME: 200 * 60 * 1000, // 20 minutes
       //SESSION_TIME: 5 * 1000, // 5 seconds
     },
     

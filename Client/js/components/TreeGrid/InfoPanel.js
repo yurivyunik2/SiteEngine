@@ -118,10 +118,12 @@ define(["application", "CONST", "richTextEditor"], function (application, CONST,
                 html += "<td><div id='rich_" + field.fieldId + "' class='scrollCustom itemField'>" + field.value + "</div></br></br>";
                 html += "<div id='rich2_" + field.fieldId + "' class='scrollCustom itemField'>" + field.value + "</div></br></br>";
                 html += "</td>";
-              } else if (parseInt(field.type) === CONST.INTEGER_TYPE() || parseInt(field.type) === CONST.NUMBER_TYPE()) {
-                //INTEER
+
+              } else if (parseInt(field.type) === CONST.INTEGER_TYPE() || parseInt(field.type) === CONST.NUMBER_TYPE()) { //INTEGER
+                html += "<td><input id='" + field.fieldId + "' class='itemField' onclick='javascript:this.select();return false' value='" + field.value + "'></br></br></td>";
               } else if (parseInt(field.type) === CONST.DATETIME_TYPE()) {
-                //INTEER
+                //DATETIME
+                html += "<td><input id='" + field.fieldId + "' class='itemField' onclick='javascript:this.select();return false' value='" + field.value + "'></br></br></td>";
               } else if (parseInt(field.type) === CONST.IMAGE_TYPE())
                 html += "<td>" + field.value + "</br></br></td>";
               else

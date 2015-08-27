@@ -21,98 +21,16 @@
             <tbody>
             <tr>
               <td>
-                <div class="dvImgWrapper">
+                <!--<div class="dvImgWrapper">
                   <div class="dvImg">
                     <img class="" style="display: inline-block;" src="./images/gallery256.png">
                   </div>
                   <div class="dvName">
                     <div>NAME foejofiaej ooiufoieaufafea</div>
                   </div>
-                </div>
+                </div>-->
+
               </td>
-
-              <td>
-                <div class="dvImgWrapper">
-                  <div class="dvImg">
-                    <img class="" style="display: inline-block;" src="./images/gallery256.png">
-                  </div>
-                  <div class="dvName">
-                    <div>NAME foejofiaej ooiufoieaufafea</div>
-                  </div>
-                </div>
-              </td>
-
-              <td>
-                <div class="dvImgWrapper">
-                  <div class="dvImg">
-                    <img class="" style="display: inline-block;" src="./images/gallery256.png">
-                  </div>
-                  <div class="dvName">
-                    <div>NAME foejofiaej ooiufoieaufafea</div>
-                  </div>
-                </div>
-              </td>
-
-              <td>
-                <div class="dvImgWrapper">
-                  <div class="dvImg">
-                    <img class="" style="display: inline-block;" src="./images/gallery256.png">
-                  </div>
-                  <div class="dvName">
-                    <div>NAME </div>
-                  </div>
-                </div>
-              </td>
-
-
-            </tr>
-
-
-            <tr>
-              <td>
-                <div class="dvImgWrapper">
-                  <div class="dvImg">
-                    <img class="" style="display: inline-block;" src="./images/gallery256.png">
-                  </div>
-                  <div class="dvName">
-                    <div>NAME foejofiaej ooiufoieaufafea</div>
-                  </div>
-                </div>
-              </td>
-
-              <td>
-                <div class="dvImgWrapper">
-                  <div class="dvImg">
-                    <img class="" style="display: inline-block;" src="./images/gallery256.png">
-                  </div>
-                  <div class="dvName">
-                    <div>NAME foejofiaej ooiufoieaufafea</div>
-                  </div>
-                </div>
-              </td>
-
-              <td>
-                <div class="dvImgWrapper">
-                  <div class="dvImg">
-                    <img class="" style="display: inline-block;" src="./images/gallery256.png">
-                  </div>
-                  <div class="dvName">
-                    <div>NAME foejofiaej ooiufoieaufafea</div>
-                  </div>
-                </div>
-              </td>
-
-              <td>
-                <div class="dvImgWrapper">
-                  <div class="dvImg">
-                    <img class="" style="display: inline-block;" src="./images/gallery256.png">
-                  </div>
-                  <div class="dvName">
-                    <div>NAME </div>
-                  </div>
-                </div>
-              </td>
-
 
             </tr>
             </tbody>
@@ -127,7 +45,7 @@
     <td>
       <div class="dvImgWrapper">
         <div class="dvImg">
-          <img src="<%= item.src %>">
+          <img src="<%= item.imgSrc %>">
         </div>
         <div class="dvName">
           <div><%= item.name %></div>
@@ -135,4 +53,13 @@
       </div>
     </td>
   
+</script>
+
+<script id="loadingTemplate" type="text/template">
+  <div id="loadingElem" >
+    <div id="innerContent">      
+      <img src="/SiteEngine/Client/images/loading.gif">
+    </div>
+  </div>
+
 </script>

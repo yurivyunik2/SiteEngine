@@ -72,9 +72,9 @@ function (application, CONST, EngineTree, ActionCtrl, ModalFormCtrl, TabPanel, P
 
         var modalFormCtrl = new ModalFormCtrl($scope);
         application.setModalFormCtrl(modalFormCtrl);
-        setTimeout(function() {
-          modalFormCtrl.showType(modalFormCtrl.FORM_TYPE().IMAGE_GALLERY, {});
-        }, 300);
+        //setTimeout(function() {
+        //  modalFormCtrl.showType(modalFormCtrl.FORM_TYPE().IMAGE_GALLERY, {});
+        //}, 300);
         
 
 
@@ -84,7 +84,7 @@ function (application, CONST, EngineTree, ActionCtrl, ModalFormCtrl, TabPanel, P
         });
 
         //
-        var richTextEditor = new RichTextEditor();
+        var richTextEditor = new RichTextEditor($scope);
         application.setRichTextEditorCtrl(richTextEditor);
 
         // users

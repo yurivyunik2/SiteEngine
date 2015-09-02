@@ -485,6 +485,47 @@ exports.ItemMgr = function () {
       
     },
 
+    addItem: function (data, objResponse, callback) {
+      if (!data || !data.item || !data.lang) {
+        objResponse.error = "Error: data";
+        if (callback)
+          callback();
+        return;
+      }
+
+      var self = this;
+
+      var createItemCallback = function (dataResponse) {
+        if (!(objResponse.error && objResponse.error != "") && dataResponse.id) {
+
+          //objResponse.item = dataResponse;
+          //objResponse.data = null;
+          //self.getItemFields({ id: dataResponse.id, templateId: dataResponse.templateId }, objResponse, function () {
+          //  if (objResponse.data && objResponse.item) {
+          //    var versionFirst = 1;
+          //    var fields = objResponse.data;
+          //    objResponse.item.fields = fields;
+          //    _.each(fields, function (field) {
+          //      field.lang = data.lang;
+          //      field.version = versionFirst;
+          //    });
+          //    self.saveItem({ isNewVersion: true, item: objResponse.item, lang: data.lang, version: versionFirst }, objResponse, function () {
+          //      if (callback)
+          //        callback();
+          //    });
+          //  } else {
+          //    if (callback)
+          //      callback();
+          //  }
+          //});
+
+        } else {
+          if (callback)
+            callback();
+        }
+      };
+      this.createItem(data, objResponse, createItemCallback);      
+    },
 
     createItem: function (data, objResponse, callback) {
       if (!data || !data.item || !data.lang) {
@@ -511,6 +552,14 @@ exports.ItemMgr = function () {
               var versionFirst = 1;
               var fields = objResponse.data;
               objResponse.item.fields = fields;
+              if (data.item.fields) {
+                _.each(data.item.fields, function (fieldData) {
+                  var fieldChange = _.findWhere(fields, { fieldId: fieldData.fieldId });
+                  if (fieldChange) {
+                    fieldChange.value = fieldData.value;
+                  }
+                });
+              }
               _.each(fields, function (field) {
                 field.lang = data.lang;
                 field.version = versionFirst;

@@ -3,9 +3,26 @@
 <div id="imageGalleryForm" class="ng-scope">
   <div>
     <div id="buttonsArea">
-      <div>
-        <div id="uploadImages">
-          <span>Upload Images</span>
+      <div class="dvUploadInformation">
+        <div id="uploadInfo">
+          <img src="/SiteEngine/Client/images/loading16_16.gif">
+          <span id="uploadInfo">Uploading:</span>  
+        </div>
+        <div id="slider" style="
+        ">
+           <div id="sliderInner" style="
+        "></div>
+
+        </div>
+      </div>
+      <div id="uploadButton">
+        <form action="/api" method="post" enctype="multipart/form-data">
+        <input id="inputFileDlg" type="file" multiple="multiple" style="
+                                              display: none;
+                                            "/>
+          </form>
+        <div id="btnUploadFiles">
+          <span>Upload Files</span>
         </div>
       </div>
     </div>
@@ -43,7 +60,7 @@
 
 <script id="imgWrapperTemplate" type="text/template">
     <td>
-      <div class="dvImgWrapper">
+      <div itemId="<%= item.id %>" class="dvImgWrapper">
         <div class="dvImg">
           <img src="<%= item.imgSrc %>">
         </div>

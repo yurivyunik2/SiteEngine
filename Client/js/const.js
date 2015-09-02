@@ -12,6 +12,14 @@ define(["dataType"], function (DataType) {
     ];
     var LanguageDefault = LanguageList[0];
 
+    var MediaTypes = {
+      IMAGE: function () { return "image"; },
+      AUDIO: function () { return "audio"; },
+      VIDEO: function () { return "video"; },
+      DOC: function () { return "doc"; },
+      UNKNOWN: function () { return "unknown"; },
+  };
+
     return {
       // APPLICATION
       SERVER: function() { return "http://localhost:8082/"; },
@@ -21,14 +29,21 @@ define(["dataType"], function (DataType) {
 
       VIEW_GLOBAL_SELECTOR: function () { return ".dvNgView"; },
 
-        // ITEMS
+      // MEDIA
+      MEDIA_TYPES: function () { return MediaTypes; },
+
+      // ITEMS
       TEMPLATES_ROOT_ID: function() { return 5; },
       LAYOUTS_ROOT_ID: function () { return 4; },
       MEDIA_ROOT_ID: function () { return 2000; },
       DATA_TYPES_ROOT_ID: function () { return 337; },
-      TEMPLATE_FIELD_ID: function() { return 148; },
-      FOLDER_TEMPLATE_ID: function() { return 72; },
 
+      // TEMPLATES
+      TEMPLATE_FIELD_ID: function() { return 148; },
+      FOLDER_TEMPLATE_ID: function () { return 72; },
+      MEDIA_ITEM_TEMPLATE_ID: function () { return 2003; },
+
+      // FIELDS
       INSERT_OPTIONS_FIELD_ID: function() { return 80; },
       RENDERINGS_FIELD_ID: function() { return 81; },
       TYPE_FIELD_ID: function () { return 150; },
@@ -46,7 +61,7 @@ define(["dataType"], function (DataType) {
       DATETIME_TYPE: function () { return 347; },
 
 
-        // KEYS      
+      // KEYS      
       UP_KEY: function() { return 38; },
       DOWN_KEY: function() { return 40; },
       LEFT_KEY: function() { return 37; },
@@ -64,6 +79,10 @@ define(["dataType"], function (DataType) {
       LANGUAGE_LIST: function() { return LanguageList; },
 
       VERSION_SELECTOR: function () { return "#selVersion"; },
+
+      // UPLOAD
+      UPLOAD_MEDIA_PATH: function () { return "/SiteEngine/Site/media/"; },
+
     };
   };
   

@@ -128,6 +128,13 @@
                 });
                 break;
               }
+            case "addItem":
+              {
+                itemMgr.addItem(dataRequest, objResponse, function () {
+                  response.end(JSON.stringify(objResponse));
+                });
+                break;
+              }
             case "newVersionCreate":
               {
                 itemMgr.newVersionCreate(dataRequest, objResponse, function () {

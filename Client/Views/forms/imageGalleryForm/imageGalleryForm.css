@@ -17,13 +17,39 @@
   display: table-cell;
   vertical-align: middle;  
 }
-#imageGalleryForm #uploadImages {
+
+#imageGalleryForm #buttonsArea .dvUploadInformation {
+  display: none;
+  padding-left: 15px;
+}
+#imageGalleryForm #buttonsArea #uploadInfo {
+  display: inline-block;
+}
+#imageGalleryForm #buttonsArea #slider{
+  display: inline-block;
+  width: 150px;
+  height: 6px;
+  background-color: #F1F1F1;
+  border-radius: 10px;
+  border: 1px solid #00C6FF;
+  margin-left: 10px;  
+}
+#imageGalleryForm #buttonsArea #slider #sliderInner {
+  width: 20%;
+  height: 100%;
+  background-color: #00C6FF;
+  border-radius: 10px;  
+}
+#imageGalleryForm #btnUploadFiles {
   background-color: #FF7B00;
   padding: 6px 30px;
   border-radius: 20px;
   float: right;
   margin-right: 20px;
   color: white;  
+}
+#imageGalleryForm #btnUploadFiles:hover {
+  background-color: #EAB05A;
 }
 #imageGalleryForm #imgArea {
   width: 100%;
@@ -98,6 +124,7 @@
 }
 #imageGalleryForm #imgContainer .dvImgWrapper .dvImg img {
   width: 100px;
+  height: 100px;
 }
 #imageGalleryForm #imgContainer .dvImgWrapper .dvName {
   border-top: 1px solid #C1B9B9;

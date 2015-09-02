@@ -1,6 +1,7 @@
 //var http = require('http');
 var express = require('express');
 var session = require('express-session');
+var multipart = require('multipart');
 
 var app = express();
 
@@ -8,6 +9,23 @@ var serverMgrModule = require('./js/ServerMgr.js');
 var serverMgr;
 
 app.use(session({ secret: 'ssshhhhh' }));
+
+//app.post('/', function (request, response) {
+
+//  var i = 0;
+//  //if (done == true) {
+//  //  console.log(req.files);
+//  //  res.end("File uploaded.");
+//  //}
+
+//  var length = session.length;
+
+//  if (!serverMgr)
+//    serverMgr = new serverMgrModule.ServerMgr();
+
+//  serverMgr.requestHandle(request, response);  
+//});
+
 
 app.use(function (request, response, next) {
 

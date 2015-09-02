@@ -193,7 +193,10 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
 
       hide: function () {
         $scope.isShowModalForm = false;
-        //$scope.$apply();
+        try {
+          $scope.$apply();
+        } catch (ex) {
+        }        
       },
 
       // NEXT-click, sending request to the server
@@ -214,11 +217,14 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
             }
           }
 
-          self.curType.form_ctrl.clickOK(self.dataForm);
+          self.curType.form_ctrl.clickOK(self.dataForm, self.clickOkCallback);
         } else {
           self.curType = null;
           self.show();
         }
+      },
+      clickOkCallback: function() {
+        self.hide();
       },
 
       clickCancel: function ($event) {

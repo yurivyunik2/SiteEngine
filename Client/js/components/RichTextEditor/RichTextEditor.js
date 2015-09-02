@@ -9,7 +9,7 @@ define(["application", "CONST", "customEditor"], function (application, CONST, c
   //
   // RichTextEditor
   //
-  function RichTextEditor() {
+  function RichTextEditor($scope) {
 
     var self;
 
@@ -17,6 +17,8 @@ define(["application", "CONST", "customEditor"], function (application, CONST, c
     var classImageBtn = ".cke_button__image";
 
     var arInitElements = [];
+
+    var _idElem;
 
     var richTextEditorObj = {
 
@@ -92,8 +94,8 @@ define(["application", "CONST", "customEditor"], function (application, CONST, c
         if (!data || !data.event)
           return;
         
-        var idElem = $(data.event.currentTarget).attr("idElem");
-        var classDlg = ".cke_editor_" + idElem + "_dialog";
+        _idElem = $(data.event.currentTarget).attr("idElem");
+        var classDlg = ".cke_editor_" + _idElem + "_dialog";
         var $imgDlgElem = $(classDlg);
         if ($imgDlgElem.length > 0) {
           var $contentsBody = $imgDlgElem.find(".cke_dialog_contents_body");
@@ -110,9 +112,26 @@ define(["application", "CONST", "customEditor"], function (application, CONST, c
       },
 
       imageGalleryOpen: function() {
-        //var modalFormCtrl = new ModalFormCtrl($scope);
         var modalFormCtrl = application.getModalFormCtrl();
-        modalFormCtrl.showType(modalFormCtrl.FORM_TYPE().IMAGE_GALLERY, {});
+        modalFormCtrl.showType(modalFormCtrl.FORM_TYPE().IMAGE_GALLERY, { isMultipleSelect: false, callback: self.imageGalleryOpenCallback });
+      },
+      imageGalleryOpenCallback: function (data) {
+        if (data && data.formCtrl && data.formCtrl.getSelectedItems) {
+          var selectedItems = data.formCtrl.getSelectedItems();
+          if (selectedItems && selectedItems.length > 0) {
+            var selItem = selectedItems[0];
+            if (selItem && selItem.type === CONST.MEDIA_TYPES().IMAGE() && selItem.imgSrc && selItem.imgSrc !== "") {
+              var classDlg = ".cke_editor_" + _idElem + "_dialog";
+              var $imgDlgElem = $(classDlg);
+              if ($imgDlgElem.length > 0) {
+                var $contentsBody = $imgDlgElem.find(".cke_dialog_contents_body");
+                var $inputUrl = $contentsBody.find("input.cke_dialog_ui_input_text").first();
+                var imgPath = CONST.SERVER() + selItem.imgSrc;
+                $inputUrl.val(imgPath).change();
+              }
+            }
+          }
+        }
       },
 
     };

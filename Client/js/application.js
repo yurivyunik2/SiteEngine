@@ -469,6 +469,23 @@ define(["CONST", "notification"], function (CONST, Notification) {
         }
       },
 
+      uploadFile: function(file) {
+        var fd = new FormData();
+        fd.append('file', file);
+
+        $http.post(CONST.SERVER(), fd, {
+          withCredentials: true,
+          headers: { 'Content-Type': undefined },
+          transformRequest: angular.identity
+        })
+                .success(function () {
+            var i = 0;
+          })
+                .error(function () {
+                  var i = 0;
+                });
+      },
+
       httpRequest: function (data, success, error) {
         if (!data || !success)
           return;

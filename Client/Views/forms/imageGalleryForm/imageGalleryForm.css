@@ -106,12 +106,13 @@
   height: 100%;
 }
 #imageGalleryForm #imgArea #imgContainer table td {
+  vertical-align: top;
   padding: 10px 0px;
 }  
 #imageGalleryForm #imgContainer .dvImgWrapper {
   border: 1px solid #C1B9B9;  
   width: 140px;
-  margin: auto;
+  /*margin: auto;*/
 }
 #imageGalleryForm #imgContainer .dvImgWrapper.dvSelected {
   border: 3px solid #22A6F1;

@@ -1752,9 +1752,13 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
                     a.body.scrollTop || 0
             }
         },
-        getFrame: function() {
+        getFrame: function () {
+          try {
             var a = this.$.frameElement;
             return a ? new CKEDITOR.dom.element.get(a) : null
+          } catch (ex) {
+            return null;
+          }
         }
     });
     CKEDITOR.dom.document = function(a) {
@@ -2099,9 +2103,13 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
             getChildren: function() {
                 return new CKEDITOR.dom.nodeList(this.$.childNodes)
             },
-            getComputedStyle: document.defaultView && document.defaultView.getComputedStyle ? function(a) {
+            getComputedStyle: document.defaultView && document.defaultView.getComputedStyle ? function (a) {
+              try {
                 var b = this.getWindow().$.getComputedStyle(this.$, null);
                 return b ? b.getPropertyValue(a) : ""
+              } catch (ex) {
+                return "";
+              }
             } : function(a) {
                 return this.$.currentStyle[CKEDITOR.tools.cssStyleToDomStyle(a)]
             },
@@ -7606,12 +7614,16 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
             } else d.append(b);
             a.container = b;
             a.ui.contentsElement = a.ui.space("contents");
+          try {
             i && a.ui.space("top").unselectable();
             j && a.ui.space("bottom").unselectable();
             d = a.config.width;
             h = a.config.height;
             d && b.setStyle("width", CKEDITOR.tools.cssLength(d));
             h && a.ui.space("contents").setStyle("height", CKEDITOR.tools.cssLength(h));
+          } catch (ex) {
+          }
+            
             b.disableContextMenu();
             CKEDITOR.env.webkit && b.on("focus", function() {
                 a.focus()
@@ -9779,8 +9791,12 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
             tfoot: 1
         };
         CKEDITOR.dom.selection.prototype = {
-            getNative: function() {
-                return this._.cache.nativeSel !== void 0 ? this._.cache.nativeSel : this._.cache.nativeSel = w ? this.document.$.selection : this.document.getWindow().$.getSelection()
+          getNative: function () {
+            try {
+              return this._.cache.nativeSel !== void 0 ? this._.cache.nativeSel : this._.cache.nativeSel = w ? this.document.$.selection : this.document.getWindow().$.getSelection()
+            } catch (ex) {
+              return 0;
+            }            
             },
             getType: w ? function() {
                 var a = this._.cache;
@@ -16808,13 +16824,16 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
                     this._.committed || (this._.list.commit(), this._.committed = 1, CKEDITOR.ui.fire("ready", this));
                     this._.committed = 1
                 },
-                setState: function(a) {
+                setState: function (a) {
+                  try {
                     if (this._.state != a) {
-                        var b = this.document.getById("cke_" + this.id);
-                        b.setState(a, "cke_combo");
-                        a == CKEDITOR.TRISTATE_DISABLED ? b.setAttribute("aria-disabled", !0) : b.removeAttribute("aria-disabled");
-                        this._.state = a
+                      var b = this.document.getById("cke_" + this.id);
+                      b.setState(a, "cke_combo");
+                      a == CKEDITOR.TRISTATE_DISABLED ? b.setAttribute("aria-disabled", !0) : b.removeAttribute("aria-disabled");
+                      this._.state = a;
                     }
+                  } catch (ex) {
+                  }
                 },
                 getState: function() {
                     return this._.state
@@ -17183,8 +17202,12 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
                 });
                 a.addMode("wysiwyg", function(d) {
                     function b(b) {
-                        b && b.removeListener();
+                      b && b.removeListener();
+                      try {
                         a.editable(new j(a, e.$.contentWindow.document.body));
+                      } catch (ex) {
+                      }
+                      
                         a.setData(a.getData(1), d)
                     }
                     var c = "document.open();" + (CKEDITOR.env.ie ? "(" + CKEDITOR.tools.fixDomain +
@@ -17197,7 +17220,11 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
                     });
                     e.addClass("cke_wysiwyg_frame").addClass("cke_reset");
                     c = a.ui.space("contents");
+                  try {
                     c.append(e);
+                  } catch (ex) {
+                  }
+                  
                     var h = CKEDITOR.env.ie && !CKEDITOR.env.edge || CKEDITOR.env.gecko;
                     if (h) e.on("load", b);
                     var f = a.title,
@@ -17206,7 +17233,11 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
                     if (g) {
                         var f = CKEDITOR.tools.getNextId(),
                             i = CKEDITOR.dom.element.createFromHtml('<span id="' + f + '" class="cke_voice_label">' + g + "</span>");
+                      try {
                         c.append(i, 1);
+                      } catch (ex) {
+                      }
+                      
                         e.setAttribute("aria-describedby", f)
                     }
                     a.on("beforeModeUnload", function(a) {

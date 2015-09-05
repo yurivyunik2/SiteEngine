@@ -72,10 +72,9 @@ function (application, CONST, EngineTree, ActionCtrl, ModalFormCtrl, TabPanel, P
 
         var modalFormCtrl = new ModalFormCtrl($scope);
         application.setModalFormCtrl(modalFormCtrl);
-        //setTimeout(function() {
-        //  modalFormCtrl.showType(modalFormCtrl.FORM_TYPE().IMAGE_GALLERY, {});
-        //}, 300);
-        
+        setTimeout(function() {
+          modalFormCtrl.showType(modalFormCtrl.FORM_TYPE().IMAGE_GALLERY, {});
+        }, 300);
 
 
         var tabPanel = new TabPanel($("#tabPanelArea"));
@@ -91,25 +90,33 @@ function (application, CONST, EngineTree, ActionCtrl, ModalFormCtrl, TabPanel, P
         application.loadUsers();
         application.loadUserRoles();
 
-        //
-        engineTree.refresh(true, function () {
+        application.loadItems(function (items) {
           var treeGrid = engineTree.getTreeGrid();
-          if (treeGrid.treeItems && treeGrid.treeItems.length > 0) {
-            var trElem = treeGrid.treeItems[0].trElem;
-            treeGrid.openCloseNode(trElem);
-            $(trElem).mousedown();
-          }
+          if (treeGrid) {
+            treeGrid.populate(items);
+            if (treeGrid.treeItems && treeGrid.treeItems.length > 0) {
+              var trElem = treeGrid.treeItems[0].trElem;
+              treeGrid.openCloseNode(trElem);
+              $(trElem).mousedown();
+            }
+          }          
         });
+
+        ////
+        //engineTree.refresh(true, function () {
+        //  var treeGrid = engineTree.getTreeGrid();
+        //  if (treeGrid.treeItems && treeGrid.treeItems.length > 0) {
+        //    var trElem = treeGrid.treeItems[0].trElem;
+        //    treeGrid.openCloseNode(trElem);
+        //    $(trElem).mousedown();
+        //  }
+        //});
+
       },
       
     };
     startCtrlObj.constructor();
     return startCtrlObj;
   };
-
-  //return function startCtrl($scope, $http, $window) {
-
-
-  //};
 
 });

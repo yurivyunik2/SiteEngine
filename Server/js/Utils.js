@@ -1,5 +1,6 @@
 
 exports.Utils = function () {
+  var _ = require('underscore');
   var querystring = require('querystring');
   
   return {
@@ -18,7 +19,14 @@ exports.Utils = function () {
           }
         });
         request.on('end', function () {
+          //var test = "{\"action\":\"createItem\"}";          
           request.post = querystring.parse(queryData);
+          var postKey = _.keys(request.post);
+          var dataRequest = 0;
+          try {
+            dataRequest = JSON.parse(postKey[0]);
+          } catch (ex) {
+          }          
           callback();
         });
 

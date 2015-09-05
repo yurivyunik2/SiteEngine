@@ -186,68 +186,122 @@
           $dvUploadInformationElem.css("display", "none");        
       },
 
-      uploadFiles: function() {
+      readFile: function(file, callback) {
+        var reader = new FileReader();
+        reader.onload = function (readerEvt) {
+          try {
+            var binaryString = readerEvt.target.result;
+            var binaryValue = btoa(binaryString);
+            if (callback)
+              callback(file, binaryValue);
+          } catch (ex) {
+          }
+        };
+        reader.readAsBinaryString(file);
+      },
+
+      handleFiles: function (files, callback) {
+        if (files) {
+          var amountFiles = files.length;
+          var indexFile = 0;
+          var hashBinaryFileValues = {};
+          _.each(files, function(file) {
+            if (file) {
+              self.readFile(file, function (file, binaryValue) {
+                indexFile++;
+                file.binaryValue = binaryValue;
+                hashBinaryFileValues[file.name + file.lastModified] = file;
+                if (indexFile === amountFiles) {
+                  self.uploadFiles(hashBinaryFileValues);
+                }
+              });
+            }
+          });
+        }
+      },
+
+      uploadFiles: function (hashBinaryFileValues) {
+        if (!hashBinaryFileValues)
+          return;
+
+        var fileKeys = _.keys(hashBinaryFileValues);
+
+        var curlang = application.getLanguageCurrent();
+        var langCode = "";
+        if (curlang)
+          langCode = curlang.code;
+
+        var action = "createItem";
+        var data = {
+          action: action,
+          item: {
+            parentId: CONST.MEDIA_ROOT_ID(),
+            templateId: CONST.MEDIA_ITEM_TEMPLATE_ID(),
+          },
+          lang: langCode
+        };
+
+        var amountFiles = fileKeys.length;
+        var indexFileUpload = 0;
+
+        _.each(fileKeys, function (key) {
+          
+          var file = hashBinaryFileValues[key];
+          var binaryValue = file.binaryValue;
+          var arBinaryValues = [];
+          //var index = 0;
+          var len = 1000;
+          for (var i = 0; i < binaryValue.length; ) {
+            var sub = binaryValue.substring(i, i + len);
+            arBinaryValues.push(sub);
+            i += len;
+          }
+
+          data.item.name = file.name;
+          data.item.fields = [
+            {
+              fieldId: CONST.SRC_MEDIA_FIELDS_ID(),
+              value: CONST.UPLOAD_MEDIA_PATH() + data.item.name,
+            },
+            {
+              fieldId: CONST.BLOB_MEDIA_FIELDS_ID(),
+              value: encodeURIComponent(file.binaryValue.substring(0, 8000)),
+            }
+          ];
+
+          application.httpRequest(data, function (response) {
+            if (response.isOK) {
+              if (response.data && response.data.item) {
+                var item = response.data.item;
+
+              }
+            }
+            indexFileUpload++;
+            if (indexFileUpload === amountFiles)
+              self.uploadFilesCallback();
+          }, function (response, status, headers, config) {
+            indexFileUpload++;
+            if (indexFileUpload === amountFiles)
+              self.uploadFilesCallback();
+          });          
+
+        });
+        
+      },
+
+      uploadFilesSelected: function() {
         var $imageGalleryFormElem = $(imageGalleryFormSelector);
         if ($imageGalleryFormElem.length === 0)
           return;
 
         var $inputFileDlgElem = $imageGalleryFormElem.find(inputFileDlgSelector);
-        var files = $inputFileDlgElem [0].files;
+
+        var $uploadInfoElem = $imageGalleryFormElem.find(uploadInfoSelector);
+
+        var files = $inputFileDlgElem[0].files;
         if (files.length > 0) {
           self.showHideUploadInfo(true);
-
-          var $uploadInfoElem = $imageGalleryFormElem.find(uploadInfoSelector);
-
-          var amountFiles = files.length;
-          var curlang = application.getLanguageCurrent();
-          var langCode = "";
-          if (curlang)
-            langCode = curlang.code;
-
-          var action = "createItem";
-          var data = {
-            action: action,
-            item: {
-              parentId: CONST.MEDIA_ROOT_ID(),
-              templateId: CONST.MEDIA_ITEM_TEMPLATE_ID(),              
-            },
-            lang: langCode            
-          };
-
-          var indexFileUpload = 0;
-          _.each(files, function (file) {
-            application.uploadFile(file);
-            return;
-
-            data.item.name = file.name;
-            data.item.fields = [
-              {
-                fieldId: CONST.SRC_MEDIA_FIELDS_ID(),
-                value: CONST.UPLOAD_MEDIA_PATH() + data.item.name,
-              },
-            ];
-            var fd = new FormData();
-            fd.append("afile", file);
-            data.item.file = fd;
-
-            application.httpRequest(data, function (response) {
-              if (response.isOK) {
-                if (response.data && response.data.item) {
-                  var item = response.data.item;
-
-                }
-              }
-              indexFileUpload++;
-              if (indexFileUpload === amountFiles)
-                self.uploadFilesCallback();
-            }, function (response, status, headers, config) {
-              indexFileUpload++;
-              if (indexFileUpload === amountFiles)
-                self.uploadFilesCallback();
-            });
-
-          });
-
+          self.handleFiles(files, self.uploadFiles);
         }
       },
 
@@ -256,7 +310,7 @@
       },
 
       changeInputFileDlg: function() {
-        self.uploadFiles();
+        self.uploadFilesSelected();
       },
 
       clickItem: function (event) {

@@ -308,10 +308,6 @@ define(["CONST", "notification"], function (CONST, Notification) {
             self.isRequestProcess = false;
 
             self.initializeItems(response.data);
-            //items = response.data;
-            
-            //if (callback)
-            //  callback(items);
             if (callback)
               callback(self.initItems);
           } else {
@@ -467,23 +463,6 @@ define(["CONST", "notification"], function (CONST, Notification) {
             self.findChildItems(allItems, item);
           });
         }
-      },
-
-      uploadFile: function(file) {
-        var fd = new FormData();
-        fd.append('file', file);
-
-        $http.post(CONST.SERVER(), fd, {
-          withCredentials: true,
-          headers: { 'Content-Type': undefined },
-          transformRequest: angular.identity
-        })
-                .success(function () {
-            var i = 0;
-          })
-                .error(function () {
-                  var i = 0;
-                });
       },
 
       httpRequest: function (data, success, error) {

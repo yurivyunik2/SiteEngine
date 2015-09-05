@@ -48,6 +48,7 @@ define(["dataType"], function (DataType) {
       RENDERINGS_FIELD_ID: function() { return 81; },
       TYPE_FIELD_ID: function () { return 150; },
       SRC_MEDIA_FIELDS_ID: function () { return 2004; },
+      BLOB_MEDIA_FIELDS_ID: function () { return 2027; },
       WIDTH_MEDIA_FIELDS_ID: function () { return 2005; },
       HEIGHT_MEDIA_FIELDS_ID: function () { return 2006; },
       ALTERNATIVE_TEXT_MEDIA_FIELDS_ID: function () { return 2007; },

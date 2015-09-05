@@ -28,7 +28,10 @@
           return 0;
         }
       },
+
       TYPE_FIELD_ID: function () { return 150; },
+
+      BLOB_TYPE_ID: function () { return 2058; },
     },
     
     SERVER: {

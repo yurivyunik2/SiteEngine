@@ -60,6 +60,7 @@ define(["dataType"], function (DataType) {
       IMAGE_TYPE: function () { return 345; },
       NUMBER_TYPE: function () { return 346; },
       DATETIME_TYPE: function () { return 347; },
+      BLOB_TYPE: function () { return 2058; },
 
 
       // KEYS      

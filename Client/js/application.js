@@ -284,15 +284,17 @@ define(["CONST", "notification"], function (CONST, Notification) {
         var data = { action: "getItemFields", id: item.id, templateId: item.templateId };
 
         self.httpRequest(data, function (responseData) {
+          var isCallbackCall = true;
           if (responseData.isOK) {
             self.isRequestProcess = false;
             var fields = responseData.data;
             item.fields = fields;
+            if (callback)
+              callback();
           } else {
-            //responseData.error
+            if (callback)
+              callback();
           }
-          if (callback)
-            callback();
         }, function () {
           if (callback)
             callback();

@@ -120,32 +120,30 @@
           if (!selItem)
             return;
 
-          var data = { action: "getItemFields", id: selItem.id, templateId: selItem.templateId };
+          application.getItemFields(selItem, function() {
+            ////var responseData = JSON.parse(response);            
+            //if (responseData.isOK) {
+            //  self.isRequestProcess = false;
+            //  var fields = responseData.data;
+            //  //var filterFields = {};
+            //  //_.each(fields, function (field) {
+            //  //  filterFields[field.fieldId] = field;
+            //  //});
+            //  ////_.each(fields, function (field) {
+            //  ////  if (field.itemId == selItem.id)
+            //  ////    filterFields[field.fieldId] = field;
+            //  ////});
+            //  //var arKeys = _.keys(filterFields);
+            //  //var arFields = [];
+            //  //_.each(arKeys, function (key) {
+            //  //  arFields.push(filterFields[key]);
+            //  //});              
+            //  //selItem.fields = arFields;
 
-          application.httpRequest(data, function (responseData) {
-            //var responseData = JSON.parse(response);            
-            if (responseData.isOK) {
-              self.isRequestProcess = false;
-              var fields = responseData.data;
-              //var filterFields = {};
-              //_.each(fields, function (field) {
-              //  filterFields[field.fieldId] = field;
-              //});
-              ////_.each(fields, function (field) {
-              ////  if (field.itemId == selItem.id)
-              ////    filterFields[field.fieldId] = field;
-              ////});
-              //var arKeys = _.keys(filterFields);
-              //var arFields = [];
-              //_.each(arKeys, function (key) {
-              //  arFields.push(filterFields[key]);
-              //});              
-              //selItem.fields = arFields;
-              
-              selItem.fields = fields;
-            } else {
-              //responseData.error
-            }
+            //  selItem.fields = fields;
+            //} else {
+            //  //responseData.error
+            //}
 
             if (treeGrid) {
               if (treeGrid.infoPanel)
@@ -154,9 +152,45 @@
               //
               application.treeGridItemSelected();
             }
-          }, function () {
+          });
+
+          //var data = { action: "getItemFields", id: selItem.id, templateId: selItem.templateId };
+
+          //application.httpRequest(data, function (responseData) {
+          //  //var responseData = JSON.parse(response);            
+          //  if (responseData.isOK) {
+          //    self.isRequestProcess = false;
+          //    var fields = responseData.data;
+          //    //var filterFields = {};
+          //    //_.each(fields, function (field) {
+          //    //  filterFields[field.fieldId] = field;
+          //    //});
+          //    ////_.each(fields, function (field) {
+          //    ////  if (field.itemId == selItem.id)
+          //    ////    filterFields[field.fieldId] = field;
+          //    ////});
+          //    //var arKeys = _.keys(filterFields);
+          //    //var arFields = [];
+          //    //_.each(arKeys, function (key) {
+          //    //  arFields.push(filterFields[key]);
+          //    //});              
+          //    //selItem.fields = arFields;
+              
+          //    selItem.fields = fields;
+          //  } else {
+          //    //responseData.error
+          //  }
+
+          //  if (treeGrid) {
+          //    if (treeGrid.infoPanel)
+          //      treeGrid.infoPanel.populateInfoPanel(selItem);
+
+          //    //
+          //    application.treeGridItemSelected();
+          //  }
+          //}, function () {
             
-          });          
+          //});          
           
         });
 

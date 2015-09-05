@@ -66,7 +66,7 @@ exports.ItemMgr = function () {
       if (!data.baseId)
         data.baseId = 0;
 
-      var query = 'SELECT f.id, items.id as fieldId, items.name, (select distinct f2.value from fields f2 where f2.itemId = f.fieldId and f2.fieldId = ' + config.DATABASE.TYPE_FIELD_ID() + ') as type, items.templateId, items.masterId, items.parentId, items.created, items.updated, f.itemId, f.value, f.language as lang, f.version FROM items\
+      var query = 'SELECT f.id, items.id as fieldId, items.name, (select distinct f2.value from fields f2 where f2.itemId = items.id and f2.fieldId = ' + config.DATABASE.TYPE_FIELD_ID() + ') as type, items.templateId, items.masterId, items.parentId, items.created, items.updated, f.itemId, f.value, f.language as lang, f.version FROM items\
                    LEFT JOIN fields f ON items.id=f.fieldId and (f.itemId=items.parentId || f.itemId=' + data.id + ' || f.itemId=' + data.baseId + ' || f.itemId=' + data.templateId + ')\
                    where items.parentId=' + data.templateId;
 
@@ -137,33 +137,53 @@ exports.ItemMgr = function () {
       var getTemplateFieldsForItemCallback = function (err, rows) {
         try {
           if (!err) {
+
+            var addField = function (field) {
+              var existedField = _.findWhere(objResponse.data, { fieldId: field.fieldId, lang: field.lang, version: field.version });
+              if (existedField) {
+                //if (existedField.itemId != data.id || !existedField.value) { // if there isn't item's(owned) field then remove field and add fresh(next) field
+                if (existedField.itemId != data.id) { // if there isn't item's(owned) field then remove field and add fresh(next) field
+                  objResponse.data = _.without(objResponse.data, existedField);
+                  objResponse.data.push(field);
+                }
+              } else { // fields are not added previously
+                objResponse.data.push(field);
+              }
+            };
+
             var fields = rows;
             if (fields && fields.length > 0) {
               if (!objResponse.data)
                 objResponse.data = [];
 
               _.each(fields, function (field) {
-                var existedField = _.findWhere(objResponse.data, { fieldId: field.fieldId, lang: field.lang, version: field.version });
-                if (existedField) {
-                  //if (existedField.itemId != data.id || !existedField.value) { // if there isn't item's(owned) field then remove field and add fresh(next) field
-                  if (existedField.itemId != data.id) { // if there isn't item's(owned) field then remove field and add fresh(next) field
-                    objResponse.data = _.without(objResponse.data, existedField);
-                    objResponse.data.push(field);
+                if (parseInt(field.type) === config.DATABASE.BLOB_TYPE_ID()) {
+                  query = 'SELECT CONVERT(Data USING utf8) as Data FROM blobs b where id=' + field.value;
+                  if (database) {
+                    database.query(query, function(err, rows) {
+                      if (!err) {
+                        if (rows && rows.length > 0)
+                          field.value = rows[0].Data;
+                        addField(field); 
+                      }
+                    });
                   }
-                } else { // fields are not added previously
-                  objResponse.data.push(field);
+                } else {
+                  addField(field);
                 }
+
                 //objResponse.data.push(field);                
               });
             }
 
-            query = 'SELECT f.id, items.id as fieldId, items.name, (select distinct f2.value from fields f2 where f2.itemId = f.fieldId and f2.fieldId = ' + config.DATABASE.TYPE_FIELD_ID() + ') as type, items.templateId, items.masterId, items.parentId, items.created, items.updated, f.itemId, f.value, f.language as lang, f.version FROM items\
+            query = 'SELECT f.id, items.id as fieldId, items.name, (select distinct f2.value from fields f2 where f2.itemId = items.id and f2.fieldId = ' + config.DATABASE.TYPE_FIELD_ID() + ') as type, items.templateId, items.masterId, items.parentId, items.created, items.updated, f.itemId, f.value, f.language as lang, f.version FROM items\
                   LEFT JOIN fields f ON items.id=f.fieldId and (f.itemId=items.parentId || f.itemId=' + data.templateId + ' || f.itemId=' + data.id + ')\
                   where items.parentId=(select items_sub.templateId from items items_sub where id=' + data.templateId + ');';
-              
+
             if (database) {
               database.query(query, getTemplateFieldsForTemplateCallback);
             }
+
           } else {
             objResponse.error = "Error: " + err;
             if (callback)
@@ -847,18 +867,49 @@ exports.ItemMgr = function () {
           callback();
         return;
       }
-      var query = "INSERT INTO `fields`(ItemId, Language, Version, FieldId, Value, Created, Updated)  VALUES(" + data.itemId + ",'" + data.lang + "'," + data.version + "," + data.fieldId + ",'" + data.value + "', NOW(), NOW())";
-      var insertIntoFieldsCallback = function (err, rows) {
-        if (!err) {
 
-        } else {
-          objResponse.error = "Error: " + err;
+      var insertFields = function() {
+        var query = "INSERT INTO `fields`(ItemId, Language, Version, FieldId, Value, Created, Updated)  VALUES(" + data.itemId + ",'" + data.lang + "'," + data.version + "," + data.fieldId + ",'" + data.value + "', NOW(), NOW())";
+        var insertIntoFieldsCallback = function (err, rows) {
+          if (!err) {
+
+          } else {
+            objResponse.error = "Error: " + err;
+          }
+          if (callback)
+            callback(data);
+        };
+        if (database) {
+          database.query(query, insertIntoFieldsCallback);
         }
-        if (callback)
-          callback(data);
-      };
-      if (database) {
-        database.query(query, insertIntoFieldsCallback);
+
+      }
+
+      // INSERT INTO BLOBS
+      if (parseInt(data.type) === config.DATABASE.BLOB_TYPE_ID()) {
+        var query = "INSERT INTO `blobs`(Data, Created)  VALUES('" + data.value + "', NOW())";
+        var insertIntoBlobsCallback = function (err, rows) {
+          if (!err) {
+            if (rows) {
+              data.value = rows.insertId;
+              insertFields();
+            }
+            
+          } else {
+            objResponse.error = "Error: " + err;
+          }
+          if (callback)
+            callback(data);
+        };
+        if (database) {
+          database.query(query, insertIntoBlobsCallback);
+        }
+
+
+      }
+      // INSERT INTO FIELDS
+      else {
+        insertFields();
       }
     },
 

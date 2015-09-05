@@ -79,6 +79,13 @@ define(["CONST", "notification"], function (CONST, Notification) {
         }
       },
 
+      isValueNull: function(value) {
+        if (!value || value === "" || value === "null")
+          return true;
+        else
+          return false;
+      },
+
       keyDownEventFunc: function (event) {
         keyDownEventLast = event;
         if (self.isFunctionalKey(event)) {

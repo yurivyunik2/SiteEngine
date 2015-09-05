@@ -989,8 +989,8 @@ exports.ItemMgr = function () {
           callback(data.item);
         }
       };
-
-      var deleteFromItemsCallback = function (err, rows) {
+      
+      var deleteFromBlobsCallback = function (err, rows) {
         if (!err) {
           query = "DELETE FROM fields where itemId in " + strIn + " or fieldId in " + strIn;
           if (database) {
@@ -1002,6 +1002,20 @@ exports.ItemMgr = function () {
             callback();
         }
       };
+      var deleteFromItemsCallback = function (err, rows) {
+        if (!err) {
+          query = "DELETE FROM blobs where id in (select value FROM fields where itemId in " + strIn + " or fieldId in " + strIn + ")";          
+          if (database) {
+            database.query(query, deleteFromBlobsCallback);
+          }
+        } else {
+          objResponse.error = "Error: " + err;
+          if (callback)
+            callback();
+        }
+      };
+
+
       if (database) {
         database.query(query, deleteFromItemsCallback);
       }

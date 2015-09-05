@@ -77,9 +77,15 @@
           application.getItemFields(item, function() {
             indexRequest++;
             if (item && item.fields) {
-              var fieldSrc = _.findWhere(item.fields, { fieldId: CONST.SRC_MEDIA_FIELDS_ID() });
-              if (fieldSrc && fieldSrc.value && fieldSrc.value !== "") {
-                item.src = fieldSrc.value;
+              var fieldBlob = _.findWhere(item.fields, { fieldId: CONST.BLOB_MEDIA_FIELDS_ID() });
+              if (fieldBlob && !application.isValueNull(fieldBlob.value)) {
+                item.src = "data:image;base64," + fieldBlob.value;
+                item.isBlob = true;
+              } else {
+                var fieldSrc = _.findWhere(item.fields, { fieldId: CONST.SRC_MEDIA_FIELDS_ID() });
+                if (fieldSrc && fieldSrc.value && fieldSrc.value !== "") {
+                  item.src = fieldSrc.value;
+                }
               }
               self.defineTypeItem(item);
             }
@@ -111,7 +117,12 @@
           return;
         }
 
-        var ext = item.src.substr(item.src.lastIndexOf('.') + 1);
+        var ext;
+        if (item.isBlob && item.name && item.name !== "") {
+          ext = item.name.substr(item.name.lastIndexOf('.') + 1);
+        } else {
+          ext = item.src.substr(item.src.lastIndexOf('.') + 1);
+        }        
         switch (ext) {
           //IMAGE
           case "jpg":          
@@ -307,6 +318,7 @@
 
       uploadFilesCallback: function() {
         self.showHideUploadInfo(false);
+        self.populate();
       },
 
       changeInputFileDlg: function() {

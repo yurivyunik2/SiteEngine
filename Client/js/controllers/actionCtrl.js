@@ -92,7 +92,9 @@ function (application, Notification, PanelFormCtrl, PanelTypes) {
             if (selectedItem) {
               dataRequest = {
                 actionType: "deleteItem",
-                item: selectedItem,
+                item: {
+                  id: selectedItem.id
+                },
                 callback: function () {
 
                 },

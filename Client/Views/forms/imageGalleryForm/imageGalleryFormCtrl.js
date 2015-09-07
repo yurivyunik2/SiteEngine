@@ -17,8 +17,16 @@
     var inputFileDlgSelector = "#inputFileDlg";
     var btnUploadFilesSelector = "#btnUploadFiles";
     var uploadInfoSelector = "#uploadInfo";
+    var uploadInfoMessageSelector = "#uploadInfoMessage";    
+    var uploadSliderInnerSelector = "#sliderInner";
+    
 
     var isMultipleSelect = false;
+
+    // UPLOADING
+    var amountUploadFiles = 0;
+    var indexFileUpload = 0;
+    var uploadErrors = [];
 
     var imgGalleryObj = {
       constructor: function() {
@@ -122,7 +130,8 @@
           ext = item.name.substr(item.name.lastIndexOf('.') + 1);
         } else {
           ext = item.src.substr(item.src.lastIndexOf('.') + 1);
-        }        
+        }
+        ext = ext.toLowerCase();
         switch (ext) {
           //IMAGE
           case "jpg":          
@@ -174,7 +183,7 @@
 
         var $imageGalleryFormElem = $(imageGalleryFormSelector);
         if ($imageGalleryFormElem.length > 0) {
-          $(inputFileDlgSelector).change(self.changeInputFileDlg);
+          $(inputFileDlgSelector).change(self.uploadFilesSelected);
 
           $(btnUploadFilesSelector).click(function () {
             var $inputFileDlgElem = $(inputFileDlgSelector);
@@ -191,13 +200,73 @@
           return;
 
         var $dvUploadInformationElem = $imageGalleryFormElem.find(dvUploadInformationSelector);
-        if(isShow)
+        var $uploadSliderInnerElem = $imageGalleryFormElem.find(uploadSliderInnerSelector);
+        var $uploadInfoMessageElem = $imageGalleryFormElem.find(uploadInfoMessageSelector);
+        if (isShow) {
           $dvUploadInformationElem.css("display", "table-cell");
+          $uploadSliderInnerElem.width("0%");
+          $uploadInfoMessageElem.html("Uploading: 0/" + amountUploadFiles);
+        }        
         else 
           $dvUploadInformationElem.css("display", "none");        
       },
 
-      readFile: function(file, callback) {
+      uploadFilesSelected: function() {
+        var $imageGalleryFormElem = $(imageGalleryFormSelector);
+        if ($imageGalleryFormElem.length === 0)
+          return;
+
+        var $inputFileDlgElem = $imageGalleryFormElem.find(inputFileDlgSelector);
+
+        var $uploadInfoElem = $imageGalleryFormElem.find(uploadInfoSelector);
+
+        var files = $inputFileDlgElem[0].files;
+        if (files.length > 0) {
+          self.showHideUploadInfo(true);
+          self.handleFiles(files, self.uploadFiles);
+        }
+      },
+
+      uploadFilesFinish: function() {
+        self.showHideUploadInfo(false);
+        self.populate();
+      },
+
+      uploadFileCallback: function (response, error) {
+        var $imageGalleryFormElem = $(imageGalleryFormSelector);
+        if ($imageGalleryFormElem.length === 0 || amountUploadFiles === 0)
+          return;
+        
+        var $uploadInfoMessageElem = $imageGalleryFormElem.find(uploadInfoMessageSelector);
+        var $uploadSliderInnerElem = $imageGalleryFormElem.find(uploadSliderInnerSelector);
+        
+
+        //
+        indexFileUpload++;
+        $uploadInfoMessageElem.html("Uploading: " + indexFileUpload + "/" + amountUploadFiles);
+        var widthPercent = (indexFileUpload / amountUploadFiles) * 100;
+        $uploadSliderInnerElem.width(widthPercent  + "%");
+        if (response) {
+          if (response.isOK) {
+            if (response.data && response.data.item) {
+              application.addItem(response.data.item);
+            }
+          } else if (response.error) {
+            uploadErrors.push(response.error);
+          } else {
+            uploadErrors.push("Error unknown!");
+          }
+        } else if (error) {
+          uploadErrors.push(error);
+        } else {
+          uploadErrors.push("Error unknown!");
+        }
+        
+        if (indexFileUpload === amountUploadFiles)
+          self.uploadFilesFinish();
+      },
+
+      readFile: function (file, callback) {
         var reader = new FileReader();
         reader.onload = function (readerEvt) {
           try {
@@ -216,7 +285,7 @@
           var amountFiles = files.length;
           var indexFile = 0;
           var hashBinaryFileValues = {};
-          _.each(files, function(file) {
+          _.each(files, function (file) {
             if (file) {
               self.readFile(file, function (file, binaryValue) {
                 indexFile++;
@@ -252,21 +321,21 @@
           lang: langCode
         };
 
-        var amountFiles = fileKeys.length;
-        var indexFileUpload = 0;
+        amountUploadFiles = fileKeys.length;
+        indexFileUpload = 0;
+        uploadErrors = [];
 
         _.each(fileKeys, function (key) {
-          
           var file = hashBinaryFileValues[key];
-          var binaryValue = file.binaryValue;
-          var arBinaryValues = [];
-          //var index = 0;
-          var len = 1000;
-          for (var i = 0; i < binaryValue.length; ) {
-            var sub = binaryValue.substring(i, i + len);
-            arBinaryValues.push(sub);
-            i += len;
-          }
+          //var binaryValue = file.binaryValue;
+          //var arBinaryValues = [];
+          ////var index = 0;
+          //var len = 1000;
+          //for (var i = 0; i < binaryValue.length;) {
+          //  var sub = binaryValue.substring(i, i + len);
+          //  arBinaryValues.push(sub);
+          //  i += len;
+          //}
 
           data.item.name = file.name;
           data.item.fields = [
@@ -276,53 +345,24 @@
             },
             {
               fieldId: CONST.BLOB_MEDIA_FIELDS_ID(),
-              value: encodeURIComponent(file.binaryValue.substring(0, 8000)),
+              value: encodeURIComponent(file.binaryValue),
             }
           ];
 
           application.httpRequest(data, function (response) {
-            if (response.isOK) {
-              if (response.data && response.data.item) {
-                var item = response.data.item;
+            //if (response.isOK) {
+            //  if (response.data && response.data.item) {
+            //    var item = response.data.item;
 
-              }
-            }
-            indexFileUpload++;
-            if (indexFileUpload === amountFiles)
-              self.uploadFilesCallback();
+            //  }
+            //}
+            self.uploadFileCallback(response);
           }, function (response, status, headers, config) {
-            indexFileUpload++;
-            if (indexFileUpload === amountFiles)
-              self.uploadFilesCallback();
-          });          
+            self.uploadFileCallback(null, "Error unknown!");
+          });
 
         });
-        
-      },
 
-      uploadFilesSelected: function() {
-        var $imageGalleryFormElem = $(imageGalleryFormSelector);
-        if ($imageGalleryFormElem.length === 0)
-          return;
-
-        var $inputFileDlgElem = $imageGalleryFormElem.find(inputFileDlgSelector);
-
-        var $uploadInfoElem = $imageGalleryFormElem.find(uploadInfoSelector);
-
-        var files = $inputFileDlgElem[0].files;
-        if (files.length > 0) {
-          self.showHideUploadInfo(true);
-          self.handleFiles(files, self.uploadFiles);
-        }
-      },
-
-      uploadFilesCallback: function() {
-        self.showHideUploadInfo(false);
-        self.populate();
-      },
-
-      changeInputFileDlg: function() {
-        self.uploadFilesSelected();
       },
 
       clickItem: function (event) {

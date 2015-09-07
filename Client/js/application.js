@@ -31,8 +31,10 @@ define(["CONST", "notification"], function (CONST, Notification) {
       isLogged: false,
     };
 
-    var application = {
+    // EVENTS - subscribers
+    var itemChangeSubscribers = [];
 
+    var application = {
       initItems: null,
 
       //
@@ -48,27 +50,27 @@ define(["CONST", "notification"], function (CONST, Notification) {
 
       isRequestProcess: false,
 
-      constructor: function () {
+      constructor: function() {
         self = this;
-        
+
         $(window).resize(self.windowResized);
 
         // UI interval
         setInterval(self.intervalUI, 50);
-               
+
         $(window).keydown(self.keyDownEventFunc);
       },
 
-      initialize: function (_$scope, _$http, _$window) {
+      initialize: function(_$scope, _$http, _$window) {
         $scope = _$scope;
         $http = _$http;
         $window = _$window;
       },
 
-      getSession: function () {
+      getSession: function() {
         return _.clone(session);
       },
-      setSession: function (sessionID, login, pass) {
+      setSession: function(sessionID, login, pass) {
         if (sessionID && login && pass) {
           if (!session)
             session = {};
@@ -86,7 +88,7 @@ define(["CONST", "notification"], function (CONST, Notification) {
           return false;
       },
 
-      keyDownEventFunc: function (event) {
+      keyDownEventFunc: function(event) {
         keyDownEventLast = event;
         if (self.isFunctionalKey(event)) {
           event.preventDefault();
@@ -94,25 +96,25 @@ define(["CONST", "notification"], function (CONST, Notification) {
         }
         return true;
       },
-      
-      isFunctionalKey: function (event) {
+
+      isFunctionalKey: function(event) {
         return CONST.IS_CTRL_S_KEY(event);
-      }, 
+      },
 
       isWindowResized: false,
-      windowResized: function (event) {
+      windowResized: function(event) {
         self.isWindowResized = true;
       },
 
-      addUIComponent: function (key, component) {
+      addUIComponent: function(key, component) {
         if (key && component)
           uiComponents[key] = component;
       },
-      removeUIComponent: function (component) {
+      removeUIComponent: function(component) {
         //uiComponents.remove(component);
       },
 
-      intervalUI: function () {
+      intervalUI: function() {
         if (!self.isCorrectHeightOnce || self.isWindowResized) {
           self.isWindowResized = false;
           self.correctHeightWindow();
@@ -120,78 +122,71 @@ define(["CONST", "notification"], function (CONST, Notification) {
 
         var uiData = {};
         if (keyDownEventLast) {
-          uiData.keyDownEventLast = keyDownEventLast;        
+          uiData.keyDownEventLast = keyDownEventLast;
           keyDownEventLast = null;
         }
 
         var keysComponent = _.keys(uiComponents);
-        _.each(keysComponent, function (key) {
+        _.each(keysComponent, function(key) {
           var component = uiComponents[key];
           if (component.intervalUI)
             component.intervalUI(uiData);
         });
       },
 
-      setEngineTree: function (_engineTree) {
+      setEngineTree: function(_engineTree) {
         if (_engineTree) {
           engineTree = _engineTree;
         }
       },
-      getEngineTree: function () {
+      getEngineTree: function() {
         return engineTree;
       },
 
-      treeGridItemSelected: function () {
+      treeGridItemSelected: function() {
         if (tabPanel) {
           tabPanel.treeGridItemSelected();
         }
       },
 
-      setModalFormCtrl: function (_modalFormCtrl) {
+      setModalFormCtrl: function(_modalFormCtrl) {
         if (_modalFormCtrl)
           modalFormCtrl = _modalFormCtrl;
       },
-      getModalFormCtrl: function () { return modalFormCtrl; },
+      getModalFormCtrl: function() { return modalFormCtrl; },
 
-      setRichTextEditorCtrl: function (_richTextEditorCtrl) {
+      setRichTextEditorCtrl: function(_richTextEditorCtrl) {
         if (_richTextEditorCtrl)
           richTextEditorCtrl = _richTextEditorCtrl;
       },
-      getRichTextEditorCtrl: function () { return richTextEditorCtrl; },
-      
+      getRichTextEditorCtrl: function() { return richTextEditorCtrl; },
 
-      setActionCtrl: function (_actionCtrl) {
+
+      setActionCtrl: function(_actionCtrl) {
         if (_actionCtrl)
           actionCtrl = _actionCtrl;
       },
-      getActionCtrl: function () { return actionCtrl; },
+      getActionCtrl: function() { return actionCtrl; },
 
-      setActionCtrl: function (_actionCtrl) {
-        if (_actionCtrl)
-          actionCtrl = _actionCtrl;
-      },
-      getActionCtrl: function () { return actionCtrl; },
-
-
-      setTabPanel: function (_tabPanel) {
+      setTabPanel: function(_tabPanel) {
         if (_tabPanel)
           tabPanel = _tabPanel;
       },
-      getTabPanel: function () { return tabPanel; },
+      getTabPanel: function() { return tabPanel; },
 
-      addUserManager: function (userManager) {
+      addUserManager: function(userManager) {
         if (userManager) {
           userManagers.push(userManager);
         }
       },
-      
-      getUserRoles: function () {
+
+      getUserRoles: function() {
         if (!userRoleList)
           return [];
 
         return _.clone(userRoleList);
       },
-      loadUserRoles: function (callback) {
+      loadUserRoles: function(callback) {
         var data = { action: "getUserRoles" };
         self.isRequestProcess = true;
 
@@ -209,13 +204,13 @@ define(["CONST", "notification"], function (CONST, Notification) {
         });
       },
 
-      getUsers: function () {
+      getUsers: function() {
         if (!userList)
           return [];
 
         return _.clone(userList);
       },
-      loadUsers: function (callback) {
+      loadUsers: function(callback) {
         var data = { action: "getUsers" };
         self.isRequestProcess = true;
 
@@ -232,32 +227,32 @@ define(["CONST", "notification"], function (CONST, Notification) {
 
         });
       },
-      newUser: function (newUser) {
+      newUser: function(newUser) {
         if (userList && newUser) {
           userList.push(newUser);
-          _.each(userManagers, function (manager) {
+          _.each(userManagers, function(manager) {
             if (manager.update)
               manager.update();
           });
         }
       },
-      updateUser: function (user) {
+      updateUser: function(user) {
         if (userList && user) {
           var userEdited = _.findWhere(userList, { id: user.id });
           if (userEdited) {
             var keys = _.keys(userEdited);
-            _.each(keys, function (key) {
+            _.each(keys, function(key) {
               userEdited[key] = user[key];
             });
-            
-            _.each(userManagers, function (manager) {
+
+            _.each(userManagers, function(manager) {
               if (manager.update)
                 manager.update();
             });
           }
         }
       },
-      removeUser: function (user) {
+      removeUser: function(user) {
         if (userList && user) {
           var userRemove = _.findWhere(userList, { id: parseInt(user.id) });
           if (userRemove) {
@@ -267,30 +262,30 @@ define(["CONST", "notification"], function (CONST, Notification) {
               user: userRemove,
             };
 
-            application.httpRequest(data, function (response) {
-              if (response.isOK) {                
+            application.httpRequest(data, function(response) {
+              if (response.isOK) {
                 if (response.data && response.data.user) {
                   userRemove = _.findWhere(userList, { id: parseInt(response.data.user.id) });
                   userList = _.without(userList, userRemove);
-                  _.each(userManagers, function (manager) {
+                  _.each(userManagers, function(manager) {
                     if (manager.update)
                       manager.update();
-                  });                                    
+                  });
                 }
               }
-            }, function (response, status, headers, config) {
+            }, function(response, status, headers, config) {
             });
-            
+
           }
         }
       },
 
-      getItemFields: function (item, callback) {
+      getItemFields: function(item, callback) {
         if (!item || !item.id || !item.templateId)
           return;
         var data = { action: "getItemFields", id: item.id, templateId: item.templateId };
 
-        self.httpRequest(data, function (responseData) {
+        self.httpRequest(data, function(responseData) {
           var isCallbackCall = true;
           if (responseData.isOK) {
             self.isRequestProcess = false;
@@ -302,13 +297,13 @@ define(["CONST", "notification"], function (CONST, Notification) {
             if (callback)
               callback();
           }
-        }, function () {
+        }, function() {
           if (callback)
             callback();
         });
       },
 
-      loadItems: function (callback) {
+      loadItems: function(callback) {
         var data = { action: "getItems" };
         self.isRequestProcess = true;
 
@@ -327,11 +322,11 @@ define(["CONST", "notification"], function (CONST, Notification) {
         });
       },
       getItems: function() {
-         return self.initItems;
+        return self.initItems;
       },
-      getTreeItems: function () { return self.treeItems; },
+      getTreeItems: function() { return self.treeItems; },
 
-      initializeItems: function (items) {
+      initializeItems: function(items) {
         this.initItems = _.clone(items);
         this.initItems[0] = _.clone(items[0]);
 
@@ -345,7 +340,7 @@ define(["CONST", "notification"], function (CONST, Notification) {
         this.populateItems(items);
       },
 
-      populateItems: function (items) {
+      populateItems: function(items) {
 
         try {
           // find parent for each item
@@ -399,10 +394,53 @@ define(["CONST", "notification"], function (CONST, Notification) {
               this.treeItemsHash[curItem.id] = curItem;
             }
           }
-        }
-        catch (ex) {
+        } catch (ex) {
           //var i = 0;
         }
+      },
+
+
+      addItemChangeSubscribers: function (subscriber) {
+        if (!subscriber)
+          return;
+
+        itemChangeSubscribers.push(subscriber);
+      },
+      removeItemChangeSubscribers: function (subscriber) {
+        if (!subscriber)
+          return;
+
+        var index = itemChangeSubscribers.indexOf(subscriber);
+        if (index > -1) {
+          itemChangeSubscribers.splice(index, 1);
+        }
+      },
+
+
+      addItem: function (item) {
+        var parentObj = { id: item.parentId };
+        var newItem = { id: item.id, name: item.name, templateId: item.templateId };
+
+        var parentItem = _.findWhere(self.initItems, { id: parentObj.id });
+        if (!parentItem || !parentItem.trElem)
+          return;
+
+        var newItemFound = _.findWhere(self.initItems, { id: newItem.id });
+        if (newItemFound) // item exists
+          return;
+
+        newItem.parentObj = parentItem;
+        self.initItems.push(newItem);
+
+        // to call of the Events' subscribers
+        var event = {
+          action: "addItem",
+          item: newItem
+        };
+        _.each(itemChangeSubscribers, function (subscriber) {
+          if (subscriber && subscriber.itemChangeEvent)
+            subscriber.itemChangeEvent(event);
+        });
       },
 
       getTemplateItems: function (isRefresh) {

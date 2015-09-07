@@ -43,14 +43,15 @@
         application.httpRequest(data, function (response) {
           $scope.isShowModalForm = false;
           if (response.isOK) {
-            if (response.data && response.data.item) {
-              //application.getEngineTree().refresh(true);
-              var item = response.data.item;
-              var parentObj = { id: item.parentId };
-              var newItem = { id: item.id, name: item.name, templateId: item.templateId };
-              var engineTree = application.getEngineTree();
-              var treeGrid = engineTree.getTreeGrid();
-              treeGrid.addChildNode(parentObj, newItem);
+            if (response.data && response.data.item) {              
+              //var item = response.data.item;
+              //var parentObj = { id: item.parentId };
+              //var newItem = { id: item.id, name: item.name, templateId: item.templateId };
+              //var engineTree = application.getEngineTree();
+              //var treeGrid = engineTree.getTreeGrid();
+              //treeGrid.addChildNode(parentObj, newItem);
+
+              application.addItem(response.data.item);
             }
           }
         }, function (response, status, headers, config) {

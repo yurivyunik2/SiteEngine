@@ -81,6 +81,17 @@ define(["application", "row", "headerRow", "CONST", "css!TreeGridCss"], function
       constructor: function() {
         self = this;
         $parentElem = _$parentElem;
+
+        //
+        application.addItemChangeSubscribers(self);
+      },
+
+      itemChangeEvent: function(event) {
+        if (event && event.action && event.item) {
+          if (event.action === "addItem") {
+            self.addChildNode(event.item);
+          }
+        }
       },
 
       keyDownEventFunc: function (event) {
@@ -554,26 +565,52 @@ define(["application", "row", "headerRow", "CONST", "css!TreeGridCss"], function
           self.infoPanel.resizeInfoPanel();
       },
 
-      addChildNode: function (parentObj, newItem, isNodeUpdate) {
-        if (!parentObj || !parentObj.id) {
+      //addChildNode: function (parentObj, newItem, isNodeUpdate) {
+      //  if (!parentObj || !parentObj.id) {
+      //    return;
+      //  }
+
+      //  try {
+      //    //var self = this;
+      //    var initItems = application.getItems();
+          
+      //    var parentItem = _.findWhere(initItems, { id: parentObj.id });
+      //    if (!parentItem || !parentItem.trElem)
+      //      return;
+
+      //    var newItemFound = _.findWhere(initItems, { id: newItem.id });
+      //    if (newItemFound) // item exists
+      //      return;
+
+      //    newItem.parentObj = parentItem;
+      //    initItems.push(newItem);
+
+      //    var $trElem = $(parentItem.trElem);
+      //    var marginLeftVar = 10;
+      //    var marginLeft = $trElem.find(".dvFirst").css("margin-left");
+      //    if (marginLeft)
+      //      marginLeftVar += parseInt(marginLeft);
+
+      //    if (!parentItem.childrenHash)
+      //      parentItem.childrenHash = {};
+      //    if (!parentItem.children)
+      //      parentItem.children = [];
+      //    parentItem.childrenHash[newItem.id] = newItem;
+      //    parentItem.children.push(newItem);
+      //    //self.renderItem($trElem, newItem, parentItem.id, marginLeftVar, self.isFiltered);
+      //    //self.openCloseNode(parentItem.trElem, !isNodeUpdate);
+      //    self.openCloseNode(parentItem.trElem, true);
+
+      //    $(newItem.trElem).mousedown();
+      //  } catch (ex) { }
+      //},
+
+      addChildNode: function (newItem, isNodeUpdate) {
+        if (!newItem || !newItem.parentObj)
           return;
-        }
 
         try {
-          //var self = this;
-          var initItems = application.getItems();
-          
-          var parentItem = _.findWhere(initItems, { id: parentObj.id });
-          if (!parentItem || !parentItem.trElem)
-            return;
-
-          var newItemFound = _.findWhere(initItems, { id: newItem.id });
-          if (newItemFound) // item exists
-            return;
-
-          newItem.parentObj = parentItem;
-          initItems.push(newItem);
-
+          var parentItem = newItem.parentObj;
           var $trElem = $(parentItem.trElem);
           var marginLeftVar = 10;
           var marginLeft = $trElem.find(".dvFirst").css("margin-left");
@@ -591,7 +628,8 @@ define(["application", "row", "headerRow", "CONST", "css!TreeGridCss"], function
           self.openCloseNode(parentItem.trElem, true);
 
           $(newItem.trElem).mousedown();
-        } catch (ex) { }
+        } catch (ex) {
+        }
       },
 
       removeChildNode: function (itemObj) {

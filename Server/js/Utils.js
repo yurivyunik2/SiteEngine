@@ -12,11 +12,11 @@ exports.Utils = function () {
       if (request.method == 'POST') {
         request.on('data', function (data) {
           queryData += data;
-          if (queryData.length > 1e6) {
-            queryData = "";
-            response.writeHead(413, { 'Content-Type': 'text/plain' }).end();
-            request.connection.destroy();
-          }
+          //if (queryData.length > 1e6) {
+          //  queryData = "";
+          //  response.writeHead(413, { 'Content-Type': 'text/plain' }).end();
+          //  request.connection.destroy();
+          //}
         });
         request.on('end', function () {
           //var test = "{\"action\":\"createItem\"}";          

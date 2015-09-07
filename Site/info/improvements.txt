@@ -9,13 +9,19 @@
 ++ 9) TreeGrid: passing by the items using keyboard arrows(Up, Down,...)
 ++ 10) To add the using of the languages and versions
 ++ 11) To add HTML editor for the editing of markup values
+
+07.09 - 13.09
 12) To implement Refactoring, Restyling(Crossbrowsing), Localization
 -+ 13) !! To implement Media Manager - It's needed to add "Uploading of the files to the server" functionality
 14) To implement Publish!
 15) To develop demo WEB-site
 15_2) Hosting
 16) Settings
+
+14.09 - 20.09
 17) To add the support of the  Social Networks
-18) To implement of the using of the devices
+
+--
+18) To implement the using of the devices
 19) Unit-testing
 20) 

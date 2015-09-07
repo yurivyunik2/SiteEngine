@@ -31,7 +31,19 @@
     var imgGalleryObj = {
       constructor: function() {
         self = this;
+
+        //
+        //application.addItemChangeSubscribers(self, self.addItemChangeEvent);
       },
+
+      //addItemChangeEvent: function (event) {
+      //  if (event && event.action && event.item) {
+      //    if (event.action === "addItem") {
+            
+      //    }
+      //  }
+      //},
+
 
       renderMediaItems: function (items) {
         var $imageGalleryFormElem = $(imageGalleryFormSelector);
@@ -222,8 +234,15 @@
 
         var files = $inputFileDlgElem[0].files;
         if (files.length > 0) {
+          amountUploadFiles = files.length;
+          indexFileUpload = 0;
+          uploadErrors = [];
+
           self.showHideUploadInfo(true);
-          self.handleFiles(files, self.uploadFiles);
+          _.each(files, function(file) {
+            self.handleFile(file, self.uploadFiles);
+          });
+          
         }
       },
 
@@ -280,31 +299,23 @@
         reader.readAsBinaryString(file);
       },
 
-      handleFiles: function (files, callback) {
-        if (files) {
-          var amountFiles = files.length;
-          var indexFile = 0;
-          var hashBinaryFileValues = {};
-          _.each(files, function (file) {
-            if (file) {
-              self.readFile(file, function (file, binaryValue) {
-                indexFile++;
-                file.binaryValue = binaryValue;
-                hashBinaryFileValues[file.name + file.lastModified] = file;
-                if (indexFile === amountFiles) {
-                  self.uploadFiles(hashBinaryFileValues);
-                }
-              });
-            }
+      handleFile: function (file, callback) {
+        if (file) {
+          self.readFile(file, function (file, binaryValue) {
+            //indexFile++;
+            file.binaryValue = binaryValue;
+            //hashBinaryFileValues[file.name + file.lastModified] = file;
+            //if (indexFile === amountFiles) {
+            //  self.uploadFile(hashBinaryFileValues);
+            //}
+            self.uploadFile(file);
           });
         }
       },
 
-      uploadFiles: function (hashBinaryFileValues) {
-        if (!hashBinaryFileValues)
+      uploadFile: function (file) {
+        if (!file || !file.binaryValue)
           return;
-
-        var fileKeys = _.keys(hashBinaryFileValues);
 
         var curlang = application.getLanguageCurrent();
         var langCode = "";
@@ -321,46 +332,43 @@
           lang: langCode
         };
 
-        amountUploadFiles = fileKeys.length;
-        indexFileUpload = 0;
-        uploadErrors = [];
+        //amountUploadFiles = fileKeys.length;
+        //indexFileUpload = 0;
+        //uploadErrors = [];
 
-        _.each(fileKeys, function (key) {
-          var file = hashBinaryFileValues[key];
-          //var binaryValue = file.binaryValue;
-          //var arBinaryValues = [];
-          ////var index = 0;
-          //var len = 1000;
-          //for (var i = 0; i < binaryValue.length;) {
-          //  var sub = binaryValue.substring(i, i + len);
-          //  arBinaryValues.push(sub);
-          //  i += len;
+          
+        //var binaryValue = file.binaryValue;
+        //var arBinaryValues = [];
+        ////var index = 0;
+        //var len = 1000;
+        //for (var i = 0; i < binaryValue.length;) {
+        //  var sub = binaryValue.substring(i, i + len);
+        //  arBinaryValues.push(sub);
+        //  i += len;
+        //}
+
+        data.item.name = file.name;
+        data.item.fields = [
+          {
+            fieldId: CONST.SRC_MEDIA_FIELDS_ID(),
+            value: CONST.UPLOAD_MEDIA_PATH() + data.item.name,
+          },
+          {
+            fieldId: CONST.BLOB_MEDIA_FIELDS_ID(),
+            value: encodeURIComponent(file.binaryValue),
+          }
+        ];
+
+        application.httpRequest(data, function (response) {
+          //if (response.isOK) {
+          //  if (response.data && response.data.item) {
+          //    var item = response.data.item;
+
+          //  }
           //}
-
-          data.item.name = file.name;
-          data.item.fields = [
-            {
-              fieldId: CONST.SRC_MEDIA_FIELDS_ID(),
-              value: CONST.UPLOAD_MEDIA_PATH() + data.item.name,
-            },
-            {
-              fieldId: CONST.BLOB_MEDIA_FIELDS_ID(),
-              value: encodeURIComponent(file.binaryValue),
-            }
-          ];
-
-          application.httpRequest(data, function (response) {
-            //if (response.isOK) {
-            //  if (response.data && response.data.item) {
-            //    var item = response.data.item;
-
-            //  }
-            //}
-            self.uploadFileCallback(response);
-          }, function (response, status, headers, config) {
-            self.uploadFileCallback(null, "Error unknown!");
-          });
-
+          self.uploadFileCallback(response);
+        }, function (response, status, headers, config) {
+          self.uploadFileCallback(null, "Error unknown!");
         });
 
       },

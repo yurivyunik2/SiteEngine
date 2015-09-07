@@ -32,7 +32,7 @@ define(["CONST", "notification"], function (CONST, Notification) {
     };
 
     // EVENTS - subscribers
-    var itemChangeSubscribers = [];
+    var itemChangeSubscribers = {};
 
     var application = {
       initItems: null,
@@ -400,20 +400,17 @@ define(["CONST", "notification"], function (CONST, Notification) {
       },
 
 
-      addItemChangeSubscribers: function (subscriber) {
-        if (!subscriber)
+      addItemChangeSubscribers: function (subscriber, handler) {
+        if (!subscriber || !handler)
           return;
 
-        itemChangeSubscribers.push(subscriber);
+        itemChangeSubscribers[subscriber] = handler;
       },
       removeItemChangeSubscribers: function (subscriber) {
         if (!subscriber)
           return;
 
-        var index = itemChangeSubscribers.indexOf(subscriber);
-        if (index > -1) {
-          itemChangeSubscribers.splice(index, 1);
-        }
+        delete itemChangeSubscribers[subscriber];
       },
 
 
@@ -437,9 +434,10 @@ define(["CONST", "notification"], function (CONST, Notification) {
           action: "addItem",
           item: newItem
         };
-        _.each(itemChangeSubscribers, function (subscriber) {
-          if (subscriber && subscriber.itemChangeEvent)
-            subscriber.itemChangeEvent(event);
+        var keys = _.keys(itemChangeSubscribers);
+        _.each(keys, function (subscriber) {
+          if (subscriber && itemChangeSubscribers[subscriber])
+            itemChangeSubscribers[subscriber](event);
         });
       },
 

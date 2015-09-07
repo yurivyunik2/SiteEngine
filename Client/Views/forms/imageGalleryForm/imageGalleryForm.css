@@ -3,7 +3,7 @@
 }
 #imageGalleryForm > div {
   height: 450px;
-  width: 900px;  
+  width: 950px;  
 }
 
 #imageGalleryForm #buttonsArea {
@@ -107,7 +107,8 @@
 }
 #imageGalleryForm #imgArea #imgContainer table td {
   vertical-align: top;
-  padding: 10px 0px;
+  padding: 10px 10px;
+  display: inline-block;
 }  
 #imageGalleryForm #imgContainer .dvImgWrapper {
   border: 1px solid #C1B9B9;  

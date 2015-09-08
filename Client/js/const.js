@@ -64,6 +64,7 @@ define(["dataType"], function (DataType) {
 
 
       // KEYS      
+      RIGHT_MOUSE_KEY: function() { return 3; },
       UP_KEY: function() { return 38; },
       DOWN_KEY: function() { return 40; },
       LEFT_KEY: function() { return 37; },

@@ -25,26 +25,26 @@ function (application, CONST, TreeGrid, MenuItem, InfoPanel, TooltipCustom) {
   // view
   return function (_$parentElem) {
 
+    var self;
+    var $parentElem;
     var treeGrid;
 
     var EngineTree = {
       srcEditImg: "./images/edit16_16.png",
-
-      treeGrid: undefined,
 
       tooltip: undefined,
 
       menuItem: undefined,
 
       isInfoPanelResize: false,
+      
       prevInfoPanelResizeX: -1,
-
-      isResizingPanel: false,
-
       infoPanel: undefined,
 
-      $parentElem: null,
-      
+      $dvInfoPanelElem: null,
+
+      hashInsertOptions: {},
+
       initialize: function() {
 
         $parentElem = _$parentElem;
@@ -54,7 +54,7 @@ function (application, CONST, TreeGrid, MenuItem, InfoPanel, TooltipCustom) {
         //
         this.tooltip = new TooltipCustom(false);
 
-        //
+        // Menu for Item
         this.menuItem = new MenuItem();
         $(this.menuItem).on(this.menuItem.EVENT_CLICK_ITEM(), function (event, dataEvent) {
           var actionCtrl = application.getActionCtrl();
@@ -67,18 +67,11 @@ function (application, CONST, TreeGrid, MenuItem, InfoPanel, TooltipCustom) {
         //
         var $dvTableElem = $parentElem.find(".dvTable");
         treeGrid = new TreeGrid($dvTableElem);
+        treeGrid.setOpenCloseNodeEvent(self.treeGridOpenCloseNodeEventHandler);
 
         //
         var $dvMainContentElem = $parentElem.find("#dvMainContent");
-        this.infoPanel = new InfoPanel($dvMainContentElem, treeGrid);
-
-        treeGrid.setParameters({
-          parent: this,
-          tooltip: this.tooltip,
-          infoPanel: this.infoPanel,
-          menuItem: this.menuItem,
-          isCheckBoxElem: true,
-        });
+        this.infoPanel = new InfoPanel($dvMainContentElem, self);
 
         //
         this.defineComponentEvents();
@@ -92,11 +85,16 @@ function (application, CONST, TreeGrid, MenuItem, InfoPanel, TooltipCustom) {
       
       getTreeGrid: function () { return treeGrid; },
 
+      treeGridOpenCloseNodeEventHandler: function () {
+        if (self.infoPanel)
+          self.infoPanel.resizeInfoPanel();
+      },
+
       intervalUI: function (uiData) {
-        if (!uiData || !uiData.keyDownEventLast)
+        if (!uiData)
           return;        
-        if (treeGrid) {
-          treeGrid.keyDownEventFunc(uiData.keyDownEventLast);
+        if (treeGrid && treeGrid.intervalUI) {
+          treeGrid.intervalUI(uiData);
         }
       },
 
@@ -122,17 +120,48 @@ function (application, CONST, TreeGrid, MenuItem, InfoPanel, TooltipCustom) {
         }
       },
 
+      // addInsertOptions
+      addInsertOptions: function (item) {
+        if (!item)
+          return;
+
+        //var self = this;
+
+        var insertOptionsField;
+        _.each(item.fields, function (field) {
+          if (CONST.INSERT_OPTIONS_FIELD_ID() === field.fieldId) {
+            insertOptionsField = field;
+          }
+        });
+
+        var arInsertItems = [];
+        if (insertOptionsField && insertOptionsField.value && insertOptionsField.value !== "") {
+          var arTemplates = insertOptionsField.value.split("|");
+
+          var initItems = application.getItems();
+          _.each(initItems, function (item) {
+            if (arTemplates.indexOf(item.id.toString()) >= 0) {
+              self.hashInsertOptions[item.id] = item;
+              arInsertItems.push(item);
+            }
+          });
+
+        }
+        if (self.menuItem)
+          self.menuItem.updateInsertOptions(arInsertItems);
+      },
+
       // initializing of events
       defineComponentEvents: function () {
         var self = this;
 
         // mousedown
         $parentElem.mousedown(function (event) {
-          if (event.which != 3) { // if it's not right click
+          if (event.which !== CONST.RIGHT_MOUSE_KEY()) { // if it's not right click
             if (event.target && self.menuItem.hasElem(event.target)) {
               event.target.click(event);
             } else {
-              self.menuItem.hide();              
+              self.menuItem.hide();
             }
           }
         });
@@ -140,34 +169,31 @@ function (application, CONST, TreeGrid, MenuItem, InfoPanel, TooltipCustom) {
         // window - mouseup
         $(window).mouseup(function (event) {
           self.isInfoPanelResize = false;
-          self.isResizingPanel = false;
         });
 
         $(window).mousemove(function (event) {
-
-          var dvInfoPanelElem = $parentElem.find(".dvInfoPanel");
+          //var dvInfoPanelElem = $parentElem.find(".dvInfoPanel");
           //console.log("event.pageX=" + event.pageX);
           //console.log("dvInfoPanelElem[0].offsetLeft=" + dvInfoPanelElem[0].offsetLeft);
           //if (event.pageX >= (dvInfoPanelElem[0].offsetLeft - 5) && event.pageX <= (dvInfoPanelElem[0].offsetLeft + 5)) {
-          if (event.pageX <= (dvInfoPanelElem[0].offsetLeft + 5)) {
-            dvInfoPanelElem.css("cursor", "w-resize");
+          if (event.pageX <= (self.$dvInfoPanelElem[0].offsetLeft + 5)) {
+            self.$dvInfoPanelElem.css("cursor", "w-resize");
           }
           else {
-            dvInfoPanelElem.css("cursor", "default");
+            self.$dvInfoPanelElem.css("cursor", "default");
           }
 
           //console.log("mousemove: isInArea=" + isInArea);
           //console.log("mousemove: event.pageX=" + event.pageX);
           //console.log("mousemove: (dvInfoPanelElem[0].offsetLeft + 5)=" + (dvInfoPanelElem[0].offsetLeft + 5));
-          
-          if (self.isInfoPanelResize && self.prevInfoPanelResizeX >= 0) {
-            var dvTableMainElem = $parentElem.find(".dvTableMain");
-            var newWidth = dvTableMainElem[0].clientWidth + (event.pageX - self.prevInfoPanelResizeX);
-            dvTableMainElem.css("width", newWidth + "px");
+
+          if (self.isInfoPanelResize && self.prevInfoPanelResizeX >= 0 && treeGrid) {
+            var diff = event.pageX - self.prevInfoPanelResizeX;
+            treeGrid.resize(diff);
 
             self.infoPanel.resizeInfoPanel();
           }
-          self.prevInfoPanelResizeX = event.pageX;
+          self.prevInfoPanelResizeX = event.pageX;          
 
           // for not-selecting html-elements
           event.preventDefault();
@@ -177,6 +203,7 @@ function (application, CONST, TreeGrid, MenuItem, InfoPanel, TooltipCustom) {
         document.oncontextmenu = function () {
           return false;
         };
+
       },
 
       // renderControlPanel
@@ -190,8 +217,9 @@ function (application, CONST, TreeGrid, MenuItem, InfoPanel, TooltipCustom) {
         $parentElem.append(html);
 
         // dvInfoPanel
-        var dvInfoPanelElem = $parentElem.find(".dvInfoPanel");
-        dvInfoPanelElem.mousedown(function (event) {
+        self.$dvInfoPanelElem = $parentElem.find(".dvInfoPanel");
+
+        self.$dvInfoPanelElem.mousedown(function (event) {
           //if (event.pageX < (this.offsetLeft + 5)) {          
           if (event.pageX > (this.offsetLeft - 5) && event.pageX < (this.offsetLeft + 5)) {
             self.isInfoPanelResize = true;
@@ -199,9 +227,8 @@ function (application, CONST, TreeGrid, MenuItem, InfoPanel, TooltipCustom) {
             self.isInfoPanelResize = false;
           }
         });
-      },
-     
-      
+      },     
+
     };
 
     EngineTree.initialize();

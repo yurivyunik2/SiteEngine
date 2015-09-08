@@ -13,39 +13,32 @@ define(["application", "row", "headerRow", "CONST", "css!TreeGridCss"], function
     var self;
     var $parentElem;
 
-    var isCheckBoxElem = false;
-
+    var isCheckBoxElem = true;
     var isHeaderShow = false;
 
-    var objTreeGrid = {
-      parent: undefined,
-      $el: undefined,
-      tooltip: undefined,
+    var $dvTableMainElem;
 
-      getIsCheckBoxElem: function() { return isCheckBoxElem; },
+    var openCloseNodeEvent;
+
+    // images
+    var srcArrowDown = "./images/node-expanded.png";
+    var srcArrowRight = "./images/node-collapsed.png";
+    var srcFolderOpen = "./images/folderOpen2.png";
+    var srcFolderClose = "./images/folderClose2.png";
+    var srcEditImg = "./images/edit16_16.png";
+    var srcRefreshImg = "./images/refresh.png";
+
+    var objTreeGrid = {
+      $el: undefined,
 
       selectedItem: null,
       selectedTemplate: null,
 
+      // Drag and Drop
       $trDrag: null,
       $trDragStart: null,
       isDrag: false,
       $dragLine: null,
-
-      menuItem: undefined,
-
-      srcArrowDown: "./images/node-expanded.png",
-      srcArrowRight: "./images/node-collapsed.png",
-
-      srcFolderOpen: "./images/folderOpen2.png",
-      srcFolderClose: "./images/folderClose2.png",
-
-      srcEditImg: "./images/edit16_16.png",
-
-      srcRefreshImg: "./images/refresh.png",
-
-      //
-      infoPanel: undefined,
 
       initItems: null,
 
@@ -54,29 +47,11 @@ define(["application", "row", "headerRow", "CONST", "css!TreeGridCss"], function
       hashItems: {},
       hashChangedItems: {},
 
-      hashInsertOptions: {},      
-
       treeItems: [],
       treeItemsHash: {},
 
-      allItemsRequest: [],
-
       maxAmountRenderedItems: 1000,
       counterRenderedItems: 0,
-
-      //hashTree: {},
-
-      isFiltered: false,
-
-      sortField: "",
-
-      // sorting
-      sortMethodEnum: {
-        'NO': 0,
-        'ASC': -1,
-        'DESC': -2
-      },
-      sortMethod: undefined,
 
       constructor: function() {
         self = this;
@@ -86,14 +61,181 @@ define(["application", "row", "headerRow", "CONST", "css!TreeGridCss"], function
         application.addItemChangeSubscribers(self, self.itemChangeEvent);
       },
 
-      itemChangeEvent: function(event) {
-        if (event && event.action && event.item) {
-          if (event.action === "addItem") {
-            self.addChildNode(event.item);
-          }
+      intervalUI: function(uiData) {
+        if (!uiData)
+          return;
+        if (uiData.keyDownEventLast) {
+          self.keyDownEventFunc(uiData.keyDownEventLast);
         }
       },
 
+      getIsCheckBoxElem: function () { return isCheckBoxElem; },
+      setIsCheckBoxElem: function (_isCheckBoxElem) { isCheckBoxElem = _isCheckBoxElem; },
+
+      initializeItems: function (items) {
+        this.initItems = _.clone(items);
+        this.initItems[0] = _.clone(items[0]);
+
+        this.treeItems = [];
+        this.treeItemsHash = {};
+
+        this.hashParentItems = {};
+        this.hashItems = {};
+        this.hashChangedItems = {};
+
+        this.populateItems(items);
+      },
+
+      // populate
+      populate: function (items) {
+        this.initializeItems(items);
+
+        //      
+        this.renderTree();
+      },
+
+      populateItems: function (items) {
+
+        try {
+          // find parent for each item
+          for (var i = 0; i < items.length; i++) {
+            var curItem = items[i];
+
+            //----fix----//
+            if (typeof this.hashParentItems[curItem.id] != 'undefined') {
+              this.hashParentItems[curItem.id].children = curItem.children;
+              curItem = this.hashParentItems[curItem.id];
+            }
+            //----fix end----//
+
+            //
+            //this.hashItemsPopulate[curItem.id] = curItem;
+
+            var parentItem;
+
+            if (curItem.parent && curItem.parent !== '') {
+              parentItem = this.hashParentItems[curItem.parent];
+
+              if (typeof parentItem === 'undefined') {
+                for (var j = 0; j < items.length; j++) {
+                  if (curItem.parent == items[j].id) {
+                    parentItem = items[j];
+                    break;
+                  }
+                }
+              }
+            }
+
+            if (parentItem && curItem.parent && curItem.parent !== "") {
+              if (!parentItem.children) {
+                parentItem.children = [];
+                parentItem.childrenHash = {};
+              }
+
+              if (typeof parentItem.childrenHash[curItem.id] == 'undefined') {
+                parentItem.children.push(curItem);
+              } else {
+                curItem = parentItem.childrenHash[curItem.id];
+              }
+              parentItem.childrenHash[curItem.id] = curItem;
+
+              curItem.parentObj = parentItem;
+              this.hashParentItems[parentItem.id] = parentItem;
+            } else {
+              if (typeof this.treeItemsHash[curItem.id] == 'undefined') {
+                this.treeItems.push(curItem);
+              }
+              this.treeItemsHash[curItem.id] = curItem;
+            }
+          }
+        }
+        catch (ex) {
+          
+        }
+      },
+      
+      // renderTree
+      renderTree: function (isFiltered) {
+        //var self = this;
+
+        //var dvTableElem = $parentElem.find(".dvTable");
+
+        var html = "";
+        if (isHeaderShow) {
+          html +=
+            // Table-Header
+            '<table id="tbHeader" border="0" cellspacing="0" cellpadding="0" style="width: 100%;">' +
+              '<tbody></tbody>' +
+            '</table>';
+        }
+
+        html +=
+            // TableMain 
+            '<div class="dvTableMain scrollCustom" >' +
+            // Img for editing 
+            '<div class="dvEditImg"><img src="' + srcEditImg + '" ></div>' +
+            // div for editing 
+            '<div class="dvEditControl" >' +
+            '<input type="text">' +
+            '<input type="button" value="OK">' +
+            '</div>' +
+            // table 
+            '<table id="tbMain" border="0" cellspacing="0" cellpadding="0">' +
+            '<tbody></tbody>' +
+            '</table>' +
+            '<div id="dragLine" style="display: none; position: absolute; width: 30px; height: 2px; background-color: #1A86C8;"></div>' +
+            '</div>';
+
+
+        //
+        $parentElem.html(html);
+
+        // TableMain elem
+        $dvTableMainElem = $parentElem.find(".dvTableMain");
+
+        // $dragLine
+        self.$dragLine = $parentElem.find("#dragLine");
+
+        //
+        var tableHeader = $parentElem.find("#tbHeader").find("tbody");
+
+        var tableHeaderRow = new HeaderRow(this, tableHeader);
+        tableHeaderRow.render();
+        
+
+        ////
+        var tableMain = $parentElem.find("#tbMain").find("tbody");
+        //var tableMainHeaderRow = new HeaderRow(this, tableMain);
+        //tableMainHeaderRow.render(true);
+
+        //
+        this.counterRenderedItems = 0;
+        for (var i = 0; i < this.treeItems.length; i++) {
+          this.renderItem(tableMain, this.treeItems[i], isFiltered);
+        }
+      },
+      
+      // rendering of the item
+      renderItem: function (parentElem, item, parentId, marginLeft, isFiltered) {
+        //var self = this;
+
+        self.counterRenderedItems++;
+        if (self.counterRenderedItems >= self.maxAmountRenderedItems)
+          return;
+
+        // hash item
+        this.hashItems[item.id] = item;
+
+
+        var row = new Row(this, item);
+        return row.render({ elem: parentElem, id: parentId }, marginLeft, isFiltered);
+      },
+
+      //
+      // EVENTS
+      //
+
+      // keyDownEventFunc
       keyDownEventFunc: function (event) {
         if (!event)
           return;
@@ -101,7 +243,7 @@ define(["application", "row", "headerRow", "CONST", "css!TreeGridCss"], function
         // if there are focused elements - then refuse action
         var focusedElems = $("*:focus");
         if (focusedElems.length > 0)
-          return;        
+          return;
 
         if (self.selectedItem && self.selectedItem.trElem) {
           //var trElem = self.selectedItem.trElem;
@@ -127,7 +269,7 @@ define(["application", "row", "headerRow", "CONST", "css!TreeGridCss"], function
             case CONST.LEFT_KEY():
               {
                 var selectedItem = self.selectedItem;
-                if (event.which == CONST.LEFT_KEY()) {
+                if (event.which === CONST.LEFT_KEY()) {
                   if (!selectedItem.isOpened && selectedItem.parentObj) {
                     self.clickNode({ data: [$(selectedItem.parentObj.trElem)] });
                   } else {
@@ -140,250 +282,21 @@ define(["application", "row", "headerRow", "CONST", "css!TreeGridCss"], function
         }
       },
 
-      upNodeClick: function () {
-        var prevAll = $(self.selectedItem.trElem).prevAll(":visible");
-        if (prevAll.length > 0) {
-          $(prevAll[0]).mousedown();
-        }
-      },
-      downNodeClick: function () {
-        var nextAll = $(self.selectedItem.trElem).nextAll(":visible");
-        if (nextAll.length > 0) {
-          $(nextAll[0]).mousedown();
-        }
-      },
-
-
-      get$parentElem: function () {
-        return $parentElem;
-      },
-
-      setParameters: function (parameters) {
-        this.parent = parameters.parent;
-        this.tooltip = parameters.tooltip;
-
-        this.menuItem = parameters.menuItem;        
-        this.infoPanel = parameters.infoPanel;
-
-        isCheckBoxElem = parameters.isCheckBoxElem;
-      },      
-
-      addInsertOptions: function (item) {
-        if (!item)
-          return;
-
-        //var self = this;
-
-        var insertOptionsField;
-        _.each(item.fields, function (field) {
-          if (CONST.INSERT_OPTIONS_FIELD_ID() == field.fieldId) {
-            insertOptionsField = field;
-          }
-        });
-
-        var arInsertItems = [];
-        if (insertOptionsField && insertOptionsField.value && insertOptionsField.value != "") {
-          var arTemplates = insertOptionsField.value.split("|");
-
-          var initItems = application.getItems();
-          _.each(initItems, function (item) {
-            if (arTemplates.indexOf(item.id.toString()) >= 0) {
-              self.hashInsertOptions[item.id] = item;
-              arInsertItems.push(item);
-            }
-          });
-
-        }
-        if (self.menuItem)
-          self.menuItem.updateInsertOptions(arInsertItems);
-      },
-
-        // populate
-      populate: function (items) {
-        this.initializeItems(items);
-
-        //      
-        this.renderTree();
-      },
-
-      initializeItems: function (items) {
-        this.initItems = _.clone(items);
-        this.initItems[0] = _.clone(items[0]);
-
-        this.treeItems = [];
-        this.treeItemsHash = {};
-
-        this.hashParentItems = {};
-        this.hashItems = {};
-        this.hashChangedItems = {};
-
-        this.populateItems(items);
-      },
-
-      populateItems: function (items) {
-
-        try {
-          // find parent for each item
-          for (var i = 0; i < items.length; i++) {
-            var curItem = items[i];
-
-            //----fix----//
-            if (typeof this.hashParentItems[curItem.id] != 'undefined') {
-              this.hashParentItems[curItem.id].children = curItem.children;
-              curItem = this.hashParentItems[curItem.id];
-            }
-            //----fix end----//
-
-            //
-            //this.hashItemsPopulate[curItem.id] = curItem;
-
-            var parentItem;
-
-            if (typeof curItem.parent !== 'undefined' && curItem.parent != '') {
-              parentItem = this.hashParentItems[curItem.parent];
-
-              if (typeof parentItem === 'undefined') {
-                for (var j = 0; j < items.length; j++) {
-                  if (curItem.parent == items[j].id) {
-                    parentItem = items[j];
-                    break;
-                  }
-                }
-              }
-            }
-
-            if (typeof parentItem !== 'undefined' && curItem.parent && curItem.parent != "") {
-              if (typeof parentItem.children === 'undefined') {
-                parentItem.children = [];
-                parentItem.childrenHash = {};
-              }
-
-              if (typeof parentItem.childrenHash[curItem.id] == 'undefined') {
-                parentItem.children.push(curItem);
-              } else {
-                curItem = parentItem.childrenHash[curItem.id];
-              }
-              parentItem.childrenHash[curItem.id] = curItem;
-
-              curItem.parentObj = parentItem;
-              this.hashParentItems[parentItem.id] = parentItem;
-            } else {
-              if (typeof this.treeItemsHash[curItem.id] == 'undefined') {
-                this.treeItems.push(curItem);
-              }
-              this.treeItemsHash[curItem.id] = curItem;
-            }
+      // itemChangeEvent
+      itemChangeEvent: function (event) {
+        if (event && event.action && event.item) {
+          if (event.action === "addItem") {
+            self.addChildNode(event.item);
           }
         }
-        catch (ex) {
-          var i = 0;
-        }
       },
-      
-        // renderTree
-      renderTree: function (isFiltered) {
-        //var self = this;
-
-        //var dvTableElem = $parentElem.find(".dvTable");
-
-        var html = "";
-        if (isHeaderShow) {
-          html +=
-            // Table-Header
-            '<table id="tbHeader" border="0" cellspacing="0" cellpadding="0" style="width: 100%;">' +
-              '<tbody></tbody>' +
-            '</table>';
-        }
-
-        html +=
-            // TableMain 
-            '<div class="dvTableMain scrollCustom" >' +
-            // Img for editing 
-            '<div class="dvEditImg"><img src="' + this.srcEditImg + '" ></div>' +
-            // div for editing 
-            '<div class="dvEditControl" >' +
-            '<input type="text">' +
-            '<input type="button" value="OK">' +
-            '</div>' +
-            // table 
-            '<table id="tbMain" border="0" cellspacing="0" cellpadding="0">' +
-            '<tbody></tbody>' +
-            '</table>' +
-            '<div id="dragLine" style="display: none; position: absolute; width: 30px; height: 2px; background-color: #1A86C8;"></div>' +
-            '</div>';
-
-
-        //
-        $parentElem.html(html);
-
-        //
-        self.$dragLine = $parentElem.find("#dragLine");
-
-        //
-        var tableHeader = $parentElem.find("#tbHeader").find("tbody");
-
-        var tableHeaderRow = new HeaderRow(this, tableHeader);
-        tableHeaderRow.render();
-        
-
-        ////
-        var tableMain = $parentElem.find("#tbMain").find("tbody");
-        //var tableMainHeaderRow = new HeaderRow(this, tableMain);
-        //tableMainHeaderRow.render(true);
-
-        //
-        this.counterRenderedItems = 0;
-        for (var i = 0; i < this.treeItems.length; i++) {
-          this.renderItem(tableMain, this.treeItems[i], isFiltered);
-        }
-
-
-        //
-        this.correctHeaderColumnWidth();
-      },
-      
-      showEditingPanel: function (body) {
-
-        //var self = this;
-
-        var dvResizablePanelElem = $parentElem.find(".dvResizablePanel");
-
-        var iframe = $("#frameEditing")[0];
-        var iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-
-        var frameContent = $(iframeDoc).find("#Editor_contentIframe")[0];
-        var contentDoc = frameContent.contentDocument || frameContent.contentWindow.document;
-        var docBody = $(contentDoc).find("body");
-
-        var dvDataElem = $(self.curTdEditingElem).find(".dvData");
-        docBody.html(dvDataElem.html());
-
-        dvResizablePanelElem.css("display", "block");
-        dvResizablePanelElem.css("left", $(window).width() / 2 - dvResizablePanelElem[0].clientWidth / 2);
-        dvResizablePanelElem.css("top", $(window).height() / 2 - dvResizablePanelElem[0].clientHeight / 2);
-
-      },
-
-        // rendering of the item
-      renderItem: function (parentElem, item, parentId, marginLeft, isFiltered) {
-        //var self = this;
-
-        self.counterRenderedItems++;
-        if (self.counterRenderedItems >= self.maxAmountRenderedItems)
-          return;
-
-        // hash item
-        this.hashItems[item.id] = item;
-
-
-        var row = new Row(this, item);
-        return row.render({ elem: parentElem, id: parentId }, marginLeft, isFiltered);
-
-      },
+      //
+      // END EVENTS
+      //
 
       // updating of opened nodes(and sub-nodes) - if we open node then pass through sub-nodes and open them if they were opened early
       updateOpenNodes: function (childItems) {
-        if (typeof childItems == 'undefined')
+        if (!childItems)
           return;
 
         //
@@ -397,7 +310,7 @@ define(["application", "row", "headerRow", "CONST", "css!TreeGridCss"], function
 
       // checking node(with sub-nodes)
       checkNode: function (item) {
-        if (typeof item !== 'undefined') {
+        if (item) {
           if (item.isChecked)
             item.isChecked = false;
           else
@@ -421,69 +334,38 @@ define(["application", "row", "headerRow", "CONST", "css!TreeGridCss"], function
         }
       },
 
+      // upNodeClick
+      upNodeClick: function () {
+        var prevAll = $(self.selectedItem.trElem).prevAll(":visible");
+        if (prevAll.length > 0) {
+          $(prevAll[0]).mousedown();
+        }
+      },
+
+      // downNodeClick
+      downNodeClick: function () {
+        var nextAll = $(self.selectedItem.trElem).nextAll(":visible");
+        if (nextAll.length > 0) {
+          $(nextAll[0]).mousedown();
+        }
+      },
+
       // click on node
       clickNode: function (event) {
-        //var self = event.data[0];
-        //var trElem = event.data[1][0];
-        if (!event || !event.data || event.data.length == 0)
+        if (!event || !event.data || event.data.length === 0)
           return;
-
         var trElem = event.data[0][0];
 
         //$(trElem).draggable();
         self.openCloseNode(trElem);
         $(trElem).mousedown();
+      },      
+
+      setOpenCloseNodeEvent: function (_openCloseNodeEvent) {
+        openCloseNodeEvent = _openCloseNodeEvent;
       },
 
-      filterNode: function (item, filterName) {
-        var isFound = false;
-        if (item.name.toLowerCase().indexOf(filterName) >= 0)
-          isFound = true;
-
-        var parentItem = this.hashParentItems[item.id];
-
-        if (parentItem) {
-          for (var key in parentItem.childrenHash) {
-            var isFoundChild = this.filterNode(parentItem.childrenHash[key], filterName);
-            if (isFoundChild)
-              isFound = true;
-          }
-        }
-
-        //if (isFound) {
-        //  //item.children = [];
-        //  //item.childrenHash = {};
-        //  //itemsFiltered.push(item);
-        //}
-        item.filteredOK = isFound;
-        item.isOpened = isFound;
-
-        return isFound;
-      },
-
-      filterTree: function (filterName) {
-        if (filterName && filterName != "") {
-          //this.setHashTree();
-
-          var itemsFiltered = [];
-          for (var idItem in this.treeItemsHash) {
-            this.filterNode(this.treeItemsHash[idItem], filterName);
-          }
-
-          //this.populate(itemsFiltered, true);
-          this.isFiltered = true;
-          this.renderTree(this.isFiltered);
-          this.updateOpenNodes(this.treeItems);
-        } else {
-          this.isFiltered = false;
-          this.renderTree(this.isFiltered);
-        }
-        //else {
-        //  this.populate({}, true, true);
-        //}
-      },
-
-        // open-close node(parent with sub-nodes)
+      // open-close node(parent with sub-nodes)
       openCloseNode: function (trElem, isNoChange) {
         if (!trElem)
           return;
@@ -494,7 +376,7 @@ define(["application", "row", "headerRow", "CONST", "css!TreeGridCss"], function
         var imgFolderElem = $(trElem).find(".imgFolder")[0];
 
         var parentObj = self.hashParentItems[trElem.id];
-        if (typeof parentObj !== 'undefined') {
+        if (parentObj) {
 
           if (!isNoChange) { // if it's needed to change state
             if (parentObj.isOpened)
@@ -505,15 +387,15 @@ define(["application", "row", "headerRow", "CONST", "css!TreeGridCss"], function
 
           var display = "none";
           if (parentObj.isOpened) { // is node is opened
-            imgArrowElem.src = self.srcArrowDown;
+            imgArrowElem.src = srcArrowDown;
             if (!parentObj.iconCustom || parentObj.iconCustom == '') {
-              imgFolderElem.src = self.srcFolderOpen;
+              imgFolderElem.src = srcFolderOpen;
             }
             display = "table-row";
           } else { // is node is closed
-            imgArrowElem.src = self.srcArrowRight;
+            imgArrowElem.src = srcArrowRight;
             if (!parentObj.iconCustom || parentObj.iconCustom == '') {
-              imgFolderElem.src = self.srcFolderClose;
+              imgFolderElem.src = srcFolderClose;
             }
           }
 
@@ -553,16 +435,14 @@ define(["application", "row", "headerRow", "CONST", "css!TreeGridCss"], function
               //    $(trElem).css("display", display);
               //  }
               //}
-
             }
-
           } else { // Closed
             $(childElems).css("display", "none");
           }
         }
-        
-        if (self.infoPanel)
-          self.infoPanel.resizeInfoPanel();
+
+        if (openCloseNodeEvent)
+          openCloseNodeEvent();
       },
 
       addChildNode: function (newItem, isNodeUpdate) {
@@ -618,21 +498,99 @@ define(["application", "row", "headerRow", "CONST", "css!TreeGridCss"], function
 
       getChildsWithParent: function (childElems, parentId, parentElem) {
         var listElems;
-        if ($(parentElem)[0].nodeName == "TBODY") {
+        if ($(parentElem)[0].nodeName === "TBODY") {
           listElems = $(parentElem).find("tr[parentId='" + parentId + "']");
-        } else if ($(parentElem)[0].nodeName == "TR") {
+        } else if ($(parentElem)[0].nodeName === "TR") {
           listElems = $(parentElem).nextAll("tr[parentId='" + parentId + "']");
         }
 
-        for (var i = 0; i < listElems.length; i++) {
-          childElems.push(listElems[i]);
-          this.getChildsWithParent(childElems, listElems[i].id, listElems[i]);
+        if (listElems) {
+          for (var i = 0; i < listElems.length; i++) {
+            childElems.push(listElems[i]);
+            this.getChildsWithParent(childElems, listElems[i].id, listElems[i]);
+          }
         }
+      },
+      
+      // resize
+      resize: function (diff) {
+        if (!diff)
+          return;
 
+        var newWidth = $dvTableMainElem[0].clientWidth + diff;
+        $dvTableMainElem.css("width", newWidth + "px");
       },
 
 
       //
+      // FILTERING
+      //
+      isFiltered: false,
+
+      filterNode: function (item, filterName) {
+        var isFound = false;
+        if (item.name.toLowerCase().indexOf(filterName) >= 0)
+          isFound = true;
+
+        var parentItem = this.hashParentItems[item.id];
+
+        if (parentItem) {
+          for (var key in parentItem.childrenHash) {
+            var isFoundChild = this.filterNode(parentItem.childrenHash[key], filterName);
+            if (isFoundChild)
+              isFound = true;
+          }
+        }
+
+        //if (isFound) {
+        //  //item.children = [];
+        //  //item.childrenHash = {};
+        //  //itemsFiltered.push(item);
+        //}
+        item.filteredOK = isFound;
+        item.isOpened = isFound;
+
+        return isFound;
+      },
+
+      filterTree: function (filterName) {
+        if (filterName && filterName != "") {
+          //this.setHashTree();
+
+          var itemsFiltered = [];
+          for (var idItem in this.treeItemsHash) {
+            this.filterNode(this.treeItemsHash[idItem], filterName);
+          }
+
+          //this.populate(itemsFiltered, true);
+          this.isFiltered = true;
+          this.renderTree(this.isFiltered);
+          this.updateOpenNodes(this.treeItems);
+        } else {
+          this.isFiltered = false;
+          this.renderTree(this.isFiltered);
+        }
+        //else {
+        //  this.populate({}, true, true);
+        //}
+      },
+      //
+      // END FILTERING
+      //
+
+      //
+      // SORTING
+      //
+      sortField: "",
+
+      // sorting method Enum
+      sortMethodEnum: {
+        'NO': 0,
+        'ASC': -1,
+        'DESC': -2
+      },
+      sortMethod: undefined,
+
       getSortImgSrc: function (columnName) {
         var src = "./images/sortArrow3.png";
         if (this.sortField == columnName) {
@@ -645,22 +603,6 @@ define(["application", "row", "headerRow", "CONST", "css!TreeGridCss"], function
         return src;
       },
 
-      // correcting of header-column width
-      correctHeaderColumnWidth: function () {
-        var tableMain = $parentElem.find("#tbMain").find("tbody");
-        var trHeader = tableMain.children().first();
-        for (var i = 0; i < trHeader.children().length; i++) {
-          var thElem = trHeader.children()[i];
-
-          var colIndex = $(thElem).attr("colIndex");
-          $parentElem.find("#tbHeader").find(".th-" + colIndex).css("width", thElem.clientWidth);
-        }
-
-        //// set table's height equal with component's height
-        //var dvTableMainElem = $parentElem.find(".dvTableMain");
-        //dvTableMainElem.css("height", $parentElem[0].clientHeight - $parentElem.find("#tbHeader")[0].clientHeight - 1);
-      },
-      
       sortHandler: function (event) {        
         var self = event.data[0];
 
@@ -684,11 +626,11 @@ define(["application", "row", "headerRow", "CONST", "css!TreeGridCss"], function
         self.updateOpenNodes(self.treeItems);
       },
 
-        // sorting of tree
+      // sorting of tree
       sortTree: function (treeItems) {
-        if (this.sortMethod == this.sortMethodEnum.ASC)
+        if (this.sortMethod === this.sortMethodEnum.ASC)
           treeItems.sort(this.sortAsc);
-        else if (this.sortMethod == this.sortMethodEnum.DESC)
+        else if (this.sortMethod === this.sortMethodEnum.DESC)
           treeItems.sort(this.sortDesc);
 
         for (var i = 0; i < treeItems.length; i++) {
@@ -724,6 +666,9 @@ define(["application", "row", "headerRow", "CONST", "css!TreeGridCss"], function
         }
         return 0;
       },
+      //
+      // END SORTING
+      // 
 
     };
 

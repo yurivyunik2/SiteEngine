@@ -6,7 +6,7 @@
 
 define(["application", "CONST", "richTextEditor"], function (application, CONST, RichTextEditor) {
 
-  function InfoPanel($parentElem, treeGrid) {
+  function InfoPanel($parentElem, engineTree) {
 
     var infoPanel = {
 
@@ -31,7 +31,8 @@ define(["application", "CONST", "richTextEditor"], function (application, CONST,
       // populateInfoPanel
       populateInfoPanel: function (itemData) {
         //
-        treeGrid.addInsertOptions(itemData);
+        if (engineTree)
+          engineTree.addInsertOptions(itemData);
 
         var dvInfoPanelElem = $parentElem.find(".dvInfoPanel");
         dvInfoPanelElem.html("");

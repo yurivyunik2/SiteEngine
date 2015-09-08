@@ -74,7 +74,7 @@ define([], function () {
       setTarget: function (target, text) {
         var self = this;
         self.isAnimate = false;
-        $target = $(target);
+        var $target = $(target);
         if ($target.length > 0) {
           $target.hover(function (event) {
             self.show(event.pageX + 5, event.pageY + 10, text);

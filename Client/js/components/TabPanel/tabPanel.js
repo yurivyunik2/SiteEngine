@@ -2,7 +2,7 @@
   //
   // TabPanel
   //
-  function TabPanel($parentElem, items) {
+  function TabPanel($parentElem, _panelItems) {
 
     var pathTemplate = "js/components/TabPanel/TabPanel.html";
 
@@ -50,80 +50,81 @@
 
     // self
     var self;
+    var panelItems;
+    var $parentElem;
 
     var EVENT_CLICK_BUTTON = "CLICK_BUTTON";
 
+    var activeItem;
+
     var btnNewVersionSelector = "#btnNewVersion";
     var selVersionSelector = "#selVersion";
-    var imgRemoveVersionSelector = "#imgRemoveVersion";
-    
+    var imgRemoveVersionSelector = "#imgRemoveVersion";    
     var logoutLinkSelector = "#logoutLink";
-    var userNameSelector = "#userName";
-    
-    
+    var userNameSelector = "#userName";    
 
     var dvVersionSelector = ".dvVersion";
+    var dvTabPanelID = "dvTabPanel";
+    var ulTabsID = "ulTabs";
+
+    var $panelElem;
 
     var tabPanelObj = {
-
-      items: null,
-
-      dvTabPanelID: "dvTabPanel",
-      ulTabsID: "ulTabs",
-
-      $parentElem: null,
-
-      $panelElem: null,
-
-      activeItem: null,
-
       constructor: function () {
         self = this;
 
         application.setTabPanel(self);
 
-        this.items = items;
-        this.items = testItems;
+        panelItems = _panelItems;
+        panelItems = testItems;
 
-        self.$parentElem = $($parentElem);
+        $parentElem = $($parentElem);
 
         var $template = $("<div></div>");
         $template.load(pathTemplate, function () {
+
+          // creating Tabs
           var $liTabs = $template.find("#liTabs");
           var liTabsTemplate = _.template($liTabs.html());
-          var content = liTabsTemplate({ items: testItems });
+          var content = liTabsTemplate({ panelItems: testItems });
 
-          var $ulTabs = $template.find("#" + self.ulTabsID);
+          var $ulTabs = $template.find("#" + ulTabsID);
           $ulTabs.html(content);
 
-          self.$parentElem.append($template.html());
+          $parentElem.append($template.html());
 
-          self.$panelElem = self.$parentElem.find("#" + self.dvTabPanelID);
+          $panelElem = $parentElem.find("#" + dvTabPanelID);
 
-          $ulTabs = self.$parentElem.find("#" + self.ulTabsID);
+          // tabChanged event
+          $ulTabs = $parentElem.find("#" + ulTabsID);
           var $arLI = $ulTabs.find("li");
           $arLI.bind("click", { self: self }, self.tabChanged);
           $($arLI[0]).click();
           
-          var $selLanguageElem = self.$parentElem.find(CONST.LANGUAGE_SELECTOR());
+          // languageChanged
+          var $selLanguageElem = $parentElem.find(CONST.LANGUAGE_SELECTOR());
           $selLanguageElem.change(self.languageChanged);
 
-          var $selVersionElem = self.$parentElem.find(selVersionSelector);
+          // versionChanged
+          var $selVersionElem = $parentElem.find(selVersionSelector);
           $selVersionElem.change(self.versionChanged);
           
-          var $btnNewVersionElem = self.$parentElem.find(btnNewVersionSelector);
+          // newVersionClick
+          var $btnNewVersionElem = $parentElem.find(btnNewVersionSelector);
           $btnNewVersionElem.click(self.newVersionClick);
           
-          var $imgRemoveVersionElem = self.$parentElem.find(imgRemoveVersionSelector);
+          // deleteVersionClick
+          var $imgRemoveVersionElem = $parentElem.find(imgRemoveVersionSelector);
           $imgRemoveVersionElem.click(self.deleteVersionClick);
 
-          var $logoutLinkElem = self.$parentElem.find(logoutLinkSelector);
+          // logoutClick
+          var $logoutLinkElem = $parentElem.find(logoutLinkSelector);
           $logoutLinkElem.click(self.logoutClick);
 
-
+          // session
           var session = application.getSession();
           if (session && session.isLogged) {
-            var $userNameElem = self.$parentElem.find(userNameSelector);
+            var $userNameElem = $parentElem.find(userNameSelector);
             $userNameElem.html(session.login);
           }          
         });
@@ -137,6 +138,48 @@
           return;
         
         self.keyDownEventFunc(uiData.keyDownEventLast);
+      },
+
+      populateTab: function () {
+        if (!activeItem)
+          return;
+
+        var arButtons = [];
+        _.each(buttonsAlways, function (button) {
+          arButtons.push(button);
+        });
+        var buttons = activeItem.buttons;
+        _.each(buttons, function (button) {
+          arButtons.push(button);
+        });
+
+        //var btnHTML = "<a href='#' class='button-ribbon' ></a>";
+        //var btnHtmlTempl = _.template("<a href='index.html#/Views/start' id='<%= button.id %>' action='<%= button.action %>' class='button-ribbon' ><%= button.name %></a>");
+        var btnHtmlTempl = _.template("<a href='index.html#/Views/start' id='<%= button.id %>' action='<%= button.action %>' class='button-ribbon' ><%= button.name %></a>");
+
+        var $dvContent = $panelElem.find("#dvTabContent");
+        $dvContent.html("");
+        _.each(arButtons, function (button) {
+          var html = btnHtmlTempl({ button: button });
+          var btnElem = $(html);
+          $dvContent.append(btnElem);
+        });
+        $dvContent.find(".button-ribbon").click(function (event) {
+          var $curTarget = $(event.currentTarget);
+          var action = $curTarget.attr("action");
+          if (action && action != "")
+            $(self).trigger(EVENT_CLICK_BUTTON, action);
+        });
+      },
+
+      tabChanged: function (event) {
+        if (!event || !event.data || !event.data.self)
+          return;
+        var $liActive = $(event.currentTarget);
+        var activeItems = _.where(panelItems, { id: $liActive.attr("id") });
+        if (activeItems.length > 0)
+          activeItem = activeItems[0];
+        self.populateTab();
       },
 
       treeGridItemSelected: function () {
@@ -172,39 +215,32 @@
         });
       },
 
-      tabChanged: function (event) {
-        if (!event || !event.data || !event.data.self)
-          return;
-        $liActive = $(event.currentTarget);
-        var activeItems = _.where(self.items, { id: $liActive.attr("id") });
-        if (activeItems.length > 0)
-          self.activeItem = activeItems[0];
-        self.populateTab();
-      },
-
       languageChanged: function (event) {
         var treeGrid;
         var engineTree = application.getEngineTree();
         if (engineTree) {
           treeGrid = engineTree.getTreeGrid();
         }
-
         if (treeGrid && treeGrid.selectedItem) {
           self.populateVersions();
           engineTree.infoPanel.populateInfoPanel(treeGrid.selectedItem);
         }
       },
       
+      //
+      // VERSIONS
+      //
+
+      // populateVersions
       populateVersions: function () {
         var treeGrid;
         var engineTree = application.getEngineTree();
         if (engineTree) {
           treeGrid = engineTree.getTreeGrid();
         }
-
         if (treeGrid && treeGrid.selectedItem) {
-          var $selVersionElem = self.$parentElem.find(selVersionSelector);
-          var $dvVersionElem = self.$parentElem.find(dvVersionSelector);
+          var $selVersionElem = $parentElem.find(selVersionSelector);
+          var $dvVersionElem = $parentElem.find(dvVersionSelector);
 
           var selItem = treeGrid.selectedItem;
           var fields = selItem.fields;
@@ -235,6 +271,7 @@
         }
       },
 
+      // versionChanged
       versionChanged: function (event) {
         var treeGrid;
         var engineTree = application.getEngineTree();
@@ -246,6 +283,7 @@
         }
       },
 
+      // deleteVersionClick
       deleteVersionClick: function (event) {
         var treeGrid;
         var engineTree = application.getEngineTree();
@@ -253,7 +291,7 @@
           treeGrid = engineTree.getTreeGrid();
         }
         if (treeGrid && treeGrid.selectedItem) {
-          var $selVersionElem = self.$parentElem.find(selVersionSelector);
+          var $selVersionElem = $parentElem.find(selVersionSelector);
           var curVersion = $selVersionElem.val();
 
           var selItem = treeGrid.selectedItem;
@@ -285,6 +323,7 @@
         }
       },
 
+      // newVersionClick
       newVersionClick: function (event) {
         var treeGrid;
         var engineTree = application.getEngineTree();
@@ -292,7 +331,7 @@
           treeGrid = engineTree.getTreeGrid();
         }
         if (treeGrid && treeGrid.selectedItem) {
-          var $selVersionElem = self.$parentElem.find(selVersionSelector);
+          var $selVersionElem = $parentElem.find(selVersionSelector);
 
           var selItem = treeGrid.selectedItem;
           //var fields = selItem.fields;
@@ -324,40 +363,6 @@
           
         }
       },
-
-      populateTab: function () {
-        if (!this.activeItem)
-          return;
-
-        var arButtons = [];
-        _.each(buttonsAlways, function (button) {
-          arButtons.push(button);
-        });
-        var buttons = this.activeItem.buttons;
-        _.each(buttons, function (button) {
-          arButtons.push(button);
-        });
-
-        //var btnHTML = "<a href='#' class='button-ribbon' ></a>";
-        //var btnHtmlTempl = _.template("<a href='index.html#/Views/start' id='<%= button.id %>' action='<%= button.action %>' class='button-ribbon' ><%= button.name %></a>");
-        var btnHtmlTempl = _.template("<a href='index.html#/Views/start' id='<%= button.id %>' action='<%= button.action %>' class='button-ribbon' ><%= button.name %></a>");
-
-        var $dvContent = this.$panelElem.find("#dvTabContent");
-        $dvContent.html("");
-        _.each(arButtons, function (button) {
-          var html = btnHtmlTempl({ button: button });
-          var btnElem = $(html);
-          $dvContent.append(btnElem);
-        });
-        $dvContent.find(".button-ribbon").click(function (event) {
-          var $curTarget = $(event.currentTarget);
-          var action = $curTarget.attr("action");
-          if (action && action != "")
-            $(self).trigger(EVENT_CLICK_BUTTON, action);
-        });
-      },
-      
-
 
     };
 

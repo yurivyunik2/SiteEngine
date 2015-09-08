@@ -185,8 +185,7 @@
 
         // mouse down on item-elem(imgArrow)
         var dvArrowElem = $trElem.find(".dvArrow");
-        dvArrowElem.mousedown([$trElem], function () {
-          
+        dvArrowElem.mousedown([$trElem], function () {          
           treeGrid.clickNode({ data: [$trElem] });
           event.stopPropagation();
         });

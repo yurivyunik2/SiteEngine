@@ -1,18 +1,16 @@
-﻿define(["application"], function (application) {
+﻿define(["application", "CONST"], function (application, CONST) {
   return function Row (treeGrid, item) {
     var self;
+
+    var srcArrowRight = "./images/node-collapsed.png";
+    var srcFolderClose = "./images/folderClose2.png";
+    var srcEditImg = "./images/edit16_16.png";
+    var srcRefreshImg = "./images/refresh.png";
 
     var row = {
       constructor: function () {
         self = this;
       },
-      srcArrowRight : "./images/node-collapsed.png",
-
-      srcFolderClose : "./images/folderClose2.png",
-
-      srcEditImg : "./images/edit16_16.png",
-
-      srcRefreshImg : "./images/refresh.png",
 
       // rendering of the item
       render: function (parent, marginLeft, isFiltered) {
@@ -26,15 +24,16 @@
 
         // appending of the elem
         var $trElem;
-        if ($(parent.elem)[0].nodeName == "TBODY") {
+        if ($(parent.elem)[0].nodeName === "TBODY") {
           parent.elem.append(html);
           $trElem = parent.elem.children().last();
-        } else if ($(parent.elem)[0].nodeName == "TR") {
+        } else if ($(parent.elem)[0].nodeName === "TR") {
           $trElem = $(html).insertAfter(parent.elem);
         }
 
         // set "tr" for item
-        item.trElem = $trElem[0];
+        if ($trElem && $trElem.length > 0)
+          item.trElem = $trElem[0];
 
         // event-definition
         this.rowEventDefine();
@@ -46,13 +45,13 @@
 
         // parentId
         var parentIdStr = "";
-        if (data.parent && data.parent.id && data.parent.id != '') {
+        if (data.parent && data.parent.id && data.parent.id !== '') {
           parentIdStr += 'parentId="' + data.parent.id + '"';
         }
 
         // margin-left
         var marginLeftStr = "";
-        if (data.marginLeft && data.marginLeft != '') {
+        if (data.marginLeft && data.marginLeft !== '') {
           marginLeftStr += "margin-left: " + data.marginLeft + "px;";
         }
 
@@ -66,8 +65,8 @@
           imgSrcFolderVisible = "inline-block;";
         }
 
-        var imgFolderSrc = this.srcFolderClose;
-        if (item.iconCustom && item.iconCustom != '') {
+        var imgFolderSrc = srcFolderClose;
+        if (item.iconCustom && item.iconCustom !== '') {
           imgSrcFolderVisible = "inline-block;";
           imgFolderSrc = item.iconCustom;
         }
@@ -86,7 +85,7 @@
           "<tr id='" + item.id + "' " + parentIdStr + " style='display:" + itemVisible + "'>\
             <td colName='name' class='tdFirst td-0' >\
               <div class='dvFirst' unselectable='on' style='" + marginLeftStr + ";' >\
-                <div class='dvArrow'><img class='imgArrow' style='visibility:" + imgSrcArrowVisible + "' src=" + this.srcArrowRight + " /></div>";
+                <div class='dvArrow'><img class='imgArrow' style='visibility:" + imgSrcArrowVisible + "' src=" + srcArrowRight + " /></div>";
               
         if (treeGrid.getIsCheckBoxElem())
           html += "<input type='button' role='checkbox' class='inputCheckbox " + checkedClass + "' aria-checked='true' style='width: 13px;'>";
@@ -111,9 +110,6 @@
 
           treeGrid.$trDragStart = $(this);
           treeGrid.isDrag = true;
-
-          //var dataRequest = treeGrid.getDataRequest();
-          //var data = "{ id: '" + this.id + "', database: '" + dataRequest.database + "', language: '" + dataRequest.language + "'}";
 
           var selItem = treeGrid.hashItems[this.id];
           treeGrid.selectedItem = selItem;
@@ -145,53 +141,9 @@
             //  //responseData.error
             //}
 
-            if (treeGrid) {
-              if (treeGrid.infoPanel)
-                treeGrid.infoPanel.populateInfoPanel(selItem);
-
-              //
-              application.treeGridItemSelected();
-            }
-          });
-
-          //var data = { action: "getItemFields", id: selItem.id, templateId: selItem.templateId };
-
-          //application.httpRequest(data, function (responseData) {
-          //  //var responseData = JSON.parse(response);            
-          //  if (responseData.isOK) {
-          //    self.isRequestProcess = false;
-          //    var fields = responseData.data;
-          //    //var filterFields = {};
-          //    //_.each(fields, function (field) {
-          //    //  filterFields[field.fieldId] = field;
-          //    //});
-          //    ////_.each(fields, function (field) {
-          //    ////  if (field.itemId == selItem.id)
-          //    ////    filterFields[field.fieldId] = field;
-          //    ////});
-          //    //var arKeys = _.keys(filterFields);
-          //    //var arFields = [];
-          //    //_.each(arKeys, function (key) {
-          //    //  arFields.push(filterFields[key]);
-          //    //});              
-          //    //selItem.fields = arFields;
-              
-          //    selItem.fields = fields;
-          //  } else {
-          //    //responseData.error
-          //  }
-
-          //  if (treeGrid) {
-          //    if (treeGrid.infoPanel)
-          //      treeGrid.infoPanel.populateInfoPanel(selItem);
-
-          //    //
-          //    application.treeGridItemSelected();
-          //  }
-          //}, function () {
-            
-          //});          
-          
+            //
+            application.treeGridItemSelected();
+          });          
         });
 
         $trElem.mousemove(function (event) {
@@ -214,29 +166,30 @@
             
             treeGrid.$dragLine.css("width", treeGrid.$trDrag.find(".dvData")[0].offsetWidth + "px");
           }
-
-          //$("table").css("cursor", "pointer");
+          
           event.preventDefault();
         });
-
 
         //
         $trElem.dblclick([$trElem], treeGrid.clickNode);
 
-        $trElem.keydown(function (event) {
-          console.log("keydown");
-        });
-
         // menu for first column
         var tdFirstElem = $trElem.find(".tdFirst");
         tdFirstElem.mousedown(function (event) {
-          if (event.which == 3) // right click
-            treeGrid.menuItem.show(event.pageX + 5, event.pageY, item);
+          if (event.which === CONST.RIGHT_MOUSE_KEY()) {  // right click
+            var menuItem = application.getMenuItemEngineTree();
+            if (menuItem)
+              menuItem.show(event.pageX + 5, event.pageY, item);
+          }            
         });
 
         // mouse down on item-elem(imgArrow)
         var dvArrowElem = $trElem.find(".dvArrow");
-        dvArrowElem.mousedown([$trElem], treeGrid.clickNode);
+        dvArrowElem.mousedown([$trElem], function () {
+          
+          treeGrid.clickNode({ data: [$trElem] });
+          event.stopPropagation();
+        });
 
         // checkbox-mousedown
         var inputCheckboxElem = $trElem.find(".inputCheckbox");
@@ -246,8 +199,8 @@
 
           var item = self.hashItems[trElem.id];
           self.checkNode(item);
-        });
-        
+          event.stopPropagation();
+        });        
       },
 
     };

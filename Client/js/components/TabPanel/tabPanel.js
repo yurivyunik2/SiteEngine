@@ -189,9 +189,8 @@
           treeGrid = engineTree.getTreeGrid();
         }
 
-        if (treeGrid) {
+        if (treeGrid && treeGrid.selectedItem) {
           self.populateVersions();
-
           engineTree.infoPanel.populateInfoPanel(treeGrid.selectedItem);
         }
       },

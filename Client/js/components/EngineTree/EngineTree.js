@@ -28,13 +28,12 @@ function (application, CONST, TreeGrid, MenuItem, InfoPanel, TooltipCustom) {
     var self;
     var $parentElem;
     var treeGrid;
+    var menuItem;
 
     var EngineTree = {
       srcEditImg: "./images/edit16_16.png",
 
-      tooltip: undefined,
-
-      menuItem: undefined,
+      tooltip: undefined,      
 
       isInfoPanelResize: false,
       
@@ -55,11 +54,12 @@ function (application, CONST, TreeGrid, MenuItem, InfoPanel, TooltipCustom) {
         this.tooltip = new TooltipCustom(false);
 
         // Menu for Item
-        this.menuItem = new MenuItem();
-        $(this.menuItem).on(this.menuItem.EVENT_CLICK_ITEM(), function (event, dataEvent) {
+        menuItem = new MenuItem();
+        $(menuItem).on(menuItem.EVENT_CLICK_ITEM(), function (event, dataEvent) {
           var actionCtrl = application.getActionCtrl();
           actionCtrl.process(dataEvent);
         });
+        application.setMenuItemEngineTree(menuItem);
 
         //
         this.renderControlPanel();
@@ -85,8 +85,8 @@ function (application, CONST, TreeGrid, MenuItem, InfoPanel, TooltipCustom) {
       
       getTreeGrid: function () { return treeGrid; },
 
-      treeGridOpenCloseNodeEventHandler: function () {
-        if (self.infoPanel)
+      treeGridOpenCloseNodeEventHandler: function (item) {
+        if (item && item.isOpened && self.infoPanel)
           self.infoPanel.resizeInfoPanel();
       },
 
@@ -147,8 +147,8 @@ function (application, CONST, TreeGrid, MenuItem, InfoPanel, TooltipCustom) {
           });
 
         }
-        if (self.menuItem)
-          self.menuItem.updateInsertOptions(arInsertItems);
+        if (menuItem)
+          menuItem.updateInsertOptions(arInsertItems);
       },
 
       // initializing of events
@@ -158,10 +158,10 @@ function (application, CONST, TreeGrid, MenuItem, InfoPanel, TooltipCustom) {
         // mousedown
         $parentElem.mousedown(function (event) {
           if (event.which !== CONST.RIGHT_MOUSE_KEY()) { // if it's not right click
-            if (event.target && self.menuItem.hasElem(event.target)) {
+            if (event.target && menuItem.hasElem(event.target)) {
               event.target.click(event);
             } else {
-              self.menuItem.hide();
+              menuItem.hide();
             }
           }
         });

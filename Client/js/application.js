@@ -13,6 +13,7 @@ define(["CONST", "notification"], function (CONST, Notification) {
     var actionCtrl;
     var tabPanel;
     var richTextEditorCtrl;
+    var menuItemEngineTree;
 
     var keyDownEventLast;
     var uiComponents = {};
@@ -173,6 +174,9 @@ define(["CONST", "notification"], function (CONST, Notification) {
           tabPanel = _tabPanel;
       },
       getTabPanel: function() { return tabPanel; },
+
+      setMenuItemEngineTree: function (menuItem) { menuItemEngineTree = menuItem; },
+      getMenuItemEngineTree: function () { return menuItemEngineTree; },
 
       addUserManager: function(userManager) {
         if (userManager) {

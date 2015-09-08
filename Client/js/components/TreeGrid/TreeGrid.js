@@ -29,8 +29,6 @@ define(["application", "row", "headerRow", "CONST", "css!TreeGridCss"], function
     var srcRefreshImg = "./images/refresh.png";
 
     var objTreeGrid = {
-      $el: undefined,
-
       selectedItem: null,
       selectedTemplate: null,
 
@@ -198,17 +196,12 @@ define(["application", "row", "headerRow", "CONST", "css!TreeGridCss"], function
 
         //
         var tableHeader = $parentElem.find("#tbHeader").find("tbody");
-
         var tableHeaderRow = new HeaderRow(this, tableHeader);
         tableHeaderRow.render();
         
 
-        ////
-        var tableMain = $parentElem.find("#tbMain").find("tbody");
-        //var tableMainHeaderRow = new HeaderRow(this, tableMain);
-        //tableMainHeaderRow.render(true);
-
         //
+        var tableMain = $parentElem.find("#tbMain").find("tbody");
         this.counterRenderedItems = 0;
         for (var i = 0; i < this.treeItems.length; i++) {
           this.renderItem(tableMain, this.treeItems[i], isFiltered);
@@ -217,15 +210,12 @@ define(["application", "row", "headerRow", "CONST", "css!TreeGridCss"], function
       
       // rendering of the item
       renderItem: function (parentElem, item, parentId, marginLeft, isFiltered) {
-        //var self = this;
-
         self.counterRenderedItems++;
         if (self.counterRenderedItems >= self.maxAmountRenderedItems)
           return;
 
         // hash item
         this.hashItems[item.id] = item;
-
 
         var row = new Row(this, item);
         return row.render({ elem: parentElem, id: parentId }, marginLeft, isFiltered);
@@ -294,6 +284,11 @@ define(["application", "row", "headerRow", "CONST", "css!TreeGridCss"], function
       // END EVENTS
       //
 
+
+      //
+      // NODES
+      //
+
       // updating of opened nodes(and sub-nodes) - if we open node then pass through sub-nodes and open them if they were opened early
       updateOpenNodes: function (childItems) {
         if (!childItems)
@@ -309,12 +304,13 @@ define(["application", "row", "headerRow", "CONST", "css!TreeGridCss"], function
       },
 
       // checking node(with sub-nodes)
-      checkNode: function (item) {
+      checkNode: function (item, parent) {
         if (item) {
-          if (item.isChecked)
-            item.isChecked = false;
-          else
-            item.isChecked = true;
+          if (parent) {
+            item.isChecked = parent.isChecked;
+          } else {
+            item.isChecked = item.isChecked ? false : true;
+          }
 
           var trElem = item.trElem;
           if (trElem) {
@@ -328,7 +324,7 @@ define(["application", "row", "headerRow", "CONST", "css!TreeGridCss"], function
           if (item.children) {
             var children = item.children;
             for (var i = 0; i < children.length; i++) {
-              this.checkNode(item.childrenHash[children[i].id]);
+              this.checkNode(item.childrenHash[children[i].id], item);
             }
           }
         }
@@ -361,6 +357,7 @@ define(["application", "row", "headerRow", "CONST", "css!TreeGridCss"], function
         $(trElem).mousedown();
       },      
 
+      // setOpenCloseNodeEvent
       setOpenCloseNodeEvent: function (_openCloseNodeEvent) {
         openCloseNodeEvent = _openCloseNodeEvent;
       },
@@ -420,21 +417,7 @@ define(["application", "row", "headerRow", "CONST", "css!TreeGridCss"], function
                     marginLeftVar += parseInt(marginLeft);
 
                   self.renderItem($(trElem), parentObj.childrenHash[parentObj.children[i].id], parentObj.id, marginLeftVar, self.isFiltered);
-                }
-              
-              //else { // if html-elems exists - then show/hide them
-              //  for (var i = 0; i < childElems.length; i++) {
-              //    var trElem = childElems[i];
-              //    var parentId = $(trElem).attr("parentId");
-              //    parentObj = self.hashParentItems[parentId];
-
-              //    var display = "none";
-              //    if (parentObj.isOpened) {
-              //      display = "table-row";
-              //    }
-              //    $(trElem).css("display", display);
-              //  }
-              //}
+                }              
             }
           } else { // Closed
             $(childElems).css("display", "none");
@@ -442,7 +425,7 @@ define(["application", "row", "headerRow", "CONST", "css!TreeGridCss"], function
         }
 
         if (openCloseNodeEvent)
-          openCloseNodeEvent();
+          openCloseNodeEvent(parentObj);
       },
 
       addChildNode: function (newItem, isNodeUpdate) {
@@ -495,6 +478,9 @@ define(["application", "row", "headerRow", "CONST", "css!TreeGridCss"], function
           $(parentItem.trElem).mousedown();
         } catch (ex) { }
       },
+      //
+      // END NODES
+      //
 
       getChildsWithParent: function (childElems, parentId, parentElem) {
         var listElems;
@@ -520,7 +506,6 @@ define(["application", "row", "headerRow", "CONST", "css!TreeGridCss"], function
         var newWidth = $dvTableMainElem[0].clientWidth + diff;
         $dvTableMainElem.css("width", newWidth + "px");
       },
-
 
       //
       // FILTERING

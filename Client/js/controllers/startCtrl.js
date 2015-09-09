@@ -96,21 +96,13 @@ function (application, CONST, EngineTree, ActionCtrl, ModalFormCtrl, TabPanel, P
             treeGrid.populate(items);
             if (treeGrid.treeItems && treeGrid.treeItems.length > 0) {
               var trElem = treeGrid.treeItems[0].trElem;
-              treeGrid.openCloseNode(trElem);
-              $(trElem).mousedown();
+              if (trElem) {
+                treeGrid.openCloseNode(trElem);
+                $(trElem).mousedown();
+              }
             }
           }          
         });
-
-        ////
-        //engineTree.refresh(true, function () {
-        //  var treeGrid = engineTree.getTreeGrid();
-        //  if (treeGrid.treeItems && treeGrid.treeItems.length > 0) {
-        //    var trElem = treeGrid.treeItems[0].trElem;
-        //    treeGrid.openCloseNode(trElem);
-        //    $(trElem).mousedown();
-        //  }
-        //});
 
       },
       

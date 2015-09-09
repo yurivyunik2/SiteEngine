@@ -531,18 +531,36 @@ define(["CONST", "notification"], function (CONST, Notification) {
           success(function (response, status, headers, config) {
             if (success) {
               success(response);
-              if(data.isNotified)
-                Notification.show(Notification.INFO(), "Successfully!");
+              self.showNotification(data, response);
             }            
           }).
           error(function (response, status, headers, config) {
             if(error)
               error(response, status, header, config);
-            if (data.isNotified)
-              Notification.show(Notification.ERROR(), "Error: " + response);
+            self.showNotification(data, response);
           });
       },
       
+      showNotification: function (data, response) {
+        if (!data || !data.isNotified)
+          return;
+        var actionName;
+        if (data.actionName)
+          actionName = data.actionName;
+        else if (data.action)
+          actionName = data.action;
+        if (actionName) {
+          if (response && response.isOK)
+            Notification.show(Notification.INFO(), actionName + " was successfully!");
+          else {
+            if (response)
+              Notification.show(Notification.ERROR(), actionName + " was finished with error: " + response);
+            else
+              Notification.show(Notification.ERROR(), actionName + " was finished with error!");
+          }
+        }
+      },
+
       isCorrectHeightOnce: false,
       correctHeightWindow: function () {
         var $dvTabContent = $("#dvTabContent");

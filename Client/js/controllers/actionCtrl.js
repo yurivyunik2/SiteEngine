@@ -151,7 +151,8 @@ function (application, Notification, PanelFormCtrl, PanelTypes) {
             fields: item.fields,
             parent: item.parent,
           },
-          isNotified: true
+          isNotified: true,
+          actionName: "Saving",
         };
 
         application.httpRequest(requestData, function (response) {
@@ -181,7 +182,8 @@ function (application, Notification, PanelFormCtrl, PanelTypes) {
             id: item.id,
             fields: item.fields,
           },
-          isNotified: true
+          isNotified: true,
+          actionName: "Deleting",
         };
 
         application.httpRequest(requestData, function (response) {

@@ -1,0 +1,93 @@
+﻿<!--<link rel="stylesheet" type="text/css" href="/SiteEngine/Client/js/controllers/login/animate.css">-->
+<link rel="stylesheet" type="text/css" href="/SiteEngine/Client/js/controllers/login/login.css">
+
+<div class="dvInner">
+    <div class="dvCenter">
+      <div class="dvCenterContent">
+
+
+
+        <!--<div class="dvTop">
+          <img src="/siteengine/client/images/login/logo.png">
+        </div>
+        <div class="dvMiddle">
+          <div ng-show="(error != '')" class="dvField dvError">
+            <div>
+              <span>{{error}}</span>
+            </div>
+          </div>
+          <div class="dvField">
+            <span>User name:</span>
+            <input ng-model="userName" name="UserName" type="text" value="" id="UserName" class="form-control" placeholder="Enter user name" autofocus="">
+          </div>
+          <div class="dvField">
+            <span>User password:</span>
+            <input ng-model="userPassword" name="UserPassword" type="password" value="" id="UserPassword" class="form-control" placeholder="Enter user password" autofocus="">
+          </div>
+
+          <div class="dvField">
+            <input id="btnLogin" ng-click="clickLogin($event)" type="submit" value="Log in" class="btn btn-primary btn-block">
+          </div>
+
+          <div class="dvField dvRememberFunc">
+            <div>
+              <label class="">
+                <input id="RememberMe" type="checkbox" name="RememberMe">Remember me
+              </label>
+            </div>
+            <div>
+              <a href="#" class="show-recovery">Forgot your password?</a>
+            </div>
+          </div>
+
+        </div>-->
+
+
+
+  <div id="container">
+			
+			<form>
+
+        <div ng-show="(error != '')" class="dvField dvError">
+          <div>
+            <span>{{error}}</span>
+          </div>
+        </div>
+
+			  <label for="username">Username:</label>
+
+			  <!--<input type="text" id="username" name="username">-->
+        <input ng-model="userName" name="UserName" type="text" value="" id="UserName" class="form-control" placeholder="Enter user name" autofocus="">
+				
+				<label for="password">Password:</label>
+				
+				<p><a href="#">Forgot your password?</a></p>
+
+			  <!--<input type="password" id="password" name="password">-->
+        <input ng-model="userPassword" name="UserPassword" type="password" value="" id="UserPassword" class="form-control" placeholder="Enter user password" autofocus="">
+				
+				<div id="lower">
+
+				  <!--<input type="checkbox"><label class="check" for="checkbox">Keep me logged in</label>-->
+				  
+          <label class="check" >
+            <input id="RememberMe" type="checkbox" name="RememberMe">Remember me
+          </label>
+
+
+				  <!--<input type="submit" value="Login">-->
+          <input id="btnLogin" ng-click="clickLogin($event)" type="submit" value="Log in" >
+				
+				</div><!--/ lower-->
+			
+			</form>
+			
+		</div>
+
+
+
+
+
+      </div>
+    </div>
+</div>

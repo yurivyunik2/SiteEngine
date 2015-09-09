@@ -3,7 +3,7 @@ require.config({
   paths: {
     tabPanel: "js/components/TabPanel/tabPanel",
     startCtrl: "js/controllers/startCtrl",
-    loginCtrl: "js/controllers/loginCtrl"
+    loginCtrl: "js/controllers/login/loginCtrl"
   },
 });
 
@@ -25,9 +25,8 @@ define([
 	      //controller: "StartCtrl"
 	    //redirectTo: CONST.APPLICATION_START_VIEW() + "1"
 	    //redirectTo: "#/Views/start"
-	    templateUrl: "/SiteEngine/Client/Views/pages/login/login.html",
+	    templateUrl: "/SiteEngine/Client/js/controllers/login/login.html",
 	    controller: "LoginCtrl"
-
 	  })
 	    .when("/Views/start", {
 	    //redirectTo: CONST.APPLICATION_START_VIEW()
@@ -36,7 +35,7 @@ define([
 	    })
 	    .when("/login", {
 	      //redirectTo: CONST.APPLICATION_START_VIEW()
-	      templateUrl: "/SiteEngine/Client/Views/pages/login/login.html",
+	      templateUrl: "/SiteEngine/Client/js/controllers/login/login.html",
 	      controller: "LoginCtrl"
 	    })
 	    .otherwise({ redirectTo: CONST.APPLICATION_START_VIEW() });

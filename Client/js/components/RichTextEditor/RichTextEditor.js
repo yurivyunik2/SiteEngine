@@ -37,10 +37,31 @@ define(["application", "CONST", "customEditor"], function (application, CONST, c
         application.addUIComponent("richTextEditor", self);
       },
 
+      intervalUI: function (uiData) {
+        if (arInitElements.length > 0) {
+          var isClearInit = false;
+          _.each(arInitElements, function (idElem) {
+            // assign "addGalleryButtonForImage" function for Image button in rich-editor
+            var idConvertedElement = "#" + idPrefix + idElem;
+            var $richElement = $(idConvertedElement);
+            if ($richElement.length > 0) {
+              isClearInit = true;
+              var $btnImage = $richElement.find(classImageBtn);
+              $btnImage.attr("idElem", idElem);
+              $btnImage.click(function (event) {
+                setTimeout(self.addGalleryButtonForImage, 400, { event: event });
+              });
+            }
+          });
+          if (isClearInit)
+            arInitElements = [];
+        }
+      },
+
       isWysiwygareaAvailable: function () {
         // If in development mode, then the wysiwygarea must be available.
         // Split REV into two strings so builder does not replace it :D.
-        if ( CKEDITOR.revision == ( '%RE' + 'V%' ) ) {
+        if ( CKEDITOR.revision === ( '%RE' + 'V%' ) ) {
           return true;
         }
         return !!CKEDITOR.plugins.get( 'wysiwygarea' );
@@ -65,31 +86,7 @@ define(["application", "CONST", "customEditor"], function (application, CONST, c
         arInitElements.push(idReplaceElem);
       },
 
-      intervalUI: function (uiData) {
-        //if (!uiData || !uiData.keyDownEventLast)
-        //  return;
-
-        //self.keyDownEventFunc(uiData.keyDownEventLast);
-
-        if (arInitElements.length > 0) {
-          var isClearInit = false;
-          _.each(arInitElements, function (idElem) {
-            var idConvertedElement = "#" + idPrefix + idElem;
-            var $richElement = $(idConvertedElement);
-            if ($richElement.length > 0) {
-              isClearInit = true;
-              var $btnImage = $richElement.find(classImageBtn);
-              $btnImage.attr("idElem", idElem);
-              $btnImage.click(function(event) {
-                setTimeout(self.addGalleryButtonForImage, 300, { event: event });
-              });
-            }
-          });
-          if (isClearInit)
-            arInitElements = [];          
-        }
-      },
-
+      // adding of the button for open Media(Image) gallery in ImageProperties dialog
       addGalleryButtonForImage: function (data) {
         if (!data || !data.event)
           return;
@@ -106,18 +103,19 @@ define(["application", "CONST", "customEditor"], function (application, CONST, c
             var $btnImgGallery = $inputUrl.parent().find(".dvBtnImgGallery");
             $btnImgGallery.click(self.imageGalleryOpen);
           }
-
         }
-        
       },
 
+      // open of the Image Gallery
       imageGalleryOpen: function() {
         var modalFormCtrl = application.getModalFormCtrl();
         modalFormCtrl.showType(modalFormCtrl.FORM_TYPE().IMAGE_GALLERY, { isMultipleSelect: false, callback: self.imageGalleryOpenCallback });
       },
+      // imageGalleryOpenCallback
       imageGalleryOpenCallback: function (data) {
         if (data && data.formCtrl && data.formCtrl.getSelectedItems) {
           var selectedItems = data.formCtrl.getSelectedItems();
+          // set of the selected image inot "input" in image dialog
           if (selectedItems && selectedItems.length > 0) {
             var selItem = selectedItems[0];
             if (selItem && selItem.type === CONST.MEDIA_TYPES().IMAGE() && selItem.imgSrc && selItem.imgSrc !== "") {

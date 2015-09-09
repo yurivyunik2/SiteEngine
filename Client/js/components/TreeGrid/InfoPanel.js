@@ -116,8 +116,7 @@ define(["application", "CONST", "richTextEditor"], function (application, CONST,
             if (field.type && !isNaN(parseInt(field.type))) {
               if (parseInt(field.type) === CONST.RICH_TEXT_TYPE()) {
                 //html += "<td><textarea id='" + field.fieldId + "' class='scrollCustom itemField'>" + field.value + "</textarea></br></br></td>";
-                html += "<td><div id='rich_" + field.fieldId + "' class='scrollCustom itemField'>" + field.value + "</div></br></br>";
-                html += "<div id='rich2_" + field.fieldId + "' class='scrollCustom itemField'>" + field.value + "</div></br></br>";
+                html += "<td><div id='rich_" + field.fieldId + "' class='scrollCustom itemField'>" + field.value + "</div></br></br>";                
                 html += "</td>";
 
               } else if (parseInt(field.type) === CONST.INTEGER_TYPE() || parseInt(field.type) === CONST.NUMBER_TYPE()) { //INTEGER
@@ -137,16 +136,15 @@ define(["application", "CONST", "richTextEditor"], function (application, CONST,
 
             tbody.append(html);
 
+            // RICH_TEXT_TYPE - converting of the component using "RichTextEditorCtrl"
             if (parseInt(field.type) === CONST.RICH_TEXT_TYPE()) {
               //var $fieldElem = $("id=#" + field.fieldId);
               var richTextEditor = application.getRichTextEditorCtrl();
-              richTextEditor.convertElement("rich_" + field.fieldId, field.value);
-              richTextEditor.convertElement("rich2_" + field.fieldId, field.value);
+              richTextEditor.convertElement("rich_" + field.fieldId, field.value);              
             }
 
           }
         }
-
       },
 
       setValuesForItemFields: function (item) {

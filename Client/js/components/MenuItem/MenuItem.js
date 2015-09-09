@@ -9,7 +9,7 @@
 //
 define(["application", "css!menuItemCss"], function (application) {
 
-  var menuTestItems = [{
+  var menuTestItems = [{ 
     id: 'menu_insert',
     img: 'images/insert.png',
     title: 'Insert',

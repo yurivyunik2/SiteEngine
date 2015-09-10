@@ -28,6 +28,10 @@ function (application, CONST, EngineTree, ActionCtrl, ModalFormCtrl, TabPanel, P
 
     var self;
 
+    var isLoadUsers = false;
+    var isLoadRoles = false;
+    var isLoadItems = false;
+
     var startCtrlObj = {
       constructor: function () {
 
@@ -87,12 +91,28 @@ function (application, CONST, EngineTree, ActionCtrl, ModalFormCtrl, TabPanel, P
         application.setRichTextEditorCtrl(richTextEditor);
 
         // users
-        application.loadUsers();
-        application.loadUserRoles();
-
+        application.loadUsers(function(user) {
+          isLoadUsers = true;
+        });
+        application.loadUserRoles(function(roles) {
+          isLoadRoles = true;
+        });
         application.loadItems(function (items) {
-          var treeGrid = engineTree.getTreeGrid();
-          if (treeGrid) {
+          isLoadItems = true;
+        });
+
+        //
+        application.addUIComponent("startCtrl", self);
+      },
+
+      intervalUI: function (uiData) {
+        if (isLoadUsers && isLoadRoles && isLoadItems) {
+          var items = application.getItems();
+          var engineTree = application.getEngineTree();
+          if (!items || !engineTree)
+            return;
+          var treeGrid = engineTree.getTreeGrid();          
+          if (treeGrid) {            
             treeGrid.populate(items);
             if (treeGrid.treeItems && treeGrid.treeItems.length > 0) {
               var trElem = treeGrid.treeItems[0].trElem;
@@ -101,11 +121,11 @@ function (application, CONST, EngineTree, ActionCtrl, ModalFormCtrl, TabPanel, P
                 $(trElem).mousedown();
               }
             }
-          }          
-        });
-
+          }
+          application.removeUIComponent("startCtrl");
+        }
       },
-      
+
     };
     startCtrlObj.constructor();
     return startCtrlObj;

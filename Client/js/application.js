@@ -111,8 +111,8 @@ define(["CONST", "notification"], function (CONST, Notification) {
         if (key && component)
           uiComponents[key] = component;
       },
-      removeUIComponent: function(component) {
-        //uiComponents.remove(component);
+      removeUIComponent: function(key) {
+        delete uiComponents[key];
       },
 
       intervalUI: function() {
@@ -204,7 +204,8 @@ define(["CONST", "notification"], function (CONST, Notification) {
             //response.error
           }
         }, function error(response, status, headers) {
-
+          if (callback)
+            callback();
         });
       },
 
@@ -228,7 +229,8 @@ define(["CONST", "notification"], function (CONST, Notification) {
             //response.error
           }
         }, function error(response, status, headers) {
-
+          if (callback)
+            callback();
         });
       },
       newUser: function(newUser) {

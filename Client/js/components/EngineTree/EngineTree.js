@@ -20,8 +20,6 @@ define(["application",
       ],
 function (application, CONST, TreeGrid, MenuItem, InfoPanel, TooltipCustom) {
 
-  var templates;
-
   // view
   return function (_$parentElem) {
 
@@ -30,13 +28,19 @@ function (application, CONST, TreeGrid, MenuItem, InfoPanel, TooltipCustom) {
     var treeGrid;
     var menuItem;
 
-    var EngineTree = {
+    var $dvTableElem;
+    var $dvTableMainElem;
+    var $dvInfoPanelElem;
+
+    var resizeCursorInverval = 6;
+
+    var engineTree = {
       srcEditImg: "./images/edit16_16.png",
 
-      tooltip: undefined,      
+      tooltip: undefined,
 
       isInfoPanelResize: false,
-      
+
       prevInfoPanelResizeX: -1,
       infoPanel: undefined,
 
@@ -44,7 +48,7 @@ function (application, CONST, TreeGrid, MenuItem, InfoPanel, TooltipCustom) {
 
       hashInsertOptions: {},
 
-      initialize: function() {
+      constructor: function() {
 
         $parentElem = _$parentElem;
 
@@ -55,7 +59,7 @@ function (application, CONST, TreeGrid, MenuItem, InfoPanel, TooltipCustom) {
 
         // Menu for Item
         menuItem = new MenuItem();
-        $(menuItem).on(menuItem.EVENT_CLICK_ITEM(), function (event, dataEvent) {
+        $(menuItem).on(menuItem.EVENT_CLICK_ITEM(), function(event, dataEvent) {
           var actionCtrl = application.getActionCtrl();
           actionCtrl.process(dataEvent);
         });
@@ -63,7 +67,7 @@ function (application, CONST, TreeGrid, MenuItem, InfoPanel, TooltipCustom) {
 
         //
         this.renderControlPanel();
-        
+
         //
         var $dvTableElem = $parentElem.find(".dvTable");
         treeGrid = new TreeGrid($dvTableElem);
@@ -78,12 +82,38 @@ function (application, CONST, TreeGrid, MenuItem, InfoPanel, TooltipCustom) {
 
         //
         application.correctHeightWindow();
-        
+
         // add to UI components
         application.addUIComponent("engineTree", self);
       },
-      
-      getTreeGrid: function () { return treeGrid; },
+
+      getTreeGrid: function() { return treeGrid; },
+
+      isAvailableElements: function () {
+        // dvTable
+        if (!$dvTableElem || $dvTableElem.length === 0) {
+          $dvTableElem = $parentElem.find(".dvTable");
+          if ($dvTableElem.length > 0) {
+            $dvTableElem.mousedown(self.mouseDownElement);
+          }
+        }        
+        // dvTableMain
+        if (!$dvTableMainElem || $dvTableMainElem.length === 0) {
+          $dvTableMainElem = $parentElem.find(".dvTableMain");
+          if ($dvTableMainElem.length > 0) {
+            $dvTableMainElem.mousedown(self.mouseDownElement);
+          }
+        }        
+        // dvInfoPanel
+        if (!$dvInfoPanelElem || $dvInfoPanelElem.length === 0) {
+          $dvInfoPanelElem = $parentElem.find(".dvInfoPanel");
+          if ($dvInfoPanelElem.length > 0) {
+            $dvInfoPanelElem.mousedown(self.mouseDownElement);
+          }
+        }        
+
+        return ($dvTableElem.length === 0 || $dvTableMainElem.length === 0 || $dvInfoPanelElem.length === 0) ? false : true;
+      },
 
       treeGridOpenCloseNodeEventHandler: function (item) {
         if (item && item.isOpened && self.infoPanel)
@@ -153,57 +183,81 @@ function (application, CONST, TreeGrid, MenuItem, InfoPanel, TooltipCustom) {
 
       // initializing of events
       defineComponentEvents: function () {
-        var self = this;
-
         // mousedown
-        $parentElem.mousedown(function (event) {
-          if (event.which !== CONST.RIGHT_MOUSE_KEY()) { // if it's not right click
-            if (event.target && menuItem.hasElem(event.target)) {
-              event.target.click(event);
-            } else {
-              menuItem.hide();
-            }
-          }
-        });
+        $parentElem.mousedown(self.mouseDownWindow);
 
         // window - mouseup
-        $(window).mouseup(function (event) {
-          self.isInfoPanelResize = false;
-        });
+        $(window).mouseup(self.mouseUpWindow);
 
-        $(window).mousemove(function (event) {
-          //var dvInfoPanelElem = $parentElem.find(".dvInfoPanel");
-          //console.log("event.pageX=" + event.pageX);
-          //console.log("dvInfoPanelElem[0].offsetLeft=" + dvInfoPanelElem[0].offsetLeft);
-          //if (event.pageX >= (dvInfoPanelElem[0].offsetLeft - 5) && event.pageX <= (dvInfoPanelElem[0].offsetLeft + 5)) {
-          if (event.pageX <= (self.$dvInfoPanelElem[0].offsetLeft + 5)) {
-            self.$dvInfoPanelElem.css("cursor", "w-resize");
-          }
-          else {
-            self.$dvInfoPanelElem.css("cursor", "default");
-          }
-
-          //console.log("mousemove: isInArea=" + isInArea);
-          //console.log("mousemove: event.pageX=" + event.pageX);
-          //console.log("mousemove: (dvInfoPanelElem[0].offsetLeft + 5)=" + (dvInfoPanelElem[0].offsetLeft + 5));
-
-          if (self.isInfoPanelResize && self.prevInfoPanelResizeX >= 0 && treeGrid) {
-            var diff = event.pageX - self.prevInfoPanelResizeX;
-            treeGrid.resize(diff);
-
-            self.infoPanel.resizeInfoPanel();
-          }
-          self.prevInfoPanelResizeX = event.pageX;          
-
-          // for not-selecting html-elements
-          event.preventDefault();
-        });
+        $(window).mousemove(self.mouseMoveWindow);
 
         // menu disabling
         document.oncontextmenu = function () {
           return false;
         };
+      },
 
+      mouseDownElement: function (event) {
+        var edgePoint = this.offsetLeft;
+        if (edgePoint === 0)
+          edgePoint += this.clientWidth;
+        if (event.pageX >= (edgePoint - resizeCursorInverval) && event.pageX <= (edgePoint + resizeCursorInverval)) {
+          self.isInfoPanelResize = true;
+        } else {
+          self.isInfoPanelResize = false;
+        }
+      },
+
+      mouseDownWindow: function(event) {
+        if (event.which !== CONST.RIGHT_MOUSE_KEY()) { // if it's not right click
+          if (event.target && menuItem.hasElem(event.target)) {
+            event.target.click(event);
+          } else {
+            menuItem.hide();
+          }
+        }
+      },
+
+      mouseUpWindow: function(event) {
+        self.isInfoPanelResize = false;
+      },
+
+      mouseMoveWindow: function(event) {
+        if (!self.isAvailableElements())
+          return;
+
+        var leftEdge = ($dvTableMainElem[0].offsetLeft + $dvTableMainElem[0].clientWidth - resizeCursorInverval);
+        var rightEdge = ($dvInfoPanelElem[0].offsetLeft + resizeCursorInverval);
+        if (event.pageX >= leftEdge && event.pageX <= rightEdge) {
+          $dvTableElem.css("cursor", "w-resize");
+          $dvTableMainElem.css("cursor", "w-resize");
+          $dvInfoPanelElem.css("cursor", "w-resize");
+        }
+        else {
+          $dvTableElem.css("cursor", "default");
+          $dvTableMainElem.css("cursor", "default");
+          $dvInfoPanelElem.css("cursor", "default");
+        }
+        
+        var isResize = true;
+        if (event.pageX >= ($dvInfoPanelElem[0].offsetLeft - resizeCursorInverval) && event.pageX <= ($dvInfoPanelElem[0].offsetLeft + resizeCursorInverval)) {
+          
+        } else {         
+          if ($dvTableMainElem.width() <= parseInt($dvTableMainElem.css("minWidth")))
+            isResize = false;
+        }
+
+        if (isResize && self.isInfoPanelResize && self.prevInfoPanelResizeX >= 0 && treeGrid
+            && $dvTableMainElem.width() >= parseInt($dvTableMainElem.css("minWidth"))) {
+          var diff = event.pageX - self.prevInfoPanelResizeX;
+          treeGrid.resize(diff);
+
+          self.infoPanel.resizeInfoPanel();
+        }
+        self.prevInfoPanelResizeX = event.pageX;
+
+        // for preventing of the handling of the events on other elements
+        event.preventDefault();
       },
 
       // renderControlPanel
@@ -215,24 +269,12 @@ function (application, CONST, TreeGrid, MenuItem, InfoPanel, TooltipCustom) {
         '</div>';
 
         $parentElem.append(html);
-
-        // dvInfoPanel
-        self.$dvInfoPanelElem = $parentElem.find(".dvInfoPanel");
-
-        self.$dvInfoPanelElem.mousedown(function (event) {
-          //if (event.pageX < (this.offsetLeft + 5)) {          
-          if (event.pageX > (this.offsetLeft - 5) && event.pageX < (this.offsetLeft + 5)) {
-            self.isInfoPanelResize = true;
-          } else {
-            self.isInfoPanelResize = false;
-          }
-        });
       },     
 
     };
 
-    EngineTree.initialize();
-    return EngineTree;
+    engineTree.constructor();
+    return engineTree;
 
   };
 

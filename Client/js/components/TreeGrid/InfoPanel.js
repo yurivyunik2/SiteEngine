@@ -7,23 +7,39 @@
 define(["application", "CONST", "richTextEditor"], function (application, CONST, RichTextEditor) {
 
   function InfoPanel($parentElem, engineTree) {
+    var self;
+    var $dvTableElem;
+    var $dvInfoPanelElem;
 
     var infoPanel = {
 
       infoPanelSelector: ".dvInfoPanel",
 
-      resizeInfoPanel: function () {
-        // TableMain resize
-        var dvTableElem = $parentElem.find(".dvTableMain");
-        var dvInfoPanelElem = $parentElem.find(".dvInfoPanel");
+      constructor: function() {
+        self = this;
+      },
 
-        if (dvInfoPanelElem.css("display") != "none") {
-          var newMaxWidth = $(window).width() - (dvTableElem[0].clientWidth) - 5;
-          dvInfoPanelElem.css("max-width", newMaxWidth + "px");
-          dvInfoPanelElem.css("width", newMaxWidth + "px");
+      isAvailableElements: function() {
+        if (!$dvTableElem || $dvTableElem.length === 0)
+          $dvTableElem = $parentElem.find(".dvTableMain");
+        if (!$dvInfoPanelElem || $dvInfoPanelElem.length === 0)
+          $dvInfoPanelElem = $parentElem.find(".dvInfoPanel");
+
+        return ($dvTableElem.length === 0 || $dvInfoPanelElem.length === 0) ? false : true;
+      },
+
+      resizeInfoPanel: function () {
+        if (!self.isAvailableElements())
+          return;
+
+        var newMaxWidth;
+        if ($dvInfoPanelElem.css("display") !== "none") {
+          newMaxWidth = $(window).width() - ($dvTableElem[0].clientWidth) - 5;
+          $dvInfoPanelElem.css("max-width", newMaxWidth + "px");
+          $dvInfoPanelElem.css("width", newMaxWidth + "px");
         } else {
-          var newMaxWidth = $(window).height() - 5;
-          dvTableElem.css("max-width", newMaxWidth + "px");
+          newMaxWidth = $(window).height() - 5;
+          $dvTableElem.css("max-width", newMaxWidth + "px");
         }
         
       },
@@ -34,8 +50,10 @@ define(["application", "CONST", "richTextEditor"], function (application, CONST,
         if (engineTree)
           engineTree.addInsertOptions(itemData);
 
-        var dvInfoPanelElem = $parentElem.find(".dvInfoPanel");
-        dvInfoPanelElem.html("");
+        if (!self.isAvailableElements())
+          return;
+
+        $dvInfoPanelElem.html("");
 
         // standart parameters
         var html = '';
@@ -48,7 +66,7 @@ define(["application", "CONST", "richTextEditor"], function (application, CONST,
                   '</tbody>' +
                 '</table>';
 
-        dvInfoPanelElem.append(html);
+        $dvInfoPanelElem.append(html);
 
         var tbStandardParamsElem = $parentElem.find(".tbStandardParams");
         var tbody = tbStandardParamsElem.find("tbody");
@@ -87,7 +105,7 @@ define(["application", "CONST", "richTextEditor"], function (application, CONST,
         }
 
         // own parameters
-        var html = '';
+        html = '';
         html += '<table class="tbOwnParameters">' +
                   '<colgroup>' +
                     '<col style="white-space:nowrap" valign="top">' +
@@ -96,7 +114,7 @@ define(["application", "CONST", "richTextEditor"], function (application, CONST,
                   '</tbody>' +
                 '</table>';
 
-        dvInfoPanelElem.append(html);
+        $dvInfoPanelElem.append(html);
         var tbOwnParametersElem = $parentElem.find(".tbOwnParameters");
         tbody = tbOwnParametersElem.find("tbody");
 
@@ -132,7 +150,7 @@ define(["application", "CONST", "richTextEditor"], function (application, CONST,
             else
               html += "<td><input id='" + field.fieldId + "' class='itemField' onclick='javascript:this.select();return false' value='" + field.value + "'></br></br></td>";
 
-            "</tr>";
+            html += "</tr>";
 
             tbody.append(html);
 
@@ -172,6 +190,7 @@ define(["application", "CONST", "richTextEditor"], function (application, CONST,
       },
 
     };
+    infoPanel.constructor();
     return infoPanel;
   };
 

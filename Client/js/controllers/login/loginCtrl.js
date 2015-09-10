@@ -17,6 +17,7 @@ define(["application","CONST"], function (application, CONST) {
         
         $scope.userPassword = "";
         $scope.error = "";
+        $scope.rememberMe = false;
 
         $scope.clickLogin = self.clickLogin;
         
@@ -41,7 +42,7 @@ define(["application","CONST"], function (application, CONST) {
           return;
         }
 
-        if ($window.localStorage)
+        if ($window.localStorage && $scope.rememberMe)
           $window.localStorage.lastLoginSiteEngine = $scope.userName;
 
         var action = "login";

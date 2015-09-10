@@ -1,92 +1,6 @@
 ﻿/* Imports */
 @import url(animate.css);
 
-html, body {
-  height: 100%;
-  /*background-color: yellow;
-  padding: 100px;*/
-}
-body {
-  padding: 0;
-  margin: 0;
-}
-
-/*body > div:first-child {
-  height: 100%;
-  width: 100%;
-}*/
-
-.dvInner {
-  /*background: url('http://localhost:8082/siteengine/client/images/login/back.jpg');*/
-  bakcgroun-color: #F0F0F0;
-  height: 100%;
-  width: 100%;
-  display: table;  
-}
-.dvInner .dvTop {
-  text-align: center;
-}
-.dvInner .dvCenter {
-  display: table-cell;
-  vertical-align: middle;  
-}
-.dvInner .dvCenterContent {
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 600px;
-  /*background-color: rgba(0, 0, 0, 0.41);*/
-  padding: 50px 60px;
-  color: #ffffff;
-  /*box-shadow: 0px 0px 8px 0px rgba(0,0,0,0.2);*/
-  box-sizing: border-box;
-}
-.dvInner .dvCenterContent .dvField {
-  font-size: 13px;
-  font-family: arial, serif, sans-serif;
-  margin-top: 15px;
-}
-.dvInner .dvCenterContent .dvField.dvError > div {
-  background-color: brown;
-  padding: 9px;
-  font-size: 15px;
-  /*display: none;*/
-}
-/*.dvInner .dvCenterContent #btnLogin {
-  height: 45px;
-  background: linear-gradient(to bottom, #289bc8 0%,#207da2 100%);
-}*/
-
-/*.dvInner .dvCenterContent .dvField.dvRememberFunc div {
-  display: inline-block;
-  margin-right: 13px;  
-}
-.dvInner .dvCenterContent .dvField.dvRememberFunc label {
-  font-weight: normal;  
-}
-.dvInner .dvCenterContent .dvField.dvRememberFunc label input {
-  position: relative;
-  top: 2px;
-  margin-right: 3px;  
-}*/
-
-.dvInner .dvCenterContent .dvField.dvRememberFunc a {
- color: white;
-}
-
-
-
-
-
-
-
-
-
-/* Stylesheet */
-
-
-
-/* Selections */
-
 ::selection {
  	color: #fff;
  	text-shadow: none;
@@ -99,22 +13,19 @@ body {
  	background: #444;
 }
 
-/* Basics */
-
 html, body {
 	width: 100%;
 	height: 100%;
 	font-family: "Helvetica Neue", Helvetica, sans-serif;
 	color: #444;
 	-webkit-font-smoothing: antialiased;
-	background: #f0f0f0;
-	
+	background: #f0f0f0;	
 }
 
-#container {
+#loginContainer {
 	position: fixed;
 	width: 340px;
-	height: 284px;
+	height: auto;
 	top: 50%;
 	left: 50%;
 	margin-top: -140px;
@@ -140,12 +51,44 @@ html, body {
 	animation-timing-function: linear;
 }
 
-form {
+#loginContainer form {
 	margin: 0 auto;
-	margin-top: 20px;
+	margin-top: 10px;
 }
 
-label {
+#loginContainer .dvTitle {
+  text-align: center;
+  font-size: 35px;
+  font-weight: bold;
+  font-family: sans-serif;  
+  font-family: calibri;  
+}
+
+#loginContainer .dvError {
+  display: table;
+  width: 290px;
+  margin: 10px;
+  margin-top: 12px;
+  margin-left: 18px;
+  border: 1px solid red;
+  box-shadow: 0px 0px 5px #F31E1E;
+  color: red;
+  padding: 5px 0px 5px 10px;
+}
+#loginContainer .dvError > div {
+  display: table-cell;
+  vertical-align: middle;
+}
+#loginContainer .dvError .dvErrorImg {
+  width: 35px;
+}
+#loginContainer .dvError .dvErrorImg img {
+  height: 24px;
+  width: 24px;
+  margin-right: 10px;  
+}
+
+#loginContainer label {
 	color: #555;
 	display: inline-block;
 	margin-left: 18px;
@@ -153,7 +96,7 @@ label {
 	font-size: 14px;
 }
 
-p a {
+#loginContainer p a {
 	font-size: 11px;
 	color: #aaa;
 	float: right;
@@ -164,18 +107,18 @@ p a {
 	transition: all .4s ease;
 }
 
-p a:hover {
+#loginContainer p a:hover {
 	color: #555;
 }
 
-input {
+#loginContainer input {
 	font-family: "Helvetica Neue", Helvetica, sans-serif;
 	font-size: 12px;
 	outline: none;
 }
 
-input[type=text],
-input[type=password] {
+#loginContainer input[type=text],
+#loginContainer input[type=password] {
 	color: #777;
 	padding-left: 10px;
 	margin: 10px;
@@ -191,19 +134,19 @@ input[type=password] {
 	transition: all .4s ease;
 }
 
-input[type=text]:hover,
-input[type=password]:hover {
+#loginContainer input[type=text]:hover,
+#loginContainer input[type=password]:hover {
 	border: 1px solid #b6bfc0;
 	box-shadow: inset 0 1.5px 3px rgba(190, 190, 190, .7), 0 0 0 5px #f5f7f8;
 }
 
-input[type=text]:focus,
-input[type=password]:focus {
+#loginContainer input[type=text]:focus,
+#loginContainer input[type=password]:focus {
 	border: 1px solid #a8c9e4;
 	box-shadow: inset 0 1.5px 3px rgba(190, 190, 190, .4), 0 0 0 5px #e6f2f9;
 }
 
-#lower {
+#loginContainer #lower {
 	background: #ecf2f5;
 	width: 100%;
 	height: 69px;
@@ -214,25 +157,25 @@ input[type=password]:focus {
 	border-bottom-left-radius: 3px;
 }
 
-input[type=checkbox] {
+#loginContainer input[type=checkbox] {
 	margin-left: 20px;
 	margin-top: 30px;
 }
 
-.check {
+#loginContainer .check {
 	margin-left: 3px;
   padding-top: 0px;
 	font-size: 11px;
 	color: #444;
 	text-shadow: 0 1px 0 #fff;  
 }
-.check input {
+#loginContainer .check input {
   position: relative;
   top: 2px;
   margin-right: 5px;
 }
 
-input[type=submit] {
+#loginContainer input[type=submit] {
 	float: right;
 	margin-right: 20px;
 	margin-top: 20px;
@@ -251,13 +194,13 @@ input[type=submit] {
 	cursor: pointer;
 }
 
-input[type=submit]:hover {
+#loginContainer input[type=submit]:hover {
 	background-image: -webkit-gradient(linear, left top, left bottom, from(#b6e2ff), to(#6ec2e8));
 	background-image: -moz-linear-gradient(top left 90deg, #b6e2ff 0%, #6ec2e8 100%);
 	background-image: linear-gradient(top left 90deg, #b6e2ff 0%, #6ec2e8 100%);
 }
 
-input[type=submit]:active {
+#loginContainer input[type=submit]:active {
 	background-image: -webkit-gradient(linear, left top, left bottom, from(#6ec2e8), to(#b6e2ff));
 	background-image: -moz-linear-gradient(top left 90deg, #6ec2e8 0%, #b6e2ff 100%);
 	background-image: linear-gradient(top left 90deg, #6ec2e8 0%, #b6e2ff 100%);

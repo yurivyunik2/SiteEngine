@@ -1,5 +1,10 @@
-﻿
-define(["application","CONST"], function (application, CONST) {
+﻿require.config({
+  paths: {
+    loginCSS: "js/controllers/login/login",
+  },
+});
+
+define(["application", "CONST", "css!loginCSS"], function (application, CONST) {
 
   return function ($scope, $http, $window) {
 

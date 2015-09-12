@@ -189,6 +189,11 @@ function (application, CONST, TreeGrid, MenuItem, InfoPanel, TooltipCustom) {
 
         $(window).mousemove(self.mouseMoveWindow);
 
+        $(window).resize(function(event) {
+          self.resizePanels(1);
+          self.resizePanels(-1);
+        });
+
         // menu disabling
         document.oncontextmenu = function () {
           return false;

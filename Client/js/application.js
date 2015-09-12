@@ -577,15 +577,7 @@ define(["CONST", "notification"], function (CONST, Notification) {
         if (isAvailableElements) {
           self.isCorrectHeightOnce = true;
 
-          clearInterval(self.idIntervalCorrectHeight);
-
-          var heightCommon = 0;
-          //heightCommon += $dvTabContent[0].offsetHeight;
-          //heightCommon += $ulTabs[0].offsetHeight;
-          //heightCommon += $dvActionButtons[0].offsetHeight;
-
-          heightCommon += $tabPanelAreaElem[0].offsetHeight;
-          
+          var heightCommon = $tabPanelAreaElem[0].offsetHeight;
           var heightRest = window.innerHeight - heightCommon - 2;
           //$dvMainContent.height(heightRest);
           $dvMainContent.find(".dvTable").height(heightRest);

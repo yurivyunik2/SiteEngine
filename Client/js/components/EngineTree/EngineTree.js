@@ -29,10 +29,11 @@ function (application, CONST, TreeGrid, MenuItem, InfoPanel, TooltipCustom) {
     var menuItem;
 
     var $dvTableElem;
-    var $dvTableMainElem;
     var $dvInfoPanelElem;
 
     var resizeCursorInverval = 6;
+
+    var isWidthCorrect = false;
 
     var engineTree = {
       srcEditImg: "./images/edit16_16.png",
@@ -71,7 +72,7 @@ function (application, CONST, TreeGrid, MenuItem, InfoPanel, TooltipCustom) {
         //
         var $dvTableElem = $parentElem.find(".dvTable");
         treeGrid = new TreeGrid($dvTableElem);
-        treeGrid.setOpenCloseNodeEvent(self.treeGridOpenCloseNodeEventHandler);
+        //treeGrid.setOpenCloseNodeEvent(self.treeGridOpenCloseNodeEventHandler);
 
         //
         var $dvMainContentElem = $parentElem.find("#dvMainContent");
@@ -96,35 +97,32 @@ function (application, CONST, TreeGrid, MenuItem, InfoPanel, TooltipCustom) {
           if ($dvTableElem.length > 0) {
             $dvTableElem.mousedown(self.mouseDownElement);
           }
-        }        
-        // dvTableMain
-        if (!$dvTableMainElem || $dvTableMainElem.length === 0) {
-          $dvTableMainElem = $parentElem.find(".dvTableMain");
-          if ($dvTableMainElem.length > 0) {
-            $dvTableMainElem.mousedown(self.mouseDownElement);
-          }
-        }        
+        }
         // dvInfoPanel
         if (!$dvInfoPanelElem || $dvInfoPanelElem.length === 0) {
           $dvInfoPanelElem = $parentElem.find(".dvInfoPanel");
           if ($dvInfoPanelElem.length > 0) {
             $dvInfoPanelElem.mousedown(self.mouseDownElement);
           }
-        }        
+        }
 
-        return ($dvTableElem.length === 0 || $dvTableMainElem.length === 0 || $dvInfoPanelElem.length === 0) ? false : true;
+        return (($dvTableElem.length === 0 || $dvTableElem[0].clientWidth === 0) || $dvInfoPanelElem.length === 0) ? false : true;
       },
 
-      treeGridOpenCloseNodeEventHandler: function (item) {
-        if (item && item.isOpened && self.infoPanel)
-          self.infoPanel.resizeInfoPanel();
-      },
+      //treeGridOpenCloseNodeEventHandler: function (item) {
+      //  //if (item && item.isOpened && self.infoPanel)
+      //  //  self.infoPanel.resizeInfoPanel();
+      //},
 
       intervalUI: function (uiData) {
         if (!uiData)
           return;        
         if (treeGrid && treeGrid.intervalUI) {
           treeGrid.intervalUI(uiData);
+        }
+        if (!isWidthCorrect && self.isAvailableElements()) {
+          isWidthCorrect = true;
+          self.resizePanels(1);
         }
       },
 
@@ -226,38 +224,64 @@ function (application, CONST, TreeGrid, MenuItem, InfoPanel, TooltipCustom) {
         if (!self.isAvailableElements())
           return;
 
-        var leftEdge = ($dvTableMainElem[0].offsetLeft + $dvTableMainElem[0].clientWidth - resizeCursorInverval);
+        var leftEdge = ($dvTableElem[0].offsetLeft + $dvTableElem[0].clientWidth - resizeCursorInverval);
         var rightEdge = ($dvInfoPanelElem[0].offsetLeft + resizeCursorInverval);
         if (event.pageX >= leftEdge && event.pageX <= rightEdge) {
           $dvTableElem.css("cursor", "w-resize");
-          $dvTableMainElem.css("cursor", "w-resize");
+          $dvTableElem.css("cursor", "w-resize");
           $dvInfoPanelElem.css("cursor", "w-resize");
         }
         else {
           $dvTableElem.css("cursor", "default");
-          $dvTableMainElem.css("cursor", "default");
+          $dvTableElem.css("cursor", "default");
           $dvInfoPanelElem.css("cursor", "default");
         }
         
         var isResize = true;
         if (event.pageX >= ($dvInfoPanelElem[0].offsetLeft - resizeCursorInverval) && event.pageX <= ($dvInfoPanelElem[0].offsetLeft + resizeCursorInverval)) {
           
-        } else {         
-          if ($dvTableMainElem.width() <= parseInt($dvTableMainElem.css("minWidth")))
+        } else {
+          if ($dvTableElem.width() <= parseInt($dvTableElem.css("minWidth")))
             isResize = false;
         }
 
         if (isResize && self.isInfoPanelResize && self.prevInfoPanelResizeX >= 0 && treeGrid
-            && $dvTableMainElem.width() >= parseInt($dvTableMainElem.css("minWidth"))) {
-          var diff = event.pageX - self.prevInfoPanelResizeX;
-          treeGrid.resize(diff);
+            && $dvTableElem.width() >= parseInt($dvTableElem.css("minWidth"))) {
 
-          self.infoPanel.resizeInfoPanel();
+          var diff = event.pageX - self.prevInfoPanelResizeX;
+          //treeGrid.resize(diff);
+
+          self.resizePanels(diff);
+
+          //self.infoPanel.resizeInfoPanel();
         }
         self.prevInfoPanelResizeX = event.pageX;
 
         // for preventing of the handling of the events on other elements
         event.preventDefault();
+      },
+
+      resizePanels: function (diff) {
+        if (!self.isAvailableElements())
+          return;
+
+        var newTableWidth = $dvTableElem[0].offsetWidth + diff;
+        var newInfoPanelWidth = $(window).width() - newTableWidth - 1;
+
+        var minWidthInfoPanel = parseInt($dvInfoPanelElem.css("min-width"));
+        var minWidthTable = parseInt($dvTableElem.css("min-width"));
+
+        if (newTableWidth < minWidthTable) {
+          var i = 0;
+        }
+
+        if (newInfoPanelWidth >= minWidthInfoPanel) {
+          $dvTableElem.css("width", newTableWidth + "px");
+
+          newInfoPanelWidth = $(window).width() - $dvTableElem[0].offsetWidth - 1;
+          $dvInfoPanelElem.css("max-width", newInfoPanelWidth + "px");
+          $dvInfoPanelElem.css("width", newInfoPanelWidth + "px");
+        }
       },
 
       // renderControlPanel

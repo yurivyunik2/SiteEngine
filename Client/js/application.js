@@ -564,26 +564,32 @@ define(["CONST", "notification"], function (CONST, Notification) {
       },
 
       isCorrectHeightOnce: false,
-      correctHeightWindow: function () {
+      correctHeightWindow: function () {        
         var $dvTabContent = $("#dvTabContent");
         var $ulTabs = $("#ulTabs");
         //var $dvActionButtons = $("#dvActionButtons");
         var $dvMainContent = $("#dvMainContent");
 
-        var isAvailableElements = $dvTabContent.length > 0 && $ulTabs.length > 0 && $dvMainContent.length > 0;
+        //var isAvailableElements = $dvTabContent.length > 0 && $ulTabs.length > 0 && $dvMainContent.length > 0;
+
+        var $tabPanelAreaElem = $("#tabPanelArea");
+        var isAvailableElements = $tabPanelAreaElem.length > 0;
         if (isAvailableElements) {
           self.isCorrectHeightOnce = true;
 
           clearInterval(self.idIntervalCorrectHeight);
 
           var heightCommon = 0;
-          heightCommon += $dvTabContent[0].offsetHeight;
-          heightCommon += $ulTabs[0].offsetHeight;
+          //heightCommon += $dvTabContent[0].offsetHeight;
+          //heightCommon += $ulTabs[0].offsetHeight;
           //heightCommon += $dvActionButtons[0].offsetHeight;
 
-          //var heightRest = $(window).height() - heightCommon;
-          var heightRest = window.innerHeight - heightCommon;          
-          $dvMainContent.height(heightRest);
+          heightCommon += $tabPanelAreaElem[0].offsetHeight;
+          
+          var heightRest = window.innerHeight - heightCommon - 2;
+          //$dvMainContent.height(heightRest);
+          $dvMainContent.find(".dvTable").height(heightRest);
+          $dvMainContent.find(".dvInfoPanel").height(heightRest);
         }
       },
     

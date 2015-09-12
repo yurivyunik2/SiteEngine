@@ -16,8 +16,6 @@ define(["application", "row", "headerRow", "CONST", "css!TreeGridCss"], function
     var isCheckBoxElem = true;
     var isHeaderShow = false;
 
-    var $dvTableMainElem;
-
     var openCloseNodeEvent;
 
     // images
@@ -187,9 +185,6 @@ define(["application", "row", "headerRow", "CONST", "css!TreeGridCss"], function
 
         //
         $parentElem.html(html);
-
-        // TableMain elem
-        $dvTableMainElem = $parentElem.find(".dvTableMain");
 
         // $dragLine
         self.$dragLine = $parentElem.find("#dragLine");
@@ -498,15 +493,6 @@ define(["application", "row", "headerRow", "CONST", "css!TreeGridCss"], function
         }
       },
       
-      // resize
-      resize: function (diff) {
-        if (!diff)
-          return;
-
-        var newWidth = $dvTableMainElem[0].clientWidth + diff;
-        $dvTableMainElem.css("width", newWidth + "px");
-      },
-
       //
       // FILTERING
       //

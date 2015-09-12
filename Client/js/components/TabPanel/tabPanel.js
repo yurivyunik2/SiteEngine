@@ -64,7 +64,7 @@
     var userNameSelector = "#userName";    
 
     var dvVersionSelector = ".dvVersion";
-    var dvTabPanelID = "dvTabPanel";
+    var tabPanelSelector = "#tabPanel";
     var ulTabsID = "ulTabs";
 
     var $panelElem;
@@ -93,7 +93,7 @@
 
           $parentElem.append($template.html());
 
-          $panelElem = $parentElem.find("#" + dvTabPanelID);
+          $panelElem = $parentElem.find(tabPanelSelector);
 
           // tabChanged event
           $ulTabs = $parentElem.find("#" + ulTabsID);

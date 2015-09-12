@@ -8,7 +8,6 @@ define(["application", "CONST", "richTextEditor"], function (application, CONST,
 
   function InfoPanel($parentElem, engineTree) {
     var self;
-    var $dvTableElem;
     var $dvInfoPanelElem;
 
     var infoPanel = {
@@ -19,38 +18,16 @@ define(["application", "CONST", "richTextEditor"], function (application, CONST,
         self = this;
       },
 
-      isAvailableElements: function() {
-        if (!$dvTableElem || $dvTableElem.length === 0)
-          $dvTableElem = $parentElem.find(".dvTableMain");
-        if (!$dvInfoPanelElem || $dvInfoPanelElem.length === 0)
-          $dvInfoPanelElem = $parentElem.find(".dvInfoPanel");
-
-        return ($dvTableElem.length === 0 || $dvInfoPanelElem.length === 0) ? false : true;
-      },
-
-      resizeInfoPanel: function () {
-        if (!self.isAvailableElements())
-          return;
-
-        var newMaxWidth;
-        if ($dvInfoPanelElem.css("display") !== "none") {
-          newMaxWidth = $(window).width() - ($dvTableElem[0].clientWidth) - 5;
-          $dvInfoPanelElem.css("max-width", newMaxWidth + "px");
-          $dvInfoPanelElem.css("width", newMaxWidth + "px");
-        } else {
-          newMaxWidth = $(window).height() - 5;
-          $dvTableElem.css("max-width", newMaxWidth + "px");
-        }
-        
-      },
-
       // populateInfoPanel
       populateInfoPanel: function (itemData) {
         //
         if (engineTree)
           engineTree.addInsertOptions(itemData);
 
-        if (!self.isAvailableElements())
+        if (!$dvInfoPanelElem || $dvInfoPanelElem.length === 0)
+          $dvInfoPanelElem = $parentElem.find(".dvInfoPanel");
+
+        if ($dvInfoPanelElem.length === 0)
           return;
 
         $dvInfoPanelElem.html("");

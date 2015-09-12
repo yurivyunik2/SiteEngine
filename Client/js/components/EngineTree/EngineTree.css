@@ -28,22 +28,25 @@
 }
 
 .dvTable {
-  border-bottom: 1px solid #D4D4D4;
-  /*overflow-y: auto;*/
-  font-size: 12px;
-
-  display: table-cell;
-  /*width: 5%;*/
   height: 100%;
-  /*min-width: 100px;*/
+  /*width: 15%;*/
+  width: 200px;
+  min-width: 150px;
+  float: left;
+  /*display: table-cell;*/
+  display: block;
+  overflow-y: auto;
+  overflow-x: hidden;
+  
+  border-bottom: 1px solid #D4D4D4;
+  font-size: 12px;
 }
 .dvTableMain {
+  /*min-width: 200px;*/
+  width: 100%;
   overflow-y: auto;
   overflow-x: visible;
   position: relative;
-  /*max-height: 1053px;*/
-  /*max-height: 600px;*/
-  min-width: 150px;
 }
   .dvTableMain table {
     border-bottom: 1px solid #D4D4D4;
@@ -52,22 +55,22 @@
   }
 
 .dvInfoPanel {
-  /*max-height: 35%;*/
-  width: 100%;
+  overflow-y: auto;  
+  /*display: table-cell;*/
+  display: block;
+  float: left;
+  
+  /*width: 85%;*/
+  min-width: 50px;
+
+  z-index: 1000;
+
   background-color: #e2e2e2;
   border: 1px solid #978E8E;
-  z-index: 1000;
-  overflow-y: auto;
-
-  display: table-cell;
-  width: 85%;
-  /*height: 527px;*/
-  cursor: default;
-  /*max-height: 527px;*/
-
   border-left-width: 3px;
   border-left-style: double;
   border-left-color: rgb(132, 132, 132);
+  cursor: default;
 }
 
   .dvInfoPanel table {

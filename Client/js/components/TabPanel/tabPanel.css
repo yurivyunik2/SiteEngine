@@ -57,7 +57,7 @@ a.button-ribbon {
 
 #tabPanel #actionPanel {
   background-color: #6097CD;
-  display: block;
+  display: table;
   width: 100%;
   height: 51px;
 }

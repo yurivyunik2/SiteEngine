@@ -104,7 +104,7 @@ define(["application", "CONST", "richTextEditor"], function (application, CONST,
             var field = fieldsLang[i];
             html =
               "<tr>" +
-                "<td><span><b>" + field.name + ": </b></span></td>" +
+                "<td class='tdFieldName'><span><b>" + field.name + ": </b></span></td>" +
                 "</tr>" +
                 "<tr>";
 

@@ -9,7 +9,8 @@
   border-radius: 5px;
 }
 .scrollCustom::-webkit-scrollbar {
-  width: 4px;  
+  width: 4px;
+  height: 4px;
   background-color: whitesmoke;
 }
 .scrollCustom::-webkit-scrollbar-thumb {
@@ -23,6 +24,7 @@
 
 #dvMainContent.dvContent {
   /*height: 100%;*/
+  width: 100%;
   display: table;
 }
 
@@ -58,17 +60,16 @@
   /*display: table-cell;*/
   display: block;
   float: left;
-  
+  padding-top: 3px;
+  padding-left: 10px;  
   /*width: 85%;*/
   min-width: 50px;
 
   z-index: 1000;
 
-  background-color: #e2e2e2;
-  border: 1px solid #978E8E;
-  border-left-width: 3px;
-  border-left-style: double;
-  border-left-color: rgb(132, 132, 132);
+  background-color: #e2e2e2;  
+  border-left: 4px double rgb(132, 132, 132);
+  border-radius: 1px;
   cursor: default;
 }
 
@@ -81,6 +82,9 @@
   }
   .dvInfoPanel .tbStandardParams tr {
     vertical-align: baseline;
+  }
+  .dvInfoPanel .tbStandardParams td {
+    padding: 2px 0px;
   }
   .dvInfoPanel .tbStandardParams .tdInfoParamName {
     width: 10%;
@@ -101,6 +105,12 @@
     cursor: default;
   }
 
+  .dvInfoPanel .tbOwnParameters {
+    margin-top: 15px;
+  }
+  .dvInfoPanel .tbOwnParameters td {
+    padding-top: 3px;
+  }
   .dvInfoPanel .tbOwnParameters span {
     font: 12px arial;
   }

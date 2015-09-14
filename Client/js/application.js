@@ -574,7 +574,7 @@ define(["CONST", "notification"], function (CONST, Notification) {
           self.isCorrectHeightOnce = true;
           if (!self.$dvMainContent)
             self.$dvMainContent = $("#dvMainContent");
-
+                    
           var heightCommon = self.$tabPanelAreaElem[0].offsetHeight;
           var heightRest = window.innerHeight - heightCommon - 2;          
           self.$dvMainContent.find(".dvTable").height(heightRest);

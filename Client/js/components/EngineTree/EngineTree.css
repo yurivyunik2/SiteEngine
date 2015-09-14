@@ -9,8 +9,7 @@
   border-radius: 5px;
 }
 .scrollCustom::-webkit-scrollbar {
-  width: 5px;
-  height: 6px;
+  width: 4px;  
   background-color: whitesmoke;
 }
 .scrollCustom::-webkit-scrollbar-thumb {

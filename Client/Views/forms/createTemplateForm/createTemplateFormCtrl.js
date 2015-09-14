@@ -20,7 +20,7 @@
           var $newField = $(formSelector).find("#newField");
           var $inName = $newField.find(".inName");
           var val = $inName.val();
-          if (val && val != "" && $inName.hasClass("inputError")) {
+          if (val && val !== "" && $inName.hasClass("inputError")) {
             $inName.removeClass("inputError");
           }
         }, 300);
@@ -78,7 +78,10 @@
           $scope.addFields = [];
         }
         $scope.removeFields = [];
-        $scope.$apply();
+        try {
+          $scope.$apply();
+        } catch (ex) {
+        }
 
         var $dvTemplateNameElem = $("#dvTemplateName");
         var $inName = $dvTemplateNameElem.find(".inName");

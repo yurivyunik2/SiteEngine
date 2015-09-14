@@ -4,7 +4,7 @@
   },
 });
 
-define(["application", "CONST", "css!loginCSS"], function (application, CONST) {
+define(["application", "CONST", "Utils", "css!loginCSS"], function (application, CONST, Utils) {
 
   return function ($scope, $http, $window) {
 
@@ -13,6 +13,9 @@ define(["application", "CONST", "css!loginCSS"], function (application, CONST) {
     var loginCtrlObj = {
       constructor: function () {
         self = this;
+
+        // loading - turn off
+        Utils.setLoadingApplication(false);
 
         application.initialize($scope, $http, $window);
 

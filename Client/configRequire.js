@@ -12,6 +12,7 @@
     CONST: "js/const",
     notification: "Views/forms/notificationForm/notification",
     dataType: "js/Common/DataType",
+    Utils: "js/Common/Utils",
   },
     shim: {
     angular: { "exports": "angular" },

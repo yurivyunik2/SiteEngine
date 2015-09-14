@@ -14,6 +14,7 @@
 define([
     "application",
     "CONST",
+    "Utils",
     "EngineTree",
     "actionCtrl",
     "modalFormCtrl",
@@ -22,7 +23,7 @@ define([
     "panelTypes",
     "richTextEditor",
     ],
-function (application, CONST, EngineTree, ActionCtrl, ModalFormCtrl, TabPanel, PanelFormCtrl, PanelTypes, RichTextEditor) {
+function (application, CONST, Utils, EngineTree, ActionCtrl, ModalFormCtrl, TabPanel, PanelFormCtrl, PanelTypes, RichTextEditor) {
 
   return function ($scope, $http, $window) {
 
@@ -70,7 +71,7 @@ function (application, CONST, EngineTree, ActionCtrl, ModalFormCtrl, TabPanel, P
       initializeComponents: function () {
 
         // loading
-        self.setLoadingApplication(true);
+        Utils.setLoadingApplication(true);
 
         var engineTree = new EngineTree($("#engineTreeArea"));
         application.setEngineTree(engineTree);
@@ -109,18 +110,6 @@ function (application, CONST, EngineTree, ActionCtrl, ModalFormCtrl, TabPanel, P
         application.addUIComponent("startCtrl", self);
       },
 
-      setLoadingApplication: function(isLoad) {
-        var $loadingAppElem = $("#loadingApp");
-        var $viewAppElem = $("#viewApp");
-        if (isLoad) {
-          $loadingAppElem.css("display", "block");
-          $viewAppElem.css("display", "none");
-        } else {
-          $loadingAppElem.css("display", "none");
-          $viewAppElem.css("display", "block");
-        }        
-      },
-
       intervalUI: function (uiData) {
         if (isLoadUsers && isLoadRoles && isLoadItems) {
           var items = application.getItems();
@@ -139,7 +128,7 @@ function (application, CONST, EngineTree, ActionCtrl, ModalFormCtrl, TabPanel, P
             }
           }
           // loading - turn off
-          self.setLoadingApplication(false);
+          Utils.setLoadingApplication(false);
 
           application.removeUIComponent("startCtrl");
         }

@@ -143,7 +143,7 @@
 
             //
             application.treeGridItemSelected();
-          });          
+          });
         });
 
         $trElem.mousemove(function (event) {

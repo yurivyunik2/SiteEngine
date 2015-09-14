@@ -121,18 +121,19 @@
   }
 
 .inputCheckbox {
-margin: 2px 5px 0 0;
-display: inline-block;
-vertical-align: top;
-width: 13px;
-height: 13px;
-background: no-repeat;
-background-image: url('/siteEngine/Client/images/checkbox.gif');
-overflow: hidden;
-padding: 0;
-border: 0;
+  margin: 1px 5px 0 0;
+  display: inline-block;
+  vertical-align: top;
+  width: 13px;
+  height: 14px;  
+  background: no-repeat;
+  background-image: url('/siteEngine/Client/images/checkbox.png');
+  background-position: -17px -2px;
+  overflow: hidden;
+  padding: 0;
+  border: 0;
 }
 
 .inputCheckboxChecked {
-background-position: 0 -13px;
+  background-position: -2px -2px;
 }

@@ -145,6 +145,9 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
       },
 
       show: function (data) {
+        if (!self.curType || !self.curType.form_ctrl)
+          return;
+
         dataForm = data;
 
         //
@@ -168,12 +171,20 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
           }
         }
 
-        $scope.$apply();
+        try {
+        } catch (ex) {
+          $scope.$apply();
+        }
+
       },
 
       showAfterLoad: function () {
         $scope.isShowModalForm = true;        
-        $scope.$apply();
+        try {
+        } catch (ex) {
+          $scope.$apply();
+        }
+
 
         if (self.curType) {
           var $buttonsFormElem = $(formSelector).find(buttonsFormSelector);
@@ -212,7 +223,10 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
               else
                 $scope.errorMessage = "Unknown error";
               $scope.isError = true;
-              $scope.$apply();
+              try {
+              } catch (ex) {
+                $scope.$apply();
+              }
               return;
             }
           }

@@ -16,6 +16,9 @@ define(["application", "row", "headerRow", "CONST", "css!TreeGridCss"], function
     var isCheckBoxElem = true;
     var isHeaderShow = false;
 
+    // 
+    var marginLeftInterval = 12;
+
     var openCloseNodeEvent;
 
     // images
@@ -404,15 +407,15 @@ define(["application", "row", "headerRow", "CONST", "css!TreeGridCss"], function
                 $(childElems).remove();
               }
               for (var i = parentObj.children.length - 1; i >= 0; i--) {
-                  var marginLeftVar = 10;
-                  //if (marginLeft)
-                  //  marginLeftVar += marginLeft;
-                  var marginLeft = $(trElem).find(".dvFirst").css("margin-left");
-                  if (marginLeft)
-                    marginLeftVar += parseInt(marginLeft);
+                var marginLeftVar = marginLeftInterval;
+                //if (marginLeft)
+                //  marginLeftVar += marginLeft;
+                var marginLeft = $(trElem).find(".dvFirst").css("margin-left");
+                if (marginLeft)
+                  marginLeftVar += parseInt(marginLeft);
 
-                  self.renderItem($(trElem), parentObj.childrenHash[parentObj.children[i].id], parentObj.id, marginLeftVar, self.isFiltered);
-                }              
+                self.renderItem($(trElem), parentObj.childrenHash[parentObj.children[i].id], parentObj.id, marginLeftVar, self.isFiltered);
+              }              
             }
           } else { // Closed
             $(childElems).css("display", "none");
@@ -430,7 +433,7 @@ define(["application", "row", "headerRow", "CONST", "css!TreeGridCss"], function
         try {
           var parentItem = newItem.parentObj;
           var $trElem = $(parentItem.trElem);
-          var marginLeftVar = 10;
+          var marginLeftVar = marginLeftInterval;
           var marginLeft = $trElem.find(".dvFirst").css("margin-left");
           if (marginLeft)
             marginLeftVar += parseInt(marginLeft);

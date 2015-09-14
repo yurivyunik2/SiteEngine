@@ -115,7 +115,7 @@ define(["CONST", "notification"], function (CONST, Notification) {
         delete uiComponents[key];
       },
 
-      intervalUI: function() {
+      intervalUI: function () {        
         if (!self.isCorrectHeightOnce || self.isWindowResized) {
           self.isWindowResized = false;
           self.correctHeightWindow();
@@ -566,17 +566,17 @@ define(["CONST", "notification"], function (CONST, Notification) {
       isCorrectHeightOnce: false,
       $tabPanelAreaElem: null,
       $dvMainContent: null,
-      correctHeightWindow: function () {
-        if (!self.$tabPanelAreaElem || self.$tabPanelAreaElem.length === 0)
+      correctHeightWindow: function () {        
+        if (!self.isCorrectHeightOnce || !self.$tabPanelAreaElem || self.$tabPanelAreaElem.length === 0)
           self.$tabPanelAreaElem = $("#tabPanelArea");
         var isAvailable = self.$tabPanelAreaElem.length > 0 && self.$tabPanelAreaElem[0].clientHeight > 0;
         if (isAvailable) {
           self.isCorrectHeightOnce = true;
+          if (!self.$dvMainContent)
+            self.$dvMainContent = $("#dvMainContent");
 
           var heightCommon = self.$tabPanelAreaElem[0].offsetHeight;
           var heightRest = window.innerHeight - heightCommon - 2;          
-          if (!self.$dvMainContent)
-            self.$dvMainContent = $("#dvMainContent");
           self.$dvMainContent.find(".dvTable").height(heightRest);
           self.$dvMainContent.find(".dvInfoPanel").height(heightRest);
         }

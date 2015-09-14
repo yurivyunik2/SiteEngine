@@ -88,7 +88,7 @@
                 <div class='dvArrow'><img class='imgArrow' style='visibility:" + imgSrcArrowVisible + "' src=" + srcArrowRight + " /></div>";
               
         if (treeGrid.getIsCheckBoxElem())
-          html += "<input type='button' role='checkbox' class='inputCheckbox " + checkedClass + "' aria-checked='true' style='width: 13px;'>";
+          html += "<input type='button' role='checkbox' class='inputCheckbox " + checkedClass + "' aria-checked='true' >";
         
         html += "<img class='imgFolder' style='display:" + imgSrcFolderVisible + "' src=" + imgFolderSrc + " />\
                  <div class='dvName dvData' unselectable='on' >" + item.name + "</div>\

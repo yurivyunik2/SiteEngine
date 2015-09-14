@@ -81,9 +81,6 @@ function (application, CONST, TreeGrid, MenuItem, InfoPanel, TooltipCustom) {
         //
         this.defineComponentEvents();
 
-        //
-        //application.correctHeightWindow();
-
         // add to UI components
         application.addUIComponent("engineTree", self);
       },

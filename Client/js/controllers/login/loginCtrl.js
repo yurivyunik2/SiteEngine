@@ -46,7 +46,7 @@ define(["application", "CONST", "Utils", "css!loginCSS"], function (application,
       clickLogin: function ($event) {
         if (!$scope.userName || !$scope.userPassword) {
           $scope.error = "You need to fill all fields!";
-          $scope.$apply();
+          $scope.$apply();          
           return;
         }
 

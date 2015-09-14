@@ -79,9 +79,8 @@
         }
         $scope.removeFields = [];
         try {
-          $scope.$apply();
-        } catch (ex) {
-        }
+          //$scope.$apply();
+        } catch (ex) { }
 
         var $dvTemplateNameElem = $("#dvTemplateName");
         var $inName = $dvTemplateNameElem.find(".inName");
@@ -216,7 +215,10 @@
         var field = { name: $dvName.val(), templateId: CONST.TEMPLATE_FIELD_ID(), fields: [{ fieldId: CONST.TYPE_FIELD_ID(), value: idType, typeName: typeName }] };
         $dvName.val("");
         $scope.addFields.push(field);
-        $scope.$apply();
+        try {
+          $scope.$apply();
+        } catch (ex) {
+        }
       },
       
       clickRemoveField: function ($event) {

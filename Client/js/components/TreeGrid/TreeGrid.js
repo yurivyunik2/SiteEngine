@@ -17,7 +17,8 @@ define(["application", "row", "headerRow", "CONST", "css!TreeGridCss"], function
     var isHeaderShow = false;
 
     // 
-    var marginLeftInterval = 12;
+    var marginLeftInterval = 10;
+    var maxAmountRenderedItems = 1000;
 
     var openCloseNodeEvent;
 
@@ -46,7 +47,6 @@ define(["application", "row", "headerRow", "CONST", "css!TreeGridCss"], function
       treeItems: [],
       treeItemsHash: {},
 
-      maxAmountRenderedItems: 1000,
       counterRenderedItems: 0,
 
       constructor: function() {
@@ -65,10 +65,10 @@ define(["application", "row", "headerRow", "CONST", "css!TreeGridCss"], function
         }
       },
 
-      getIsCheckBoxElem: function () { return isCheckBoxElem; },
-      setIsCheckBoxElem: function (_isCheckBoxElem) { isCheckBoxElem = _isCheckBoxElem; },
+      getIsCheckBoxElem: function() { return isCheckBoxElem; },
+      setIsCheckBoxElem: function(_isCheckBoxElem) { isCheckBoxElem = _isCheckBoxElem; },
 
-      initializeItems: function (items) {
+      initializeItems: function(items) {
         this.treeItems = [];
         this.treeItemsHash = {};
 
@@ -79,14 +79,14 @@ define(["application", "row", "headerRow", "CONST", "css!TreeGridCss"], function
       },
 
       // populate
-      populate: function (items) {
+      populate: function(items) {
         this.initializeItems(items);
 
         //      
         this.renderTree();
       },
 
-      populateItems: function (items) {
+      populateItems: function(items) {
 
         try {
           // find parent for each item
@@ -140,14 +140,13 @@ define(["application", "row", "headerRow", "CONST", "css!TreeGridCss"], function
               this.treeItemsHash[curItem.id] = curItem;
             }
           }
-        }
-        catch (ex) {
-          
+        } catch (ex) {
+
         }
       },
-      
+
       // renderTree
-      renderTree: function (isFiltered) {
+      renderTree: function(isFiltered) {
         //var self = this;
 
         //var dvTableElem = $parentElem.find(".dvTable");
@@ -157,26 +156,26 @@ define(["application", "row", "headerRow", "CONST", "css!TreeGridCss"], function
           html +=
             // Table-Header
             '<table id="tbHeader" border="0" cellspacing="0" cellpadding="0" style="width: 100%;">' +
-              '<tbody></tbody>' +
+            '<tbody></tbody>' +
             '</table>';
         }
 
         html +=
-            // TableMain 
-            '<div class="dvTableMain scrollCustom" >' +
-            // Img for editing 
-            '<div class="dvEditImg"><img src="' + srcEditImg + '" ></div>' +
-            // div for editing 
-            '<div class="dvEditControl" >' +
-            '<input type="text">' +
-            '<input type="button" value="OK">' +
-            '</div>' +
-            // table 
-            '<table id="tbMain" border="0" cellspacing="0" cellpadding="0">' +
-            '<tbody></tbody>' +
-            '</table>' +
-            '<div id="dragLine" style="display: none; position: absolute; width: 30px; height: 2px; background-color: #1A86C8;"></div>' +
-            '</div>';
+          // TableMain 
+          '<div class="dvTableMain scrollCustom" >' +
+          // Img for editing 
+          '<div class="dvEditImg"><img src="' + srcEditImg + '" ></div>' +
+          // div for editing 
+          '<div class="dvEditControl" >' +
+          '<input type="text">' +
+          '<input type="button" value="OK">' +
+          '</div>' +
+          // table 
+          '<table id="tbMain" border="0" cellspacing="0" cellpadding="0">' +
+          '<tbody></tbody>' +
+          '</table>' +
+          '<div id="dragLine" style="display: none; position: absolute; width: 30px; height: 2px; background-color: #1A86C8;"></div>' +
+          '</div>';
 
 
         //
@@ -189,7 +188,7 @@ define(["application", "row", "headerRow", "CONST", "css!TreeGridCss"], function
         var tableHeader = $parentElem.find("#tbHeader").find("tbody");
         var tableHeaderRow = new HeaderRow(this, tableHeader);
         tableHeaderRow.render();
-        
+
 
         //
         var tableMain = $parentElem.find("#tbMain").find("tbody");
@@ -198,11 +197,11 @@ define(["application", "row", "headerRow", "CONST", "css!TreeGridCss"], function
           this.renderItem(tableMain, this.treeItems[i], isFiltered);
         }
       },
-      
+
       // rendering of the item
-      renderItem: function (parentElem, item, parentId, marginLeft, isFiltered) {
+      renderItem: function(parentElem, item, parentId, marginLeft, isFiltered) {
         self.counterRenderedItems++;
-        if (self.counterRenderedItems >= self.maxAmountRenderedItems)
+        if (self.counterRenderedItems >= maxAmountRenderedItems)
           return;
 
         // hash item
@@ -210,6 +209,13 @@ define(["application", "row", "headerRow", "CONST", "css!TreeGridCss"], function
 
         var row = new Row(this, item);
         return row.render({ elem: parentElem, id: parentId }, marginLeft, isFiltered);
+      },
+
+      selectItem: function(item) {
+        if (!item || !item.trElem)
+          return;
+        self.openCloseNode(item.trElem);
+        $(item.trElem).mousedown();
       },
 
       //

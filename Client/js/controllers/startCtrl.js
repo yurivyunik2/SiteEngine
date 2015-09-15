@@ -29,10 +29,6 @@ function (application, CONST, Utils, EngineTree, ActionCtrl, ModalFormCtrl, TabP
 
     var self;
 
-    var isLoadUsers = false;
-    var isLoadRoles = false;
-    var isLoadItems = false;
-
     var startCtrlObj = {
       constructor: function () {
 
@@ -69,10 +65,6 @@ function (application, CONST, Utils, EngineTree, ActionCtrl, ModalFormCtrl, TabP
       },
       
       initializeComponents: function () {
-
-        // loading
-        Utils.setLoadingApplication(true);
-
         var engineTree = new EngineTree($("#engineTreeArea"));
         application.setEngineTree(engineTree);
 
@@ -95,43 +87,8 @@ function (application, CONST, Utils, EngineTree, ActionCtrl, ModalFormCtrl, TabP
         var richTextEditor = new RichTextEditor($scope);
         application.setRichTextEditorCtrl(richTextEditor);
 
-        // users
-        application.loadUsers(function(user) {
-          isLoadUsers = true;
-        });
-        application.loadUserRoles(function(roles) {
-          isLoadRoles = true;
-        });
-        application.loadItems(function (items) {
-          isLoadItems = true;
-        });
-
-        //
-        application.addUIComponent("startCtrl", self);
-      },
-
-      intervalUI: function (uiData) {
-        if (isLoadUsers && isLoadRoles && isLoadItems) {
-          var items = application.getItems();
-          var engineTree = application.getEngineTree();
-          if (!items || !engineTree)
-            return;
-          var treeGrid = engineTree.getTreeGrid();
-          if (treeGrid) {            
-            treeGrid.populate(items);
-            if (treeGrid.treeItems && treeGrid.treeItems.length > 0) {
-              var trElem = treeGrid.treeItems[0].trElem;
-              if (trElem) {
-                treeGrid.openCloseNode(trElem);
-                $(trElem).mousedown();
-              }
-            }
-          }
-          // loading - turn off
-          Utils.setLoadingApplication(false);
-
-          application.removeUIComponent("startCtrl");
-        }
+        // load application
+        application.loadApplication();
       },
 
     };

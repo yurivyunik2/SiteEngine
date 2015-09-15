@@ -7,6 +7,11 @@ define(["CONST", "Utils"], function (CONST, Utils) {
     var $http;
     var $window;
 
+    // Data
+    var items = [];
+    var userList = [];
+    var userRoleList = [];
+
     // controls(elements)
     var modalFormCtrl;
     var engineTree;
@@ -18,9 +23,6 @@ define(["CONST", "Utils"], function (CONST, Utils) {
     var uiComponents = {};
     var userManagers = [];
 
-    var userList = [];
-    var userRoleList = [];
-
     var session = {
       id: "",
       login: "",
@@ -28,12 +30,16 @@ define(["CONST", "Utils"], function (CONST, Utils) {
       isLogged: false,
     };
 
+    // loading application
+    var isLoadingFinish = false;
+    var isLoadUsers = false;
+    var isLoadRoles = false;
+    var isLoadItems = false;
+
     // EVENTS - subscribers
     var itemChangeSubscribers = {};
 
     var application = {
-      initItems: null,
-
       isRequestProcess: false,
 
       constructor: function() {
@@ -49,7 +55,59 @@ define(["CONST", "Utils"], function (CONST, Utils) {
         $window = _$window;
       },
 
-      getSession: function() {
+      intervalUI: function () {
+
+        // 
+        Utils.intervalUI();
+
+        // callback of application loading
+        if (!isLoadingFinish) {
+          isLoadingFinish = isLoadUsers && isLoadRoles && isLoadItems;
+          if(isLoadingFinish)
+            self.loadApplicationCallback();
+        }
+
+        var uiData = {};
+        uiData.keyDownEventLast = Utils.keyDownEventLast;
+        Utils.keyDownEventLast = null;
+
+        var keysComponent = _.keys(uiComponents);
+        _.each(keysComponent, function (key) {
+          var component = uiComponents[key];
+          if (component.intervalUI)
+            component.intervalUI(uiData);
+        });
+      },
+
+      loadApplication: function() {
+        // process loading
+        Utils.setLoadingApplication(true);
+        
+        application.loadUsers(function (user) {
+          isLoadUsers = true;
+        });
+        application.loadUserRoles(function (roles) {
+          isLoadRoles = true;
+        });
+        application.loadItems(function (items) {
+          isLoadItems = true;
+        });
+      },
+      loadApplicationCallback: function() {
+        if (!items || !engineTree)
+          return;
+        var treeGrid = engineTree.getTreeGrid();
+        if (treeGrid) {
+          treeGrid.populate(items);
+          if (treeGrid.treeItems && treeGrid.treeItems.length > 0) {
+            treeGrid.selectItem(treeGrid.treeItems[0]);
+          }
+        }
+        // loading - turn off
+        Utils.setLoadingApplication(false);
+      },
+
+      getSession: function () {
         return _.clone(session);
       },
       setSession: function(sessionID, login, pass) {
@@ -69,22 +127,6 @@ define(["CONST", "Utils"], function (CONST, Utils) {
       },
       removeUIComponent: function(key) {
         delete uiComponents[key];
-      },
-
-      intervalUI: function () {
-
-        Utils.intervalUI();
-
-        var uiData = {};
-        uiData.keyDownEventLast = Utils.keyDownEventLast;
-        Utils.keyDownEventLast = null;
-
-        var keysComponent = _.keys(uiComponents);
-        _.each(keysComponent, function(key) {
-          var component = uiComponents[key];
-          if (component.intervalUI)
-            component.intervalUI(uiData);
-        });
       },
 
       ///
@@ -291,10 +333,10 @@ define(["CONST", "Utils"], function (CONST, Utils) {
 
             if (response.data) {
               //self.initializeItems(response.data);
-              self.initItems = _.clone(response.data);
-              //self.initItems[0] = _.clone(items[0]);
+              items = _.clone(response.data);
+              //items[0] = _.clone(items[0]);
               if (callback)
-                callback(self.initItems);
+                callback(items);
             }
           } else {
             //response.error
@@ -304,7 +346,7 @@ define(["CONST", "Utils"], function (CONST, Utils) {
         });
       },
       getItems: function() {
-        return self.initItems;
+        return items;
       },
 
       addItemChangeSubscribers: function (subscriber, handler) {
@@ -324,16 +366,16 @@ define(["CONST", "Utils"], function (CONST, Utils) {
         var parentObj = { id: item.parentId };
         var newItem = { id: item.id, name: item.name, templateId: item.templateId };
 
-        var parentItem = _.findWhere(self.initItems, { id: parentObj.id });
+        var parentItem = _.findWhere(items, { id: parentObj.id });
         if (!parentItem || !parentItem.trElem)
           return;
 
-        var newItemFound = _.findWhere(self.initItems, { id: newItem.id });
+        var newItemFound = _.findWhere(items, { id: newItem.id });
         if (newItemFound) // item exists
           return;
 
         newItem.parentObj = parentItem;
-        self.initItems.push(newItem);
+        items.push(newItem);
 
         // to call of the Events' subscribers
         var event = {
@@ -406,6 +448,34 @@ define(["CONST", "Utils"], function (CONST, Utils) {
         return typeItems;
       },
 
+      isTemplateItem: function (item) {
+        if (!item)
+          return false;
+
+        // "Folder"
+        if (item.templateId === CONST.FOLDER_TEMPLATE_ID())
+          return false;
+
+        var isTemplateItem = self.isItemUnderTemplates(item);
+        return isTemplateItem;
+      },
+
+      isItemUnderTemplates: function (item) {
+        if (!item)
+          return false;
+
+        var parent = item.parentObj;
+        var maxIndexFind = 50;
+        var index = 0;
+        var isItemUnderTemplates = false;
+        while (parent && !isItemUnderTemplates && index < maxIndexFind) {
+          isItemUnderTemplates = (parent.id === CONST.TEMPLATES_ROOT_ID());
+          parent = parent.parentObj;
+          index++;
+        }
+        return isItemUnderTemplates;
+      },
+
       httpRequest: function (data, success, error) {
         if (!data || !success)
           return;
@@ -432,34 +502,6 @@ define(["CONST", "Utils"], function (CONST, Utils) {
             Utils.showNotification(data, response);
           });
       },
-
-      isTemplateItem: function (item) {
-        if (!item)
-          return false;
-
-        // "Folder"
-        if (item.templateId === CONST.FOLDER_TEMPLATE_ID())
-          return false;
-
-        var isTemplateItem = self.isItemUnderTemplates(item);
-        return isTemplateItem;
-      },
-      
-      isItemUnderTemplates: function (item) {
-        if (!item)
-          return false;
-
-        var parent = item.parentObj;
-        var maxIndexFind = 50;
-        var index = 0;
-        var isItemUnderTemplates = false;
-        while (parent && !isItemUnderTemplates && index < maxIndexFind) {
-          isItemUnderTemplates = (parent.id === CONST.TEMPLATES_ROOT_ID());
-          parent = parent.parentObj;
-          index++;
-        }
-        return isItemUnderTemplates;
-      },     
       
     };
     application.constructor();

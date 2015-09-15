@@ -115,9 +115,6 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
       },
 
       loadModalForm: function () {
-
-        //$("body").append($("#modalFormTemplate").html());
-        
         $(formSelector).find(".dvContentForm").draggable();
         //$(formSelector).find(".dvContentForm").resizable();
       },

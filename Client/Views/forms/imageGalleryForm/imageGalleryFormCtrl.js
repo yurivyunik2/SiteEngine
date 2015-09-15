@@ -31,19 +31,7 @@
     var imgGalleryObj = {
       constructor: function() {
         self = this;
-
-        //
-        //application.addItemChangeSubscribers(self, self.addItemChangeEvent);
       },
-
-      //addItemChangeEvent: function (event) {
-      //  if (event && event.action && event.item) {
-      //    if (event.action === "addItem") {
-            
-      //    }
-      //  }
-      //},
-
 
       renderMediaItems: function (items) {
         var $imageGalleryFormElem = $(imageGalleryFormSelector);

@@ -1,4 +1,4 @@
-﻿define(["application", "CONST"], function (application, CONST) {
+﻿define(["application", "CONST", "Utils"], function (application, CONST, Utils) {
   //
   // TabPanel
   //
@@ -191,8 +191,7 @@
           return;        
 
         // CTRL+S
-        if (CONST.IS_CTRL_S_KEY(event)) {
-          console.log('Ctrl+S!');
+        if (CONST.IS_CTRL_S_KEY(event)) {          
           $(self).trigger(EVENT_CLICK_BUTTON, CONST.SAVE_ITEM_ACTION());
         }
       },
@@ -244,7 +243,7 @@
 
           var selItem = treeGrid.selectedItem;
           var fields = selItem.fields;
-          var curLangguage = application.getLanguageCurrent();
+          var curLangguage = Utils.getLanguageCurrent();
           if (fields && curLangguage) {
             var fieldsLang = _.where(fields, { itemId: selItem.id, lang: curLangguage.code });
             var dvVersionDisplay = "none";
@@ -296,7 +295,7 @@
 
           var selItem = treeGrid.selectedItem;
           //var fields = selItem.fields;
-          var curLangguage = application.getLanguageCurrent();
+          var curLangguage = Utils.getLanguageCurrent();
           if (curLangguage && curVersion) {
             var action = "deleteVersion";
             var data = {
@@ -335,7 +334,7 @@
 
           var selItem = treeGrid.selectedItem;
           //var fields = selItem.fields;
-          var curLangguage = application.getLanguageCurrent();
+          var curLangguage = Utils.getLanguageCurrent();
           if (curLangguage) {            
             var action = "newVersionCreate";
             var data = {

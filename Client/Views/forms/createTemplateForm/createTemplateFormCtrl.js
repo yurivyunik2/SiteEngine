@@ -1,4 +1,4 @@
-﻿define(["application", "CONST"], function (application, CONST) {
+﻿define(["application", "CONST", "Utils"], function (application, CONST, Utils) {
   
   return function ($scope) {
 
@@ -143,7 +143,7 @@
           _parentId = dataRequest.selectedItem.id;
         }
 
-        var curLanguage = application.getLanguageCurrent();
+        var curLanguage = Utils.getLanguageCurrent();
 
         var data = {
           action: action,

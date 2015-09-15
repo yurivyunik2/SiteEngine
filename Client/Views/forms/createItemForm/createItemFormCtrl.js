@@ -1,4 +1,4 @@
-﻿define(["application", "CONST"], function (application, CONST) {
+﻿define(["application", "CONST", "Utils"], function (application, CONST, Utils) {
 
   return function ($scope) {
     return {
@@ -12,7 +12,7 @@
         if (!dataRequest || !dataRequest.selectedItem || !dataRequest.selectedTemplate)
           return;
 
-        var curlang = application.getLanguageCurrent();
+        var curlang = Utils.getLanguageCurrent();
         var langCode = "";
         if (curlang)
           langCode = curlang.code;

@@ -1,4 +1,4 @@
-﻿define(["notification"], function (Notification) {
+﻿define(["CONST", "notification"], function (CONST, Notification) {
   function Utils() {
     var self;
 
@@ -6,10 +6,15 @@
     var isWindowResized = false;
 
     var utilsObj = {
+
+      keyDownEventLast: null,
+
       constructor: function () {
         self = this;
 
         $(window).resize(self.windowResized);
+
+        $(window).keydown(self.keyDownEventFunc);
       },
 
       intervalUI: function() {
@@ -17,6 +22,18 @@
           isWindowResized = false;
           self.correctHeightWindow();
         }
+      },
+
+      keyDownEventFunc: function (event) {
+        self.keyDownEventLast = event;
+        if (self.isFunctionalKey(event)) {
+          event.preventDefault();
+          return false;
+        }
+        return true;
+      },
+      isFunctionalKey: function (event) {
+        return CONST.IS_CTRL_S_KEY(event);
       },
 
       setLoadingApplication: function (isLoad) {
@@ -78,6 +95,27 @@
           self.$dvMainContent.find(".dvTable").height(heightRest);
           self.$dvMainContent.find(".dvInfoPanel").height(heightRest);
         }
+      },
+
+      getLanguageCurrent: function () {
+        var curLanguage;
+        var $selLanguageElem = $(CONST.LANGUAGE_SELECTOR());
+        if ($selLanguageElem.length > 0) {
+          var langCode = $selLanguageElem.val();
+          curLanguage = _.findWhere(CONST.LANGUAGE_LIST(), { code: langCode });
+        }
+        if (!curLanguage)
+          curLanguage = CONST.LANGUAGE_DEFAULT();
+        return curLanguage;
+      },
+
+      getVersionCurrent: function () {
+        var curVersion = 0;
+        var $selVersionElem = $(CONST.VERSION_SELECTOR());
+        if ($selVersionElem.length > 0) {
+          curVersion = $selVersionElem.val();
+        }
+        return curVersion;
       },
 
     };

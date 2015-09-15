@@ -317,7 +317,7 @@
         if (!file || !file.binaryValue)
           return;
 
-        var curlang = application.getLanguageCurrent();
+        var curlang = Utils.getLanguageCurrent();
         var langCode = "";
         if (curlang)
           langCode = curlang.code;

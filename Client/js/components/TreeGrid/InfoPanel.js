@@ -4,7 +4,7 @@
   },
 });
 
-define(["application", "CONST", "richTextEditor"], function (application, CONST, RichTextEditor) {
+define(["application", "CONST", "Utils", "richTextEditor"], function (application, CONST, Utils, RichTextEditor) {
 
   function InfoPanel($parentElem, engineTree) {
     var self;
@@ -96,8 +96,8 @@ define(["application", "CONST", "richTextEditor"], function (application, CONST,
         tbody = tbOwnParametersElem.find("tbody");
 
         var fields = itemData.fields;
-        var curLangguage = application.getLanguageCurrent();
-        var curVersion = application.getVersionCurrent();
+        var curLangguage = Utils.getLanguageCurrent();
+        var curVersion = Utils.getVersionCurrent();
         if (fields && curLangguage && curVersion) {
           var fieldsLang = _.where(fields, { itemId: itemData.id, lang: curLangguage.code, version: parseInt(curVersion)});
           for (var i = 0; i < fieldsLang.length; i++) {
@@ -146,8 +146,8 @@ define(["application", "CONST", "richTextEditor"], function (application, CONST,
         if (!item || !item.fields)
           return;
         
-        var curLangguage = application.getLanguageCurrent();
-        var curVersion = application.getVersionCurrent();
+        var curLangguage = Utils.getLanguageCurrent();
+        var curVersion = Utils.getVersionCurrent();
         if (!curLangguage || !curVersion)
           return;
 

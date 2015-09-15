@@ -1,6 +1,5 @@
 ﻿
 define(["CONST", "Utils"], function (CONST, Utils) {
-//define(["CONST"], function (CONST, Notification) {
 
   var Application = function() {
     var self;
@@ -16,7 +15,7 @@ define(["CONST", "Utils"], function (CONST, Utils) {
     var richTextEditorCtrl;
     var menuItemEngineTree;
 
-    var keyDownEventLast;
+    //var keyDownEventLast;
     var uiComponents = {};
     var userManagers = [];
 
@@ -43,8 +42,6 @@ define(["CONST", "Utils"], function (CONST, Utils) {
 
         // UI interval
         setInterval(self.intervalUI, 50);
-
-        $(window).keydown(self.keyDownEventFunc);
       },
 
       initialize: function(_$scope, _$http, _$window) {
@@ -67,19 +64,6 @@ define(["CONST", "Utils"], function (CONST, Utils) {
         }
       },      
 
-      keyDownEventFunc: function(event) {
-        keyDownEventLast = event;
-        if (self.isFunctionalKey(event)) {
-          event.preventDefault();
-          return false;
-        }
-        return true;
-      },
-
-      isFunctionalKey: function(event) {
-        return CONST.IS_CTRL_S_KEY(event);
-      },
-
       addUIComponent: function(key, component) {
         if (key && component)
           uiComponents[key] = component;
@@ -93,10 +77,8 @@ define(["CONST", "Utils"], function (CONST, Utils) {
         Utils.intervalUI();
 
         var uiData = {};
-        if (keyDownEventLast) {
-          uiData.keyDownEventLast = keyDownEventLast;
-          keyDownEventLast = null;
-        }
+        uiData.keyDownEventLast = Utils.keyDownEventLast;
+        Utils.keyDownEventLast = null;
 
         var keysComponent = _.keys(uiComponents);
         _.each(keysComponent, function(key) {
@@ -106,6 +88,9 @@ define(["CONST", "Utils"], function (CONST, Utils) {
         });
       },
 
+      ///
+      /// Setting of the Controls
+      ///
       setEngineTree: function(_engineTree) {
         if (_engineTree) {
           engineTree = _engineTree;
@@ -149,19 +134,23 @@ define(["CONST", "Utils"], function (CONST, Utils) {
       setMenuItemEngineTree: function (menuItem) { menuItemEngineTree = menuItem; },
       getMenuItemEngineTree: function () { return menuItemEngineTree; },
 
-      addUserManager: function(userManager) {
+      ///
+      /// End Setting of the Controls
+      ///
+
+      addUserManager: function (userManager) {
         if (userManager) {
           userManagers.push(userManager);
         }
       },
 
-      getUserRoles: function() {
+      getUserRoles: function () {
         if (!userRoleList)
           return [];
 
         return _.clone(userRoleList);
       },
-      loadUserRoles: function(callback) {
+      loadUserRoles: function (callback) {
         var data = { action: "getUserRoles" };
         self.isRequestProcess = true;
 
@@ -179,6 +168,7 @@ define(["CONST", "Utils"], function (CONST, Utils) {
             callback();
         });
       },
+
 
       ///
       /// Users
@@ -418,7 +408,6 @@ define(["CONST", "Utils"], function (CONST, Utils) {
         return typeItems;
       },
 
-
       findChildItems: function (allItems, parentItem) {
         if (!allItems || !parentItem)
           return;
@@ -459,25 +448,6 @@ define(["CONST", "Utils"], function (CONST, Utils) {
           });
       },
 
-      //isCorrectHeightOnce: false,
-      //$tabPanelAreaElem: null,
-      //$dvMainContent: null,
-      //correctHeightWindow: function () {
-      //  if (!self.isCorrectHeightOnce || !self.$tabPanelAreaElem || self.$tabPanelAreaElem.length === 0)
-      //    self.$tabPanelAreaElem = $("#tabPanelArea");
-      //  var isAvailable = self.$tabPanelAreaElem.length > 0 && self.$tabPanelAreaElem[0].clientHeight > 0;
-      //  if (isAvailable) {
-      //    self.isCorrectHeightOnce = true;
-      //    if (!self.$dvMainContent)
-      //      self.$dvMainContent = $("#dvMainContent");
-                    
-      //    var heightCommon = self.$tabPanelAreaElem[0].offsetHeight;
-      //    var heightRest = window.innerHeight - heightCommon - 2;          
-      //    self.$dvMainContent.find(".dvTable").height(heightRest);
-      //    self.$dvMainContent.find(".dvInfoPanel").height(heightRest);
-      //  }
-      //},
-    
       isTemplateItem: function (item) {
         if (!item)
           return false;
@@ -504,29 +474,7 @@ define(["CONST", "Utils"], function (CONST, Utils) {
           index++;
         }
         return isItemUnderTemplates;
-      },
-      
-      getLanguageCurrent: function () {
-        var curLanguage;
-        var $selLanguageElem = $(CONST.LANGUAGE_SELECTOR());
-        if ($selLanguageElem.length > 0) {
-          var langCode = $selLanguageElem.val();
-          curLanguage = _.findWhere(CONST.LANGUAGE_LIST(), { code: langCode });
-        }
-        if (!curLanguage)
-          curLanguage = CONST.LANGUAGE_DEFAULT();
-        return curLanguage;
-      },
-
-      getVersionCurrent: function () {
-        var curVersion = 0;
-        var $selVersionElem = $(CONST.VERSION_SELECTOR());
-        if ($selVersionElem.length > 0) {
-          curVersion = $selVersionElem.val();
-        }
-        return curVersion;
-      },
-
+      },     
       
     };
     application.constructor();

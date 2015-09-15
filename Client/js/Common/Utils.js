@@ -12,9 +12,9 @@
       constructor: function () {
         self = this;
 
-        $(window).resize(self.windowResized);
+        $(window).resize(self.resizeWindow);
 
-        $(window).keydown(self.keyDownEventFunc);
+        $(window).keydown(self.keyDownWindow);
       },
 
       intervalUI: function() {
@@ -24,7 +24,11 @@
         }
       },
 
-      keyDownEventFunc: function (event) {
+      resizeWindow: function (event) {
+        isWindowResized = true;
+      },
+
+      keyDownWindow: function (event) {
         self.keyDownEventLast = event;
         if (self.isFunctionalKey(event)) {
           event.preventDefault();
@@ -75,8 +79,17 @@
         }
       },
 
-      windowResized: function (event) {
-        isWindowResized = true;
+      findChildItems: function (allItems, parentItem) {
+        if (!allItems || !parentItem)
+          return;
+
+        if (parentItem && parentItem.children) {
+          _.each(parentItem.children, function (item) {
+            allItems.push(item);
+
+            self.findChildItems(allItems, item);
+          });
+        }
       },
 
       $tabPanelAreaElem: null,

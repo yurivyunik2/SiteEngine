@@ -352,7 +352,6 @@ define(["CONST", "Utils"], function (CONST, Utils) {
       /// End Items
       ///
 
-
       getTemplateItems: function () {
         var templateItems = [];
         if (items) {
@@ -362,7 +361,7 @@ define(["CONST", "Utils"], function (CONST, Utils) {
         var allTemplates = [];
         _.each(templateItems, function (item) {
           allTemplates.push(item);
-          self.findChildItems(allTemplates, item);
+          Utils.findChildItems(allTemplates, item);
         });
 
         return allTemplates;
@@ -377,7 +376,7 @@ define(["CONST", "Utils"], function (CONST, Utils) {
         var allLayouts = [];
         _.each(layoutItems, function (item) {
           allLayouts.push(item);
-          self.findChildItems(allLayouts, item);
+          Utils.findChildItems(allLayouts, item);
         });
 
         return allLayouts;
@@ -393,7 +392,7 @@ define(["CONST", "Utils"], function (CONST, Utils) {
         var allMediaItems = [];
         _.each(mediaItems, function (item) {
           //allMediaItems.push(item);
-          self.findChildItems(allMediaItems, item);
+          Utils.findChildItems(allMediaItems, item);
         });
 
         return allMediaItems;
@@ -406,19 +405,6 @@ define(["CONST", "Utils"], function (CONST, Utils) {
           typeItems = _.where(items, { parent: CONST.DATA_TYPES_ROOT_ID() });
         }
         return typeItems;
-      },
-
-      findChildItems: function (allItems, parentItem) {
-        if (!allItems || !parentItem)
-          return;
-
-        if (parentItem && parentItem.children) {
-          _.each(parentItem.children, function (item) {
-            allItems.push(item);
-
-            self.findChildItems(allItems, item);
-          });
-        }
       },
 
       httpRequest: function (data, success, error) {

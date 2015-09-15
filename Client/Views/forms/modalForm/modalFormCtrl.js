@@ -172,18 +172,16 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
         }
 
         try {
-        } catch (ex) {
           $scope.$apply();
-        }
+        } catch (ex) { }
 
       },
 
       showAfterLoad: function () {
         $scope.isShowModalForm = true;        
         try {
-        } catch (ex) {
           $scope.$apply();
-        }
+        } catch (ex) { }
 
 
         if (self.curType) {
@@ -224,9 +222,8 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
                 $scope.errorMessage = "Unknown error";
               $scope.isError = true;
               try {
-              } catch (ex) {
                 $scope.$apply();
-              }
+              } catch (ex) { }
               return;
             }
           }

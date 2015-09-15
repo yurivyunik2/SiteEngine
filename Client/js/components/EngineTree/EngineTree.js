@@ -106,11 +106,6 @@ function (application, CONST, TreeGrid, MenuItem, InfoPanel, TooltipCustom) {
         return (($dvTableElem.length === 0 || $dvTableElem[0].clientWidth === 0) || $dvInfoPanelElem.length === 0) ? false : true;
       },
 
-      //treeGridOpenCloseNodeEventHandler: function (item) {
-      //  //if (item && item.isOpened && self.infoPanel)
-      //  //  self.infoPanel.resizeInfoPanel();
-      //},
-
       intervalUI: function (uiData) {
         if (!uiData)
           return;        

@@ -1,4 +1,4 @@
-﻿define(["application", "CONST"], function (application, CONST) {
+﻿define(["application", "CONST", "Utils"], function (application, CONST, Utils) {
 
   return function ($scope) {
 
@@ -98,7 +98,7 @@
             indexRequest++;
             if (item && item.fields) {
               var fieldBlob = _.findWhere(item.fields, { fieldId: CONST.BLOB_MEDIA_FIELDS_ID() });
-              if (fieldBlob && !application.isValueNull(fieldBlob.value)) {
+              if (fieldBlob && !Utils.isValueNull(fieldBlob.value)) {
                 item.src = "data:image;base64," + fieldBlob.value;
                 item.isBlob = true;
               } else {

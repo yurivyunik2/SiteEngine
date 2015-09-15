@@ -41,7 +41,7 @@
         if ($dvLeftArea.length > 0) {
           //
           treeGrid = new TreeGrid($dvLeftArea);
-          treeGrid.populate(application.getTemplateItems(true));
+          treeGrid.populate(application.getTemplateItems());
         }
 
         var insertOptions;

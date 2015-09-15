@@ -111,11 +111,11 @@
 
         var $treeLayout = $formElem.find("#" + layoutUI.idTreeGrid);
         treeGridLayout = new TreeGrid($treeLayout);
-        treeGridLayout.populate(application.getLayoutItems(true));
+        treeGridLayout.populate(application.getLayoutItems());
         
         var $treeSubLayout = $formElem.find("#" + subLayoutUI.idTreeGrid);
         treeGridSublayout = new TreeGrid($treeSubLayout);
-        treeGridSublayout.populate(application.getLayoutItems(true));
+        treeGridSublayout.populate(application.getLayoutItems());
 
 
         var renderingValue;

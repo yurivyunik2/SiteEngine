@@ -116,7 +116,7 @@ function (application, CONST, Utils, EngineTree, ActionCtrl, ModalFormCtrl, TabP
           var engineTree = application.getEngineTree();
           if (!items || !engineTree)
             return;
-          var treeGrid = engineTree.getTreeGrid();          
+          var treeGrid = engineTree.getTreeGrid();
           if (treeGrid) {            
             treeGrid.populate(items);
             if (treeGrid.treeItems && treeGrid.treeItems.length > 0) {

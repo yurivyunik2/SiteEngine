@@ -1,5 +1,5 @@
 ﻿
-define(["CONST", "notification"], function (CONST, Notification) {
+define(["CONST", "Utils"], function (CONST, Utils) {
 //define(["CONST"], function (CONST, Notification) {
 
   var Application = function() {
@@ -8,6 +8,7 @@ define(["CONST", "notification"], function (CONST, Notification) {
     var $http;
     var $window;
 
+    // controls(elements)
     var modalFormCtrl;
     var engineTree;
     var actionCtrl;
@@ -18,9 +19,6 @@ define(["CONST", "notification"], function (CONST, Notification) {
     var keyDownEventLast;
     var uiComponents = {};
     var userManagers = [];
-
-    //var items = [];
-    var templateItems = [];
 
     var userList = [];
     var userRoleList = [];
@@ -38,23 +36,10 @@ define(["CONST", "notification"], function (CONST, Notification) {
     var application = {
       initItems: null,
 
-      //
-      hashParentItems: {},
-      hashItems: {},
-      hashChangedItems: {},
-
-      hashInsertOptions: {},
-
-
-      treeItems: [],
-      treeItemsHash: {},
-
       isRequestProcess: false,
 
       constructor: function() {
-        self = this;
-
-        $(window).resize(self.windowResized);
+        self = this;        
 
         // UI interval
         setInterval(self.intervalUI, 50);
@@ -80,14 +65,7 @@ define(["CONST", "notification"], function (CONST, Notification) {
           session.pass = pass;
           session.isLogged = true;
         }
-      },
-
-      isValueNull: function(value) {
-        if (!value || value === "" || value === "null")
-          return true;
-        else
-          return false;
-      },
+      },      
 
       keyDownEventFunc: function(event) {
         keyDownEventLast = event;
@@ -102,11 +80,6 @@ define(["CONST", "notification"], function (CONST, Notification) {
         return CONST.IS_CTRL_S_KEY(event);
       },
 
-      isWindowResized: false,
-      windowResized: function(event) {
-        self.isWindowResized = true;
-      },
-
       addUIComponent: function(key, component) {
         if (key && component)
           uiComponents[key] = component;
@@ -115,11 +88,9 @@ define(["CONST", "notification"], function (CONST, Notification) {
         delete uiComponents[key];
       },
 
-      intervalUI: function () {        
-        if (!self.isCorrectHeightOnce || self.isWindowResized) {
-          self.isWindowResized = false;
-          self.correctHeightWindow();
-        }
+      intervalUI: function () {
+
+        Utils.intervalUI();
 
         var uiData = {};
         if (keyDownEventLast) {
@@ -209,6 +180,9 @@ define(["CONST", "notification"], function (CONST, Notification) {
         });
       },
 
+      ///
+      /// Users
+      /// 
       getUsers: function() {
         if (!userList)
           return [];
@@ -286,17 +260,26 @@ define(["CONST", "notification"], function (CONST, Notification) {
         }
       },
 
+      ///
+      /// End Users
+      /// 
+
+
+      ///
+      /// Items
+      ///
       getItemFields: function(item, callback) {
         if (!item || !item.id || !item.templateId)
           return;
         var data = { action: "getItemFields", id: item.id, templateId: item.templateId };
 
         self.httpRequest(data, function(responseData) {
-          var isCallbackCall = true;
           if (responseData.isOK) {
             self.isRequestProcess = false;
-            var fields = responseData.data;
-            item.fields = fields;
+            if (responseData.data) {
+              var fields = responseData.data;
+              item.fields = fields;
+            }
             if (callback)
               callback();
           } else {
@@ -317,9 +300,13 @@ define(["CONST", "notification"], function (CONST, Notification) {
           if (response.isOK) {
             self.isRequestProcess = false;
 
-            self.initializeItems(response.data);
-            if (callback)
-              callback(self.initItems);
+            if (response.data) {
+              //self.initializeItems(response.data);
+              self.initItems = _.clone(response.data);
+              //self.initItems[0] = _.clone(items[0]);
+              if (callback)
+                callback(self.initItems);
+            }
           } else {
             //response.error
           }
@@ -330,81 +317,6 @@ define(["CONST", "notification"], function (CONST, Notification) {
       getItems: function() {
         return self.initItems;
       },
-      getTreeItems: function() { return self.treeItems; },
-
-      initializeItems: function(items) {
-        this.initItems = _.clone(items);
-        this.initItems[0] = _.clone(items[0]);
-
-        this.treeItems = [];
-        this.treeItemsHash = {};
-
-        this.hashParentItems = {};
-        this.hashItems = {};
-        this.hashChangedItems = {};
-
-        this.populateItems(items);
-      },
-
-      populateItems: function(items) {
-
-        try {
-          // find parent for each item
-          for (var i = 0; i < items.length; i++) {
-            var curItem = items[i];
-
-            //----fix----//
-            if (typeof this.hashParentItems[curItem.id] != 'undefined') {
-              this.hashParentItems[curItem.id].children = curItem.children;
-              curItem = this.hashParentItems[curItem.id];
-            }
-            //----fix end----//
-
-            //
-            //this.hashItemsPopulate[curItem.id] = curItem;
-
-            var parentItem;
-
-            if (typeof curItem.parent !== 'undefined' && curItem.parent != '') {
-              parentItem = this.hashParentItems[curItem.parent];
-
-              if (typeof parentItem === 'undefined') {
-                for (var j = 0; j < items.length; j++) {
-                  if (curItem.parent == items[j].id) {
-                    parentItem = items[j];
-                    break;
-                  }
-                }
-              }
-            }
-
-            if (typeof parentItem !== 'undefined' && curItem.parent && curItem.parent != "") {
-              if (typeof parentItem.children === 'undefined') {
-                parentItem.children = [];
-                parentItem.childrenHash = {};
-              }
-
-              if (typeof parentItem.childrenHash[curItem.id] == 'undefined') {
-                parentItem.children.push(curItem);
-              } else {
-                curItem = parentItem.childrenHash[curItem.id];
-              }
-              parentItem.childrenHash[curItem.id] = curItem;
-
-              curItem.parentObj = parentItem;
-              this.hashParentItems[parentItem.id] = parentItem;
-            } else {
-              if (typeof this.treeItemsHash[curItem.id] == 'undefined') {
-                this.treeItems.push(curItem);
-              }
-              this.treeItemsHash[curItem.id] = curItem;
-            }
-          }
-        } catch (ex) {
-          //var i = 0;
-        }
-      },
-
 
       addItemChangeSubscribers: function (subscriber, handler) {
         if (!subscriber || !handler)
@@ -418,7 +330,6 @@ define(["CONST", "notification"], function (CONST, Notification) {
 
         delete itemChangeSubscribers[subscriber];
       },
-
 
       addItem: function (item) {
         var parentObj = { id: item.parentId };
@@ -447,9 +358,14 @@ define(["CONST", "notification"], function (CONST, Notification) {
         });
       },
 
-      getTemplateItems: function (isRefresh) {
+      ///
+      /// End Items
+      ///
+
+
+      getTemplateItems: function () {
         var templateItems = [];
-        if (isRefresh && items) {
+        if (items) {
           templateItems = _.where(items, { id: CONST.TEMPLATES_ROOT_ID() });
         }
 
@@ -462,9 +378,9 @@ define(["CONST", "notification"], function (CONST, Notification) {
         return allTemplates;
       },
 
-      getLayoutItems: function (isRefresh) {
+      getLayoutItems: function () {
         var layoutItems = [];
-        if (isRefresh && items) {
+        if (items) {
           layoutItems = _.where(items, { id: CONST.LAYOUTS_ROOT_ID() });
         }
 
@@ -533,54 +449,34 @@ define(["CONST", "notification"], function (CONST, Notification) {
           success(function (response, status, headers, config) {
             if (success) {
               success(response);
-              self.showNotification(data, response);
+              Utils.showNotification(data, response);
             }            
           }).
           error(function (response, status, headers, config) {
             if(error)
               error(response, status, header, config);
-            self.showNotification(data, response);
+            Utils.showNotification(data, response);
           });
       },
-      
-      showNotification: function (data, response) {
-        if (!data || !data.isNotified)
-          return;
-        var actionName;
-        if (data.actionName)
-          actionName = data.actionName;
-        else if (data.action)
-          actionName = data.action;
-        if (actionName) {
-          if (response && response.isOK)
-            Notification.show(Notification.INFO(), actionName + " was successfully!");
-          else {
-            if (response)
-              Notification.show(Notification.ERROR(), actionName + " was finished with error: " + response);
-            else
-              Notification.show(Notification.ERROR(), actionName + " was finished with error!");
-          }
-        }
-      },
 
-      isCorrectHeightOnce: false,
-      $tabPanelAreaElem: null,
-      $dvMainContent: null,
-      correctHeightWindow: function () {        
-        if (!self.isCorrectHeightOnce || !self.$tabPanelAreaElem || self.$tabPanelAreaElem.length === 0)
-          self.$tabPanelAreaElem = $("#tabPanelArea");
-        var isAvailable = self.$tabPanelAreaElem.length > 0 && self.$tabPanelAreaElem[0].clientHeight > 0;
-        if (isAvailable) {
-          self.isCorrectHeightOnce = true;
-          if (!self.$dvMainContent)
-            self.$dvMainContent = $("#dvMainContent");
+      //isCorrectHeightOnce: false,
+      //$tabPanelAreaElem: null,
+      //$dvMainContent: null,
+      //correctHeightWindow: function () {
+      //  if (!self.isCorrectHeightOnce || !self.$tabPanelAreaElem || self.$tabPanelAreaElem.length === 0)
+      //    self.$tabPanelAreaElem = $("#tabPanelArea");
+      //  var isAvailable = self.$tabPanelAreaElem.length > 0 && self.$tabPanelAreaElem[0].clientHeight > 0;
+      //  if (isAvailable) {
+      //    self.isCorrectHeightOnce = true;
+      //    if (!self.$dvMainContent)
+      //      self.$dvMainContent = $("#dvMainContent");
                     
-          var heightCommon = self.$tabPanelAreaElem[0].offsetHeight;
-          var heightRest = window.innerHeight - heightCommon - 2;          
-          self.$dvMainContent.find(".dvTable").height(heightRest);
-          self.$dvMainContent.find(".dvInfoPanel").height(heightRest);
-        }
-      },
+      //    var heightCommon = self.$tabPanelAreaElem[0].offsetHeight;
+      //    var heightRest = window.innerHeight - heightCommon - 2;          
+      //    self.$dvMainContent.find(".dvTable").height(heightRest);
+      //    self.$dvMainContent.find(".dvInfoPanel").height(heightRest);
+      //  }
+      //},
     
       isTemplateItem: function (item) {
         if (!item)

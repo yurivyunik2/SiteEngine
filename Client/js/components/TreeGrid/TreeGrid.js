@@ -39,12 +39,9 @@ define(["application", "row", "headerRow", "CONST", "css!TreeGridCss"], function
       isDrag: false,
       $dragLine: null,
 
-      initItems: null,
-
       //
       hashParentItems: {},
       hashItems: {},
-      hashChangedItems: {},
 
       treeItems: [],
       treeItemsHash: {},
@@ -72,15 +69,11 @@ define(["application", "row", "headerRow", "CONST", "css!TreeGridCss"], function
       setIsCheckBoxElem: function (_isCheckBoxElem) { isCheckBoxElem = _isCheckBoxElem; },
 
       initializeItems: function (items) {
-        this.initItems = _.clone(items);
-        this.initItems[0] = _.clone(items[0]);
-
         this.treeItems = [];
         this.treeItemsHash = {};
 
         this.hashParentItems = {};
         this.hashItems = {};
-        this.hashChangedItems = {};
 
         this.populateItems(items);
       },

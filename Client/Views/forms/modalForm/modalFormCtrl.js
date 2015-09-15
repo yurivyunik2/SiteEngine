@@ -107,7 +107,7 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
             isProcessed = innerCtrl.keyDownEventFunc(event);
           }
           if (!isProcessed) {
-            if (event && event.which == CONST.ENTER_KEY()) {
+            if (event && event.which === CONST.ENTER_KEY()) {
               self.clickOk();
             }
           }

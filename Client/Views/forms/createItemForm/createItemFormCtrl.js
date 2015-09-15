@@ -5,7 +5,7 @@
       show: function () {
         var $inName = $("#dvItemName").find(".inName");
         $inName.val("");
-        $inName.focus();        
+        $inName.focus();
       },
 
       clickOK: function (dataRequest) {
@@ -30,27 +30,11 @@
           lang: langCode
           //fields: $scope.selTemplate.fields
         };
-        //var data = {
-        //  method: 'POST',
-        //  url: $scope.server,
-        //  headers: {
-        //    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-        //  },
-        //  //data: "action=" + action + "&name=template1&fields=[1,2,3]&parent=5"
-        //  data: JSON.stringify(data)
-        //};
 
         application.httpRequest(data, function (response) {
           $scope.isShowModalForm = false;
           if (response.isOK) {
             if (response.data && response.data.item) {              
-              //var item = response.data.item;
-              //var parentObj = { id: item.parentId };
-              //var newItem = { id: item.id, name: item.name, templateId: item.templateId };
-              //var engineTree = application.getEngineTree();
-              //var treeGrid = engineTree.getTreeGrid();
-              //treeGrid.addChildNode(parentObj, newItem);
-
               application.addItem(response.data.item);
             }
           }

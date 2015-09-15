@@ -12,9 +12,9 @@
       constructor: function () {
         self = this;
 
-        $(window).resize(self.resizeWindow);
+        $(window).resize(self.windowResize);
 
-        $(window).keydown(self.keyDownWindow);
+        $(window).keydown(self.windowKeyDown);
       },
 
       intervalUI: function() {
@@ -24,11 +24,11 @@
         }
       },
 
-      resizeWindow: function (event) {
+      windowResize: function (event) {
         isWindowResized = true;
       },
 
-      keyDownWindow: function (event) {
+      windowKeyDown: function (event) {
         self.keyDownEventLast = event;
         if (self.isFunctionalKey(event)) {
           event.preventDefault();
@@ -50,13 +50,6 @@
           $loadingAppElem.css("display", "none");
           $viewAppElem.css("display", "block");
         }
-      },
-
-      isValueNull: function (value) {
-        if (!value || value === "" || value === "null")
-          return true;
-        else
-          return false;
       },
 
       showNotification: function (data, response) {
@@ -129,6 +122,13 @@
           curVersion = $selVersionElem.val();
         }
         return curVersion;
+      },
+
+      isValueNull: function (value) {
+        if (!value || value === "" || value === "null")
+          return true;
+        else
+          return false;
       },
 
     };

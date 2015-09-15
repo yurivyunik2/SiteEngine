@@ -15,7 +15,6 @@ define(["CONST", "Utils"], function (CONST, Utils) {
     var richTextEditorCtrl;
     var menuItemEngineTree;
 
-    //var keyDownEventLast;
     var uiComponents = {};
     var userManagers = [];
 

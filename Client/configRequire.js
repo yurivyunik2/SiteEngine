@@ -25,9 +25,6 @@
     
     jqueryUi: ["jquery"],
     routing: ["jquery", "underscore"],
-    //notificationFormCtrl: {
-    //  exports: "NotificationFormCtrl"
-    //},
 
     contextMenu: ["jquery"],
   },

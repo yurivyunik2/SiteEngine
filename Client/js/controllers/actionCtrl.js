@@ -55,9 +55,9 @@ function (application, Notification, PanelFormCtrl, PanelTypes) {
                 };
 
                 if (isItemUnderTemplates && isTemplateDataItem) {
-                  modalFormCtrl.showType(modalFormCtrl.FORM_TYPE().CREATE_TEMPLATE, dataRequest);
+                  modalFormCtrl.setType(modalFormCtrl.FORM_TYPE().CREATE_TEMPLATE, dataRequest);
                 } else {
-                  modalFormCtrl.showType(modalFormCtrl.FORM_TYPE().CREATE_ITEM, dataRequest);
+                  modalFormCtrl.setType(modalFormCtrl.FORM_TYPE().CREATE_ITEM, dataRequest);
                 }
               }
             }
@@ -75,7 +75,7 @@ function (application, Notification, PanelFormCtrl, PanelTypes) {
               };
 
               if (isItemUnderTemplates) {
-                modalFormCtrl.showType(modalFormCtrl.FORM_TYPE().CREATE_TEMPLATE, dataRequest);
+                modalFormCtrl.setType(modalFormCtrl.FORM_TYPE().CREATE_TEMPLATE, dataRequest);
               }
             }
             break;
@@ -105,13 +105,13 @@ function (application, Notification, PanelFormCtrl, PanelTypes) {
           }
           case "previewItem":
             {
-              modalFormCtrl.showType(modalFormCtrl.FORM_TYPE().UNKNOWN_FORM);
+              modalFormCtrl.setType(modalFormCtrl.FORM_TYPE().UNKNOWN_FORM);
               break;
             }
           case "assignItem": {
             
             if (selectedItem) {              
-              modalFormCtrl.showType(modalFormCtrl.FORM_TYPE().INSERT_OPTIONS, { item: selectedItem });
+              modalFormCtrl.setType(modalFormCtrl.FORM_TYPE().INSERT_OPTIONS, { item: selectedItem });
             } else {
               Notification.show(Notification.INFO(), "You need to select item!");
             }
@@ -122,7 +122,7 @@ function (application, Notification, PanelFormCtrl, PanelTypes) {
           case "detailsItem":
             {
               if (selectedItem) {
-                modalFormCtrl.showType(modalFormCtrl.FORM_TYPE().LAYOUT, { item: selectedItem });
+                modalFormCtrl.setType(modalFormCtrl.FORM_TYPE().LAYOUT, { item: selectedItem });
               } else {
                 Notification.show(Notification.INFO(), "You need to select item!");
               }

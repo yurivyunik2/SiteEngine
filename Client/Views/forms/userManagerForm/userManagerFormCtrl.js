@@ -30,6 +30,8 @@ define(["application", "CONST"], function (application, CONST) {
         application.addUserManager(self);
       },
 
+      IsButtonsFormHide: function () { return true;},
+
       update: function () {
         self.populate();
       },
@@ -93,7 +95,7 @@ define(["application", "CONST"], function (application, CONST) {
 
       newUserClick: function ($event) {
         var modalFormCtrl = application.getModalFormCtrl();
-        modalFormCtrl.showType(modalFormCtrl.FORM_TYPE().NEW_USER, {});
+        modalFormCtrl.setType(modalFormCtrl.FORM_TYPE().NEW_USER, {});
       },
 
       editUserClick: function ($event) {
@@ -104,7 +106,7 @@ define(["application", "CONST"], function (application, CONST) {
           var userSelected = _.findWhere(users, { id: parseInt(idSel) });
           if (userSelected) {
             var modalFormCtrl = application.getModalFormCtrl();
-            modalFormCtrl.showType(modalFormCtrl.FORM_TYPE().NEW_USER, { user: userSelected });
+            modalFormCtrl.setType(modalFormCtrl.FORM_TYPE().NEW_USER, { user: userSelected });
           }
         }
       },

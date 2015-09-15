@@ -11,7 +11,7 @@
           <img src="./images/closeWindow.png" ng-click="clickCancel($event)">
         </div>      
         <div class="dvIncludePart">
-          <div ng-include="form_path" onload="loadDivInclude()"></div>
+          <div ng-include="formPath" onload="loadFinishedFormCtrl()"></div>
         </div>
         <div class="dvButtonsForm" >
           <label ng-show="isError">{{errorMessage}}</label>

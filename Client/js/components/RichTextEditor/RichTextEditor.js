@@ -109,7 +109,7 @@ define(["application", "CONST", "customEditor"], function (application, CONST, c
       // open of the Image Gallery
       imageGalleryOpen: function() {
         var modalFormCtrl = application.getModalFormCtrl();
-        modalFormCtrl.showType(modalFormCtrl.FORM_TYPE().IMAGE_GALLERY, { isMultipleSelect: false, callback: self.imageGalleryOpenCallback });
+        modalFormCtrl.setType(modalFormCtrl.FORM_TYPE().IMAGE_GALLERY, { isMultipleSelect: false, callback: self.imageGalleryOpenCallback });
       },
       // imageGalleryOpenCallback
       imageGalleryOpenCallback: function (data) {

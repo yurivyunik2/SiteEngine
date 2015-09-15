@@ -103,6 +103,10 @@ define(["CONST", "Utils"], function (CONST, Utils) {
             treeGrid.selectItem(treeGrid.treeItems[0]);
           }
         }
+
+        if (modalFormCtrl)
+          modalFormCtrl.loadFormControls();
+
         // loading - turn off
         Utils.setLoadingApplication(false);
       },

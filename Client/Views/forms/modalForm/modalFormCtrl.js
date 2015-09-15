@@ -23,39 +23,49 @@ define(["application", "CONST",
 function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, InsertOptionsForm, LayoutFormCtrl, UserManagerFormCtrl, NewUserFormCtrl, ImageGalleryFormCtrl) {
 
   return function ($scope) {
-    
+
+    var self;
+    var currentCtrl;
+    var dataCtrl;
+
+    var createTemplateFormCtrl;
+    var createItemFormCtrl;
+    var insertOptionsForm;
+    var layoutFormCtrl;
+    var userManagerFormCtrl;
+    var newUserFormCtrl;
+    var imageGalleryFormCtrl;
+
     var FormType = {
       CREATE_TEMPLATE: {
-        form_id: "createTemplateForm",
-        form_path: "/SiteEngine/Client/Views/forms/createTemplateForm/createTemplateForm.html",
-        form_ctrl: new CreateTemplateFormCtrl($scope),
+        getControl: function() { return createTemplateFormCtrl; }
       },
       CREATE_ITEM: {
         form_id: "createItemForm",
         form_path: "/SiteEngine/Client/Views/forms/createItemForm/createItemForm.html",
-        form_ctrl: new CreateItemFormCtrl($scope),
+        formCtrl: new CreateItemFormCtrl($scope),
       },
       INSERT_OPTIONS: {
         form_path: "/SiteEngine/Client/Views/forms/insertOptionsForm/insertOptionsForm.html",
-        form_ctrl: new InsertOptionsForm($scope),
+        formCtrl: new InsertOptionsForm($scope),
       },
       LAYOUT: {
         form_path: "/SiteEngine/Client/Views/forms/layoutForm/layoutForm.html",
-        form_ctrl: new LayoutFormCtrl($scope),
+        formCtrl: new LayoutFormCtrl($scope),
       },
       USER_MANAGER: {
         form_path: "/SiteEngine/Client/Views/forms/userManagerForm/userManagerForm.html",
-        form_ctrl: new UserManagerFormCtrl($scope),
+        formCtrl: new UserManagerFormCtrl($scope),
         isButtonsFormHide: true,
       },
       NEW_USER: {
         form_path: "/SiteEngine/Client/Views/forms/newUserForm/newUserForm.html",
-        form_ctrl: new NewUserFormCtrl($scope),
+        formCtrl: new NewUserFormCtrl($scope),
       },
 
       IMAGE_GALLERY: {
         form_path: "/SiteEngine/Client/Views/forms/imageGalleryForm/imageGalleryForm.html",
-        form_ctrl: new ImageGalleryFormCtrl($scope),
+        formCtrl: new ImageGalleryFormCtrl($scope),
       },
 
       UNKNOWN_FORM: {
@@ -63,30 +73,26 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
       },
     };
 
-    var self;
-
-    var isLoadDivInclude = false;
-    var dataForm;
+    var isCtrlLoaded = false;    
     var formSelector = "#modalFormPanel";
     var buttonsFormSelector = ".dvButtonsForm";
 
     var modalFormCtrl = {
-
       curType: null,
+      FORM_TYPE: function () { return FormType; },
+      get$Elem: function () { return $(formSelector); },
 
       constructor: function () {
         self = this;
         $scope.clickOk = this.clickOk;
         $scope.clickCancel = this.clickCancel;
 
-        $scope.loadDivInclude = self.loadDivInclude;
+        $scope.loadFinishedFormCtrl = self.loadFinishedFormCtrl;
         $scope.loadModalForm = self.loadModalForm;
 
-        application.addUIComponent("modalFormCtrl", self);
-      },
+        self.initialize();
 
-      get$Elem: function () {
-        return $(formSelector);
+        application.addUIComponent("modalFormCtrl", self);
       },
 
       initialize: function () {
@@ -94,17 +100,19 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
         $scope.errorMessage = "unknown error";
       },
 
-      FORM_TYPE: function() { return FormType; },
+      loadFormControls: function() {
+        createTemplateFormCtrl = new CreateTemplateFormCtrl($scope);
+      },
 
       intervalUI: function (uiData) {
         if (uiData && uiData.keyDownEventLast) {
           var event = uiData.keyDownEventLast;
           var isProcessed = false;
-          var innerCtrl;
-          if (self.curType)
-            innerCtrl = self.curType.form_ctrl;
-          if (innerCtrl && innerCtrl.keyDownEventFunc) {
-            isProcessed = innerCtrl.keyDownEventFunc(event);
+          //var innerCtrl;
+          //if (self.curType)
+          //  innerCtrl = self.curType.formCtrl;
+          if (currentCtrl && currentCtrl.keyDownEventFunc) {
+            isProcessed = currentCtrl.keyDownEventFunc(event);
           }
           if (!isProcessed) {
             if (event && event.which === CONST.ENTER_KEY()) {
@@ -119,12 +127,12 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
         //$(formSelector).find(".dvContentForm").resizable();
       },
 
-      loadDivInclude: function () {
-        isLoadDivInclude = true;
-        self.showAfterLoad();
+      loadFinishedFormCtrl: function () {
+        isCtrlLoaded = true;
+        self.showControl(dataCtrl);
         
-        if (self.curType && self.curType.form_id) {
-          var $formElem = $(formSelector).find("#" + self.curType.form_id);
+        if (currentCtrl && currentCtrl.getFormId()) {
+          var $formElem = $(formSelector).find("#" + currentCtrl.getFormId());
           var stMinWidth = $formElem.css("min-width");
           var minWidth = parseInt(stMinWidth);
           minWidth += $formElem[0].offsetLeft * 2;
@@ -132,61 +140,45 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
         }
       },
 
-      showType: function (formType, data) {
-        self.curType = formType;
-        if (self.curType && self.curType.form_ctrl) {
-          self.curType.form_ctrl.modalForm = self;
+      setType: function (formType, data) {
+        if (!formType || !formType.getControl())
+          return;
+        //
+        self.initialize();
+
+        dataCtrl = data;
+        if (currentCtrl !== formType.getControl()) {
+          isCtrlLoaded = false;
         }
-        self.dataForm = data;
+        currentCtrl = formType.getControl();
         self.show(data);
       },
 
       show: function (data) {
-        if (!self.curType || !self.curType.form_ctrl)
-          return;
+        if (!currentCtrl)
+          return;        
 
-        dataForm = data;
-
-        //
-        self.initialize();
-
-        if (self.curType) {
-          $scope.form_path = this.curType.form_path;          
-        }
-        else
-          $scope.form_path = FormType.UNKNOWN_FORM.form_path;
-
-        if (isLoadDivInclude) {
-          self.showAfterLoad();
-        } else {
-          if (self.curType) {
-            var $buttonsFormElem = $(formSelector).find(buttonsFormSelector);
-            (self.curType.isButtonsFormHide) ? $buttonsFormElem.hide() : $buttonsFormElem.show();
-             
-            if (self.curType.form_ctrl && self.curType.form_ctrl.show)
-              self.curType.form_ctrl.show(dataForm);
-          }
-        }
-
+        $scope.formPath = currentCtrl.getFormPath();
         try {
           $scope.$apply();
         } catch (ex) { }
 
+        if (isCtrlLoaded)
+          self.showControl(data);
       },
 
-      showAfterLoad: function () {
+      showControl: function () {
         $scope.isShowModalForm = true;        
         try {
           $scope.$apply();
         } catch (ex) { }
 
-
-        if (self.curType) {
+        if (currentCtrl) {
           var $buttonsFormElem = $(formSelector).find(buttonsFormSelector);
-          (self.curType.isButtonsFormHide) ? $buttonsFormElem.hide() : $buttonsFormElem.show();
+          (currentCtrl.IsButtonsFormHide && currentCtrl.IsButtonsFormHide()) ? $buttonsFormElem.hide() : $buttonsFormElem.show();
 
-          if (self.curType.form_ctrl && self.curType.form_ctrl.show)
-            self.curType.form_ctrl.show(dataForm);
+          if (currentCtrl.show)
+            currentCtrl.show(dataForm);
         }
 
         // yvy: it's not needed now
@@ -207,13 +199,12 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
 
       // NEXT-click, sending request to the server
       clickOk: function ($event) {
-        if (self.curType && self.curType.form_ctrl) {
-          var form_ctrl = self.curType.form_ctrl;
-          if (form_ctrl.isValidate) {
+        if (currentCtrl) {          
+          if (currentCtrl.isValidate) {
             var error = { message: "" };
-            var isValidate = form_ctrl.isValidate(error);
+            var isValidate = currentCtrl.isValidate(error);
             if (!isValidate) {
-              if (error.message && error.message != "")
+              if (error.message && error.message !== "")
                 $scope.errorMessage = error.message;
               else
                 $scope.errorMessage = "Unknown error";
@@ -225,13 +216,14 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
             }
           }
 
-          self.curType.form_ctrl.clickOK(self.dataForm, self.clickOkCallback);
+          currentCtrl.clickOK(self.clickOkCallback);
         } else {
           self.curType = null;
           self.show();
         }
       },
-      clickOkCallback: function() {
+
+      clickOkCallback: function () {
         self.hide();
       },
 

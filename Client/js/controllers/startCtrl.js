@@ -74,7 +74,7 @@ function (application, CONST, Utils, EngineTree, ActionCtrl, ModalFormCtrl, TabP
         var modalFormCtrl = new ModalFormCtrl($scope);
         application.setModalFormCtrl(modalFormCtrl);
         setTimeout(function() {
-          //modalFormCtrl.showType(modalFormCtrl.FORM_TYPE().IMAGE_GALLERY, {});
+          //modalFormCtrl.setType(modalFormCtrl.FORM_TYPE().IMAGE_GALLERY, {});
         }, 300);
 
 

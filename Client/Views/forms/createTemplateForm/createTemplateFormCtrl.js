@@ -3,7 +3,9 @@
   return function ($scope) {
 
     var self;
-    var idInterval;
+    var formId = "createTemplateForm";
+    var formPath = "/SiteEngine/Client/Views/forms/createTemplateForm/createTemplateForm.html";
+    var dataCtrl;
 
     var formSelector = "#createTemplateForm";
     var selTypeSelector = "#selType";
@@ -16,7 +18,7 @@
 
         self.initialize();
 
-        idInterval = setInterval(function() {
+        setInterval(function() {
           var $newField = $(formSelector).find("#newField");
           var $inName = $newField.find(".inName");
           var val = $inName.val();
@@ -24,6 +26,13 @@
             $inName.removeClass("inputError");
           }
         }, 300);
+      },
+
+      getFormPath: function () {
+        return formPath;
+      },
+      getFormId: function() {
+        return formId;
       },
 
       initialize: function (data) {
@@ -106,8 +115,9 @@
         return false;
       },
 
-    show: function (data) {
-        self.initialize(data);
+      show: function (data) {
+        dataCtrl = data;
+        self.initialize(dataCtrl);
       },
 
       isValidate: function (error) {
@@ -119,7 +129,8 @@
         return isNameFilled;
       },
 
-      clickOK: function (dataRequest) {
+      clickOK: function (callback) {
+        var dataRequest = dataCtrl;
         if (!dataRequest || !dataRequest.selectedItem || (!dataRequest.selectedTemplate && !dataRequest.isChange))
           return;
 
@@ -159,7 +170,7 @@
         };
 
         application.httpRequest(data, function (response) {
-          $scope.isShowModalForm = false;
+          //$scope.isShowModalForm = false;
           if (response.isOK) {
             var item = response.requestData.item;
             var fields = response.requestData.fields;
@@ -195,8 +206,11 @@
               $(item.trElem).mousedown();
             }
           }
+          if (callback)
+            callback();
         }, function (response, status, headers, config) {
-          
+          if (callback)
+            callback();
         });
       },
 

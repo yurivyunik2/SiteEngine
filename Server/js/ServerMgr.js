@@ -11,6 +11,9 @@
   var itemMgrModule = require('./ItemMgr.js');
   var itemMgr = new itemMgrModule.ItemMgr();
 
+  var templateMgrModule = require('./TemplateMgr.js');
+  var templateMgr = new templateMgrModule.TemplateMgr();
+
   var userMgrModule = require('./UserMgr.js');
   var userMgr = new userMgrModule.UserMgr();
   
@@ -102,25 +105,25 @@
               }
             case "getTemplates":
               {
-                itemMgr.getTemplates(objResponse, function () {
+                templateMgr.getTemplates(objResponse, function () {
                   response.end(JSON.stringify(objResponse));
                 });
                 break;
               }
             case "addTemplate":
               {
-                itemMgr.addTemplate(dataRequest, objResponse, function () {
+                templateMgr.addTemplate(dataRequest, objResponse, function () {
                   response.end(JSON.stringify(objResponse));
                 });
                 break;
               }
             case "updateTemplate":
-            {
-              itemMgr.updateTemplate(dataRequest, objResponse, function () {
-                response.end(JSON.stringify(objResponse));
-              });
-              break;
-            }
+              {
+                templateMgr.updateTemplate(dataRequest, objResponse, function () {
+                  response.end(JSON.stringify(objResponse));
+                });
+                break;
+              }
             case "createItem":
               {
                 itemMgr.createItem(dataRequest, objResponse, function () {

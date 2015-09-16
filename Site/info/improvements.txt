@@ -25,6 +25,7 @@
 17_2) Monitoring of the proframming news(features, tools), technologies
 
 --
+17_3) Restyling(Crossbrowsing)
 18) To implement the using of the devices
 19) Unit-testing
 20) To implement the editing on the web-pages(editing mode)

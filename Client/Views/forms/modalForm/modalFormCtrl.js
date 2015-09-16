@@ -59,10 +59,6 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
       IMAGE_GALLERY: {
         getControl: function () { return imageGalleryFormCtrl; }
       },
-
-      UNKNOWN_FORM: {
-        form_path: "/SiteEngine/Client/Views/forms/unknownForm/unknownForm.html",
-      },
     };
 
     var isCtrlLoaded = false;    

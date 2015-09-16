@@ -104,8 +104,7 @@ function (application, Notification, PanelFormCtrl, PanelTypes) {
             break;
           }
           case "previewItem":
-            {
-              modalFormCtrl.setType(modalFormCtrl.FORM_TYPE().UNKNOWN_FORM);
+            {              
               break;
             }
           case "assignItem": {

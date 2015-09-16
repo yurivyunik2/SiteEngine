@@ -17,9 +17,6 @@ function (application, CONST, UserManagerFormCtrl) {
         ctrl: new UserManagerFormCtrl($scope),
         isButtonsFormHide: true,
       },
-      UNKNOWN_FORM: {
-        path: "/SiteEngine/Client/Views/forms/unknownForm/unknownForm.html",
-      },      
     };
   };
 

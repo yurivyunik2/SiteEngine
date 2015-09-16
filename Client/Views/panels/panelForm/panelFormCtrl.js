@@ -56,7 +56,7 @@ define(["application", "CONST"], function (application, CONST) {
                 
 
                 $panelElem = $("#" + idPanel);
-                //$panelElem.draggable();
+                $panelElem.draggable();
                 $panelElem.mousedown(self.mousedown);
 
                 $panelElem.find(imgCloseSelector).click(self.hide);

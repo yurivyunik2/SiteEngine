@@ -5,8 +5,12 @@ exports.ItemMgr = function () {
   var configModule = require('./Config.js');
   var config = new configModule.Config;
 
-  var dbModule = require('./Database.js');
+  var dbModule = require('./Database/Database.js');
   var database = new dbModule.Database();
+
+  var databaseMgrModule = require('./Database/DatabaseMgr.js');
+  var DatabaseMgr = new databaseMgrModule.DatabaseMgr();
+
 
   var currentRequest;
 
@@ -14,23 +18,6 @@ exports.ItemMgr = function () {
 
     setRequest: function (request) {
       currentRequest = request;
-    },
-
-    findChildItems: function (allItems, parentItem) {
-      if (!allItems || !parentItem)
-        return;
-      
-      var self = this;
-      for (var i = 0; i < allItems.length; i++) {
-        var item = allItems[i];
-        if (item.parent == parentItem.id) {
-          if (!parentItem.childs)
-            parentItem.childs = [];
-
-          parentItem.childs.push(item);
-          self.findChildItems(allItems, item);
-        }
-      }
     },
 
     getItems: function (data, objResponse, callback) {
@@ -222,7 +209,6 @@ exports.ItemMgr = function () {
       }
     },
 
-
     getTemplates: function (objResponse, callback) {
       var self = this;
       
@@ -308,7 +294,7 @@ exports.ItemMgr = function () {
             fieldInFieldTemplate.indexField = 0;
             fieldInFieldTemplate.lang = data.lang;
             fieldInFieldTemplate.version = versionFirst;
-            self.insertIntoFields(fieldInFieldTemplate, objResponse, insertIntoFieldsCallback);
+            DatabaseMgr.insertIntoFields(fieldInFieldTemplate, objResponse, insertIntoFieldsCallback);
           }
         } else {
           if (callback)
@@ -324,7 +310,7 @@ exports.ItemMgr = function () {
             indexField++;
             var fieldNext = data.fields[indexField];            
             fieldNext.indexField = indexField;
-            self.insertIntoItems(fieldNext, objResponse, addFieldForItemFieldCallback);
+            DatabaseMgr.insertIntoItems(fieldNext, objResponse, addFieldForItemFieldCallback);
           } else {
             objResponse.isOK = true;
             objResponse.requestData = data;
@@ -346,7 +332,7 @@ exports.ItemMgr = function () {
             });
             var field = data.fields[0];
             field.indexField = 0;
-            self.insertIntoItems(field, objResponse, addFieldForItemFieldCallback);
+            DatabaseMgr.insertIntoItems(field, objResponse, addFieldForItemFieldCallback);
           } else {
             objResponse.isOK = true;
             objResponse.requestData = data;
@@ -358,7 +344,7 @@ exports.ItemMgr = function () {
           callback();
         }
       };
-      this.insertIntoItems({ name: data.item.name, parentId: data.item.parentId, templateId: data.item.templateId }, objResponse, addItemTemplateCallback);      
+      DatabaseMgr.insertIntoItems({ name: data.item.name, parentId: data.item.parentId, templateId: data.item.templateId }, objResponse, addItemTemplateCallback);
     },
 
     updateTemplate: function (data, objResponse, callback) {
@@ -413,7 +399,7 @@ exports.ItemMgr = function () {
             callback();
         }
       };
-      this.updateItem({ id: data.item.id, name: data.item.name, parentId: data.item.parentId, templateId: data.item.templateId }, objResponse, updateItemTemplateCallback);
+      DatabaseMgr.updateItem({ id: data.item.id, name: data.item.name, parentId: data.item.parentId, templateId: data.item.templateId }, objResponse, updateItemTemplateCallback);
     },
 
     addFieldsForTemplate: function (data, objResponse, callback) {
@@ -451,7 +437,7 @@ exports.ItemMgr = function () {
             fieldInFieldTemplate.indexField = 0;
             fieldInFieldTemplate.lang = data.lang;
             fieldInFieldTemplate.version = versionFirst;
-            self.insertIntoFields(fieldInFieldTemplate, objResponse, insertIntoFieldsCallback);
+            DatabaseMgr.insertIntoFields(fieldInFieldTemplate, objResponse, insertIntoFieldsCallback);
           }
         } else {
           if (callback)
@@ -471,9 +457,9 @@ exports.ItemMgr = function () {
             if (fieldNext.id >= 0) {
               addItemFieldCallback(fieldNext);
             } else {              
-              self.insertIntoItems(fieldNext, objResponse, addFieldForItemFieldCallback);
+              DatabaseMgr.insertIntoItems(fieldNext, objResponse, addFieldForItemFieldCallback);
             }
-            //self.insertIntoItems(fieldNext, objResponse, addFieldForItemFieldCallback);
+            //DatabaseMgr.insertIntoItems(fieldNext, objResponse, addFieldForItemFieldCallback);
           } else {
             objResponse.isOK = true;
             objResponse.requestData = data;
@@ -495,7 +481,7 @@ exports.ItemMgr = function () {
         if (field.id >= 0) {
           addItemFieldCallback(field);
         } else {
-          self.insertIntoItems(field, objResponse, addFieldForItemFieldCallback);
+          DatabaseMgr.insertIntoItems(field, objResponse, addFieldForItemFieldCallback);
         }        
       } else {
         objResponse.isOK = true;
@@ -598,7 +584,7 @@ exports.ItemMgr = function () {
             callback();
         }
       };
-      this.insertIntoItems({ name: data.item.name, parentId: data.item.parentId, templateId: data.item.templateId }, objResponse, createItemCallback);
+      DatabaseMgr.insertIntoItems({ name: data.item.name, parentId: data.item.parentId, templateId: data.item.templateId }, objResponse, createItemCallback);
     },
 
     newVersionCreate: function (data, objResponse, callback) {
@@ -705,15 +691,15 @@ exports.ItemMgr = function () {
             fieldNext.indexField = indexField;
             if (data.isNewVersion) {
               //if (fieldNext.itemId == data.item.id && fieldNext.lang == data.lang && fieldNext.version == data.version)
-              //  self.updateFields(fieldNext, objResponse, updateFieldValueCallback);
+              //  DatabaseMgr.updateFields(fieldNext, objResponse, updateFieldValueCallback);
               //else {
               //  fieldNext.itemId = data.item.id;
-              //  self.insertIntoFields(fieldNext, objResponse, updateFieldValueCallback);
+              //  DatabaseMgr.insertIntoFields(fieldNext, objResponse, updateFieldValueCallback);
               //}
               fieldNext.itemId = data.item.id;
-              self.insertIntoFields(fieldNext, objResponse, updateFieldValueCallback);
+              DatabaseMgr.insertIntoFields(fieldNext, objResponse, updateFieldValueCallback);
             } else {
-              self.updateFields(fieldNext, objResponse, updateFieldValueCallback);
+              DatabaseMgr.updateFields(fieldNext, objResponse, updateFieldValueCallback);
             }
           } else {
             objResponse.isOK = true;
@@ -734,15 +720,15 @@ exports.ItemMgr = function () {
         field.indexField = 0;
         if (data.isNewVersion) {
           //if (field.itemId == data.item.id && field.lang == data.lang && field.version == data.version)
-          //  self.updateFields(field, objResponse, updateFieldValueCallback);
+          //  DatabaseMgr.updateFields(field, objResponse, updateFieldValueCallback);
           //else {
           //  field.itemId = data.item.id;
-          //  self.insertIntoFields(field, objResponse, updateFieldValueCallback);
+          //  DatabaseMgr.insertIntoFields(field, objResponse, updateFieldValueCallback);
           //}
           field.itemId = data.item.id;
-          self.insertIntoFields(field, objResponse, updateFieldValueCallback);
+          DatabaseMgr.insertIntoFields(field, objResponse, updateFieldValueCallback);
         } else {
-          self.updateFields(field, objResponse, updateFieldValueCallback);
+          DatabaseMgr.updateFields(field, objResponse, updateFieldValueCallback);
         }
       }
     },
@@ -777,7 +763,7 @@ exports.ItemMgr = function () {
           }
 
           if (requestResponse.counterRequest <= 0) {
-            self.deleteItemsAndFields({ item: data.item, itemChilds: requestResponse.itemChilds }, objResponse, callback);
+            DatabaseMgr.deleteItemsAndFields({ item: data.item, itemChilds: requestResponse.itemChilds }, objResponse, callback);
           }
         } else {
           objResponse.error = dataResponse.error;
@@ -796,8 +782,7 @@ exports.ItemMgr = function () {
         return;
       }
 
-      var self = this;
-      self.deleteFromFields(data, objResponse, function () {
+      DatabaseMgr.deleteFromFields(data, objResponse, function () {
         if (!(objResponse.error && objResponse.error != "")) {
           objResponse.isOK = true;
         }
@@ -805,221 +790,7 @@ exports.ItemMgr = function () {
           callback();
       });
     },
-
-    insertIntoItems: function (data, objResponse, callback) {
-      if (!data || !data.name || !data.parentId) {
-        objResponse.error = "Error: data";
-        if (callback)
-          callback();
-        return;
-      }
-
-      if (!data.templateId)
-        data.templateId = -1;
-
-      var query = "INSERT INTO db_site_engine.items(Name, ParentID, TemplateID, Created, Updated) VALUES('" + data.name + "', " + data.parentId + ", " + data.templateId + ", NOW(), NOW())";
-      var insertIntoItemsCallback = function (err, rows) {
-        if (!err && rows && rows.insertId) {
-          data.id = rows.insertId;
-        } else {
-          objResponse.error = "Error: " + err;
-        }
-        if (callback)
-          callback(data);
-      };
-      if (database) {
-        database.query(query, insertIntoItemsCallback);
-      }
-    },
-
-    updateItem: function (data, objResponse, callback) {
-      if (!data || !data.id || !data.name || !data.parentId) {
-        objResponse.error = "Error: data";
-        if (callback)
-          callback();
-        return;
-      }
-
-      if (!data.templateId)
-        data.templateId = -1;
-
-      var query = "update items set name='" + data.name + "', templateId=" + data.templateId + ", parentId=" + data.parentId + " where id = " + data.id;
-      
-      var updateItemsCallback = function (err, rows) {
-        if (!err && rows) {
-          //data.id = rows.insertId;
-        } else {
-          objResponse.error = "Error: " + err;
-        }
-        if (callback)
-          callback(data);
-      };
-      if (database) {
-        database.query(query, updateItemsCallback);
-      }
-    },
-
-
-    insertIntoFields: function (data, objResponse, callback) {
-      if (!data || !data.itemId || !data.fieldId || !data.lang || !data.version) {
-        objResponse.error = "Error: data";
-        if (callback)
-          callback();
-        return;
-      }
-
-      var insertFields = function() {
-        var query = "INSERT INTO `fields`(ItemId, Language, Version, FieldId, Value, Created, Updated)  VALUES(" + data.itemId + ",'" + data.lang + "'," + data.version + "," + data.fieldId + ",'" + data.value + "', NOW(), NOW())";
-        var insertIntoFieldsCallback = function (err, rows) {
-          if (!err) {
-
-          } else {
-            objResponse.error = "Error: " + err;
-          }
-          if (callback)
-            callback(data);
-        };
-        if (database) {
-          database.query(query, insertIntoFieldsCallback);
-        }
-
-      }
-
-      // INSERT INTO BLOBS
-      if (parseInt(data.type) === config.DATABASE.BLOB_TYPE_ID()) {
-        var query = "INSERT INTO `blobs`(Data, Created)  VALUES('" + data.value + "', NOW())";
-        var insertIntoBlobsCallback = function (err, rows) {
-          if (!err) {
-            if (rows) {
-              data.value = rows.insertId;
-              insertFields();
-            }
-            
-          } else {
-            objResponse.error = "Error: " + err;
-          }
-          if (callback)
-            callback(data);
-        };
-        if (database) {
-          database.query(query, insertIntoBlobsCallback);
-        }
-
-
-      }
-      // INSERT INTO FIELDS
-      else {
-        insertFields();
-      }
-    },
-
-    deleteFromFields: function (data, objResponse, callback) {
-      if (!data || !data.item || !data.item.id) {
-        objResponse.error = "Error: data";
-        if (callback)
-          callback();
-        return;
-      }
-      var query = "DELETE FROM fields WHERE itemId =" + data.item.id;
-      if (data.lang)
-        query += " and language='" + data.lang + "'";
-      if (data.version)
-        query += " and version=" + data.version;
-      var deleteFromFieldsCallback = function (err, rows) {
-        if (!err) {
-
-        } else {
-          objResponse.error = "Error: " + err;
-        }
-        if (callback)
-          callback(data);
-      };
-      if (database) {
-        database.query(query, deleteFromFieldsCallback);
-      }
-    },
-
-    updateFields: function (data, objResponse, callback) {
-      if (!data || !data.itemId || !data.fieldId || !data.lang || !data.version) {
-        objResponse.error = "Error: data";
-        if (callback)
-          callback();
-        return;
-      }
-      var query = "UPDATE `fields` f SET value='" + data.value + "'\
-                  where itemId=" + data.itemId + " and fieldId=" + data.fieldId + " and language='" + data.lang + "' and version=" + data.version;
-      var updateFieldsCallback = function (err, rows) {
-        if (!err) {
-
-        } else {
-          objResponse.error = "Error: " + err;
-        }
-        if (callback)
-          callback(data);
-      };
-      if (database) {
-        database.query(query, updateFieldsCallback);
-      }
-    },
     
-    deleteItemsAndFields: function (data, objResponse, callback) {
-      if (!data || !data.itemChilds) {
-        objResponse.error = "Error: data";
-        if (callback)
-          callback();
-        return;
-      }
-      
-      var strIn = "(";
-      _.each(data.itemChilds, function (child) {
-        strIn += child.id + ",";
-      });
-      strIn += "-1)";
-
-      var query = "DELETE FROM items where id in " + strIn;
-
-      var deleteFromFieldsCallback = function (err, rows) {
-        if (!err) {
-
-        } else {
-          objResponse.error = "Error: " + err;
-        }
-        if (callback) {
-          objResponse.data = data;
-          callback(data.item);
-        }
-      };
-      
-      var deleteFromBlobsCallback = function (err, rows) {
-        if (!err) {
-          query = "DELETE FROM fields where itemId in " + strIn + " or fieldId in " + strIn;
-          if (database) {
-            database.query(query, deleteFromFieldsCallback);
-          }
-        } else {
-          objResponse.error = "Error: " + err;
-          if (callback)
-            callback();
-        }
-      };
-      var deleteFromItemsCallback = function (err, rows) {
-        if (!err) {
-          query = "DELETE FROM blobs where id in (select value FROM fields where itemId in " + strIn + " or fieldId in " + strIn + ")";          
-          if (database) {
-            database.query(query, deleteFromBlobsCallback);
-          }
-        } else {
-          objResponse.error = "Error: " + err;
-          if (callback)
-            callback();
-        }
-      };
-
-
-      if (database) {
-        database.query(query, deleteFromItemsCallback);
-      }
-    },
 
   };
 };

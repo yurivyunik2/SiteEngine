@@ -5,7 +5,7 @@
   var configModule = require('./Config.js');
   var config = new configModule.Config;
 
-  var dbModule = require('./Database.js');
+  var dbModule = require('./Database/Database.js');
   var database = new dbModule.Database();
 
   var roleMgrModule = require('./RoleMgr.js');

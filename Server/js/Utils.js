@@ -34,6 +34,24 @@ exports.Utils = function () {
         response.writeHead(405, { 'Content-Type': 'text/plain' });
         response.end();
       }
-    }
+    },
+
+    findChildItems: function (allItems, parentItem) {
+      if (!allItems || !parentItem)
+        return;
+      
+      var self = this;
+      for (var i = 0; i < allItems.length; i++) {
+        var item = allItems[i];
+        if (item.parent == parentItem.id) {
+          if (!parentItem.childs)
+            parentItem.childs = [];
+
+          parentItem.childs.push(item);
+          self.findChildItems(allItems, item);
+        }
+      }
+    },
+
   };
 };

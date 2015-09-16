@@ -4,7 +4,7 @@
 exports.Database = function (_mysql, dbConfig) {
   var mysql = require('mysql');
 
-  var configModule = require('./Config.js');
+  var configModule = require('../Config.js');
   var config = new configModule.Config;
 
   var dbConfig = config.DATABASE;

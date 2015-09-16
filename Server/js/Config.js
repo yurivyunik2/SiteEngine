@@ -8,21 +8,21 @@
       name: "db_site_engine",
       
       TemplateRootID: function() {
-        if (this.DB_TYPE == "MY_SQL")
+        if (this.DB_TYPE === "MY_SQL")
           return 5;
         else {
           return 0;
         }
       },
       ContentItemdID: function() {
-        if (this.DB_TYPE == "MY_SQL")
+        if (this.DB_TYPE === "MY_SQL")
           return 2;
         else {
           return 0;
         }
       },
       BaseTemplateFieldID: function() {
-        if (this.DB_TYPE == "MY_SQL")
+        if (this.DB_TYPE === "MY_SQL")
           return 78;
         else {
           return 0;

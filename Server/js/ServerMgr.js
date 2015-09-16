@@ -47,9 +47,9 @@
         return;
       }
 
-      if (request.method == "POST") {
+      if (request.method === "POST") {
         this.processPOST(request, response);
-      } else if (request.method == "GET") {
+      } else if (request.method === "GET") {
         this.processGET(request, response);
       } else {        
         objResponse.error = "ERROR: UNKNOWN REQUEST";

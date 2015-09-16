@@ -5,6 +5,9 @@
   var configModule = require('./Config.js');
   var config = new configModule.Config;
 
+  var utilsModule = require('./Utils.js');
+  var Utils = new utilsModule.Utils;
+
   var itemMgr = _itemMgr;
 
   return {
@@ -34,7 +37,7 @@
             }
 
             for (var i = 0; i < contentItems.length; i++) {
-              itemMgr.findChildItems(allItems, contentItems[i]);
+              Utils.findChildItems(allItems, contentItems[i]);
             }
 
             var finishContentItem;

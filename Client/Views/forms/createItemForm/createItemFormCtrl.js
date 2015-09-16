@@ -1,15 +1,28 @@
-﻿define(["application", "CONST", "Utils"], function (application, CONST, Utils) {
+﻿define(["application", "CONST", "Utils", "CommonTypes"], function (application, CONST, Utils, CommonTypes) {
 
   return function ($scope) {
-    return {
-      show: function () {
+    var self;
+
+    var createItemFormCtrl = new CommonTypes.FormCtrl();
+    _.extend(createItemFormCtrl, {
+      constructor: function () {
+        self = this;
+        self.setBaseData({
+          formId: "createItemForm",
+          formPath: "/SiteEngine/Client/Views/forms/createItemForm/createItemForm.html",
+        });
+
+      },
+      show: function (data) {
+        self.setDataCtrl(data);
         var $inName = $("#dvItemName").find(".inName");
         $inName.val("");
         $inName.focus();
       },
 
-      clickOK: function (dataRequest) {
-        if (!dataRequest || !dataRequest.selectedItem || !dataRequest.selectedTemplate)
+      clickOK: function (callback) {
+        var dataCtrl = self.getDataCtrl();
+        if (!dataCtrl || !dataCtrl.selectedItem || !dataCtrl.selectedTemplate)
           return;
 
         var curlang = Utils.getLanguageCurrent();
@@ -24,25 +37,30 @@
           action: action,
           item: {
             name: $scope.itemName,
-            parentId: dataRequest.selectedItem.id,
-            templateId: dataRequest.selectedTemplate.id
+            parentId: dataCtrl.selectedItem.id,
+            templateId: dataCtrl.selectedTemplate.id
           },
           lang: langCode
           //fields: $scope.selTemplate.fields
         };
 
         application.httpRequest(data, function (response) {
-          $scope.isShowModalForm = false;
           if (response.isOK) {
-            if (response.data && response.data.item) {              
+            if (response.data && response.data.item) {
               application.addItem(response.data.item);
             }
           }
+          if (callback)
+            callback();
         }, function (response, status, headers, config) {
+          if (callback)
+            callback();
         });
 
       },
 
-    };
+    });
+    createItemFormCtrl.constructor();
+    return createItemFormCtrl;
   };
 });

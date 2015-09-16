@@ -1,4 +1,4 @@
-﻿define(["application", "CONST", "Utils"], function (application, CONST, Utils) {
+﻿define(["application", "CONST", "Utils", "CommonTypes"], function (application, CONST, Utils, CommonTypes) {
 
   return function ($scope) {
 
@@ -28,16 +28,21 @@
     var indexFileUpload = 0;
     var uploadErrors = [];
 
-    var imgGalleryObj = {
-      constructor: function() {
+    var imgGalleryObj = new CommonTypes.FormCtrl();
+    _.extend(imgGalleryObj, {
+      constructor: function () {
         self = this;
+        self.setBaseData({
+          formPath: "/SiteEngine/Client/Views/forms/imageGalleryForm/imageGalleryForm.html",
+        });
+
       },
 
       renderMediaItems: function (items) {
         var $imageGalleryFormElem = $(imageGalleryFormSelector);
         if ($imageGalleryFormElem.length === 0)
           return;
-        
+
         var $imgWrapperTemplateElem = $(imgWrapperTemplateSelector);
 
         var $tableElem = $imageGalleryFormElem.find("table");
@@ -47,7 +52,7 @@
 
         var indexImgInRow = 0;
         $tableElem.append("<tr></tr>");
-        
+
         var trLast = $tableElem.find("tr").last();
         _.each(items, function (item) {
           var html = $imgWrapperTemplate({ item: item });
@@ -69,11 +74,11 @@
         });
       },
 
-      populate: function() {
+      populate: function () {
         var $imageGalleryFormElem = $(imageGalleryFormSelector);
         if ($imageGalleryFormElem.length === 0)
           return;
-        
+
         //
         self.setLoading();
 
@@ -81,8 +86,8 @@
 
         var mediaItemsCount = mediaItems.length;
         var indexRequest = 0;
-        _.each(mediaItems, function(item) {
-          application.getItemFields(item, function() {
+        _.each(mediaItems, function (item) {
+          application.getItemFields(item, function () {
             indexRequest++;
             if (item && item.fields) {
               var fieldBlob = _.findWhere(item.fields, { fieldId: CONST.BLOB_MEDIA_FIELDS_ID() });
@@ -116,7 +121,7 @@
         $tableElem.html($loadingTemplateElem.html());
       },
 
-      defineTypeItem: function(item) {
+      defineTypeItem: function (item) {
         if (!item)
           return;
 
@@ -134,7 +139,7 @@
         ext = ext.toLowerCase();
         switch (ext) {
           //IMAGE
-          case "jpg":          
+          case "jpg":
           case "jpeg":
           case "png":
           case "bmp":
@@ -144,20 +149,20 @@
             item.type = CONST.MEDIA_TYPES().IMAGE();
             break;
           }
-          //DOC
+            //DOC
           case "doc": {
             item.imgSrc = mediaClientImagesPath + "doc_file.png";
             item.type = CONST.MEDIA_TYPES().DOC();
             break;
           }
-          //AUDIO
+            //AUDIO
           case "mp3":
           case "wav": {
             item.imgSrc = mediaClientImagesPath + "audio_file.png";
             item.type = CONST.MEDIA_TYPES().AUDIO();
             break;
           }
-          //VIDEO
+            //VIDEO
           case "mpg":
           case "mpeg": {
             item.imgSrc = mediaClientImagesPath + "movie_file.png";
@@ -206,12 +211,12 @@
           $dvUploadInformationElem.css("display", "table-cell");
           $uploadSliderInnerElem.width("0%");
           $uploadInfoMessageElem.html("Uploading: 0/" + amountUploadFiles);
-        }        
-        else 
-          $dvUploadInformationElem.css("display", "none");        
+        }
+        else
+          $dvUploadInformationElem.css("display", "none");
       },
 
-      uploadFilesSelected: function() {
+      uploadFilesSelected: function () {
         var $imageGalleryFormElem = $(imageGalleryFormSelector);
         if ($imageGalleryFormElem.length === 0)
           return;
@@ -227,14 +232,14 @@
           uploadErrors = [];
 
           self.showHideUploadInfo(true);
-          _.each(files, function(file) {
+          _.each(files, function (file) {
             self.handleFile(file, self.uploadFiles);
           });
-          
+
         }
       },
 
-      uploadFilesFinish: function() {
+      uploadFilesFinish: function () {
         self.showHideUploadInfo(false);
         self.populate();
       },
@@ -243,16 +248,16 @@
         var $imageGalleryFormElem = $(imageGalleryFormSelector);
         if ($imageGalleryFormElem.length === 0 || amountUploadFiles === 0)
           return;
-        
+
         var $uploadInfoMessageElem = $imageGalleryFormElem.find(uploadInfoMessageSelector);
         var $uploadSliderInnerElem = $imageGalleryFormElem.find(uploadSliderInnerSelector);
-        
+
 
         //
         indexFileUpload++;
         $uploadInfoMessageElem.html("Uploading: " + indexFileUpload + "/" + amountUploadFiles);
         var widthPercent = (indexFileUpload / amountUploadFiles) * 100;
-        $uploadSliderInnerElem.width(widthPercent  + "%");
+        $uploadSliderInnerElem.width(widthPercent + "%");
         if (response) {
           if (response.isOK) {
             if (response.data && response.data.item) {
@@ -268,7 +273,7 @@
         } else {
           uploadErrors.push("Error unknown!");
         }
-        
+
         if (indexFileUpload === amountUploadFiles)
           self.uploadFilesFinish();
       },
@@ -324,7 +329,7 @@
         //indexFileUpload = 0;
         //uploadErrors = [];
 
-          
+
         //var binaryValue = file.binaryValue;
         //var arBinaryValues = [];
         ////var index = 0;
@@ -380,11 +385,11 @@
         var selectedItems = [];
         if (!mediaItems)
           return selectedItems;
-        
+
         var $imageGalleryFormElem = $(imageGalleryFormSelector);
         if ($imageGalleryFormElem.length > 0) {
           var selectedElems = $imageGalleryFormElem.find(".dvSelected");
-          _.each(selectedElems, function(elem) {
+          _.each(selectedElems, function (elem) {
             var itemFound = _.findWhere(mediaItems, { id: parseInt($(elem).attr("itemId")) });
             if (itemFound)
               selectedItems.push(itemFound);
@@ -394,16 +399,17 @@
         return selectedItems;
       },
 
-      clickOK: function (data, callback) {
-        if (data && data.callback) {
-          data.formCtrl = self;
-          data.callback(data);
-          if (callback)
-            callback();
+      clickOK: function (callback) {
+        var dataCtrl = self.getDataCtrl();
+        if (dataCtrl && dataCtrl.callback) {
+          dataCtrl.formCtrl = self;
+          dataCtrl.callback(data);
         }
+        if (callback)
+          callback();
       },
 
-    };
+    });
     imgGalleryObj.constructor();
     return imgGalleryObj;
 

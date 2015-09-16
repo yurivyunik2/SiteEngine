@@ -1,6 +1,6 @@
-﻿define(["application", "CONST"], function (application, CONST) {
+﻿define(["application", "CONST", "CommonTypes"], function (application, CONST, CommonTypes) {
 
-  return function ($scope) {
+  return function ($scope, parentModalForm) {
 
     var self;
 
@@ -15,10 +15,17 @@
     var commentSelector = "#comment";
     var languageSelector = "#language";
 
-    var newUserFormObj = {
+    var newUserFormObj = new CommonTypes.FormCtrl();
+    _.extend(newUserFormObj, {
+      modalForm: null,
+
       constructor: function () {
         self = this;
-        
+        self.setBaseData({
+          formPath: "/SiteEngine/Client/Views/forms/newUserForm/newUserForm.html",
+        });
+
+        self.modalForm = parentModalForm;
       },
 
       show: function (data) {
@@ -76,14 +83,14 @@
           var $languageElem = $modalFormElem.find(languageSelector);
           $input = $languageElem.find("input");
           $input.val(userEdited.language);
-        } else {          
+        } else {
           $modalFormElem.find("input").val("");
         }
       },
 
       getUserData: function () {
         var newUser = {};
-        
+
         if (!self.modalForm)
           return newUser;
 
@@ -130,18 +137,18 @@
           return false;
 
         var newUser = self.getUserData();
-        
-        if (!newUser.name || newUser.name == "") {
+
+        if (!newUser.name || newUser.name === "") {
           error.message = "User name is empty!";
           return false;
         }
 
-        if (!newUser.fullName || newUser.fullName == "") {
+        if (!newUser.fullName || newUser.fullName === "") {
           error.message = "Full name is empty!";
           return false;
         }
 
-        if (!newUser.email || newUser.email == "") {
+        if (!newUser.email || newUser.email === "") {
           error.message = "Email is empty!";
           return false;
         }
@@ -152,25 +159,23 @@
           return false;
         }
 
-        
-        if (!userEdited && (!newUser.password || newUser.password == "")) {
+
+        if (!userEdited && (!newUser.password || newUser.password === "")) {
           error.message = "Password is empty!";
           return false;
         }
         if (newUser.password !== newUser.confirmPassword) {
           error.message = "Password doesn't concur with Confirm password!";
           return false;
-        }        
-        
+        }
+
         return true;
       },
 
-      clickOK: function (dataRequest) {
-        //if (!dataRequest || !dataRequest.selectedItem || !dataRequest.selectedTemplate)
-        //  return;
+      clickOK: function (callback) {
 
         var user = self.getUserData();
-        
+
         var action;
         if (userEdited) {
           user.id = userEdited.id;
@@ -184,23 +189,25 @@
           user: user,
         };
 
-        application.httpRequest(data, function (response) {
-          $scope.isShowModalForm = false;
+        application.httpRequest(data, function (response) {          
           if (response.isOK) {
             if (response.data && response.data.user) {
-              if (response.data.action == "newUser")
+              if (response.data.action === "newUser")
                 application.newUser(response.data.user);
               else {
                 application.updateUser(response.data.user);
               }
             }
           }
+          if (callback)
+            callback();
         }, function (response, status, headers, config) {
+          if (callback)
+            callback();
         });
 
       },
-
-    };
+    });
     newUserFormObj.constructor();
     return newUserFormObj;
 

@@ -41,31 +41,23 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
         getControl: function() { return createTemplateFormCtrl; }
       },
       CREATE_ITEM: {
-        form_id: "createItemForm",
-        form_path: "/SiteEngine/Client/Views/forms/createItemForm/createItemForm.html",
-        formCtrl: new CreateItemFormCtrl($scope),
+        getControl: function() { return createItemFormCtrl; }
       },
       INSERT_OPTIONS: {
-        form_path: "/SiteEngine/Client/Views/forms/insertOptionsForm/insertOptionsForm.html",
-        formCtrl: new InsertOptionsForm($scope),
+        getControl: function() { return insertOptionsForm; }
       },
       LAYOUT: {
-        form_path: "/SiteEngine/Client/Views/forms/layoutForm/layoutForm.html",
-        formCtrl: new LayoutFormCtrl($scope),
+        getControl: function() { return layoutFormCtrl; }      
       },
       USER_MANAGER: {
-        form_path: "/SiteEngine/Client/Views/forms/userManagerForm/userManagerForm.html",
-        formCtrl: new UserManagerFormCtrl($scope),
-        isButtonsFormHide: true,
+        getControl: function () { return userManagerFormCtrl; }
       },
       NEW_USER: {
-        form_path: "/SiteEngine/Client/Views/forms/newUserForm/newUserForm.html",
-        formCtrl: new NewUserFormCtrl($scope),
+        getControl: function () { return newUserFormCtrl; }
       },
 
       IMAGE_GALLERY: {
-        form_path: "/SiteEngine/Client/Views/forms/imageGalleryForm/imageGalleryForm.html",
-        formCtrl: new ImageGalleryFormCtrl($scope),
+        getControl: function () { return imageGalleryFormCtrl; }
       },
 
       UNKNOWN_FORM: {
@@ -87,8 +79,8 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
         $scope.clickOk = this.clickOk;
         $scope.clickCancel = this.clickCancel;
 
-        $scope.loadFinishedFormCtrl = self.loadFinishedFormCtrl;
-        $scope.loadModalForm = self.loadModalForm;
+        $scope.loadFormCtrlFinished = self.loadFormCtrlFinished;
+        $scope.loadFormFinished = self.loadFormFinished;
 
         self.initialize();
 
@@ -102,15 +94,18 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
 
       loadFormControls: function() {
         createTemplateFormCtrl = new CreateTemplateFormCtrl($scope);
+        createItemFormCtrl = new CreateItemFormCtrl($scope);
+        insertOptionsForm = new InsertOptionsForm($scope);
+        layoutFormCtrl = new LayoutFormCtrl($scope);
+        userManagerFormCtrl = new UserManagerFormCtrl($scope);
+        newUserFormCtrl = new NewUserFormCtrl($scope, self);
+        imageGalleryFormCtrl = new ImageGalleryFormCtrl($scope);
       },
 
       intervalUI: function (uiData) {
         if (uiData && uiData.keyDownEventLast) {
           var event = uiData.keyDownEventLast;
           var isProcessed = false;
-          //var innerCtrl;
-          //if (self.curType)
-          //  innerCtrl = self.curType.formCtrl;
           if (currentCtrl && currentCtrl.keyDownEventFunc) {
             isProcessed = currentCtrl.keyDownEventFunc(event);
           }
@@ -122,12 +117,12 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
         }
       },
 
-      loadModalForm: function () {
+      loadFormFinished: function () {
         $(formSelector).find(".dvContentForm").draggable();
         //$(formSelector).find(".dvContentForm").resizable();
       },
 
-      loadFinishedFormCtrl: function () {
+      loadFormCtrlFinished: function () {
         isCtrlLoaded = true;
         self.showControl(dataCtrl);
         
@@ -167,7 +162,7 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
           self.showControl(data);
       },
 
-      showControl: function () {
+      showControl: function (data) {
         $scope.isShowModalForm = true;        
         try {
           $scope.$apply();
@@ -175,18 +170,11 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
 
         if (currentCtrl) {
           var $buttonsFormElem = $(formSelector).find(buttonsFormSelector);
-          (currentCtrl.IsButtonsFormHide && currentCtrl.IsButtonsFormHide()) ? $buttonsFormElem.hide() : $buttonsFormElem.show();
+          (currentCtrl.isButtonsFormHide && currentCtrl.isButtonsFormHide()) ? $buttonsFormElem.hide() : $buttonsFormElem.show();
 
           if (currentCtrl.show)
-            currentCtrl.show(dataForm);
+            currentCtrl.show(data);
         }
-
-        // yvy: it's not needed now
-        //var $form = $(formSelector);
-        //var $dvContentForm = $form.find(".dvContentForm");
-        //var $dvButtonsForm = $form.find(".dvButtonsForm");
-        //var $dvIncludePart = $form.find(".dvIncludePart");
-        //$dvContentForm.height($dvButtonsForm[0].offsetHeight + $dvIncludePart[0].offsetHeight);
       },
 
       hide: function () {

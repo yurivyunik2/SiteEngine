@@ -1,38 +1,33 @@
-﻿define(["application", "CONST", "Utils"], function (application, CONST, Utils) {
+﻿define(["application", "CONST", "Utils", "CommonTypes"], function (application, CONST, Utils, CommonTypes) {
   
   return function ($scope) {
 
     var self;
-    var formId = "createTemplateForm";
-    var formPath = "/SiteEngine/Client/Views/forms/createTemplateForm/createTemplateForm.html";
-    var dataCtrl;
-
-    var formSelector = "#createTemplateForm";
     var selTypeSelector = "#selType";
 
-    var createTemplateFormCtrl = {
+    var createTemplateFormCtrl = new CommonTypes.FormCtrl();
+    _.extend(createTemplateFormCtrl, {
       constructor: function() {
         self = this;
+        self.setBaseData({
+          formId: "createTemplateForm",
+          formPath: "/SiteEngine/Client/Views/forms/createTemplateForm/createTemplateForm.html",
+          formSelector: "#createTemplateForm",
+        });
+
         $scope.clickAddField = this.clickAddField;
         $scope.clickRemoveField = this.clickRemoveField;
 
         self.initialize();
 
         setInterval(function() {
-          var $newField = $(formSelector).find("#newField");
+          var $newField = self.get$Elem().find("#newField");
           var $inName = $newField.find(".inName");
           var val = $inName.val();
           if (val && val !== "" && $inName.hasClass("inputError")) {
             $inName.removeClass("inputError");
           }
         }, 300);
-      },
-
-      getFormPath: function () {
-        return formPath;
-      },
-      getFormId: function() {
-        return formId;
       },
 
       initialize: function (data) {
@@ -105,7 +100,7 @@
 
       keyDownEventFunc: function (event) {
         if (event && event.which == CONST.ENTER_KEY()) {
-          var $dvFieldElem = $(formSelector).find(".dvField");
+          var $dvFieldElem = self.get$Elem().find(".dvField");
           var $inputFieldElem = $dvFieldElem.find("input");
           if ($inputFieldElem.is(":focus")) {
             self.clickAddField();
@@ -116,8 +111,8 @@
       },
 
       show: function (data) {
-        dataCtrl = data;
-        self.initialize(dataCtrl);
+        self.setDataCtrl(data);
+        self.initialize(data);
       },
 
       isValidate: function (error) {
@@ -130,28 +125,28 @@
       },
 
       clickOK: function (callback) {
-        var dataRequest = dataCtrl;
-        if (!dataRequest || !dataRequest.selectedItem || (!dataRequest.selectedTemplate && !dataRequest.isChange))
+        var dataCtrl = self.getDataCtrl();
+        if (!dataCtrl || !dataCtrl.selectedItem || (!dataCtrl.selectedTemplate && !dataCtrl.isChange))
           return;
 
         $scope.newTemplateName = $("#dvTemplateName").find(".inName").val();
 
         var action;
-        if (dataRequest.isChange)
+        if (dataCtrl.isChange)
           action = "updateTemplate";
         else 
           action = "addTemplate";
 
         var _templateId;
         var _parentId;
-        if (dataRequest.isChange) {
-          _templateId = dataRequest.selectedItem.templateId;
-          if(dataRequest.selectedItem.parentObj)
-            _parentId = dataRequest.selectedItem.parentObj.id;
+        if (dataCtrl.isChange) {
+          _templateId = dataCtrl.selectedItem.templateId;
+          if (dataCtrl.selectedItem.parentObj)
+            _parentId = dataCtrl.selectedItem.parentObj.id;
         } else {
-          if (dataRequest.selectedTemplate)
-            _templateId = dataRequest.selectedTemplate.id;
-          _parentId = dataRequest.selectedItem.id;
+          if (dataCtrl.selectedTemplate)
+            _templateId = dataCtrl.selectedTemplate.id;
+          _parentId = dataCtrl.selectedItem.id;
         }
 
         var curLanguage = Utils.getLanguageCurrent();
@@ -159,7 +154,7 @@
         var data = {
           action: action,
           item: {
-            id: dataRequest.selectedItem.id,
+            id: dataCtrl.selectedItem.id,
             name: $scope.newTemplateName,
             parentId: _parentId,
             templateId: _templateId,            
@@ -177,7 +172,7 @@
             var removeFields = response.requestData.removeFields;
 
             var treeGrid = application.getEngineTree().getTreeGrid();
-            if (!dataRequest.isChange) {
+            if (!dataCtrl.isChange) {
               //application.getEngineTree().refresh(true);
               treeGrid.addChildNode({ id: item.parentId }, item);
               treeGrid.hashParentItems[item.id] = item;
@@ -243,10 +238,8 @@
           $scope.addFields = _.without($scope.addFields, item);
           $scope.removeFields.push(item);
         });
-      },
-      
-    };
-
+      },      
+    });
     createTemplateFormCtrl.constructor();
     return createTemplateFormCtrl;
   };

@@ -1,14 +1,14 @@
 ﻿
-define(["dataType"], function (DataType) {
+define(["CommonTypes"], function (CommonTypes) {
 
   var Const = function () {
 
     var self;
 
     var LanguageList = [
-      DataType.Language("English", "en", "EN"), 
-      DataType.Language("Russian", "ru", "RU"),
-      DataType.Language("Danish", "da", "DA"),
+      CommonTypes.Language("English", "en", "EN"), 
+      CommonTypes.Language("Russian", "ru", "RU"),
+      CommonTypes.Language("Danish", "da", "DA"),
     ];
     var LanguageDefault = LanguageList[0];
 

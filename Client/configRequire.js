@@ -11,7 +11,7 @@
     application: "js/application",
     CONST: "js/const",
     notification: "Views/forms/notificationForm/notification",
-    dataType: "js/Common/DataType",
+    CommonTypes: "js/Common/CommonTypes",
     Utils: "js/Common/Utils",
   },
     shim: {

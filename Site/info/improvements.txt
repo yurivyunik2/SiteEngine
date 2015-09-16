@@ -22,9 +22,11 @@
 14.09 - 20.09
 16_2) To implement the Localization
 17) To add the support of the  Social Networks
+17_2) Monitoring of the proframming news(features, tools), technologies
 
 --
 18) To implement the using of the devices
 19) Unit-testing
 20) To implement the editing on the web-pages(editing mode)
-21) 
+21) Drupal web-site - comparing
+22) 

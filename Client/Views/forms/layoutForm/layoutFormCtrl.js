@@ -1,4 +1,4 @@
-﻿define(["application", "TreeGrid", "CONST"], function (application, TreeGrid, CONST) {
+﻿define(["application", "TreeGrid", "CONST", "CommonTypes"], function (application, TreeGrid, CONST, CommonTypes) {
 
   return function ($scope) {
     var self;
@@ -31,10 +31,14 @@
       ]
     };
 
-    var layoutFormCtrl = {
-
+    var layoutFormCtrl = new CommonTypes.FormCtrl();
+    _.extend(layoutFormCtrl, {
       constructor: function () {
         self = this;
+        self.setBaseData({
+          formPath: "/SiteEngine/Client/Views/forms/layoutForm/layoutForm.html",
+          formSelector: "#layoutForm",
+        });
 
         $scope.addSublayout = self.addSublayout;
       },
@@ -78,7 +82,7 @@
         }
         $dvTreeGrid.css("display", display);
       },
-      
+
       treeGridClick: function (event) {
         var $parentControl = $(event.target).parents(".dvControl");
         var $btn = $parentControl.find(".btn");
@@ -107,12 +111,12 @@
       },
 
       populate: function () {
-        var $formElem = $(formSelector);
+        var $formElem = self.get$Elem();
 
         var $treeLayout = $formElem.find("#" + layoutUI.idTreeGrid);
         treeGridLayout = new TreeGrid($treeLayout);
         treeGridLayout.populate(application.getLayoutItems());
-        
+
         var $treeSubLayout = $formElem.find("#" + subLayoutUI.idTreeGrid);
         treeGridSublayout = new TreeGrid($treeSubLayout);
         treeGridSublayout.populate(application.getLayoutItems());
@@ -121,7 +125,7 @@
         var renderingValue;
         if (itemChange.fields) {
           _.each(itemChange.fields, function (field) {
-            if (field.id == CONST.RENDERINGS_FIELD_ID()) {
+            if (field.id === CONST.RENDERINGS_FIELD_ID()) {
               renderingValue = field.value;
             }
           });
@@ -138,7 +142,7 @@
 
         self.render();
       },
-      
+
       addSublayout: function () {
 
         var $subLayoutBtn = $("#" + subLayoutUI.idBtn);
@@ -147,14 +151,14 @@
         var $inputPlaceHolder = $(".inputPlaceHolder");
         var placeholder = $inputPlaceHolder.val();
 
-        if (rendering && rendering.subLayouts && 
+        if (rendering && rendering.subLayouts &&
             idSub && nameSub && placeholder) {
           rendering.subLayouts.push({ placeholder: placeholder, id: idSub, name: nameSub });
 
           self.render();
         }
       },
-      
+
       removeSubLayout: function (event) {
         var idSubLayout = $(event.target).parents(".dvSubLayoutItem").attr("id");
         if (rendering && rendering.subLayouts) {
@@ -178,23 +182,23 @@
           }
           if (rendering.subLayouts) {
             var subLayoutItemTemplate = _.template($("#subLayoutItem").html());
-            _.each(rendering.subLayouts, function (subLayout) {              
+            _.each(rendering.subLayouts, function (subLayout) {
               $subLayoutsList.append(subLayoutItemTemplate(subLayout));
               $subLayoutsList.find("#" + subLayout.id).find("img").click(self.removeSubLayout);
             });
           }
-          
+
         }
       },
-      
-      clickOK: function () {
+
+      clickOK: function (callback) {
         if (!rendering || !itemChange)
           return;
 
         var renderingValue = JSON.stringify(rendering);
         if (itemChange && itemChange.fields) {
           _.each(itemChange.fields, function (field) {
-            if (field.fieldId == CONST.RENDERINGS_FIELD_ID()) {
+            if (field.fieldId === CONST.RENDERINGS_FIELD_ID()) {
               field.value = renderingValue;
             }
           });
@@ -205,16 +209,12 @@
           var data = {
             actionType: "saveItem",
             item: itemChange,
-            callback: function () {
-              $scope.isShowModalForm = false;
-            },
+            callback: callback,
           };
           actionCtrl.process(data);
         }
       },
-
-    };
-    
+    });
     layoutFormCtrl.constructor();
     return layoutFormCtrl;
 

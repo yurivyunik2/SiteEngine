@@ -1,5 +1,4 @@
-﻿
-define(["application", "CONST"], function (application, CONST) {
+﻿define(["application", "CONST", "CommonTypes"], function (application, CONST, CommonTypes) {
 
   return function ($scope) {
 
@@ -11,26 +10,26 @@ define(["application", "CONST"], function (application, CONST) {
     var $userManagerFormElem;
     var $tbUserElem;
 
-    var userManagerObj = {
-      
+    var userManagerObj = new CommonTypes.FormCtrl();
+    _.extend(userManagerObj, {
       constructor: function () {
         self = this;
-
-        //for (var i = 0; i < 30; i++) {
-        //  userList.push(userList[0]);
-        //}
+        self.setBaseData({
+          formPath: "/SiteEngine/Client/Views/forms/userManagerForm/userManagerForm.html",
+          isButtonsFormHide: true,
+        });
 
         $scope.newUserClick = self.newUserClick;
         $scope.editUserClick = self.editUserClick;
         $scope.removeUserClick = self.removeUserClick;
-        
+
 
         application.addUIComponent("userManagerFormCtrl" + Date.now(), self);
 
         application.addUserManager(self);
       },
 
-      IsButtonsFormHide: function () { return true;},
+      IsButtonsFormHide: function () { return true; },
 
       update: function () {
         self.populate();
@@ -51,7 +50,7 @@ define(["application", "CONST"], function (application, CONST) {
           _.each(userList, function (user) {
             self.addUserRender($tbUserElem, user);
           });
-          
+
           $tbUserElem.find("tr").click(self.rowClickEvent);
         }
       },
@@ -67,7 +66,7 @@ define(["application", "CONST"], function (application, CONST) {
           $btnRemoveUser.click(self.removeUserClick);
 
           $userManagerFormElem = $panel.find("#userManagerForm");
-          $tbUserElem = $userManagerFormElem.find(tbUserSelector);          
+          $tbUserElem = $userManagerFormElem.find(tbUserSelector);
 
           self.populate();
         }
@@ -131,9 +130,8 @@ define(["application", "CONST"], function (application, CONST) {
 
       //clickOK: function (dataRequest) {
 
-      //},
-    };
-
+      //},      
+    });
     userManagerObj.constructor();
     return userManagerObj;
 

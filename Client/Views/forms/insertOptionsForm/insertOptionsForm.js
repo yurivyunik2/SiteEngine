@@ -1,42 +1,46 @@
-﻿define(["application", "TreeGrid", "CONST"], function (application, TreeGrid, CONST) {
+﻿define(["application", "TreeGrid", "CONST", "CommonTypes"], function (application, TreeGrid, CONST, CommonTypes) {
 
   return function ($scope) {
 
     var self;
     
     var treeGrid;
-    var formSelector = "#dvInsertOptions";
 
     var selectedItems = [];
 
     var itemChange;
 
-    var insertOptionsForm = {
-
+    var insertOptionsForm = new CommonTypes.FormCtrl();
+    _.extend(insertOptionsForm, {
       constructor: function () {
         self = this;
+        self.setBaseData({
+          formPath: "/SiteEngine/Client/Views/forms/insertOptionsForm/insertOptionsForm.html",
+          formSelector: "#dvInsertOptions",
+        });
       },
-      
+
       show: function (data) {
         if (!data || !data.item)
           return;
 
+        self.setDataCtrl(data);
         selectedItems = [];
         itemChange = data.item;
 
         setTimeout(function () {
-          var $formElem = $(formSelector);
+          var $formElem = self.get$Elem();
           if ($formElem.length > 0) {
             $formElem.find(".imgInsertOptionsArrow").click(self.clickArrow);
 
             self.populate(data);
           }
         }, 200);
-        
+
       },
-      
+
       populate: function () {
-        var $formElem = $(formSelector);
+        var $formElem = self.get$Elem();
         var $dvLeftArea = $formElem.find(".dvLeftArea");
         if ($dvLeftArea.length > 0) {
           //
@@ -47,7 +51,7 @@
         var insertOptions;
         if (itemChange.fields) {
           _.each(itemChange.fields, function (field) {
-            if (field.id == CONST.INSERT_OPTIONS_FIELD_ID()) {
+            if (field.fieldId === CONST.INSERT_OPTIONS_FIELD_ID()) {
               insertOptions = field.value;
             }
           });
@@ -59,7 +63,7 @@
           for (var i = 0; i < arInsertOptions.length; i++) {
             var id = parseInt(arInsertOptions[i]);
             var itemsFound = _.where(items, { id: id });
-            if(itemsFound.length > 0)
+            if (itemsFound.length > 0)
               selectedItems.push(itemsFound[0]);
           }
         }
@@ -90,7 +94,7 @@
           var selectedTreeItem = treeGrid.selectedItem;
           if (selectedTreeItem) {
             var itemsFound = _.where(selectedItems, { id: parseInt(selectedTreeItem.id) });
-            if (itemsFound.length == 0) {
+            if (itemsFound.length === 0) {
               selectedItems.push(selectedTreeItem);
               self.renderSelectedItems();
             }
@@ -98,10 +102,10 @@
           }
         }
       },
-      
+
       removeItem: function () {
         if (selectedItems) {
-          var $formElem = $(formSelector);
+          var $formElem = self.get$Elem();
           var $selItemsElem = $formElem.find("#selItems");
 
           var selIds = [];
@@ -129,13 +133,13 @@
           _.each(selectedItems, function (item) {
             html += "<option id='" + item.id + "'>" + item.name + "</option>";
           });
-          var $formElem = $(formSelector);
+          var $formElem = self.get$Elem();
           var $selItemsElem = $formElem.find("#selItems");
           $selItemsElem.html(html);
         }
       },
 
-      clickOK: function () {
+      clickOK: function (callback) {
 
         var insertOptions = "";
         _.each(selectedItems, function (item) {
@@ -144,7 +148,7 @@
 
         if (itemChange && itemChange.fields) {
           _.each(itemChange.fields, function (field) {
-            if (field.id == CONST.INSERT_OPTIONS_FIELD_ID()) {
+            if (field.id === CONST.INSERT_OPTIONS_FIELD_ID()) {
               field.value = insertOptions;
             }
           });
@@ -155,15 +159,12 @@
           var data = {
             actionType: "saveItem",
             item: itemChange,
-            callback: function () {
-              $scope.isShowModalForm = false;
-            },
+            callback: callback,
           };
           actionCtrl.process(data);
         }
       },
-
-    };
+    });
     insertOptionsForm.constructor();
     return insertOptionsForm;
 

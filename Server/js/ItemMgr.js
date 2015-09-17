@@ -457,13 +457,13 @@ exports.ItemMgr = function () {
       }
 
       DatabaseMgr.deleteFromFields(data, objResponse, function () {
-        if (!(objResponse.error && objResponse.error != "")) {
+        if (!(objResponse.error && objResponse.error !== "")) {
           objResponse.isOK = true;
         }
         if (callback)
           callback();
       });
-    },    
+    },
 
   };
 };

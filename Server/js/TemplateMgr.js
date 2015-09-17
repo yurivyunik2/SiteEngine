@@ -9,55 +9,55 @@ exports.TemplateMgr = function() {
   var DatabaseMgr = new databaseMgrModule.DatabaseMgr();
 
   return {
-    getTemplates: function (objResponse, callback) {
-      var self = this;
+    //getTemplates: function (objResponse, callback) {
+    //  var self = this;
 
-      var getTemplateFieldsCallback = function (dataResponse) {
-        if (!(objResponse.error && objResponse.error != "")
-            && dataResponse.parent && dataResponse.templates && dataResponse.indexTemplate >= 0) {
+    //  var getTemplateFieldsCallback = function (dataResponse) {
+    //    if (!(objResponse.error && objResponse.error != "")
+    //        && dataResponse.parent && dataResponse.templates && dataResponse.indexTemplate >= 0) {
 
-          if (dataResponse.indexTemplate < dataResponse.templates.length) {
-            dataResponse.templates[dataResponse.indexTemplate].fields = objResponse.data;
-          }
+    //      if (dataResponse.indexTemplate < dataResponse.templates.length) {
+    //        dataResponse.templates[dataResponse.indexTemplate].fields = objResponse.data;
+    //      }
 
-          if (dataResponse.indexTemplate < (dataResponse.templates.length - 1)) {
-            var indexTemplate = dataResponse.indexTemplate;
-            indexTemplate++;
-            var templateNext = dataResponse.templates[indexTemplate];
-            if (templateNext) {
-              dataResponse.indexTemplate = indexTemplate;
-              dataResponse.parent = templateNext.id;
-              self.getItems(dataResponse, objResponse, getTemplateFieldsCallback);
-            }
-          } else {
-            objResponse.isOK = true;
-            objResponse.data = dataResponse.templates;
-            if (callback)
-              callback();
-          }
-        } else {
-          if (callback)
-            callback();
-        }
-      };
+    //      if (dataResponse.indexTemplate < (dataResponse.templates.length - 1)) {
+    //        var indexTemplate = dataResponse.indexTemplate;
+    //        indexTemplate++;
+    //        var templateNext = dataResponse.templates[indexTemplate];
+    //        if (templateNext) {
+    //          dataResponse.indexTemplate = indexTemplate;
+    //          dataResponse.parent = templateNext.id;
+    //          self.getItems(dataResponse, objResponse, getTemplateFieldsCallback);
+    //        }
+    //      } else {
+    //        objResponse.isOK = true;
+    //        objResponse.data = dataResponse.templates;
+    //        if (callback)
+    //          callback();
+    //      }
+    //    } else {
+    //      if (callback)
+    //        callback();
+    //    }
+    //  };
 
-      var getTemplatesCallback = function () {
-        if (!(objResponse.error && objResponse.error != "")) {
-          var templates = objResponse.data;
-          if (templates && templates.length > 0) {
-            var template = templates[0];
-            self.getItems({ parent: template.id, indexTemplate: 0, templates: templates }, objResponse, getTemplateFieldsCallback);
-          } else {
-            if (callback)
-              callback();
-          }
-        } else {
-          if (callback)
-            callback();
-        }
-      };
-      this.getItems({ parent: config.DATABASE.TemplateRootID() }, objResponse, getTemplatesCallback);
-    },
+    //  var getTemplatesCallback = function () {
+    //    if (!(objResponse.error && objResponse.error != "")) {
+    //      var templates = objResponse.data;
+    //      if (templates && templates.length > 0) {
+    //        var template = templates[0];
+    //        self.getItems({ parent: template.id, indexTemplate: 0, templates: templates }, objResponse, getTemplateFieldsCallback);
+    //      } else {
+    //        if (callback)
+    //          callback();
+    //      }
+    //    } else {
+    //      if (callback)
+    //        callback();
+    //    }
+    //  };
+    //  this.getItems({ parent: config.DATABASE.TemplateRootID() }, objResponse, getTemplatesCallback);
+    //},
 
     addTemplate: function (data, objResponse, callback) {
       if (!data || !data.item || !data.lang) {

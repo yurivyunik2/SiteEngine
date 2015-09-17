@@ -26,30 +26,38 @@ app.use(session({ secret: 'ssshhhhh' }));
 //  serverMgr.requestHandle(request, response);  
 //});
 
+try {
+  app.use(function (request, response, next) {
 
-app.use(function (request, response, next) {
+    //if (request.session && request.session.id) {
+    //  console.log("session: " + request.session.id);
+    //} else {
+    //  console.log("NO SESSION");
+    //}
 
-  //if (request.session && request.session.id) {
-  //  console.log("session: " + request.session.id);
-  //} else {
-  //  console.log("NO SESSION");
-  //}
+    try {
+      var length = session.length;
 
-  var length = session.length;
+      if (!serverMgr)
+        serverMgr = new serverMgrModule.ServerMgr();
 
-  if (!serverMgr)
-    serverMgr = new serverMgrModule.ServerMgr();
+      serverMgr.requestHandle(request, response);
+    } catch (ex) {
+      objResponse.error = "Server exception: " + ex;
+      response.end(JSON.stringify(objResponse));
+    }
 
-  serverMgr.requestHandle(request, response);
+    //if (request.method == "POST") {
+    //  serverMgr.processPOST(request, response);
+    //} else if (request.method == "GET") {
+    //  serverMgr.processGET(request, response);
+    //} else {
+    //  objResponse.error = "ERROR: UNKNOWN REQUEST";
+    //  response.end(JSON.stringify(objResponse));
+    //}
 
-  //if (request.method == "POST") {
-  //  serverMgr.processPOST(request, response);
-  //} else if (request.method == "GET") {
-  //  serverMgr.processGET(request, response);
-  //} else {
-  //  objResponse.error = "ERROR: UNKNOWN REQUEST";
-  //  response.end(JSON.stringify(objResponse));
-  //}
+  }).listen(8082);
+  console.log('Server running at http://127.0.0.1:8082/');
+} catch (ex) {
+}
 
-}).listen(8082);
-console.log('Server running at http://127.0.0.1:8082/');

@@ -6,7 +6,6 @@ exports.Database = function (_mysql, dbConfig) {
 
   var mysql = require('mysql');
   var fs = require("fs");
-  var readline = require('readline');
 
   var configModule = require('../Config.js');
   var config = new configModule.Config;

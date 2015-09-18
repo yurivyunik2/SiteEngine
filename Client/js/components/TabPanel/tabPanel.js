@@ -20,7 +20,9 @@
         id: "tab_publish",
         name: "PUBLISH", active: true,
         buttons: [
-          { id: "btn_preview", action: "previewItem", name: "Preview", icon: "" }
+          { id: "btn_preview", action: "previewItem", name: "Preview", icon: "" },
+          { id: "btn_publishItem", action: "publishItem", name: "Publish Item", icon: "" },
+          { id: "btn_publishTree", action: "publishTree", name: "Publish Tree", icon: "" },
         ],
       },
       {

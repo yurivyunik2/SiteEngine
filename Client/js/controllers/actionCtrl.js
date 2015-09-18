@@ -133,6 +133,15 @@ function (application, Notification, PanelFormCtrl, PanelTypes) {
               panelFormCtrl.show();
               break;
             }
+          case "publishItem": {
+            if (selectedItem) {
+              engineTree.infoPanel.setValuesForItemFields(selectedItem);
+              data.item = selectedItem;
+              self.saveItem(data);
+            }
+            break;
+          }
+
         }
       },
 
@@ -201,6 +210,40 @@ function (application, Notification, PanelFormCtrl, PanelTypes) {
             data.callback();
         });
       },
+
+      publishItem: function (data) {
+        if (!data || !data.item)
+          return;
+
+        var action = "publishItem";
+        var item = data.item;
+        var requestData = {
+          action: action,
+          item: {
+            id: item.id,
+            templateId: item.templateId,
+            fields: item.fields,
+            parent: item.parent,
+          },
+          isNotified: true,
+          actionName: "Publishing",
+        };
+
+        application.httpRequest(requestData, function (response) {
+          if (response.isOK) {
+            if (response.data && response.data.item) {
+              //selItem.fields = response.data.item.fields;
+            }
+          }
+          if (data.callback)
+            data.callback();
+        }, function (response) {
+          if (data.callback)
+            data.callback();
+        });
+
+      },
+
 
     };
     actionCtrl.constructor();

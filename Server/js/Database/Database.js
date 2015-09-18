@@ -2,7 +2,11 @@
 // Database
 //
 exports.Database = function (_mysql, dbConfig) {
+  var self;
+
   var mysql = require('mysql');
+  var fs = require("fs");
+  var readline = require('readline');
 
   var configModule = require('../Config.js');
   var config = new configModule.Config;
@@ -11,7 +15,11 @@ exports.Database = function (_mysql, dbConfig) {
   var connection;
   var isConnectProcessing = false;
 
-  return {
+  var databaseObj = {
+    constructor: function() {
+      self = this;
+      self.connect();
+    },
     connect: function (callback) {
       if (mysql && dbConfig.host && dbConfig.user && dbConfig.pass && dbConfig.name) {
         if (!isConnectProcessing && (!connection || (connection.state && connection.state === "disconnected"))) {
@@ -66,26 +74,7 @@ exports.Database = function (_mysql, dbConfig) {
       }
     },
 
-    createDatabasePublish: function() {
-      var query = "INSERT INTO `blobs`(Data, Created)  VALUES('" + data.value + "', NOW())";
-
-      var insertIntoBlobsCallback = function (err, rows) {
-        if (!err) {
-          if (rows) {
-            data.value = rows.insertId;
-            insertFields();
-          }
-
-        } else {
-          objResponse.error = "Error: " + err;
-        }
-        if (callback)
-          callback(data);
-      };
-      if (database) {
-        database.query(query, insertIntoBlobsCallback);
-      }
-    },
-
   };
+  databaseObj.constructor();
+  return databaseObj;
 };

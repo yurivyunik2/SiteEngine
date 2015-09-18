@@ -35,13 +35,15 @@ try {
     //  console.log("NO SESSION");
     //}
 
+    var objResponse = {};
+
     try {
       var length = session.length;
 
       if (!serverMgr)
         serverMgr = new serverMgrModule.ServerMgr();
 
-      serverMgr.requestHandle(request, response);
+      serverMgr.requestHandle(objResponse, request, response);
     } catch (ex) {
       objResponse.error = "Server exception: " + ex;
       response.end(JSON.stringify(objResponse));

@@ -1,6 +1,6 @@
 ﻿exports.ServerMgr = function () {
   var _ = require('underscore');
-  var fs = require('fs');  
+  var fs = require('fs');
 
   var configModule = require('./Config.js');
   var config = new configModule.Config;
@@ -38,9 +38,7 @@
         userMgr.updateMgr();
     },
 
-    requestHandle: function (request, response) {
-      var objResponse = {};
-      
+    requestHandle: function (objResponse, request, response) {
       itemMgr.setRequest(request);
       userMgr.setRequest(request);
 
@@ -54,7 +52,7 @@
         this.processPOST(request, response);
       } else if (request.method === "GET") {
         this.processGET(request, response);
-      } else {        
+      } else {
         objResponse.error = "ERROR: UNKNOWN REQUEST";
         response.end(JSON.stringify(objResponse));
       }

@@ -1,20 +1,13 @@
 ﻿
-exports.ItemMgr = function () {
+exports.ItemMgr = function (database) {
   var _ = require('underscore');
   
   var ServerApplication = require('./ServerApplication.js');
 
-  //var configModule = require('./Config.js');
-  //var config = new configModule.Config;
   var config = ServerApplication.Config;
 
-  //var dbModule = require('./Database/Database.js');
-  //var database = new dbModule.Database();
-  var database = ServerApplication.Database;
-
-  //var databaseMgrModule = require('./Database/DatabaseMgr.js');
-  //var DatabaseMgr = new databaseMgrModule.DatabaseMgr();
-  var DatabaseMgr = ServerApplication.DatabaseMgr;
+  var databaseMgrModule = require('./Database/DatabaseMgr.js');
+  var DatabaseMgr = new databaseMgrModule.DatabaseMgr(database);
 
   var currentRequest;
 
@@ -26,8 +19,17 @@ exports.ItemMgr = function () {
 
     getItems: function (data, objResponse, callback) {
       var query = "SELECT id, name, parentid as parent, templateId FROM items";
-      if (data && data.parent) {
-        query += " where parentID = " + data.parent;
+      if (data && (data.parent || (data.item && data.item.id))) {
+        //query += " where parentID = " + data.parent;
+        query += " where ";
+        if (data.parent) {
+          query += " parentID = " + data.parent;
+          if (data.item && data.item.id) {
+            query += " and id = " + data.id;
+          }
+        } else if (data.item && data.item.id) {
+          query += " id = " + data.item.id;
+        }
       }
       var getItemsCallback = function (err, rows) {
         if (!err) {

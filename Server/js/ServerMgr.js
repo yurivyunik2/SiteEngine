@@ -4,25 +4,25 @@
 
   var ServerApplication = require('./ServerApplication.js');
 
-  //var configModule = require('./Config.js');
-  //var config = new configModule.Config;
   var config = ServerApplication.Config;
 
-  //var utilsModule = require('./Utils.js');
-  //var utils = new utilsModule.Utils;
   var utils = ServerApplication.Utils;
   
   var itemMgrModule = require('./ItemMgr.js');
-  var itemMgr = new itemMgrModule.ItemMgr();
+  var itemMgr = new itemMgrModule.ItemMgr(ServerApplication.Database);
 
   var templateMgrModule = require('./TemplateMgr.js');
-  var templateMgr = new templateMgrModule.TemplateMgr();
+  var templateMgr = new templateMgrModule.TemplateMgr(ServerApplication.Database);
 
   var userMgrModule = require('./UserMgr.js');
   var userMgr = new userMgrModule.UserMgr();
   
   var contentMgrModule = require('./ContentMgr.js');
   var contentMgr = new contentMgrModule.ContentMgr(itemMgr);
+
+  var publishMgrModule = require('./Publish/PublishMgr.js');
+  var publishMgr = new publishMgrModule.PublishMgr(itemMgr, templateMgr);
+
 
   var roleMgrModule = require('./RoleMgr.js');
   var roleMgr = new roleMgrModule.RoleMgr();
@@ -167,6 +167,13 @@
                   if (!(objResponse.error && objResponse.error != "")) {
                     objResponse.isOK = true;
                   }
+                  response.end(JSON.stringify(objResponse));
+                });
+                break;
+              }
+            case "publishItem":
+              {
+                publishMgr.publishItem(dataRequest, objResponse, function () {
                   response.end(JSON.stringify(objResponse));
                 });
                 break;

@@ -1,16 +1,15 @@
 //
 // Database
 //
-exports.Database = function (_mysql, dbConfig) {
+exports.Database = function (dbConfig) {
+  if (!dbConfig)
+    return;
+
   var self;
 
   var mysql = require('mysql');
-  var fs = require("fs");
+  //var fs = require("fs");
 
-  var configModule = require('../Config.js');
-  var config = new configModule.Config;
-
-  var dbConfig = config.DATABASE;
   var connection;
   var isConnectProcessing = false;
 

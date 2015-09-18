@@ -137,7 +137,7 @@ function (application, Notification, PanelFormCtrl, PanelTypes) {
             if (selectedItem) {
               engineTree.infoPanel.setValuesForItemFields(selectedItem);
               data.item = selectedItem;
-              self.saveItem(data);
+              self.publishItem(data);
             }
             break;
           }
@@ -221,9 +221,10 @@ function (application, Notification, PanelFormCtrl, PanelTypes) {
           action: action,
           item: {
             id: item.id,
+            name: item.name,
+            parentId: item.parent,
             templateId: item.templateId,
             fields: item.fields,
-            parent: item.parent,
           },
           isNotified: true,
           actionName: "Publishing",

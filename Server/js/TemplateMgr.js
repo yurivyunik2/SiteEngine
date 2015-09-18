@@ -1,5 +1,5 @@
 ﻿
-exports.TemplateMgr = function() {
+exports.TemplateMgr = function(database) {
   var _ = require('underscore');
 
   var ServerApplication = require('./ServerApplication.js');
@@ -8,9 +8,8 @@ exports.TemplateMgr = function() {
   //var config = new configModule.Config;
   var config = ServerApplication.Config;
 
-  //var databaseMgrModule = require('./Database/DatabaseMgr.js');
-  //var DatabaseMgr = new databaseMgrModule.DatabaseMgr();
-  var DatabaseMgr = ServerApplication.DatabaseMgr;
+  var databaseMgrModule = require('./Database/DatabaseMgr.js');
+  var DatabaseMgr = new databaseMgrModule.DatabaseMgr(database);
 
   return {
     //getTemplates: function (objResponse, callback) {

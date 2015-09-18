@@ -2,10 +2,25 @@
   return {
     DATABASE: {
       DB_TYPE: "MY_SQL",
-      host : "localhost",
-      user : "root",
-      pass : "root",
-      name: "db_site_engine",
+
+      adminDB_Config: {
+        host: "localhost",
+        user: "root",
+        pass: "root",
+        name: "db_site_engine",
+      },
+
+      publishDB_Config: {
+        host: "localhost",
+        user: "root",
+        pass: "root",
+        name: "db_site_engine_publish",
+      },
+      //host : "localhost",
+      //user : "root",
+      //pass: "root",
+      //name: "db_site_engine",
+      //name: "db_site_engine_publish",
       
       TemplateRootID: function() {
         if (this.DB_TYPE === "MY_SQL")

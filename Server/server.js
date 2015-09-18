@@ -40,9 +40,10 @@ try {
     try {
       var length = session.length;
 
-      if (!serverMgr)
+      if (!serverMgr) {
         serverMgr = new serverMgrModule.ServerMgr();
-
+      }
+      
       serverMgr.requestHandle(objResponse, request, response);
     } catch (ex) {
       objResponse.error = "Server exception: " + ex;

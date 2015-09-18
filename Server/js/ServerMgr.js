@@ -2,11 +2,15 @@
   var _ = require('underscore');
   var fs = require('fs');
 
-  var configModule = require('./Config.js');
-  var config = new configModule.Config;
+  var ServerApplication = require('./ServerApplication.js');
 
-  var utilsModule = require('./Utils.js');
-  var utils = new utilsModule.Utils;
+  //var configModule = require('./Config.js');
+  //var config = new configModule.Config;
+  var config = ServerApplication.Config;
+
+  //var utilsModule = require('./Utils.js');
+  //var utils = new utilsModule.Utils;
+  var utils = ServerApplication.Utils;
   
   var itemMgrModule = require('./ItemMgr.js');
   var itemMgr = new itemMgrModule.ItemMgr();

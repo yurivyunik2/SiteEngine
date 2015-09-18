@@ -2,9 +2,12 @@
 
   var _ = require('underscore');
   
-  var configModule = require('./Config.js');
-  var config = new configModule.Config;
-  
+  var ServerApplication = require('./ServerApplication.js');
+
+  //var configModule = require('./Config.js');
+  //var config = new configModule.Config;
+  var config = ServerApplication.Config;
+
   var Role = function (_roleId, _ownOperations) {
     var self;
 

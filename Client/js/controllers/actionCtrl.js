@@ -6,11 +6,12 @@
 });
 
 define(["application",
+        "Utils",
         "notification",
         "panelFormCtrl",
         "panelTypes",
        ],
-function (application, Notification, PanelFormCtrl, PanelTypes) {
+function (application, Utils, Notification, PanelFormCtrl, PanelTypes) {
   //function (application, PanelFormCtrl, PanelTypes) {
 
   var ActionCtrl = function ($scope, $http) {
@@ -133,7 +134,8 @@ function (application, Notification, PanelFormCtrl, PanelTypes) {
               panelFormCtrl.show();
               break;
             }
-          case "publishItem": {
+          case "publishItem":
+          case "unpublishItem": {
             if (selectedItem) {
               engineTree.infoPanel.setValuesForItemFields(selectedItem);
               data.item = selectedItem;
@@ -215,33 +217,42 @@ function (application, Notification, PanelFormCtrl, PanelTypes) {
         if (!data || !data.item)
           return;
 
-        var action = "publishItem";
-        var item = data.item;
-        var requestData = {
-          action: action,
-          item: {
-            id: item.id,
-            name: item.name,
-            parentId: item.parent,
-            templateId: item.templateId,
-            fields: item.fields,
-          },
-          isNotified: true,
-          actionName: "Publishing",
-        };
+        var curLangguage = Utils.getLanguageCurrent();
+        var curVersion = Utils.getVersionCurrent();
+        if (curLangguage && curVersion) {
+          var isPublish = true;
+          if (data.actionType === "unpublishItem")
+            isPublish = false;
+          var action = "publishItem";
+          var item = data.item;
+          var requestData = {
+            action: action,
+            item: {
+              id: item.id,
+              name: item.name,
+              templateId: item.templateId,
+              isPublish: isPublish,
+              fields: item.fields,
+            },
+            lang: curLangguage.code,
+            version: curVersion,
+            isNotified: true,
+            actionName: "Publishing",
+          };
 
-        application.httpRequest(requestData, function (response) {
-          if (response.isOK) {
-            if (response.data && response.data.item) {
-              //selItem.fields = response.data.item.fields;
+          application.httpRequest(requestData, function (response) {
+            if (response.isOK) {
+              if (response.data && response.data.item) {
+                //selItem.fields = response.data.item.fields;
+              }
             }
-          }
-          if (data.callback)
-            data.callback();
-        }, function (response) {
-          if (data.callback)
-            data.callback();
-        });
+            if (data.callback)
+              data.callback();
+          }, function (response) {
+            if (data.callback)
+              data.callback();
+          });
+        }
 
       },
 

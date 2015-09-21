@@ -48,6 +48,15 @@ define(["application", "CONST", "Utils", "richTextEditor"], function (applicatio
         var tbStandardParamsElem = $parentElem.find(".tbStandardParams");
         var tbody = tbStandardParamsElem.find("tbody");
 
+        // Fields
+        var fields = itemData.fields;
+        var curLangguage = Utils.getLanguageCurrent();
+        var curVersion = Utils.getVersionCurrent();
+        var fieldsLang;
+        if (fields && curLangguage && curVersion) {
+          fieldsLang = _.where(fields, { itemId: itemData.id, lang: curLangguage.code, version: parseInt(curVersion) });
+        }
+
         var listParam = [
           "id",
           "name",
@@ -70,11 +79,22 @@ define(["application", "CONST", "Utils", "richTextEditor"], function (applicatio
         //listTitle["createdBy"] = "Created by";
 
         for (var i = 0; i < listParam.length; i++) {
+          var valueParam = itemData[listParam[i]];
+          // "isPublish" for version 
+          if (listParam[i] === "version") {
+            if (fieldsLang && fieldsLang.length > 0) {
+              valueParam = fieldsLang[0].version;
+              if (fieldsLang[0].isPublish) {
+                valueParam += " <font color='red'>(published)</font>";
+              }
+            }
+          }
           html =
             '<tr>' +
               '<td class="tdInfoParamName">' + listTitle[listParam[i]] + ': </td>' +
               '<td class="tdInfoParamValue">' +
-              '<input readonly="readonly" onclick="javascript:this.select();return false" value="' + itemData[listParam[i]] + '">' +
+              //'<input readonly="readonly" onclick="javascript:this.select();return false" value="' + valueParam + '">' +
+              '<span readonly="readonly" onclick="javascript:this.select();return false">' + valueParam + '</span>' + 
               '</td>' +
               '</tr>';
 
@@ -95,11 +115,11 @@ define(["application", "CONST", "Utils", "richTextEditor"], function (applicatio
         var tbOwnParametersElem = $parentElem.find(".tbOwnParameters");
         tbody = tbOwnParametersElem.find("tbody");
 
-        var fields = itemData.fields;
-        var curLangguage = Utils.getLanguageCurrent();
-        var curVersion = Utils.getVersionCurrent();
-        if (fields && curLangguage && curVersion) {
-          var fieldsLang = _.where(fields, { itemId: itemData.id, lang: curLangguage.code, version: parseInt(curVersion)});
+        //var fields = itemData.fields;
+        //var curLangguage = Utils.getLanguageCurrent();
+        //var curVersion = Utils.getVersionCurrent();
+        if (fieldsLang) {
+          //var fieldsLang = _.where(fields, { itemId: itemData.id, lang: curLangguage.code, version: parseInt(curVersion)});
           for (var i = 0; i < fieldsLang.length; i++) {
             var field = fieldsLang[i];
             html =

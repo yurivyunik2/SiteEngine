@@ -59,7 +59,7 @@ exports.ItemMgr = function (database) {
       if (!data.baseId)
         data.baseId = 0;
 
-      var query = 'SELECT f.id, items.id as fieldId, items.name, (select distinct f2.value from fields f2 where f2.itemId = items.id and f2.fieldId = ' + config.DATABASE.TYPE_FIELD_ID() + ') as type, items.templateId, items.masterId, items.parentId, items.created, items.updated, f.itemId, f.value, f.language as lang, f.version FROM items\
+      var query = 'SELECT f.id, items.id as fieldId, items.name, (select distinct f2.value from fields f2 where f2.itemId = items.id and f2.fieldId = ' + config.DATABASE.TYPE_FIELD_ID() + ') as type, items.templateId, items.masterId, items.parentId, items.created, items.updated, f.itemId, f.value, f.language as lang, f.version, f.isPublish FROM items\
                    LEFT JOIN fields f ON items.id=f.fieldId and (f.itemId=items.parentId || f.itemId=' + data.id + ' || f.itemId=' + data.baseId + ' || f.itemId=' + data.templateId + ')\
                    where items.parentId=' + data.templateId;
 
@@ -169,7 +169,7 @@ exports.ItemMgr = function (database) {
               });
             }
 
-            query = 'SELECT f.id, items.id as fieldId, items.name, (select distinct f2.value from fields f2 where f2.itemId = items.id and f2.fieldId = ' + config.DATABASE.TYPE_FIELD_ID() + ') as type, items.templateId, items.masterId, items.parentId, items.created, items.updated, f.itemId, f.value, f.language as lang, f.version FROM items\
+            query = 'SELECT f.id, items.id as fieldId, items.name, (select distinct f2.value from fields f2 where f2.itemId = items.id and f2.fieldId = ' + config.DATABASE.TYPE_FIELD_ID() + ') as type, items.templateId, items.masterId, items.parentId, items.created, items.updated, f.itemId, f.value, f.language as lang, f.version, f.isPublish  FROM items\
                   LEFT JOIN fields f ON items.id=f.fieldId and (f.itemId=items.parentId || f.itemId=' + data.templateId + ' || f.itemId=' + data.id + ')\
                   where items.parentId=(select items_sub.templateId from items items_sub where id=' + data.templateId + ');';
 
@@ -413,7 +413,7 @@ exports.ItemMgr = function (database) {
           DatabaseMgr.updateFields(field, objResponse, updateFieldValueCallback);
         }
       }
-    },    
+    },
 
     deleteItem: function (data, objResponse, callback) {
       if (!data || !data.item) {

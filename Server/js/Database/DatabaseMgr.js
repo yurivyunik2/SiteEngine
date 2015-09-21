@@ -87,17 +87,25 @@
     },
 
     updateItem: function (data, objResponse, callback) {
-      if (!data || !data.id || !data.name || !data.parentId) {
+      if (!data || !data.id || !data.name) {
         objResponse.error = "Error: data";
         if (callback)
           callback();
         return;
       }
 
-      if (!data.templateId)
-        data.templateId = -1;
+      //if (!data.templateId)
+      //  data.templateId = -1;
 
-      var query = "update items set name='" + data.name + "', templateId=" + data.templateId + ", parentId=" + data.parentId + " where id = " + data.id;
+      //var query = "update items set name='" + data.name + "', templateId=" + data.templateId + ", parentId=" + data.parentId + " where id = " + data.id;
+      var query = "update items set name='" + data.name + "'";
+      if (data.templateId)
+        query += ", templateId=" + data.templateId;
+      if (data.parentId)
+        query += ", parentId=" + data.parentId;
+      if (typeof data.isPublish !== "undefined")
+        query += ", isPublish=" + data.isPublish;
+      query += " where id = " + data.id;
 
       var updateItemsCallback = function (err, rows) {
         if (!err && rows) {
@@ -120,8 +128,12 @@
           callback();
         return;
       }
-      var query = "UPDATE `fields` f SET value='" + data.value + "'\
-                  where itemId=" + data.itemId + " and fieldId=" + data.fieldId + " and language='" + data.lang + "' and version=" + data.version;
+      //var query = "UPDATE `fields` f SET value='" + data.value + "'\
+      //            where itemId=" + data.itemId + " and fieldId=" + data.fieldId + " and language='" + data.lang + "' and version=" + data.version;
+      var query = "UPDATE `fields` f SET value='" + data.value + "'";
+      if (typeof data.isPublish !== "undefined")
+        query += ", isPublish = " + data.isPublish;
+      query += " where itemId=" + data.itemId + " and fieldId=" + data.fieldId + " and language='" + data.lang + "' and version=" + data.version;
       var updateFieldsCallback = function (err, rows) {
         if (!err) {
 

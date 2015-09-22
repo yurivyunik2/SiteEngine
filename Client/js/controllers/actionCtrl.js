@@ -143,7 +143,8 @@ function (application, Utils, Notification, PanelFormCtrl, PanelTypes) {
             }
             break;
           }
-          case "publishTree": {
+          case "publishTree":
+          case "unpublishTree": {
             if (selectedItem) {
               //engineTree.infoPanel.setValuesForItemFields(selectedItem);
               data.item = selectedItem;
@@ -276,6 +277,10 @@ function (application, Utils, Notification, PanelFormCtrl, PanelTypes) {
         if (curLangguage && curVersion) {
           var isPublish = true;
           var actionName = "Publishing";
+          if (data.actionType === "unpublishTree") {
+            isPublish = false;
+            actionName = "Unpublishing";
+          }
           var action = "publishTree";
           var item = data.item;
           var requestData = {

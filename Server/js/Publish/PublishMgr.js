@@ -28,6 +28,7 @@
       var updateItemTemplateCallback = function(dataResponse) {
         if (!(objResponse.error && objResponse.error !== "")) {
           var objResponseClone = _.clone(objResponse);
+          objResponseClone.data = [];
           itemMgr.getItemFields({ id: data.item.id, templateId: data.item.templateId }, objResponseClone, function () {
             if (objResponseClone.data) {
               var fields = objResponseClone.data;

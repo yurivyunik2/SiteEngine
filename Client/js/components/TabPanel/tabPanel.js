@@ -24,6 +24,7 @@
           { id: "btn_publishItem", action: "publishItem", name: "Publish Item", icon: "" },
           { id: "btn_publishTree", action: "publishTree", name: "Publish Tree", icon: "" },
           { id: "btn_unpublishItem", action: "unpublishItem", name: "Unpublish Item", icon: "" },
+          { id: "btn_unpublishTree", action: "unpublishTree", name: "Unpublish Tree", icon: "" },
         ],
       },
       {

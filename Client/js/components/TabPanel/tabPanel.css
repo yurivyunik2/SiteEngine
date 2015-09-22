@@ -66,11 +66,11 @@ a.button-ribbon {
   /*background-color: #6097CD;*/
   padding: 10px 0px;
   float: left;
-  width: 50%;
+  width: 60%;
 }
 #tabPanel #actionPanel #languageChoosePanel {
   float: right;
-  width: 50%;
+  width: 35%;
   text-align: right;  
   padding: 13px 10px 10px 0px;
 }

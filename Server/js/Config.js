@@ -3,19 +3,13 @@
     DATABASE: {
       DB_TYPE: "MY_SQL",
 
-      adminDB_Config: {
+      dbConfig: {
         host: "localhost",
         user: "root",
         pass: "root",
         name: "db_site_engine",
       },
 
-      publishDB_Config: {
-        host: "localhost",
-        user: "root",
-        pass: "root",
-        name: "db_site_engine_publish",
-      },
       //host : "localhost",
       //user : "root",
       //pass: "root",

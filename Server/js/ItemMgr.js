@@ -1,13 +1,14 @@
 ﻿
-exports.ItemMgr = function (database) {
+exports.ItemMgr = function () {
   var _ = require('underscore');
   
   var ServerApplication = require('./ServerApplication.js');
 
   var config = ServerApplication.Config;
 
-  var databaseMgrModule = require('./Database/DatabaseMgr.js');
-  var DatabaseMgr = new databaseMgrModule.DatabaseMgr(database);
+  var database = ServerApplication.Database;
+
+  var DatabaseMgr = ServerApplication.DatabaseMgr;
 
   var currentRequest;
 
@@ -411,6 +412,9 @@ exports.ItemMgr = function (database) {
         } else {
           DatabaseMgr.updateFields(field, objResponse, updateFieldValueCallback);
         }
+      } else {
+        if (callback)
+          callback();
       }
     },
 

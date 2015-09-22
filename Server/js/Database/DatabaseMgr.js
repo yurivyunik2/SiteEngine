@@ -1,9 +1,11 @@
-﻿exports.DatabaseMgr = function (database) {
+﻿exports.DatabaseMgr = function () {
   var _ = require('underscore');
 
   var ServerApplication = require('../ServerApplication.js');
 
   var config = ServerApplication.Config;
+
+  var database = ServerApplication.Database;
 
   return {
 

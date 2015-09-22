@@ -1,18 +1,12 @@
-﻿exports.ContentMgr = function (_itemMgr) {
+﻿exports.ContentMgr = function (itemMgr) {
   var _ = require('underscore');
   var fs = require('fs');
 
   var ServerApplication = require('./ServerApplication.js');
 
-  //var configModule = require('./Config.js');
-  //var config = new configModule.Config;
   var config = ServerApplication.Config;
 
-  //var utilsModule = require('./Utils.js');
-  //var utils = new utilsModule.Utils;
   var utils = ServerApplication.Utils;
-
-  var itemMgr = _itemMgr;
 
   return {
     

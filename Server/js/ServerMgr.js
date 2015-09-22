@@ -9,10 +9,10 @@
   var utils = ServerApplication.Utils;
   
   var itemMgrModule = require('./ItemMgr.js');
-  var itemMgr = new itemMgrModule.ItemMgr(ServerApplication.Database);
+  var itemMgr = new itemMgrModule.ItemMgr();
 
   var templateMgrModule = require('./TemplateMgr.js');
-  var templateMgr = new templateMgrModule.TemplateMgr(ServerApplication.Database);
+  var templateMgr = new templateMgrModule.TemplateMgr();
 
   var userMgrModule = require('./UserMgr.js');
   var userMgr = new userMgrModule.UserMgr();
@@ -21,7 +21,7 @@
   var contentMgr = new contentMgrModule.ContentMgr(itemMgr);
 
   var publishMgrModule = require('./Publish/PublishMgr.js');
-  var publishMgr = new publishMgrModule.PublishMgr(itemMgr, templateMgr);
+  var publishMgr = new publishMgrModule.PublishMgr(itemMgr);
 
 
   var roleMgrModule = require('./RoleMgr.js');

@@ -13,7 +13,7 @@
 07.09 - 26.09
 12) To implement Refactoring, Restyling(Crossbrowsing)
 ++ 13) To implement Media Manager - It's needed to add "Uploading of the files to the server" functionality
-14) To implement Publish!
+++ 14) To implement Publish!
 
 15) To develop demo WEB-site
 15_2) Hosting

@@ -6,7 +6,7 @@ var utilsModule = require('./Utils.js');
 module.exports.Utils = new utilsModule.Utils();
 
 var dbModule = require('./Database/Database.js');
-module.exports.Database = new dbModule.Database(module.exports.Config.DATABASE.adminDB_Config);
+module.exports.Database = new dbModule.Database(module.exports.Config.DATABASE.dbConfig);
 
-module.exports.DatabasePublish = new dbModule.Database(module.exports.Config.DATABASE.publishDB_Config);
-
+var databaseMgrModule = require('./Database/DatabaseMgr.js');
+module.exports.DatabaseMgr = new databaseMgrModule.DatabaseMgr();

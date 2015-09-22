@@ -8,11 +8,7 @@
 
   var Utils = ServerApplication.Utils;
 
-  //var itemMgrModule = require('../ItemMgr.js');
-  //var itemMgrPublish = new itemMgrModule.ItemMgr(ServerApplication.DatabasePublish);
-
-  var databaseMgrModule = require('../Database/DatabaseMgr.js');
-  var DatabaseMgr = new databaseMgrModule.DatabaseMgr(ServerApplication.Database);
+  var DatabaseMgr = ServerApplication.DatabaseMgr;
 
   return {
     publishItem: function(data, objResponse, callback) {
@@ -61,7 +57,7 @@
                 });
               }
               data.item.fields = fields;
-              itemMgr.saveItem({ item: data.item, lang: data.lang, version: data.version }, objResponseClone, function () {
+              itemMgr.saveItem({ item: data.item, lang: data.lang, version: data.version }, objResponseClone, function () {                
                 if (callback) {
                   objResponse.isOK = objResponseClone.isOK;
                   objResponse.error = objResponseClone.error;
@@ -95,7 +91,7 @@
       var self = this;
       data.item.isPublish = publishItemTreeData.isPublish;
 
-      self.publishItem(data, objResponse, function () {
+      self.publishItem(data, objResponse, function () {        
         if (publishItemTreeData.publishItemNumber || publishItemTreeData.publishItemNumber === 0)
           publishItemTreeData.publishItemNumber++;
         if (data.item && data.item.childs && data.item.childs.length > 0) {

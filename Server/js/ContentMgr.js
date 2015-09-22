@@ -41,7 +41,7 @@
             }
 
             for (var i = 0; i < contentItems.length; i++) {
-              Utils.findChildItems(allItems, contentItems[i]);
+              Utils.findChildItems(allItems, {parentItem: contentItems[i]});
             }
 
             var finishContentItem;

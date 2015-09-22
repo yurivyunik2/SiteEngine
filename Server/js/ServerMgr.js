@@ -178,6 +178,13 @@
                 });
                 break;
               }
+            case "publishTree":
+              {
+                publishMgr.publishTree(dataRequest, objResponse, function () {
+                  response.end(JSON.stringify(objResponse));
+                });
+                break;
+              }
             case "getContentSite": {
               contentMgr.getContent(request, response, objResponse);
               break;

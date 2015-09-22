@@ -36,19 +36,24 @@ exports.Utils = function () {
       }
     },
 
-    findChildItems: function (allItems, parentItem) {
-      if (!allItems || !parentItem)
+    findChildItems: function (allItems, data) {
+      if (!allItems || !data || !data.parentItem)
         return;
       
+      var parentItem = data.parentItem;
       var self = this;
       for (var i = 0; i < allItems.length; i++) {
         var item = allItems[i];
-        if (item.parent == parentItem.id) {
+        if (item.parent === parentItem.id) {
           if (!parentItem.childs)
             parentItem.childs = [];
 
+          if(data.countChilds || data.countChilds === 0)
+            data.countChilds++;
           parentItem.childs.push(item);
-          self.findChildItems(allItems, item);
+
+          data.parentItem = item;
+          self.findChildItems(allItems, data);
         }
       }
     },

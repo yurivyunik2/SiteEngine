@@ -10,7 +10,7 @@
 ++ 10) To add the using of the languages and versions
 ++ 11) To add HTML editor for the editing of markup values
 
-07.09 - 19.09
+07.09 - 26.09
 12) To implement Refactoring, Restyling(Crossbrowsing)
 ++ 13) To implement Media Manager - It's needed to add "Uploading of the files to the server" functionality
 14) To implement Publish!
@@ -30,4 +30,5 @@
 19) Unit-testing
 20) To implement the editing on the web-pages(editing mode)
 21) Drupal web-site - comparing
-22) 
+22) To implement keeping the history of actions
+23) 

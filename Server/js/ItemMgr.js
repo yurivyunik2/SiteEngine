@@ -325,7 +325,6 @@ exports.ItemMgr = function (database) {
             }
           }
 
-
           if (fieldsUnique && fieldsUnique.length > 0) {
             var newFields = [];
             var hashVersion = {};

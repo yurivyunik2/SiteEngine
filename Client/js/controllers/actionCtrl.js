@@ -137,9 +137,17 @@ function (application, Utils, Notification, PanelFormCtrl, PanelTypes) {
           case "publishItem":
           case "unpublishItem": {
             if (selectedItem) {
-              engineTree.infoPanel.setValuesForItemFields(selectedItem);
+              //engineTree.infoPanel.setValuesForItemFields(selectedItem);
               data.item = selectedItem;
               self.publishItem(data);
+            }
+            break;
+          }
+          case "publishTree": {
+            if (selectedItem) {
+              //engineTree.infoPanel.setValuesForItemFields(selectedItem);
+              data.item = selectedItem;
+              self.publishTree(data);
             }
             break;
           }
@@ -221,8 +229,11 @@ function (application, Utils, Notification, PanelFormCtrl, PanelTypes) {
         var curVersion = Utils.getVersionCurrent();
         if (curLangguage && curVersion) {
           var isPublish = true;
-          if (data.actionType === "unpublishItem")
+          var actionName = "Publishing";
+          if (data.actionType === "unpublishItem") {
             isPublish = false;
+            actionName = "Unpublishing";
+          }
           var action = "publishItem";
           var item = data.item;
           var requestData = {
@@ -237,7 +248,49 @@ function (application, Utils, Notification, PanelFormCtrl, PanelTypes) {
             lang: curLangguage.code,
             version: curVersion,
             isNotified: true,
-            actionName: "Publishing",
+            actionName: actionName,
+          };
+
+          application.httpRequest(requestData, function (response) {
+            if (response.isOK) {
+              if (response.data && response.data.item) {
+                //selItem.fields = response.data.item.fields;
+              }
+            }
+            if (data.callback)
+              data.callback();
+          }, function (response) {
+            if (data.callback)
+              data.callback();
+          });
+        }
+
+      },
+
+      publishTree: function (data) {
+        if (!data || !data.item)
+          return;
+
+        var curLangguage = Utils.getLanguageCurrent();
+        var curVersion = Utils.getVersionCurrent();
+        if (curLangguage && curVersion) {
+          var isPublish = true;
+          var actionName = "Publishing";
+          var action = "publishTree";
+          var item = data.item;
+          var requestData = {
+            action: action,
+            item: {
+              id: item.id,
+              name: item.name,
+              templateId: item.templateId,
+              isPublish: isPublish,
+              fields: item.fields,
+            },
+            lang: curLangguage.code,
+            version: curVersion,
+            isNotified: true,
+            actionName: actionName,
           };
 
           application.httpRequest(requestData, function (response) {

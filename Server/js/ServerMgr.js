@@ -202,7 +202,7 @@
             case "getContentSite": {
               contentMgr.getContent(request, objResponse, function () {
                   response.writeHead(200, "OK", {
-                    'Content-Type': 'text/plain',
+                    'Content-Type': 'text/html',
                     'Access-Control-Allow-Origin': '*'
                   });
                   response.end(JSON.stringify(objResponse));

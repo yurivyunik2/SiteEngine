@@ -145,11 +145,11 @@
               if (callback)
                 callback();
             });
+            return;
           } else {
             objResponse.error = "Data for this page aren't found!";
           }
         }
-
         if (objResponse.error && callback)
           callback();
       });

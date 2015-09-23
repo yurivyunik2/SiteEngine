@@ -1,45 +1,19 @@
 ﻿exports.Config = function () {
   return {
     DATABASE: {
-      DB_TYPE: "MY_SQL",
-
       dbConfig: {
         host: "localhost",
         user: "root",
         pass: "root",
         name: "db_site_engine",
       },
-
-      //host : "localhost",
-      //user : "root",
-      //pass: "root",
-      //name: "db_site_engine",
-      //name: "db_site_engine_publish",
       
-      TemplateRootID: function() {
-        if (this.DB_TYPE === "MY_SQL")
-          return 5;
-        else {
-          return 0;
-        }
-      },
-      ContentItemdID: function() {
-        if (this.DB_TYPE === "MY_SQL")
-          return 2;
-        else {
-          return 0;
-        }
-      },
-      BaseTemplateFieldID: function() {
-        if (this.DB_TYPE === "MY_SQL")
-          return 78;
-        else {
-          return 0;
-        }
-      },
+      TemplateRootID: function () { return 5; },
+      ContentItemdID: function () { return 2; },
 
+      BASE_TEMPLATE_FIELD_ID: function () { return 78; },
+      RENDERINGS_FIELD_ID: function () { return 81; },
       TYPE_FIELD_ID: function () { return 150; },
-
       BLOB_TYPE_ID: function () { return 2058; },
     },
     

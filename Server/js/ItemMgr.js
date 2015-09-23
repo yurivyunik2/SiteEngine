@@ -70,7 +70,7 @@ exports.ItemMgr = function () {
           var fields = rows;
           var filteredFields = [];
           if (fields && fields.length > 0) {
-            if (!objResponse.data)
+            if (!objResponse.data || !(objResponse.data.length >= 0))
               objResponse.data = [];
 
             _.each(fields, function (field) { 
@@ -94,8 +94,8 @@ exports.ItemMgr = function () {
           
           var baseTemplateField;
           _.each(objResponse.data, function (field) {
-            if (config.DATABASE.BaseTemplateFieldID() == field.fieldId) {
-              if (!baseTemplateField || field.itemId == data.id)
+            if (config.DATABASE.BASE_TEMPLATE_FIELD_ID() === field.fieldId) {
+              if (!baseTemplateField || field.itemId === data.id)
                 baseTemplateField = field;
             }
           });
@@ -148,7 +148,7 @@ exports.ItemMgr = function () {
 
             var fields = rows;
             if (fields && fields.length > 0) {
-              if (!objResponse.data)
+              if (!objResponse.data || !(objResponse.data.length >= 0))
                 objResponse.data = [];
 
               _.each(fields, function (field) {
@@ -180,11 +180,13 @@ exports.ItemMgr = function () {
             }
 
           } else {
+            objResponse.isOK = false;
             objResponse.error = "Error: " + err;
             if (callback)
               callback(data);
           }
         } catch (ex) {
+          objResponse.isOK = false;
           objResponse.error = "Exception: " + ex;
           if (callback)
             callback(data);

@@ -200,9 +200,15 @@
                 break;
               }
             case "getContentSite": {
-              contentMgr.getContent(request, response, objResponse);
+              contentMgr.getContent(request, objResponse, function () {
+                  response.writeHead(200, "OK", {
+                    'Content-Type': 'text/html',
+                    'Access-Control-Allow-Origin': '*'
+                  });
+                  response.end(JSON.stringify(objResponse));
+                });
               break;
-            }
+              }
             case "getUsers":
               {
                 userMgr.getUsers(dataRequest, objResponse, function () {
@@ -273,7 +279,8 @@
       var arUrlPart = request.url.split("/");
       if (arUrlPart.length > 0) {
         var requestPage = arUrlPart[arUrlPart.length - 1];
-        if (requestPage && requestPage !== "") {
+        //if (requestPage && requestPage !== "") {
+        if (true) {
           var fileName = "." + urlParts.pathname;
           if (requestPage.indexOf(".") >= 0 && fs.existsSync(fileName)) {
             response.sendfile(fileName);

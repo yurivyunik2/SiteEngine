@@ -273,21 +273,17 @@
     },
      
     processGET: function (request, response) {
-      var urlParts = url.parse(request.url, true);
-      //var query = urlParts.query;
-
       try {
+        var urlParts = url.parse(request.url, true);
         var arUrlPart = request.url.split("/");
         if (arUrlPart.length > 0) {
           var requestPage = arUrlPart[arUrlPart.length - 1];
-          if (requestPage && requestPage !== "") {
-            var fileName = "." + urlParts.pathname;
-            if (requestPage.indexOf(".") >= 0 && fs.existsSync(fileName)) {
-              response.sendfile(fileName);
-            } else {
-              response.sendfile("." + config.SERVER.LAYOUT_WRAPPER_PATH);
-            }
-          }
+          var fileName = "." + urlParts.pathname;
+          if (requestPage.indexOf(".") >= 0 && fs.existsSync(fileName)) {
+            response.sendfile(fileName);
+          } else {
+            response.sendfile("." + config.SERVER.LAYOUT_WRAPPER_PATH);
+          }          
         }
       } catch (ex) {
         

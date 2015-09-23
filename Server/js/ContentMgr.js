@@ -99,17 +99,6 @@
           }
         });
 
-        //if (renderingObj.layoutItem && renderingObj.subLayouts) {
-        //  _.each(renderingObj.subLayouts, function(subLayout) {
-
-        //    _.each(items, function(item) {
-        //      if (item.id === subLayout.id) {
-        //        subLayout.item = item;
-        //      }
-        //    });
-        //  });
-        //}
-
         if (renderingObj.layoutItem) {
           var getItemFieldsCallback = function(itemData) {
             if (!(objResponse.error && objResponse.error != "")) {
@@ -126,27 +115,6 @@
                 itemData.layoutContent = content;
 
                 objResponse.data = renderingObj;
-
-                //if (renderingObj.subLayouts && renderingObj.subLayouts.length > 0) {
-                //  if (!objResponse.indexSubLayout && objResponse.indexSubLayout != 0) {
-                //    objResponse.indexSubLayout = 0;
-
-                //    itemMgr.getItemFields(renderingObj.subLayouts[0].item, objResponse, getItemFieldsCallback);
-                //  } else if ((objResponse.indexSubLayout + 1) < renderingObj.subLayouts.length) {
-                //    objResponse.indexSubLayout++;
-                //    itemMgr.getItemFields(renderingObj.subLayouts[objResponse.indexSubLayout].item, objResponse, getItemFieldsCallback);
-                //  } else {
-                //    objResponse.isOK = true;
-                //    objResponse.data = renderingObj;
-                //    if (callback)
-                //      callback();
-                //  }
-                //} else {
-                //  objResponse.isOK = true;
-                //  objResponse.data = renderingObj;
-                //  if (callback)
-                //    callback();
-                //}
               } else {
                 objResponse.isOK = false;
                 objResponse.error = "PATH field isn't found in layout item!";

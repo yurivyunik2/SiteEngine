@@ -2,14 +2,24 @@
   var _ = require('underscore');
   var fs = require('fs');
 
-  var ServerApplication = require('./ServerApplication.js');
+  var Modules = require('./Modules.js');
 
-  var config = ServerApplication.Config;
+  var config = Modules.Config;
+  var Utils = Modules.Utils;
+  var ServerApplication = Modules.ServerApplication;
 
-  var utils = ServerApplication.Utils;
+  var self;
 
-  return {
-    
+  var contentMgrObj = {
+
+    constructor: function() {
+      self = this;
+    },
+
+    update: function() {      
+
+    },
+
     getItemRequest: function (request, response, objResponse, callback) {
       // get content
       var url = request.url;
@@ -21,66 +31,50 @@
       // go to part of PATH
       if (arPath.length >= 1) {
         arPath = _.without(arPath, "");
-        itemMgr.getItems({}, objResponse, function () {
-          if (objResponse && objResponse.data) {
-            var allItems = objResponse.data;
-            var contentItemID = config.DATABASE.ContentItemdID();
-            var contentItems = [];
-
-            for (var i = 0; i < allItems.length; i++) {
-              var item = allItems[i];
-              if (item.parent == contentItemID) {
-                contentItems.push(item);
+        var contentParentItems = ServerApplication.getContentParentItems();
+        if (contentParentItems) {
+          var finishContentItem;
+          for (var i = 0; i < arPath.length; i++) {
+            var name = arPath[i];
+            var indexDot = name.indexOf(".");
+            if (indexDot >= 0) {
+              name = name.substring(indexDot, name - indexDot);
+            }
+            if (name !== "") {
+              var childItems = contentParentItems;
+              if (finishContentItem)
+                childItems = finishContentItem.childs;
+              var arFound = _.where(childItems, { name: name });
+              if (arFound.length > 0)
+                finishContentItem = arFound[0];
+              else {
+                finishContentItem = null;
+                break;
               }
             }
+          }
 
-            for (var i = 0; i < contentItems.length; i++) {
-              Utils.findChildItems(allItems, {parentItem: contentItems[i]});
-            }
-
-            var finishContentItem;
-            for (var i = 0; i < arPath.length; i++) {
-              var name = arPath[i];
-              var indexDot = name.indexOf(".");
-              if (indexDot >= 0) {
-                name = name.substring(indexDot, name - indexDot);
+          if (finishContentItem) {
+            objResponse.items = ServerApplication.getItemsCash();
+            objResponse.data = [];
+            itemMgr.getItemFields(finishContentItem, objResponse, function () {
+              if (!(objResponse.error && objResponse.error != "")) {
+                finishContentItem.fields = objResponse.data;
+                objResponse.data = finishContentItem;
               }
-              if (name != "") {
-                var childItems = contentItems;
-                if (finishContentItem)
-                  childItems = finishContentItem.childs;
-                var arFound = _.where(childItems, { name: name });
-                if (arFound.length > 0)
-                  finishContentItem = arFound[0];
-                else {
-                  finishContentItem = null;
-                  break;
-                }                
-              }
-            }
-
-            if (finishContentItem) {
-              objResponse.allItems = allItems;
-              objResponse.data = [];
-              itemMgr.getItemFields(finishContentItem, objResponse, function() {
-                if (!(objResponse.error && objResponse.error != "")) {
-                  finishContentItem.fields = objResponse.data;
-                  objResponse.data = finishContentItem;
-                }
-                if (callback)
-                  callback();
-              });
-            } else {
-              objResponse.isOK = false;
-              objResponse.error = "Page isn't found!";
-              response.end(JSON.stringify(objResponse));
-            }
+              if (callback)
+                callback();
+            });
           } else {
             objResponse.isOK = false;
             objResponse.error = "Page isn't found!";
             response.end(JSON.stringify(objResponse));
           }
-        });
+        } else {
+          objResponse.isOK = false;
+          objResponse.error = "Page isn't found!";
+          response.end(JSON.stringify(objResponse));
+        }
 
       } else {
         //HOME PAGE
@@ -93,9 +87,9 @@
         'Access-Control-Allow-Origin': '*'
       });
 
-      this.getItemRequest(request, response, objResponse, function () {
+      self.getItemRequest(request, response, objResponse, function () {
         var error;
-        var allItems = objResponse.allItems;
+        var items = objResponse.items;
         var pathLayout;
 
         if (objResponse.data && objResponse.data.fields) {
@@ -118,7 +112,7 @@
           if (renderingObj) {
 
             if (renderingObj.layout) {
-              _.each(allItems, function(item) {
+              _.each(items, function(item) {
                 if (item.id == renderingObj.layout.id) {
                   renderingObj.layoutItem = item;
                 }
@@ -127,7 +121,7 @@
               if (renderingObj.layoutItem && renderingObj.subLayouts) {
                 _.each(renderingObj.subLayouts, function(subLayout) {
 
-                  _.each(allItems, function(item) {
+                  _.each(items, function(item) {
                     if (item.id == subLayout.id) {
                       subLayout.item = item;
                     }
@@ -142,7 +136,7 @@
                 if (!(objResponse.error && objResponse.error != "")) {
                   itemData.fields = objResponse.data;
                   _.each(itemData.fields, function(field) {
-                    if (field.name == "Path") {
+                    if (field.name === "Path") {
                       pathLayout = field.value;
                     }
                   });
@@ -188,6 +182,7 @@
               error = "RENDERING layout isn't found!";
             }
           }
+
         } else {
           error = "There is no RENDERING on the item!";
         }
@@ -202,4 +197,6 @@
     },
     
   };
+  contentMgrObj.constructor();
+  return contentMgrObj;
 };

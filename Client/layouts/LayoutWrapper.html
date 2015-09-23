@@ -49,6 +49,7 @@
       application: "/SiteEngine/Client/js/application",
       notification: "/SiteEngine/Client/Views/forms/notificationForm/notification",
       CommonTypes: "/SiteEngine/Client/js/Common/CommonTypes",
+      Utils: "/SiteEngine/Client/js/Common/Utils",
       
       siteConst: "/SiteEngine/Site/layouts/Iwith.org/SiteConst",
     },
@@ -80,7 +81,6 @@
     var serverAddress = CONST.SERVER() + window.location.pathname;
     
     
-    
     application.initialize(_$scope, _$http);
     application.loadItems(function () {
       
@@ -89,7 +89,7 @@
     var data = { action: "getContentSite" };
 
     $.post(serverAddress, data, function (responseData, textStatus, jqXHR) {
-      if (jqXHR && jqXHR.status == 200) {
+      if (jqXHR && jqXHR.status === 200) {
         responseData = JSON.parse(responseData);
         if (responseData.isOK) {
           if (responseData.data && responseData.data.layoutItem) {
@@ -118,28 +118,33 @@
               }
               _$scope.$apply();
               
-              if (responseData.data.subLayouts) {
-                var dirSubLayouts = {};
-                _.each(responseData.data.subLayouts, function (subLayout) {
-                  if (subLayout.placeholder && subLayout.placeholder != "" && subLayout.item) {
-                    dirSubLayouts[subLayout.placeholder] = subLayout.item.layoutContent;
-                  }
-                });
-              }
+              ///
+              /// yvy - sublayouts aren't needed for using
+              ///
 
-              var populatePlaceholder = function ($elem) {
-                var arPlaceholder = $elem.find(".placeholder");
-                _.each(arPlaceholder, function (placeholder) {
-                  var $placeholder = $(placeholder);
-                  var key = $placeholder.attr("key");
-                  if (key && dirSubLayouts[key]) {
-                    $placeholder.html(dirSubLayouts[key]);
+              //if (responseData.data.subLayouts) {
+              //  var dirSubLayouts = {};
+              //  _.each(responseData.data.subLayouts, function (subLayout) {
+              //    if (subLayout.placeholder && subLayout.placeholder != "" && subLayout.item) {
+              //      dirSubLayouts[subLayout.placeholder] = subLayout.item.layoutContent;
+              //    }
+              //  });
+              //}
 
-                    populatePlaceholder($placeholder);
-                  }
-                });
-              };
-              populatePlaceholder($("#wrapperContent"));
+              //var populatePlaceholder = function ($elem) {
+              //  var arPlaceholder = $elem.find(".placeholder");
+              //  _.each(arPlaceholder, function (placeholder) {
+              //    var $placeholder = $(placeholder);
+              //    var key = $placeholder.attr("key");
+              //    if (key && dirSubLayouts[key]) {
+              //      $placeholder.html(dirSubLayouts[key]);
+
+              //      populatePlaceholder($placeholder);
+              //    }
+              //  });
+              //};
+              //populatePlaceholder($("#wrapperContent"));
+
             }
           }
 

@@ -1,15 +1,20 @@
 ﻿exports.ServerMgr = function () {
   var _ = require('underscore');
+  var url = require('url');
   var fs = require('fs');
 
-  var ServerApplication = require('./ServerApplication.js');
+  var Modules = require('./Modules.js');
 
-  var config = ServerApplication.Config;
+  var config = Modules.Config;
 
-  var utils = ServerApplication.Utils;
+  var utils = Modules.Utils;
+
+  var ServerApplication = Modules.ServerApplication;
   
   var itemMgrModule = require('./ItemMgr.js');
   var itemMgr = new itemMgrModule.ItemMgr();
+
+  ServerApplication.setItemMgr(itemMgr);
 
   var templateMgrModule = require('./TemplateMgr.js');
   var templateMgr = new templateMgrModule.TemplateMgr();
@@ -30,16 +35,22 @@
 
   var self;
 
+  var lastUpdate = Date.now();
+
   var serverMgrObj = {
     constructor: function () {
       self = this;
 
-      setInterval(self.timerService, 300);
+      setInterval(self.updateInterval, 300);
     },
     
-    timerService: function () {
+    updateInterval: function () {
       if (userMgr)
         userMgr.updateMgr();
+
+      if (ServerApplication) {
+        ServerApplication.update();
+      }
     },
 
     requestHandle: function (objResponse, request, response) {
@@ -93,9 +104,12 @@
           switch (dataRequest.action) {
             case "getItems":
               {
-                itemMgr.getItems(dataRequest, objResponse, function () {
+                ServerApplication.updateItemsCash(dataRequest, objResponse, function () {
                   response.end(JSON.stringify(objResponse));
                 });
+                //itemMgr.getItems(dataRequest, objResponse, function () {
+                //  response.end(JSON.stringify(objResponse));
+                //});
                 break;
               }
             case "getItemFields":
@@ -253,15 +267,13 @@
     },
      
     processGET: function (request, response) {
-      
-      var url = require('url');
       var urlParts = url.parse(request.url, true);
       //var query = urlParts.query;
       
       var arUrlPart = request.url.split("/");
       if (arUrlPart.length > 0) {
         var requestPage = arUrlPart[arUrlPart.length - 1];
-        if (requestPage && requestPage != "") {
+        if (requestPage && requestPage !== "") {
           var fileName = "." + urlParts.pathname;
           if (requestPage.indexOf(".") >= 0 && fs.existsSync(fileName)) {
             response.sendfile(fileName);

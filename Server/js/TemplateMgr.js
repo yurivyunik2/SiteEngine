@@ -2,9 +2,9 @@
 exports.TemplateMgr = function() {
   var _ = require('underscore');
 
-  var ServerApplication = require('./ServerApplication.js');
+  var Modules = require('./Modules.js');
 
-  var DatabaseMgr = ServerApplication.DatabaseMgr;
+  var DatabaseMgr = Modules.DatabaseMgr;
 
   return {
     //getTemplates: function (objResponse, callback) {

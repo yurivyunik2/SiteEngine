@@ -4,11 +4,11 @@
 
   var _ = require('underscore');
 
-  var ServerApplication = require('../ServerApplication.js');
+  var Modules = require('../Modules.js');
 
-  var Utils = ServerApplication.Utils;
-
-  var DatabaseMgr = ServerApplication.DatabaseMgr;
+  var Utils = Modules.Utils;
+  var DatabaseMgr = Modules.DatabaseMgr;
+  var ServerApplication = Modules.ServerApplication;
 
   return {
     publishItem: function(data, objResponse, callback) {
@@ -123,32 +123,27 @@
 
       var self = this;      
 
-      itemMgr.getItems({}, objResponse, function () {
-        if (objResponse && objResponse.data) {
-          var allItems = objResponse.data;
-          objResponse.data = [];
+      var items = ServerApplication.getItemsCash();      
+      if (items) {
+        var publishItemTreeData = {parentItem: data.item, isPublish: data.item.isPublish, countChilds: 0};
+        Utils.findChildItems(items, publishItemTreeData);
+        publishItemTreeData.countItems = publishItemTreeData.countChilds + 1; // plus Parent item
 
-          var publishItemTreeData = {parentItem: data.item, isPublish: data.item.isPublish, countChilds: 0};
-          Utils.findChildItems(allItems, publishItemTreeData);
-          publishItemTreeData.countItems = publishItemTreeData.countChilds + 1; // plus Parent item
-
-          publishItemTreeData.publishItemNumber = 0;
-          self.publishItemAndChilds(data, publishItemTreeData, objResponse, function () {
-            if (publishItemTreeData.publishItemNumber && publishItemTreeData.publishItemNumber === publishItemTreeData.countItems) {
-              if (callback) {
-                callback();
-              }
+        publishItemTreeData.publishItemNumber = 0;
+        self.publishItemAndChilds(data, publishItemTreeData, objResponse, function () {
+          if (publishItemTreeData.publishItemNumber && publishItemTreeData.publishItemNumber === publishItemTreeData.countItems) {
+            if (callback) {
+              callback();
             }
-            
-          });
-
-        } else {
-          objResponse.isOK = false;
-          objResponse.error = "Items are not accesed!";
-          if (callback)
-            callback();
-        }
-      });
+          }            
+        });
+      } else {
+        objResponse.isOK = false;
+        objResponse.error = "Items are not accesed!";
+        if (callback)
+          callback();
+      }
+      
     },
 
   };

@@ -2,13 +2,13 @@
 exports.ItemMgr = function () {
   var _ = require('underscore');
   
-  var ServerApplication = require('./ServerApplication.js');
+  var Modules = require('./Modules.js');
 
-  var config = ServerApplication.Config;
+  var config = Modules.Config;
 
-  var database = ServerApplication.Database;
+  var database = Modules.Database;
 
-  var DatabaseMgr = ServerApplication.DatabaseMgr;
+  var DatabaseMgr = Modules.DatabaseMgr;
 
   var currentRequest;
 
@@ -21,6 +21,7 @@ exports.ItemMgr = function () {
     getItems: function (data, objResponse, callback) {
       var query = "SELECT id, name, parentid as parent, templateId FROM items";
       if (data && (data.parent || (data.item && data.item.id))) {
+        objResponse.notAllItems = true;
         //query += " where parentID = " + data.parent;
         query += " where ";
         if (data.parent) {
@@ -30,7 +31,7 @@ exports.ItemMgr = function () {
           }
         } else if (data.item && data.item.id) {
           query += " id = " + data.item.id;
-        }
+        }        
       }
       var getItemsCallback = function (err, rows) {
         if (!err) {

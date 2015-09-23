@@ -1,12 +1,73 @@
-﻿
-var configModule = require('./Config.js');
-module.exports.Config = new configModule.Config();
+﻿exports.ServerApplication = function (Config, Utils) {
 
-var utilsModule = require('./Utils.js');
-module.exports.Utils = new utilsModule.Utils();
+  var self;
 
-var dbModule = require('./Database/Database.js');
-module.exports.Database = new dbModule.Database(module.exports.Config.DATABASE.dbConfig);
+  var itemMgr;
+  var itemsCash;
 
-var databaseMgrModule = require('./Database/DatabaseMgr.js');
-module.exports.DatabaseMgr = new databaseMgrModule.DatabaseMgr();
+  var contentParentItems;
+
+  var lastUpdateItemsCash = Date.now();
+  var intervalUpdateItemsCash= 60 * 1000; // 60 sec
+
+  var serverApplicationObj = {
+    constructor: function() {
+      self = this;
+    },
+
+    update: function () {
+      // updating of itemsCash
+      if (!itemsCash || (Date.now() - lastUpdateItemsCash) > intervalUpdateItemsCash) {
+        self.updateItemsCash();
+      }
+    },
+
+    updateItemsCash: function (data, objResponse, callback) {
+      lastUpdateItemsCash = Date.now();
+      if (!data)
+        data = {};
+      if(!objResponse)
+        objResponse = {};
+      itemMgr.getItems(data, objResponse, function () {
+        if (!objResponse.notAllItems) {
+          if (objResponse && objResponse.data) {
+            itemsCash = objResponse.data;
+          } else {
+            itemsCash = [];
+          }
+          // content ParentItems
+          var contentItemID = Config.DATABASE.ContentItemdID();
+          contentParentItems = [];
+          for (var i = 0; i < itemsCash.length; i++) {
+            var item = itemsCash[i];
+            if (item.parent === contentItemID) {
+              contentParentItems.push(item);
+            }
+          }
+          // finding SubItems for ContentParentItems
+          for (var i = 0; i < contentParentItems.length; i++) {
+            Utils.findChildItems(itemsCash, { parentItem: contentParentItems[i] });
+          }
+        }
+        if (callback)
+          callback();
+      });
+    },
+
+    setItemMgr: function(_itemMgr) {
+      if (_itemMgr)
+        itemMgr = _itemMgr;
+    },
+
+    getItemsCash: function() {
+      return itemsCash;
+    },
+
+    getContentParentItems: function() {
+      return contentParentItems;
+    },
+
+  };
+  serverApplicationObj.constructor();
+  return serverApplicationObj;
+}

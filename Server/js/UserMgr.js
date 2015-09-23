@@ -2,15 +2,11 @@
   var _ = require('underscore');
   var passwordHash = require('password-hash');
 
-  var ServerApplication = require('./ServerApplication.js');
+  var Modules = require('./Modules.js');
 
-  //var configModule = require('./Config.js');
-  //var config = new configModule.Config;
-  var config = ServerApplication.Config;
+  var config = Modules.Config;
 
-  //var dbModule = require('./Database/Database.js');
-  //var database = new dbModule.Database();
-  var database = ServerApplication.Database;
+  var database = Modules.Database;
 
   var roleMgrModule = require('./RoleMgr.js');
   var roleMgr = new roleMgrModule.RoleMgr();  

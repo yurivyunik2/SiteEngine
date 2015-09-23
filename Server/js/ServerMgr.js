@@ -179,7 +179,7 @@
               {
                 itemMgr.deleteItem(dataRequest, objResponse, function () {
                   if (!(objResponse.error && objResponse.error != "")) {
-                    objResponse.isOK = true;
+
                   }
                   response.end(JSON.stringify(objResponse));
                 });

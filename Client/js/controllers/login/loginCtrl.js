@@ -65,7 +65,7 @@ define(["application", "CONST", "Utils", "css!loginCSS"], function (application,
         self.isRequestProcess = true;
 
         application.httpRequest(data, function success(response) {
-          if (response.isOK) {
+          if (!response.error) {
             self.isRequestProcess = false;
 
             //

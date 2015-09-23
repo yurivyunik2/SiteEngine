@@ -64,7 +64,6 @@
             callback();
         });
       } else {
-        objResponse.isOK = false;
         objResponse.error = "Page isn't found!";
         if (callback)
           callback();
@@ -116,7 +115,6 @@
 
                 objResponse.data = renderingObj;
               } else {
-                objResponse.isOK = false;
                 objResponse.error = "PATH field isn't found in layout item!";
               }
             }
@@ -125,13 +123,11 @@
           };
           itemMgr.getItemFields(renderingObj.layoutItem, objResponse, getItemFieldsCallback);
         } else {
-          objResponse.isOK = false;
           objResponse.error = "RENDERING layout-item isn't found!";
           if (callback)
             callback();
         }
       } else {
-        objResponse.isOK = false;
         objResponse.error = "RENDERING layout isn't found!";
         if (callback)
           callback();
@@ -151,7 +147,6 @@
                 callback();
             });
           } else {
-            objResponse.isOK = false;
             objResponse.error = "Data for this page aren't found!";
             if (callback)
               callback();

@@ -91,7 +91,7 @@
     $.post(serverAddress, data, function (responseData, textStatus, jqXHR) {
       if (jqXHR && jqXHR.status === 200) {
         responseData = JSON.parse(responseData);
-        if (responseData.isOK) {
+        if (!responseData.error) {
           if (responseData.data && responseData.data.layoutItem) {
             var layoutItem = responseData.data.layoutItem;
             if (layoutItem.layoutContent) {

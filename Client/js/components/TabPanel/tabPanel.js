@@ -211,7 +211,7 @@
         };
         application.httpRequest(data, function (response) {
           //$scope.isShowModalForm = false;
-          if (response.isOK) {
+          if (!response.error) {
             window.location.href = '#/login';
           }
         }, function (response, status, headers, config) {
@@ -313,7 +313,7 @@
             };
             application.httpRequest(data, function (response) {
               //$scope.isShowModalForm = false;
-              if (response.isOK) {                
+              if (!response.error) {                
                 if (treeGrid && treeGrid.selectedItem) {
                   $(treeGrid.selectedItem.trElem).mousedown();
                 }                
@@ -352,7 +352,7 @@
             };
             application.httpRequest(data, function (response) {
               //$scope.isShowModalForm = false;
-              if (response.isOK) {
+              if (!response.error) {
                 if (response.data) {
                   if (treeGrid && treeGrid.selectedItem) {
                     $(treeGrid.selectedItem.trElem).mousedown();

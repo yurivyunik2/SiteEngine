@@ -138,7 +138,6 @@
           }            
         });
       } else {
-        objResponse.isOK = false;
         objResponse.error = "Items are not accesed!";
         if (callback)
           callback();

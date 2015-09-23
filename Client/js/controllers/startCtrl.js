@@ -46,7 +46,7 @@ function (application, CONST, Utils, EngineTree, ActionCtrl, ModalFormCtrl, TabP
 
         //  self.isRequestProcess = true;
         //  application.httpRequest(data, function success(response) {
-        //    if (response.isOK) {
+        //    if (!response.error) {
         //      if (response.data && response.data.user && response.data.user.sessionID) {
         //        var user = response.data.user;
         //        application.setSession(user.sessionID, user.name, user.password);

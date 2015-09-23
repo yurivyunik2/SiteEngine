@@ -166,7 +166,7 @@
 
         application.httpRequest(data, function (response) {
           //$scope.isShowModalForm = false;
-          if (response.isOK) {
+          if (!response.error) {
             var item = response.requestData.item;
             var fields = response.requestData.fields;
             var removeFields = response.requestData.removeFields;

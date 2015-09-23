@@ -28,7 +28,6 @@ exports.TemplateMgr = function() {
     //          self.getItems(dataResponse, objResponse, getTemplateFieldsCallback);
     //        }
     //      } else {
-    //        objResponse.isOK = true;
     //        objResponse.data = dataResponse.templates;
     //        if (callback)
     //          callback();
@@ -110,7 +109,6 @@ exports.TemplateMgr = function() {
             fieldNext.indexField = indexField;
             DatabaseMgr.insertIntoItems(fieldNext, objResponse, addFieldForItemFieldCallback);
           } else {
-            objResponse.isOK = true;
             objResponse.requestData = data;
             if (callback)
               callback();
@@ -132,7 +130,6 @@ exports.TemplateMgr = function() {
             field.indexField = 0;
             DatabaseMgr.insertIntoItems(field, objResponse, addFieldForItemFieldCallback);
           } else {
-            objResponse.isOK = true;
             objResponse.requestData = data;
             if (callback)
               callback();
@@ -167,7 +164,6 @@ exports.TemplateMgr = function() {
             fieldNext.indexRemoveField = indexRemoveField;
             self.deleteItem({ item: fieldNext }, objResponse, removeItemFieldCallback);
           } else {
-            //objResponse.isOK = true;
             //if (callback)
             //  callback();
 
@@ -187,7 +183,6 @@ exports.TemplateMgr = function() {
             field.indexRemoveField = 0;
             self.deleteItem({ item: field }, objResponse, removeItemFieldCallback);
           } else {
-            //objResponse.isOK = true;
             //if (callback)
             //  callback();
             self.addFieldsForTemplate(data, objResponse, callback);
@@ -259,7 +254,6 @@ exports.TemplateMgr = function() {
             }
             //DatabaseMgr.insertIntoItems(fieldNext, objResponse, addFieldForItemFieldCallback);
           } else {
-            objResponse.isOK = true;
             objResponse.requestData = data;
             if (callback)
               callback();
@@ -282,7 +276,6 @@ exports.TemplateMgr = function() {
           DatabaseMgr.insertIntoItems(field, objResponse, addFieldForItemFieldCallback);
         }
       } else {
-        objResponse.isOK = true;
         if (callback)
           callback();
       }

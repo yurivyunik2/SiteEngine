@@ -65,7 +65,6 @@
 
     pingSession: function (data, objResponse, callback) {
       if (currentRequest && currentRequest.sessionID && usersHash[currentRequest.sessionID]) {
-        objResponse.isOK = true;
         objResponse.data = {
           user: usersHash[currentRequest.sessionID],
         };
@@ -83,7 +82,6 @@
         };
         delete usersHash[currentRequest.sessionID];
       }
-      objResponse.isOK = true;
       if (callback)
         callback();
     },
@@ -137,7 +135,7 @@
           if(!hasAccesss)
             objResponse.error = "User doesn't have the access for this operation!";
           else {
-            objResponse.isOK = true;
+            
           }
         }
 
@@ -168,7 +166,6 @@
 
       var addUserCallback = function (dataResponse) {
         if (!(objResponse.error && objResponse.error != "") && dataResponse.id) {
-          objResponse.isOK = true;
           objResponse.data = data;
         }
         if (callback)
@@ -187,7 +184,6 @@
 
       var removeUserCallback = function (dataResponse) {
         if (!(objResponse.error && objResponse.error != "")) {
-          objResponse.isOK = true;
           objResponse.data = data;
         }
         if (callback)
@@ -205,7 +201,6 @@
                 left join user_roles on u.role = user_roles.id";
       var getUsersCallback = function (err, rows) {
         if (!err) {
-          objResponse.isOK = true;
           objResponse.data = rows;
         } else {
           objResponse.error = "Error: " + err;
@@ -222,7 +217,6 @@
       var query = "SELECT id, name FROM user_roles";
       var getUserRolesCallback = function (err, rows) {
         if (!err) {
-          objResponse.isOK = true;
           if (rows && rows.length > 0)
             objResponse.data = rows;
         } else {
@@ -283,7 +277,6 @@
       query += " where id = " + data.user.id;
       var updateUsersCallback = function (err, rows) {
         if (!err && rows) {
-          objResponse.isOK = true;
           objResponse.data = data;
         } else {
           objResponse.error = "Error: " + err;

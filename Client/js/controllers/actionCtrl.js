@@ -175,7 +175,7 @@ function (application, Utils, Notification, PanelFormCtrl, PanelTypes) {
         };
 
         application.httpRequest(requestData, function (response) {
-          if (response.isOK) {
+          if (!response.error) {
             if (response.data && response.data.item) {
               //selItem.fields = response.data.item.fields;
             }
@@ -206,7 +206,7 @@ function (application, Utils, Notification, PanelFormCtrl, PanelTypes) {
         };
 
         application.httpRequest(requestData, function (response) {
-          if (response.isOK) {
+          if (!response.error) {
             if (response.data && response.data.item) {
               //selItem.fields = response.data.item.fields;
               var engineTree = application.getEngineTree();
@@ -253,7 +253,7 @@ function (application, Utils, Notification, PanelFormCtrl, PanelTypes) {
           };
 
           application.httpRequest(requestData, function (response) {
-            if (response.isOK) {
+            if (!response.error) {
               if (response.data && response.data.item) {
                 //selItem.fields = response.data.item.fields;
               }
@@ -299,7 +299,7 @@ function (application, Utils, Notification, PanelFormCtrl, PanelTypes) {
           };
 
           application.httpRequest(requestData, function (response) {
-            if (response.isOK) {
+            if (!response.error) {
               if (response.data && response.data.item) {
                 //selItem.fields = response.data.item.fields;
               }

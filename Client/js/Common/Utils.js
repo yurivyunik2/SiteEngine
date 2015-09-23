@@ -61,7 +61,7 @@
         else if (data.action)
           actionName = data.action;
         if (actionName) {
-          if (response && response.isOK)
+          if (response && !response.error)
             Notification.show(Notification.INFO(), actionName + " was successfully!");
           else {
             if (response)

@@ -200,7 +200,7 @@ define(["CONST", "Utils"], function (CONST, Utils) {
         self.isRequestProcess = true;
 
         self.httpRequest(data, function success(response) {
-          if (response.isOK && response.data) {
+          if (!response.error && response.data) {
             self.isRequestProcess = false;
             userRoleList = response.data;
             if (callback)
@@ -229,7 +229,7 @@ define(["CONST", "Utils"], function (CONST, Utils) {
         self.isRequestProcess = true;
 
         self.httpRequest(data, function success(response) {
-          if (response.isOK && response.data) {
+          if (!response.error && response.data) {
             self.isRequestProcess = false;
             userList = response.data;
             if (callback)
@@ -278,7 +278,7 @@ define(["CONST", "Utils"], function (CONST, Utils) {
             };
 
             application.httpRequest(data, function(response) {
-              if (response.isOK) {
+              if (!response.error) {
                 if (response.data && response.data.user) {
                   userRemove = _.findWhere(userList, { id: parseInt(response.data.user.id) });
                   userList = _.without(userList, userRemove);
@@ -309,7 +309,7 @@ define(["CONST", "Utils"], function (CONST, Utils) {
         var data = { action: "getItemFields", id: item.id, templateId: item.templateId };
 
         self.httpRequest(data, function(responseData) {
-          if (responseData.isOK) {
+          if (!responseData.error) {
             self.isRequestProcess = false;
             if (responseData.data) {
               var fields = responseData.data;
@@ -332,7 +332,7 @@ define(["CONST", "Utils"], function (CONST, Utils) {
         self.isRequestProcess = true;
 
         self.httpRequest(data, function success(response) {
-          if (response.isOK) {
+          if (!response.error) {
             self.isRequestProcess = false;
 
             if (response.data) {

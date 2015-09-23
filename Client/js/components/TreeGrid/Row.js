@@ -118,7 +118,7 @@
 
           application.getItemFields(selItem, function() {
             ////var responseData = JSON.parse(response);            
-            //if (responseData.isOK) {
+            //if (!responseData.error) {
             //  self.isRequestProcess = false;
             //  var fields = responseData.data;
             //  //var filterFields = {};

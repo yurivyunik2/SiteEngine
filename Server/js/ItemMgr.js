@@ -31,11 +31,10 @@ exports.ItemMgr = function () {
           }
         } else if (data.item && data.item.id) {
           query += " id = " + data.item.id;
-        }        
+        }
       }
       var getItemsCallback = function (err, rows) {
         if (!err) {
-          objResponse.isOK = true;
           if (rows && rows.length > 0)
             objResponse.data = rows;
         } else {
@@ -118,7 +117,6 @@ exports.ItemMgr = function () {
           }
 
           if (objResponse.indexBaseTemplate >= objResponse.amountBaseTemplate || (!baseTemplateField && !objResponse.amountBaseTemplate)) {
-            objResponse.isOK = true;
             if (callback)
               callback(data);
           }
@@ -180,13 +178,11 @@ exports.ItemMgr = function () {
             }
 
           } else {
-            objResponse.isOK = false;
             objResponse.error = "Error: " + err;
             if (callback)
               callback(data);
           }
         } catch (ex) {
-          objResponse.isOK = false;
           objResponse.error = "Exception: " + ex;
           if (callback)
             callback(data);
@@ -233,7 +229,6 @@ exports.ItemMgr = function () {
         if (!(objResponse.error && objResponse.error != "") && dataResponse.id) {
           //objResponse.data = dataResponse;
           ////objResponse.requestData = data;
-          //objResponse.isOK = true;
           //if (callback)
           //  callback();
 
@@ -387,7 +382,6 @@ exports.ItemMgr = function () {
               DatabaseMgr.updateFields(fieldNext, objResponse, updateFieldValueCallback);
             }
           } else {
-            objResponse.isOK = true;
             objResponse.data = {
               item: data.item
             };
@@ -471,7 +465,7 @@ exports.ItemMgr = function () {
 
       DatabaseMgr.deleteFromFields(data, objResponse, function () {
         if (!(objResponse.error && objResponse.error !== "")) {
-          objResponse.isOK = true;
+          
         }
         if (callback)
           callback();

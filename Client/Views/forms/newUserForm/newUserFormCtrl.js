@@ -190,7 +190,7 @@
         };
 
         application.httpRequest(data, function (response) {          
-          if (response.isOK) {
+          if (!response.error) {
             if (response.data && response.data.user) {
               if (response.data.action === "newUser")
                 application.newUser(response.data.user);

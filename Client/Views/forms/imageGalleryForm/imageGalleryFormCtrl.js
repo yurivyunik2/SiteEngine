@@ -259,7 +259,7 @@
         var widthPercent = (indexFileUpload / amountUploadFiles) * 100;
         $uploadSliderInnerElem.width(widthPercent + "%");
         if (response) {
-          if (response.isOK) {
+          if (!response.error) {
             if (response.data && response.data.item) {
               application.addItem(response.data.item);
             }
@@ -353,7 +353,7 @@
         ];
 
         application.httpRequest(data, function (response) {
-          //if (response.isOK) {
+          //if (!response.error) {
           //  if (response.data && response.data.item) {
           //    var item = response.data.item;
 

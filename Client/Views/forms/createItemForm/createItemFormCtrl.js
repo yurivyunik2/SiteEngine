@@ -45,7 +45,7 @@
         };
 
         application.httpRequest(data, function (response) {
-          if (response.isOK) {
+          if (!response.error) {
             if (response.data && response.data.item) {
               application.addItem(response.data.item);
             }

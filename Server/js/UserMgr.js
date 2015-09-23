@@ -140,7 +140,7 @@
         }
 
         // setting of the "session" for the user
-        if (objResponse.isOK && currentRequest && currentRequest.sessionID) {
+        if (!objResponse.error && objResponse.error !== "" && currentRequest && currentRequest.sessionID) {
           data.user.sessionID = currentRequest.sessionID;
           data.user.pingLast = Date.now();          
           objResponse.data = data;          

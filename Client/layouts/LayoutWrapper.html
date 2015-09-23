@@ -149,10 +149,7 @@
           }
 
         } else {
-          var error = "UNKNOWN ERROR!";
-          if (responseData.error)
-            error = responseData.error;
-          $("#wrapperContent").html(error);
+          $("#wrapperContent").html(responseData.error);
         }
 
       } else {

@@ -17,7 +17,7 @@
     },
 
     // finding of the Defined Content item - Last part of the URLpath
-    getItemRequest: function (request, objResponse, callback) {
+    getContentItem: function (request, objResponse, callback) {
       var url = request.url;
       var arPath = url.split("/");
       if (arPath.length <= 1) {
@@ -54,7 +54,7 @@
         }
       }
 
-      if (finishContentItem) {
+      if (finishContentItem && finishContentItem.isPublish) {
         itemMgr.getItemFields(finishContentItem, objResponse, function () {
           if (!(objResponse.error && objResponse.error !== "")) {
             finishContentItem.fields = objResponse.data;
@@ -124,18 +124,17 @@
           itemMgr.getItemFields(renderingObj.layoutItem, objResponse, getItemFieldsCallback);
         } else {
           objResponse.error = "RENDERING layout-item isn't found!";
-          if (callback)
-            callback();
         }
       } else {
         objResponse.error = "RENDERING layout isn't found!";
-        if (callback)
-          callback();
       }
+
+      if(objResponse.error && callback)
+        callback();
     },
 
     getContent: function (request, objResponse, callback) {
-      self.getItemRequest(request, objResponse, function () {
+      self.getContentItem(request, objResponse, function () {
         if (!(objResponse.error && objResponse.error !== "")) {
           var contentItem;
           if (objResponse.data) {
@@ -148,13 +147,11 @@
             });
           } else {
             objResponse.error = "Data for this page aren't found!";
-            if (callback)
-              callback();
           }
-        } else {
-          if (callback)
-            callback();
         }
+
+        if (objResponse.error && callback)
+          callback();
       });
     },
     

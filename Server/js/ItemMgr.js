@@ -19,7 +19,7 @@ exports.ItemMgr = function () {
     },
 
     getItems: function (data, objResponse, callback) {
-      var query = "SELECT id, name, parentid as parent, templateId FROM items";
+      var query = "SELECT id, name, parentid as parent, templateId, isPublish FROM items";
       if (data && (data.parent || (data.item && data.item.id))) {
         objResponse.notAllItems = true;
         //query += " where parentID = " + data.parent;
@@ -201,10 +201,8 @@ exports.ItemMgr = function () {
       var getItemChildsCallback = function (err, rows) {
         var dataResponse = { rows: []};
         if (!err) {
-          dataResponse.isOK = true;
           dataResponse.rows = rows;
         } else {
-          dataResponse.isOK = false;
           dataResponse.error = "Error: " + err;
         }
         if (callback)
@@ -428,7 +426,7 @@ exports.ItemMgr = function () {
       var requestResponse = { itemChilds: [{id: data.item.id}], counterRequest: 0 };
 
       var getItemChildsCallback = function (dataResponse) {
-        if (dataResponse.isOK) {
+        if (!dataResponse.error && dataResponse.error !== "") {
           var rows = [];
           if (dataResponse.rows)
             rows = dataResponse.rows;          

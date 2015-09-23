@@ -74,7 +74,7 @@
     },
 
     processPOST: function (request, response) {
-      var objResponse = { isOK: false};
+      var objResponse = { };
 
       utils.processPost(request, response, function () {
         var dataRequest;
@@ -202,7 +202,7 @@
             case "getContentSite": {
               contentMgr.getContent(request, objResponse, function () {
                   response.writeHead(200, "OK", {
-                    'Content-Type': 'text/html',
+                    'Content-Type': 'text/plain',
                     'Access-Control-Allow-Origin': '*'
                   });
                   response.end(JSON.stringify(objResponse));
@@ -275,21 +275,23 @@
     processGET: function (request, response) {
       var urlParts = url.parse(request.url, true);
       //var query = urlParts.query;
-      
-      var arUrlPart = request.url.split("/");
-      if (arUrlPart.length > 0) {
-        var requestPage = arUrlPart[arUrlPart.length - 1];
-        //if (requestPage && requestPage !== "") {
-        if (true) {
-          var fileName = "." + urlParts.pathname;
-          if (requestPage.indexOf(".") >= 0 && fs.existsSync(fileName)) {
-            response.sendfile(fileName);
-          } else {            
-            response.sendfile("." + config.SERVER.LAYOUT_WRAPPER_PATH);
+
+      try {
+        var arUrlPart = request.url.split("/");
+        if (arUrlPart.length > 0) {
+          var requestPage = arUrlPart[arUrlPart.length - 1];
+          if (requestPage && requestPage !== "") {
+            var fileName = "." + urlParts.pathname;
+            if (requestPage.indexOf(".") >= 0 && fs.existsSync(fileName)) {
+              response.sendfile(fileName);
+            } else {
+              response.sendfile("." + config.SERVER.LAYOUT_WRAPPER_PATH);
+            }
           }
         }
-      }
-      
+      } catch (ex) {
+        
+      }      
     },
     
   };

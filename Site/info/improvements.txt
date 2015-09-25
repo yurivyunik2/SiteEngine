@@ -15,6 +15,9 @@
 ++ 13) To implement Media Manager - It's needed to add "Uploading of the files to the server" functionality
 ++ 14) To implement Publish!
 
+14_2) Proxy server
+14_3) Linux OS, ...
+
 15) To develop demo WEB-site
 15_2) Hosting
 16) Settings

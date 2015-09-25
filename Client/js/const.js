@@ -18,11 +18,11 @@ define(["CommonTypes"], function (CommonTypes) {
       VIDEO: function () { return "video"; },
       DOC: function () { return "doc"; },
       UNKNOWN: function () { return "unknown"; },
-  };
+    };
 
     return {
       // APPLICATION
-      SERVER: function() { return "http://localhost:8082/"; },
+      SERVER: function() { return "http://localhost:8080/"; },
       APPLICATION_NAME: function() { return "myApp"; },
       APPLICATION_START_VIEW: function() { return "/Views/start"; },
       APPLICATION_START_PATH: function() { return "index.html#/Views/start"; },

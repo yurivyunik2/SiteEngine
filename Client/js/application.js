@@ -486,7 +486,7 @@ define(["CONST", "Utils"], function (CONST, Utils) {
 
         var req = {
           method: 'POST',
-          url: CONST.SERVER(),
+          url: CONST.SERVER_HOST(),
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
           },

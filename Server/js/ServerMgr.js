@@ -5,7 +5,7 @@
 
   var Modules = require('./Modules.js');
 
-  var config = Modules.Config;
+  var CONST = Modules.CONST;
 
   var utils = Modules.Utils;
 
@@ -282,7 +282,7 @@
           if (requestPage.indexOf(".") >= 0 && fs.existsSync(fileName)) {
             response.sendfile(fileName);
           } else {
-            response.sendfile("." + config.SERVER.LAYOUT_WRAPPER_PATH);
+            response.sendfile("." + CONST.SERVER.LAYOUT_WRAPPER_PATH);
           }          
         }
       } catch (ex) {

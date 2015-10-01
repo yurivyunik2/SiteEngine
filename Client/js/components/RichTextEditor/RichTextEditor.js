@@ -124,7 +124,7 @@ define(["application", "CONST", "customEditor"], function (application, CONST, c
               if ($imgDlgElem.length > 0) {
                 var $contentsBody = $imgDlgElem.find(".cke_dialog_contents_body");
                 var $inputUrl = $contentsBody.find("input.cke_dialog_ui_input_text").first();
-                var imgPath = CONST.SERVER() + selItem.imgSrc;
+                var imgPath = CONST.SERVER_HOST() + selItem.imgSrc;
                 $inputUrl.val(imgPath).change();
               }
             }

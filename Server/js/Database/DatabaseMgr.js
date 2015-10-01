@@ -3,7 +3,7 @@
 
   var Modules = require('../Modules.js');
 
-  var config = Modules.Config;
+  var CONST = Modules.CONST;
 
   var database = Modules.Database;
 
@@ -61,7 +61,7 @@
       }
 
       // INSERT INTO BLOBS
-      if (parseInt(data.type) === config.DATABASE.BLOB_TYPE_ID()) {
+      if (parseInt(data.type) === CONST.BLOB_TYPE()) {
         var query = "INSERT INTO `blobs`(Data, Created)  VALUES('" + data.value + "', NOW())";
         var insertIntoBlobsCallback = function (err, rows) {
           if (!err) {

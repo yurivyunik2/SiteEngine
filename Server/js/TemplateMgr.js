@@ -53,7 +53,7 @@ exports.TemplateMgr = function() {
     //        callback();
     //    }
     //  };
-    //  this.getItems({ parent: config.DATABASE.TemplateRootID() }, objResponse, getTemplatesCallback);
+    //  this.getItems({ parent: CONST.TEMPLATES_ROOT_ID() }, objResponse, getTemplatesCallback);
     //},
 
     addTemplate: function (data, objResponse, callback) {

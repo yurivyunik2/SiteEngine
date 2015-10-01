@@ -1,9 +1,13 @@
 //
 // Database
 //
-exports.Database = function (dbConfig) {
-  if (!dbConfig)
-    return;
+exports.Database = function () {
+  var dbConfig = {
+    host: "localhost",
+    user: "root",
+    pass: "root",
+    name: "db_site_engine",
+  };
 
   var self;
 

@@ -1,4 +1,4 @@
-﻿exports.Config = function () {
+﻿exports.CONST = function () {
   return {
     DATABASE: {
       dbConfig: {
@@ -8,13 +8,13 @@
         name: "db_site_engine",
       },
       
-      TemplateRootID: function () { return 5; },
-      ContentItemdID: function () { return 2; },
+      TEMPLATES_ROOT_ID: function () { return 5; },
+      CONTENT_ROOT_ID: function () { return 2; },
 
       BASE_TEMPLATE_FIELD_ID: function () { return 78; },
       RENDERINGS_FIELD_ID: function () { return 81; },
       TYPE_FIELD_ID: function () { return 150; },
-      BLOB_TYPE_ID: function () { return 2058; },
+      BLOB_TYPE: function () { return 2058; },
     },
     
     SERVER: {

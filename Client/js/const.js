@@ -22,7 +22,7 @@ define(["CommonTypes"], function (CommonTypes) {
 
     return {
       // APPLICATION
-      SERVER: function() { return "http://localhost:8080/"; },
+      SERVER: function() { return "http://localhost:80/"; },
       APPLICATION_NAME: function() { return "myApp"; },
       APPLICATION_START_VIEW: function() { return "/Views/start"; },
       APPLICATION_START_PATH: function() { return "index.html#/Views/start"; },

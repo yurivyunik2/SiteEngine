@@ -4,7 +4,7 @@
 
   var Modules = require('./Modules.js');
 
-  var config = Modules.Config;
+  var CONST = Modules.CONST;
 
   var database = Modules.Database;
 
@@ -50,7 +50,7 @@
       _.each(keys, function (key) {
         var user = usersHash[key];
         if (user.pingLast) {
-          if ((dtNow - user.pingLast) > config.SERVER.SESSION_TIME) {
+          if ((dtNow - user.pingLast) > CONST.SERVER.SESSION_TIME) {
             delUsers.push(user);
           }
         } else {
@@ -117,13 +117,13 @@
           objResponse.error = getUsersResponse.error;
         }
         // checking on "root" user
-        if (objResponse.error && config.DATABASE) {
-          if (data.user.name === config.DATABASE.user) {
-            if (data.user.password !== config.DATABASE.pass)
+        if (objResponse.error && CONST) {
+          if (data.user.name === CONST.user) {
+            if (data.user.password !== CONST.pass)
               objResponse.error = "Password isn't correct!";
             else {
               objResponse.error = "";
-              data.user.role = config.USERS.ROLE_ADMINISTRATOR;
+              data.user.role = CONST.USERS.ROLE_ADMINISTRATOR;
               //userFound = data.user;
             }
           }
@@ -238,7 +238,7 @@
         return;
       }
       if (!data.role || data.role <= 0)
-        data.role = config.USERS.ROLE_ID_DEFAULT;
+        data.role = CONST.USERS.ROLE_ID_DEFAULT;
 
       var hashedPassword = passwordHash.generate(data.password);;
 
@@ -265,7 +265,7 @@
         return;
       }
       if (!data.role || data.role <= 0)
-        data.role = config.USERS.ROLE_ID_DEFAULT;
+        data.role = CONST.USERS.ROLE_ID_DEFAULT;
 
       var hashedPassword = "";
       if (data.user.password && data.user.password != "")

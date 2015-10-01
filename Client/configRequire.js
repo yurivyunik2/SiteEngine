@@ -9,7 +9,8 @@
 
     routing: "routing",
     application: "js/application",
-    CONST: "js/const",
+    //CONST: "js/const",
+    CONST: "/SiteEngine/Common/Const",
     notification: "Views/forms/notificationForm/notification",
     CommonTypes: "js/Common/CommonTypes",
     Utils: "js/Common/Utils",
@@ -47,6 +48,7 @@ function ($, angular, CONST) {
   "use strict";
   
   angular.element().ready(function () {
+    //var test = CONST2.TEMPLATES_ROOT_ID();
     // bootstrap the app manually
     angular.bootstrap(document, [CONST.APPLICATION_NAME()]);
   });

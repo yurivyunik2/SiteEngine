@@ -4,9 +4,7 @@
   
   var Modules = require('./Modules.js');
 
-  //var configModule = require('./Config.js');
-  //var config = new configModule.Config;
-  var config = Modules.Config;
+  var CONST = Modules.CONST;
 
   var Role = function (_roleId, _ownOperations) {
     var self;
@@ -16,7 +14,7 @@
     ];
     var ownOperations = [];
 
-    var roleId = config.USERS.ROLE_UNKNOWN;
+    var roleId = CONST.USERS.ROLE_UNKNOWN;
 
     var roleObj = {
       
@@ -48,7 +46,7 @@
         return roleId;
       },
       isAdmin: function () {
-        return (roleId === config.USERS.ROLE_ADMINISTRATOR);
+        return (roleId === CONST.USERS.ROLE_ADMINISTRATOR);
       },
       hasAccess: function (action) {
         return self.isAdmin() || (secureOperations.indexOf(action) >= 0 || ownOperations.indexOf(action) >= 0);
@@ -60,7 +58,7 @@
 
   var UserRole = function () {
     var ownOperations = [];
-    var role = new Role(config.USERS.ROLE_USER, ownOperations);
+    var role = new Role(CONST.USERS.ROLE_USER, ownOperations);
 
     return role;
   };
@@ -76,7 +74,7 @@
     var editorRoleObj = {
       constructor: function () {
         role.addOwnOperations(ownOperations);
-        role.setRoleId(config.USERS.ROLE_EDITOR);
+        role.setRoleId(CONST.USERS.ROLE_EDITOR);
         if (!isInheritance)
           role.deleteProperties();
       },
@@ -98,7 +96,7 @@
     var administratorRoleObj = {
       constructor: function () {
         role.addOwnOperations(ownOperations);
-        role.setRoleId(config.USERS.ROLE_ADMINISTRATOR);
+        role.setRoleId(CONST.USERS.ROLE_ADMINISTRATOR);
         if (!isInheritance)
           role.deleteProperties();
       },

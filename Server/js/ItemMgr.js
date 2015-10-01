@@ -4,7 +4,7 @@ exports.ItemMgr = function () {
   
   var Modules = require('./Modules.js');
 
-  var config = Modules.Config;
+  var CONST = Modules.CONST;
 
   var database = Modules.Database;
 
@@ -60,7 +60,7 @@ exports.ItemMgr = function () {
       if (!data.baseId)
         data.baseId = 0;
 
-      var query = 'SELECT f.id, items.id as fieldId, items.name, (select distinct f2.value from fields f2 where f2.itemId = items.id and f2.fieldId = ' + config.DATABASE.TYPE_FIELD_ID() + ') as type, items.templateId, items.masterId, items.parentId, items.created, items.updated, f.itemId, f.value, f.language as lang, f.version, f.isPublish FROM items\
+      var query = 'SELECT f.id, items.id as fieldId, items.name, (select distinct f2.value from fields f2 where f2.itemId = items.id and f2.fieldId = ' + CONST.TYPE_FIELD_ID() + ') as type, items.templateId, items.masterId, items.parentId, items.created, items.updated, f.itemId, f.value, f.language as lang, f.version, f.isPublish FROM items\
                    LEFT JOIN fields f ON items.id=f.fieldId and (f.itemId=items.parentId || f.itemId=' + data.id + ' || f.itemId=' + data.baseId + ' || f.itemId=' + data.templateId + ')\
                    where items.parentId=' + data.templateId;
 
@@ -93,7 +93,7 @@ exports.ItemMgr = function () {
           
           var baseTemplateField;
           _.each(objResponse.data, function (field) {
-            if (config.DATABASE.BASE_TEMPLATE_FIELD_ID() === field.fieldId) {
+            if (CONST.BASE_TEMPLATE_FIELD_ID() === field.fieldId) {
               if (!baseTemplateField || field.itemId === data.id)
                 baseTemplateField = field;
             }
@@ -150,7 +150,7 @@ exports.ItemMgr = function () {
                 objResponse.data = [];
 
               _.each(fields, function (field) {
-                if (parseInt(field.type) === config.DATABASE.BLOB_TYPE_ID()) {
+                if (parseInt(field.type) === CONST.BLOB_TYPE()) {
                   query = 'SELECT CONVERT(Data USING utf8) as Data FROM blobs b where id=' + field.value;
                   if (database) {
                     database.query(query, function(err, rows) {
@@ -169,7 +169,7 @@ exports.ItemMgr = function () {
               });
             }
 
-            query = 'SELECT f.id, items.id as fieldId, items.name, (select distinct f2.value from fields f2 where f2.itemId = items.id and f2.fieldId = ' + config.DATABASE.TYPE_FIELD_ID() + ') as type, items.templateId, items.masterId, items.parentId, items.created, items.updated, f.itemId, f.value, f.language as lang, f.version, f.isPublish  FROM items\
+            query = 'SELECT f.id, items.id as fieldId, items.name, (select distinct f2.value from fields f2 where f2.itemId = items.id and f2.fieldId = ' + CONST.TYPE_FIELD_ID() + ') as type, items.templateId, items.masterId, items.parentId, items.created, items.updated, f.itemId, f.value, f.language as lang, f.version, f.isPublish  FROM items\
                   LEFT JOIN fields f ON items.id=f.fieldId and (f.itemId=items.parentId || f.itemId=' + data.templateId + ' || f.itemId=' + data.id + ')\
                   where items.parentId=(select items_sub.templateId from items items_sub where id=' + data.templateId + ');';
 

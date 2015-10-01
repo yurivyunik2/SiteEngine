@@ -1,4 +1,4 @@
-﻿exports.ServerApplication = function (Config, Utils) {
+﻿exports.ServerApplication = function (CONST, Utils) {
 
   var self;
 
@@ -36,7 +36,7 @@
             itemsCash = [];
           }
           // content ParentItems
-          var contentItemID = Config.DATABASE.ContentItemdID();
+          var contentItemID = CONST.CONTENT_ROOT_ID();
           contentParentItems = [];
           for (var i = 0; i < itemsCash.length; i++) {
             var item = itemsCash[i];

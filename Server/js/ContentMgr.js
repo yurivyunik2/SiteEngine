@@ -4,7 +4,7 @@
 
   var Modules = require('./Modules.js');
 
-  var Config = Modules.Config;
+  var CONST = Modules.CONST;
   //var Utils = Modules.Utils;
   var ServerApplication = Modules.ServerApplication;
 
@@ -77,7 +77,7 @@
       var renderingObj;
       var renderingFields = [];
       _.each(item.fields, function (field) {
-        if (field.fieldId === Config.DATABASE.RENDERINGS_FIELD_ID())
+        if (field.fieldId === CONST.RENDERINGS_FIELD_ID())
           renderingFields.push(field);
       });
       _.each(renderingFields, function (rendering) {

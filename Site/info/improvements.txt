@@ -15,12 +15,12 @@
 ++ 13) To implement Media Manager - It's needed to add "Uploading of the files to the server" functionality
 ++ 14) To implement Publish!
 
-14_2) Proxy server
-14_3) Linux OS, ...
+++ 14_2) Proxy server
++- 14_3) Linux OS, ...
 
 15) To develop demo WEB-site
-15_2) Hosting
-16) Settings
+++ 15_2) Hosting: IP static address is needed
+15_3) To develop the release(publish) version of Project: ublifing, grunt(...)
 
 14.09 - 20.09
 16_2) To implement the Localization
@@ -29,6 +29,7 @@
 
 --
 17_3) Restyling(Crossbrowsing)
+17_4) Settings
 18) To implement the using of the devices
 19) Unit-testing
 20) To implement the editing on the web-pages(editing mode)

@@ -50,6 +50,7 @@
       angular: "/SiteEngine/Client/js/lib/angular/angular",
       angularRoute: "/SiteEngine/Client/js/lib/angular-route/angular-route",
 
+      AppConfig: "/SiteEngine/Common/appConfig",
       //CONST: "/SiteEngine/Client/js/const",
       CONST: "/SiteEngine/Common/Const",
       application: "/SiteEngine/Client/js/application",
@@ -84,7 +85,7 @@
     //var path = "main/test2";
     //var path = "main";
     //var serverAddress = "http://localhost:8082/" + path;
-    var serverAddress = CONST.SERVER_HOST() + window.location.pathname;
+    var serverAddress = CONST.SERVER.PATH() + window.location.pathname;
     
     
     application.initialize(_$scope, _$http);

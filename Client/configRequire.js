@@ -7,6 +7,8 @@
     angular: "js/lib/angular/angular",
     angularRoute: "js/lib/angular-route/angular-route",
 
+    
+    AppConfig: "/SiteEngine/Common/appConfig",
     routing: "routing",
     application: "js/application",
     //CONST: "js/const",

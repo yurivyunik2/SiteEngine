@@ -1,5 +1,5 @@
 
-var CONST = function (CommonTypes) {
+var CONST = function (CommonTypes, AppConfig) {
   var self;
 
   if (CommonTypes) {
@@ -22,8 +22,19 @@ var CONST = function (CommonTypes) {
 
   return {
 
+    SERVER: {
+      //PORT: function () { return AppConfig.SERVER.PORT(); },
+      //HOST: function () { return AppConfig.SERVER.HOST(); },
+      PATH: function () {
+        return "http://" + AppConfig.SERVER.HOST() + ":" + AppConfig.SERVER.PORT() + "/";
+      },
+      //PATH: function () { return "http://localhost:80/"; },
+      LAYOUT_WRAPPER_PATH: "/SiteEngine/Client/layouts/LayoutWrapper.html",
+      SESSION_TIME: 200 * 60 * 1000, // 20 minutes
+      //SESSION_TIME: 5 * 1000, // 5 seconds
+    },
+
     // APPLICATION
-    SERVER_HOST: function () { return "http://localhost:80/"; },
     APPLICATION_NAME: function () { return "myApp"; },
     APPLICATION_START_VIEW: function () { return "/Views/start"; },
     APPLICATION_START_PATH: function () { return "index.html#/Views/start"; },
@@ -89,12 +100,6 @@ var CONST = function (CommonTypes) {
     // UPLOAD
     UPLOAD_MEDIA_PATH: function () { return "/SiteEngine/Site/media/"; },
 
-    SERVER: {
-      LAYOUT_WRAPPER_PATH: "/SiteEngine/Client/layouts/LayoutWrapper.html",
-      SESSION_TIME: 200 * 60 * 1000, // 20 minutes
-      //SESSION_TIME: 5 * 1000, // 5 seconds
-    },
-
     USERS: {
       ROLE_UNKNOWN: 0,
       ROLE_ADMINISTRATOR: 1,
@@ -107,15 +112,13 @@ var CONST = function (CommonTypes) {
   };
 };
 
-try {
-  exports.CONST = CONST;
-} catch (ex) { }
 
-try {
-  if (define) {
-    define(["CommonTypes"], function (CommonTypes) {
-      return CONST(CommonTypes);
-    });
-  }
-} catch (ex) {
+if (typeof exports != "undefined") {
+  exports.CONST = CONST;
+}
+  
+if (typeof define != "undefined") {
+  define(["CommonTypes", "AppConfig"], function (CommonTypes, AppConfig) {
+    return CONST(CommonTypes, AppConfig);
+  });
 }

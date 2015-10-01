@@ -8,11 +8,11 @@ var app = express();
 var serverMgrModule = require('./js/ServerMgr.js');
 var serverMgr = new serverMgrModule.ServerMgr();
 
+var Modules = require('./js/Modules.js');
+var CONST = Modules.CONST;
+var AppConfig = Modules.AppConfig;
+
 app.use(session({ secret: 'ssshhhhh' }));
-
-//app.post('/', function (request, response) {
-
-//});
 
 try {
   app.use(function (request, response, next) {
@@ -26,7 +26,6 @@ try {
     var objResponse = {};
 
     try {
-
       serverMgr.requestHandle(objResponse, request, response);
 
     } catch (ex) {
@@ -34,8 +33,9 @@ try {
       response.end(JSON.stringify(objResponse));
     }
 
-  }).listen(80);
-  console.log('Server running at http://127.0.0.1:80/');
+  }).listen(AppConfig.SERVER.PORT());
+  console.log("Server running at " + AppConfig.SERVER.HOST() + ":" + AppConfig.SERVER.PORT() + "/");
 } catch (ex) {
+
 }
 

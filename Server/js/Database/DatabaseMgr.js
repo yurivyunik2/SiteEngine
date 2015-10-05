@@ -57,8 +57,7 @@
         if (database) {
           database.query(query, insertIntoFieldsCallback);
         }
-
-      }
+      };
 
       // INSERT INTO BLOBS
       if (parseInt(data.type) === CONST.BLOB_TYPE()) {
@@ -82,7 +81,7 @@
 
 
       }
-        // INSERT INTO FIELDS
+      // INSERT INTO FIELDS
       else {
         insertFields();
       }

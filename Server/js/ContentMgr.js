@@ -100,7 +100,7 @@
 
         if (renderingObj.layoutItem) {
           var getItemFieldsCallback = function(itemData) {
-            if (!(objResponse.error && objResponse.error != "")) {
+            if (!(objResponse.error && objResponse.error !== "")) {
               var pathLayout;
               itemData.fields = objResponse.data;
               _.each(itemData.fields, function(field) {

@@ -20,12 +20,12 @@
 
 15) To develop demo WEB-site
 ++ 15_2) Hosting: IP static address is needed
-15_3) To develop the release(publish) version of Project: uglifing, grunt(...)
+++ 15_3) To develop the release(publish) version of Project: uglifing, grunt(...)
 
 14.09 - 20.09
 16_2) To implement the Localization
 17) To add the support of the  Social Networks
-17_2) Monitoring of the proframming news(features, tools), technologies
+17_2) Monitoring of the programming news(features, tools), technologies
 
 --
 17_3) Restyling(Crossbrowsing)

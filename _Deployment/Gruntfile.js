@@ -7,6 +7,8 @@ module.exports = function(grunt) {
     //pkg: grunt.file.readJSON('package.json'),
 
     data: {
+      ftpServer: "46.98.85.133",
+      ftpPORT: 21,
       DevDir: "SiteEngine_WebStorm",
       ReleaseDir: "SiteEngine_RELEASE"
     },
@@ -24,28 +26,16 @@ module.exports = function(grunt) {
     //  }
     //},
 
-    copy: {
-      main: {
-        files: [
-          // includes files within path
-          {
-            expand: true,
-            cwd: './SiteEngine_RELEASE/SiteEngine/',
-            src: ['**'],
-            dest: './SiteEngine_RELEASE/Test/',
-            filter: 'isFile'
-          },
-
-          //// includes files within path and its sub-directories
-          //{ expand: true, src: ['path/**'], dest: 'dest/' },
-
-          //// makes all src relative to cwd
-          //{ expand: true, cwd: 'path/', src: ['**'], dest: 'dest/' },
-
-          //// flattens results to a single level
-          //{ expand: true, flatten: true, src: ['path/**'], dest: 'dest/', filter: 'isFile' },
-        ],
-      },
+    ftpush: {
+      build: {
+        auth: {
+          host: '<%= data.ftpServer %>',
+          port: 21,
+          authKey: 'keyYuri'
+        },
+        src: './<%= data.ReleaseDir %>/SiteEngine/',
+        dest: '/Test',
+      }
     },
 
     uglify: {
@@ -108,20 +98,8 @@ module.exports = function(grunt) {
     }
 
   });
-
-  grunt.registerTask('install', 'install the backend and frontend dependencies', function () {
-    // adapted from http://www.dzone.com/snippets/execute-unix-command-nodejs
-    var exec = require('child_process').exec,
-        sys = require('sys');
-
-    function puts(error, stdout, stderr) { console.log(stdout); sys.puts(stdout) }
-
-    // assuming this command is run from the root of the repo
-    exec('npm install', { cwd: './SiteEngine_RELEASE'}, puts);
-  });
-
-
-  grunt.loadNpmTasks('grunt-contrib-copy');
+  
+  grunt.loadNpmTasks('grunt-ftpush');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
@@ -129,8 +107,9 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-imagemin');  
   
 
-  //grunt.registerTask('default', ['cssmin', 'htmlmin', 'imagemin', 'uglify']);
-  //grunt.registerTask('default', ['cssmin', 'htmlmin', 'imagemin']);
-  grunt.registerTask('default', ['copy']);
+  
+  grunt.registerTask('ftp_push', ['ftpush']);
+  //grunt.registerTask('default', ['cssmin', 'htmlmin', 'imagemin', 'uglify', 'ftp_push']);
+  grunt.registerTask('default', ['cssmin', 'htmlmin', 'imagemin', 'ftp_push']);
   
 };

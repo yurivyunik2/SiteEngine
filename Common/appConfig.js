@@ -4,7 +4,7 @@ var AppConfig = function () {
 
   return {
     SERVER: {
-      PORT: function () { return 80; },
+      PORT: function () { return 8081; },
       HOST: function () { return "localhost"; },
     },
   };

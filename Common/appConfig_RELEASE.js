@@ -5,7 +5,7 @@ var AppConfig = function () {
   return {
     SERVER: {
 	  isRelease: true,
-      PORT: function () { return 8081; },
+      PORT: function () { return 80; },
       HOST: function () { return "localhost"; },
     },
   };

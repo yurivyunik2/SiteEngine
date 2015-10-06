@@ -18,7 +18,7 @@
 ++ 14_2) Proxy server
 +- 14_3) Linux OS, ...
 
-15) To develop demo WEB-site
+!!!15) To develop demo WEB-site
 ++ 15_2) Hosting: IP static address is needed
 ++ 15_3) To develop the release(publish) version of Project: uglifing, grunt(...)
 

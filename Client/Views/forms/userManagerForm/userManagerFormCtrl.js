@@ -10,7 +10,7 @@
     var $userManagerFormElem;
     var $tbUserElem;
 
-    var userManagerObj = new CommonTypes.FormCtrl();
+    var userManagerObj = new CommonTypes.BaseElement();
     _.extend(userManagerObj, {
       constructor: function () {
         self = this;

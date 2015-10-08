@@ -7,6 +7,7 @@
     panelFormCtrl: "Views/panels/panelForm/panelFormCtrl",
     panelTypes: "/SiteEngine/Client/Views/panels/panelTypes",
 
+    componentMgr: "js/components/ComponentMgr",
     richTextEditor: "js/components/RichTextEditor/RichTextEditor",
   },
 });
@@ -21,9 +22,10 @@ define([
     "tabPanel",
     "panelFormCtrl",
     "panelTypes",
+    "componentMgr",
     "richTextEditor",
     ],
-function (application, CONST, Utils, EngineTree, ActionCtrl, ModalFormCtrl, TabPanel, PanelFormCtrl, PanelTypes, RichTextEditor) {
+function (application, CONST, Utils, EngineTree, ActionCtrl, ModalFormCtrl, TabPanel, PanelFormCtrl, PanelTypes, ComponentMgr, RichTextEditor) {
 
   return function ($scope, $http, $window) {
 
@@ -88,6 +90,11 @@ function (application, CONST, Utils, EngineTree, ActionCtrl, ModalFormCtrl, TabP
         //
         var richTextEditor = new RichTextEditor($scope);
         application.setRichTextEditorCtrl(richTextEditor);
+
+        //
+        var componentMgr = new ComponentMgr($scope);
+        application.setComponentMgr(componentMgr);
+
 
         // load application
         application.loadApplication();

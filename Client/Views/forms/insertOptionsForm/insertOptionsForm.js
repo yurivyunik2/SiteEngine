@@ -10,7 +10,7 @@
 
     var itemChange;
 
-    var insertOptionsForm = new CommonTypes.FormCtrl();
+    var insertOptionsForm = new CommonTypes.BaseElement();
     _.extend(insertOptionsForm, {
       constructor: function () {
         self = this;

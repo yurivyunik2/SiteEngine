@@ -17,6 +17,7 @@ define(["CONST", "Utils"], function (CONST, Utils) {
     var engineTree;
     var actionCtrl;
     var tabPanel;
+    var componentMgr;
     var richTextEditorCtrl;
     var menuItemEngineTree;
 
@@ -157,12 +158,17 @@ define(["CONST", "Utils"], function (CONST, Utils) {
       },
       getModalFormCtrl: function() { return modalFormCtrl; },
 
+      setComponentMgr: function (_componentMgr) {
+        if (_componentMgr)
+          componentMgr = _componentMgr;
+      },
+      getComponentMgr: function () { return componentMgr; },
+
       setRichTextEditorCtrl: function(_richTextEditorCtrl) {
         if (_richTextEditorCtrl)
           richTextEditorCtrl = _richTextEditorCtrl;
       },
       getRichTextEditorCtrl: function() { return richTextEditorCtrl; },
-
 
       setActionCtrl: function(_actionCtrl) {
         if (_actionCtrl)

@@ -1,0 +1,16 @@
+﻿.dvImgChangeCtrl {
+  position:relative;
+  display:none;
+}
+.dvImgChangeCtrl img {
+  width: 100px;
+  height: 100px;
+  margin-right: 5px;
+  display:inline-block;
+  cursor: pointer;
+}
+.dvImgChangeCtrl a {
+  font-size: 12px;
+  position: absolute;
+  top: 2px;
+}

@@ -21,10 +21,17 @@
 !!!15) To develop demo WEB-site
 ++ 15_2) Hosting: IP static address is needed
 ++ 15_3) To develop the release(publish) version of Project: uglifing, grunt(...)
+15_4) To implement notification-dialog for actions
+15_5) To implement different components for specified data-types: imageEditor, ....
+	15_5_1) ImageEditor
+15_6) To implement the loading message during accomplishing of the action.
+15_7) To implement keeping the history of actions
+
+!!!16) To implement the beginning of the analytics - statistical information about page's visiting
 
 14.09 - 20.09
 16_2) To implement the Localization
-17) To add the support of the  Social Networks
+//17) To add the support of the  Social Networks
 17_2) Monitoring of the programming news(features, tools), technologies
 
 --
@@ -34,5 +41,4 @@
 19) Unit-testing
 20) To implement the editing on the web-pages(editing mode)
 21) Drupal web-site - comparing
-22) To implement keeping the history of actions
-23) 
+22) 

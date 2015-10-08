@@ -113,8 +113,10 @@ define(["application", "CONST", "customEditor"], function (application, CONST, c
       },
       // imageGalleryOpenCallback
       imageGalleryOpenCallback: function (data) {
-        if (data && data.formCtrl && data.formCtrl.getSelectedItems) {
-          var selectedItems = data.formCtrl.getSelectedItems();
+        var modalFormCtrl = application.getModalFormCtrl();
+        var imageGalleryFormCtrl = modalFormCtrl.FORM_TYPE().IMAGE_GALLERY.getControl();
+        if (imageGalleryFormCtrl) {          
+          var selectedItems = imageGalleryFormCtrl.getSelectedItems();
           // set of the selected image inot "input" in image dialog
           if (selectedItems && selectedItems.length > 0) {
             var selItem = selectedItems[0];
@@ -124,7 +126,8 @@ define(["application", "CONST", "customEditor"], function (application, CONST, c
               if ($imgDlgElem.length > 0) {
                 var $contentsBody = $imgDlgElem.find(".cke_dialog_contents_body");
                 var $inputUrl = $contentsBody.find("input.cke_dialog_ui_input_text").first();
-                var imgPath = CONST.SERVER.PATH() + selItem.imgSrc;
+                //var imgPath = CONST.SERVER.PATH() + selItem.imgSrc;
+                var imgPath = selItem.imgSrc;
                 $inputUrl.val(imgPath).change();
               }
             }

@@ -28,7 +28,7 @@
     var indexFileUpload = 0;
     var uploadErrors = [];
 
-    var imgGalleryObj = new CommonTypes.FormCtrl();
+    var imgGalleryObj = new CommonTypes.BaseElement();
     _.extend(imgGalleryObj, {
       constructor: function () {
         self = this;
@@ -182,6 +182,7 @@
       },
 
       show: function (data) {
+        self.setDataCtrl(data);
         isMultipleSelect = (data && data.isMultipleSelect) ? true : false;
 
         self.populate();
@@ -403,7 +404,7 @@
         var dataCtrl = self.getDataCtrl();
         if (dataCtrl && dataCtrl.callback) {
           dataCtrl.formCtrl = self;
-          dataCtrl.callback(data);
+          dataCtrl.callback(dataCtrl);
         }
         if (callback)
           callback();

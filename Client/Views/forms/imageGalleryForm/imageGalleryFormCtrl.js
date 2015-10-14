@@ -108,6 +108,7 @@
           });
 
         });
+
       },
 
       setLoading: function () {
@@ -320,6 +321,7 @@
         var data = {
           action: action,
           item: {
+            name: file.name,
             parentId: CONST.MEDIA_ROOT_ID(),
             templateId: CONST.MEDIA_ITEM_TEMPLATE_ID(),
           },
@@ -341,16 +343,17 @@
         //  i += len;
         //}
 
-        data.item.name = file.name;
+        //data.item.name = file.name;
         data.item.fields = [
           {
             fieldId: CONST.SRC_MEDIA_FIELDS_ID(),
-            value: CONST.UPLOAD_MEDIA_PATH() + data.item.name,
-          },
-          {
-            fieldId: CONST.BLOB_MEDIA_FIELDS_ID(),
+            //value: CONST.UPLOAD_MEDIA_PATH() + data.item.name,
             value: encodeURIComponent(file.binaryValue),
-          }
+          },
+          //{
+          //  fieldId: CONST.BLOB_MEDIA_FIELDS_ID(),
+          //  value: encodeURIComponent(file.binaryValue),
+          //}
         ];
 
         application.httpRequest(data, function (response) {

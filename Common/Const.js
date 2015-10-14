@@ -29,6 +29,8 @@ var CONST = function (CommonTypes, AppConfig) {
         return "http://" + AppConfig.SERVER.HOST() + ":" + AppConfig.SERVER.PORT() + "/";
       },
       //PATH: function () { return "http://localhost:80/"; },
+
+      //UPLOAD_PATH: function () { return "./SiteEngine/Client/upload/" },
       LAYOUT_WRAPPER_PATH: "/SiteEngine/Client/layouts/LayoutWrapper.html",
       SESSION_TIME: 200 * 60 * 1000, // 20 minutes
       //SESSION_TIME: 5 * 1000, // 5 seconds
@@ -98,7 +100,7 @@ var CONST = function (CommonTypes, AppConfig) {
     VERSION_SELECTOR: function () { return "#selVersion"; },
 
     // UPLOAD
-    UPLOAD_MEDIA_PATH: function () { return "/SiteEngine/Site/media/"; },
+    UPLOAD_MEDIA_PATH: function () { return "/SiteEngine/Client/upload/"; },
 
     USERS: {
       ROLE_UNKNOWN: 0,

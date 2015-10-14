@@ -1,5 +1,6 @@
 ﻿exports.DatabaseMgr = function () {
   var _ = require('underscore');
+  var fs = require('fs');
 
   var Modules = require('../Modules.js');
 
@@ -59,28 +60,46 @@
         }
       };
 
-      // INSERT INTO BLOBS
-      if (parseInt(data.type) === CONST.BLOB_TYPE()) {
-        var query = "INSERT INTO `blobs`(Data, Created)  VALUES('" + data.value + "', NOW())";
-        var insertIntoBlobsCallback = function (err, rows) {
-          if (!err) {
-            if (rows) {
-              data.value = rows.insertId;
+      if (data.fieldId === CONST.SRC_MEDIA_FIELDS_ID()) {
+        if (data.itemName) {
+          var body = data.value;
+          var base64Data = body.replace(/^data:image\/png;base64,/, "");
+          var binaryData = new Buffer(base64Data, 'base64').toString('binary');
+
+          var filePath = CONST.UPLOAD_MEDIA_PATH() + data.itemId + "_" + data.itemName;
+          //var itemPath = "." + filePath;
+          require("fs").writeFile("." + filePath, binaryData, "binary", function (err) {
+            if (!err) {
+              data.value = filePath;
               insertFields();
+            } else {
+              objResponse.error = "Error: " + err;
+              if (callback)
+                callback(data);
             }
-
-          } else {
-            objResponse.error = "Error: " + err;
-          }
-          if (callback)
-            callback(data);
-        };
-        if (database) {
-          database.query(query, insertIntoBlobsCallback);
+          });
         }
-
-
       }
+      //// INSERT INTO BLOBS
+      //else if (parseInt(data.type) === CONST.BLOB_TYPE()) { 
+      //  var query = "INSERT INTO `blobs`(Data, Created)  VALUES('" + data.value + "', NOW())";
+      //  var insertIntoBlobsCallback = function (err, rows) {
+      //    if (!err) {
+      //      if (rows) {
+      //        data.value = rows.insertId;
+      //        insertFields();
+      //      }
+
+      //    } else {
+      //      objResponse.error = "Error: " + err;
+      //    }
+      //    if (callback)
+      //      callback(data);
+      //  };
+      //  if (database) {
+      //    database.query(query, insertIntoBlobsCallback);
+      //  }
+      //}
       // INSERT INTO FIELDS
       else {
         insertFields();
@@ -177,23 +196,77 @@
         }
       };
 
-      var deleteFromBlobsCallback = function (err, rows) {
-        if (!err) {
-          query = "DELETE FROM fields where itemId in " + strIn + " or fieldId in " + strIn;
-          if (database) {
-            database.query(query, deleteFromFieldsCallback);
-          }
-        } else {
-          objResponse.error = "Error: " + err;
-          if (callback)
-            callback();
-        }
-      };
+      //var deleteFromBlobsCallback = function (err, rows) {
+      //  if (!err) {
+      //    query = "DELETE FROM fields where itemId in " + strIn + " or fieldId in " + strIn;
+      //    if (database) {
+      //      database.query(query, deleteFromFieldsCallback);
+      //    }
+      //  } else {
+      //    objResponse.error = "Error: " + err;
+      //    if (callback)
+      //      callback();
+      //  }
+      //};
+      //var deleteFromItemsCallback = function (err, rows) {
+      //  if (!err) {
+      //    query = "DELETE FROM blobs where id in (select value FROM fields where itemId in " + strIn + " or fieldId in " + strIn + ")";
+      //    if (database) {
+      //      database.query(query, deleteFromBlobsCallback);
+      //    }
+      //  } else {
+      //    objResponse.error = "Error: " + err;
+      //    if (callback)
+      //      callback();
+      //  }
+      //};
+
       var deleteFromItemsCallback = function (err, rows) {
         if (!err) {
-          query = "DELETE FROM blobs where id in (select value FROM fields where itemId in " + strIn + " or fieldId in " + strIn + ")";
-          if (database) {
-            database.query(query, deleteFromBlobsCallback);
+          //var srcField = _.findWhere(data.itemChilds, { fieldId: CONST.SRC_MEDIA_FIELDS_ID(), lang: field.lang, version: field.version });
+          //if (srcField && srcField.value) {
+          //  var filePath = "." + srcField.value;
+          //  if (fs.existsSync(srcField.value)) {
+          //    try {
+          //      fs.unlinkSync(srcField.value);
+          //    } catch (ex) {
+          //      objResponse.error = "Error: " + ex;
+          //    }
+          //  }
+          //}
+
+          var path = require('path');
+          var currentDirPath = "." + CONST.UPLOAD_MEDIA_PATH();
+          fs.readdirSync(currentDirPath).forEach(function (name) {
+            var itemId;
+            if (name.indexOf("_") >= 0) {
+              itemId = name.substr(0, name.indexOf("_"));
+            }
+            //var  data.itemChilds
+            if (itemId && itemId !== "") {
+              var child = _.findWhere(data.itemChilds, { id: parseInt(itemId) });
+              if (child) {
+                var filePath = path.join(currentDirPath, name);
+                if (fs.existsSync(filePath)) {
+                  try {
+                    fs.unlinkSync(filePath);
+                  } catch (ex) {
+                    objResponse.error = "Error: " + ex;
+                  }
+                }
+
+              }
+            }
+          });
+
+          if (!objResponse.error) {
+            query = "DELETE FROM fields where itemId in " + strIn + " or fieldId in " + strIn;
+            if (database) {
+              database.query(query, deleteFromFieldsCallback);
+            }
+          } else {
+            if (callback)
+              callback();
           }
         } else {
           objResponse.error = "Error: " + err;

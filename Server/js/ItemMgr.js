@@ -1,6 +1,7 @@
 ﻿
 exports.ItemMgr = function () {
   var _ = require('underscore');
+  var fs = require('fs');
   
   var Modules = require('./Modules.js');
 
@@ -375,6 +376,7 @@ exports.ItemMgr = function () {
               //  DatabaseMgr.insertIntoFields(fieldNext, objResponse, updateFieldValueCallback);
               //}
               fieldNext.itemId = data.item.id;
+              fieldNext.itemName = data.item.name;
               DatabaseMgr.insertIntoFields(fieldNext, objResponse, updateFieldValueCallback);
             } else {
               DatabaseMgr.updateFields(fieldNext, objResponse, updateFieldValueCallback);
@@ -403,6 +405,7 @@ exports.ItemMgr = function () {
           //  DatabaseMgr.insertIntoFields(field, objResponse, updateFieldValueCallback);
           //}
           field.itemId = data.item.id;
+          field.itemName = data.item.name;
           DatabaseMgr.insertIntoFields(field, objResponse, updateFieldValueCallback);
         } else {
           DatabaseMgr.updateFields(field, objResponse, updateFieldValueCallback);

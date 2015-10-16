@@ -369,26 +369,31 @@ define(["application", "row", "headerRow", "CONST", "css!TreeGridCss"], function
         var imgArrowElem = $(trElem).find(".imgArrow")[0];
         var imgFolderElem = $(trElem).find(".imgFolder")[0];
 
-        var parentObj = self.hashParentItems[trElem.id];
-        if (parentObj) {
+        var itemObj = self.hashParentItems[trElem.id];
+        if (itemObj) {
 
           if (!isNoChange) { // if it's needed to change state
-            if (parentObj.isOpened)
-              parentObj.isOpened = false;
+            if (itemObj.isOpened)
+              itemObj.isOpened = false;
             else
-              parentObj.isOpened = true;
+              itemObj.isOpened = true;
+          }
+
+          // hidding of the "arrow" for opening of the node
+          if (!itemObj.children || itemObj.children.length === 0) {
+            $(imgArrowElem).css("visibility", "hidden");
           }
 
           var display = "none";
-          if (parentObj.isOpened) { // is node is opened
+          if (itemObj.isOpened) { // is node is opened
             imgArrowElem.src = srcArrowDown;
-            if (!parentObj.iconCustom || parentObj.iconCustom == '') {
+            if (!itemObj.iconCustom || itemObj.iconCustom === '') {
               imgFolderElem.src = srcFolderOpen;
             }
             display = "table-row";
           } else { // is node is closed
             imgArrowElem.src = srcArrowRight;
-            if (!parentObj.iconCustom || parentObj.iconCustom == '') {
+            if (!itemObj.iconCustom || itemObj.iconCustom === '') {
               imgFolderElem.src = srcFolderClose;
             }
           }
@@ -398,14 +403,14 @@ define(["application", "row", "headerRow", "CONST", "css!TreeGridCss"], function
           var childElems = [];
           self.getChildsWithParent(childElems, trElem.id, $(trElem).parent());
 
-          if (parentObj.isOpened) { // Opened
+          if (itemObj.isOpened) { // Opened
             // request to server
-            //self.requestGetItems(parentObj);
-            if (parentObj.children) {
-              if (childElems.length != 0) { // if do not exist - then create html-elems                
+            //self.requestGetItems(itemObj);
+            if (itemObj.children) {
+              if (childElems.length !== 0) { // if do not exist - then create html-elems                
                 $(childElems).remove();
               }
-              for (var i = parentObj.children.length - 1; i >= 0; i--) {
+              for (var i = itemObj.children.length - 1; i >= 0; i--) {
                 var marginLeftVar = marginLeftInterval;
                 //if (marginLeft)
                 //  marginLeftVar += marginLeft;
@@ -413,7 +418,7 @@ define(["application", "row", "headerRow", "CONST", "css!TreeGridCss"], function
                 if (marginLeft)
                   marginLeftVar += parseInt(marginLeft);
 
-                self.renderItem($(trElem), parentObj.childrenHash[parentObj.children[i].id], parentObj.id, marginLeftVar, self.isFiltered);
+                self.renderItem($(trElem), itemObj.childrenHash[itemObj.children[i].id], itemObj.id, marginLeftVar, self.isFiltered);
               }              
             }
           } else { // Closed
@@ -422,7 +427,7 @@ define(["application", "row", "headerRow", "CONST", "css!TreeGridCss"], function
         }
 
         if (openCloseNodeEvent)
-          openCloseNodeEvent(parentObj);
+          openCloseNodeEvent(itemObj);
       },
 
       addChildNode: function (newItem, isNodeUpdate) {

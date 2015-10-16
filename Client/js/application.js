@@ -18,7 +18,7 @@ define(["CONST", "Utils"], function (CONST, Utils) {
     var actionCtrl;
     var tabPanel;
     var componentMgr;
-    var richTextEditorCtrl;
+    //var richTextEditorCtrl;
     var menuItemEngineTree;
 
     var uiComponents = {};
@@ -164,11 +164,11 @@ define(["CONST", "Utils"], function (CONST, Utils) {
       },
       getComponentMgr: function () { return componentMgr; },
 
-      setRichTextEditorCtrl: function(_richTextEditorCtrl) {
-        if (_richTextEditorCtrl)
-          richTextEditorCtrl = _richTextEditorCtrl;
-      },
-      getRichTextEditorCtrl: function() { return richTextEditorCtrl; },
+      //setRichTextEditorCtrl: function(_richTextEditorCtrl) {
+      //  if (_richTextEditorCtrl)
+      //    richTextEditorCtrl = _richTextEditorCtrl;
+      //},
+      //getRichTextEditorCtrl: function() { return richTextEditorCtrl; },
 
       setActionCtrl: function(_actionCtrl) {
         if (_actionCtrl)

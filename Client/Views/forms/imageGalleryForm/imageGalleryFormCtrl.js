@@ -4,6 +4,7 @@
 
     var self;
 
+    var isInitializedEventsSubscribe = false;
     var countImgInRow = 4;
     var mediaItems;
 
@@ -38,6 +39,20 @@
           formPath: "/SiteEngine/Client/Views/forms/imageGalleryForm/imageGalleryForm.html",
         });
 
+      },
+
+      initializeEventsSubscribe: function() {
+        var $imageGalleryFormElem = $(imageGalleryFormSelector);
+        if ($imageGalleryFormElem.length > 0) {
+          $(inputFileDlgSelector).change(self.uploadFilesSelected);
+
+          $(btnUploadFilesSelector).click(function () {
+            var $inputFileDlgElem = $(inputFileDlgSelector);
+            $inputFileDlgElem[0].files = [];
+            $inputFileDlgElem[0].value = "";
+            $inputFileDlgElem.click();
+          });
+        }
       },
 
       renderMediaItems: function (items) {
@@ -205,16 +220,9 @@
 
         self.populate();
 
-        var $imageGalleryFormElem = $(imageGalleryFormSelector);
-        if ($imageGalleryFormElem.length > 0) {
-          $(inputFileDlgSelector).change(self.uploadFilesSelected);
-
-          $(btnUploadFilesSelector).click(function () {
-            var $inputFileDlgElem = $(inputFileDlgSelector);
-            $inputFileDlgElem[0].files = [];
-            $inputFileDlgElem[0].value = "";
-            $inputFileDlgElem.click();
-          });
+        if (!isInitializedEventsSubscribe) {
+          isInitializedEventsSubscribe = true;
+          self.initializeEventsSubscribe();
         }
       },
 

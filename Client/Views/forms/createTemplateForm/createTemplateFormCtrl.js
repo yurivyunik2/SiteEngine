@@ -40,7 +40,7 @@
             _.each(selItem.children, function(child) {
               application.getItemFields(child, function() {
                 indexChildren++;
-                if (indexChildren == countChildren) {
+                if (indexChildren === countChildren) {
                   self.initializeCallback(data);
                 }
               });

@@ -1,11 +1,12 @@
 ﻿require.config({
   paths: {
     imageChangeCtrl: "js/components/ImageChangeCtrl/ImageChangeCtrl",
+    richTextEditor: "js/components/RichTextEditor/RichTextEditor",
   },
 });
 
 
-define(["application", "CONST", "imageChangeCtrl"], function (application, CONST, ImageChangeCtrl) {
+define(["application", "CONST", "imageChangeCtrl", "richTextEditor"], function (application, CONST, ImageChangeCtrl, RichTextEditor) {
   //
   // RichTextEditor
   //
@@ -14,9 +15,8 @@ define(["application", "CONST", "imageChangeCtrl"], function (application, CONST
     var self;
 
     var _idElem;
-    var richTextEditor;
 
-    var hashComponents = {};
+    var actualComponents = {};
 
 
 
@@ -25,7 +25,7 @@ define(["application", "CONST", "imageChangeCtrl"], function (application, CONST
       constructor: function () {
         self = this;
 
-        richTextEditor = application.getRichTextEditorCtrl();
+        //richTextEditor = application.getRichTextEditorCtrl();
       },
 
       addComponent: function (parentElem, field) {
@@ -37,11 +37,12 @@ define(["application", "CONST", "imageChangeCtrl"], function (application, CONST
 
         if (field.type && !isNaN(parseInt(field.type))) {
           if (parseInt(field.type) === CONST.RICH_TEXT_TYPE()) {
-            //html += "<td><textarea id='" + field.fieldId + "' class='scrollCustom itemField'>" + field.value + "</textarea></br></br></td>";
-            html += "<td><div " + disabledAttr + " id='rich_" + field.fieldId + "' class='scrollCustom itemField'>" + field.value + "</div></br></br>";
-            html += "</td>";
+            var richTextEditor = new RichTextEditor(parentElem, field);
+            actualComponents[field.id] = richTextEditor;
 
-          } else if (parseInt(field.type) === CONST.INTEGER_TYPE() || parseInt(field.type) === CONST.NUMBER_TYPE()) { //INTEGER
+            richTextEditor.addElementToHtml(disabledAttr);
+          }
+          else if (parseInt(field.type) === CONST.INTEGER_TYPE() || parseInt(field.type) === CONST.NUMBER_TYPE()) { //INTEGER
             html += "<td><input type='number' " + disabledAttr + " id='" + field.fieldId + "' class='itemField' onclick='javascript:this.select();return false' value='" + field.value + "'></br></br></td>";
           } else if (parseInt(field.type) === CONST.DATETIME_TYPE()) {
             //DATETIME
@@ -53,10 +54,10 @@ define(["application", "CONST", "imageChangeCtrl"], function (application, CONST
 
             //
             var imageChangeCtrl = new ImageChangeCtrl(parentElem, field);
-            hashComponents[field.id] = imageChangeCtrl;
+            actualComponents[field.id] = imageChangeCtrl;
 
             //html += "<td>" + imageChangeCtrl.getHtmlComponent(field) + "</br></br></td>";
-            imageChangeCtrl.addElement(field);
+            imageChangeCtrl.addElementToHtml();
           }
           else
             html += "<td><input " + disabledAttr + " id='" + field.fieldId + "' class='itemField' onclick='javascript:this.select();return false' value='" + field.value + "'></br></br></td>";
@@ -66,18 +67,15 @@ define(["application", "CONST", "imageChangeCtrl"], function (application, CONST
 
         if(html)
           parentElem.append(html);
-
-        // RICH_TEXT_TYPE - converting of the component using "RichTextEditorCtrl"
-        if (parseInt(field.type) === CONST.RICH_TEXT_TYPE()) {          
-          if(!richTextEditor)
-            richTextEditor = application.getRichTextEditorCtrl();
-
-          richTextEditor.convertElement("rich_" + field.fieldId, field.value);
-        }
       },
 
       clearComponents: function () {
-        //hashComponents.
+        var keys = _.keys(actualComponents);
+        _.each(keys, function(key) {
+          var component = actualComponents[key];
+          if (component.dispose)
+            component.dispose();
+        });        
       },
 
     };

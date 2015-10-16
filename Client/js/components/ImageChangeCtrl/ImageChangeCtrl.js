@@ -29,7 +29,7 @@ define(["application", "CONST", "Utils"], function (application, CONST, Utils) {
         self = this;
       },
 
-      addElement: function () {
+      addElementToHtml: function () {
         if ($dvImgChangeCtrlElem && $dvImgChangeCtrlElem.length > 0) {
           $el = $dvImgChangeCtrlElem.clone();
           $el.css("display", "block");
@@ -45,9 +45,9 @@ define(["application", "CONST", "Utils"], function (application, CONST, Utils) {
           var html = "<td>" + $el[0].outerHTML + "</br></br></td>";
           if (parentElem) {
             parentElem.append(html);
-            var newElem = parentElem.children().last()
+            var newElem = parentElem.children().last();
             newElem.find("img, a").click(self.changeImage);
-          }            
+          }
         }
       },
 
@@ -71,13 +71,13 @@ define(["application", "CONST", "Utils"], function (application, CONST, Utils) {
         }
       },
 
-      getHtmlComponent: function () {
-        self.createElement();
-        if ($el)
-          return $el[0].outerHTML;
-        else
-          return "";
-      },
+      //getHtmlComponent: function () {
+      //  self.createElement();
+      //  if ($el)
+      //    return $el[0].outerHTML;
+      //  else
+      //    return "";
+      //},
     };
 
     imageChangeCtrl.constructor();

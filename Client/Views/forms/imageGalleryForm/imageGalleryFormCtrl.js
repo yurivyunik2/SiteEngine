@@ -12,6 +12,8 @@
     var imageGalleryFormSelector = "#imageGalleryForm";
     var imgWrapperTemplateSelector = "#imgWrapperTemplate";
     var loadingTemplateSelector = "#loadingTemplate";
+    var noDataTemplateSelector = "#noDataTemplate";
+    
 
     var dvUploadInformationSelector = ".dvUploadInformation";
     var inputFileDlgSelector = "#inputFileDlg";
@@ -79,35 +81,39 @@
         if ($imageGalleryFormElem.length === 0)
           return;
 
-        //
-        self.setLoading();
-
         mediaItems = application.getMediaItems();
 
         var mediaItemsCount = mediaItems.length;
-        var indexRequest = 0;
-        _.each(mediaItems, function (item) {
-          application.getItemFields(item, function () {
-            indexRequest++;
-            if (item && item.fields) {
-              var fieldBlob = _.findWhere(item.fields, { fieldId: CONST.BLOB_MEDIA_FIELDS_ID() });
-              if (fieldBlob && !Utils.isValueNull(fieldBlob.value)) {
-                item.src = "data:image;base64," + fieldBlob.value;
-                item.isBlob = true;
-              } else {
-                var fieldSrc = _.findWhere(item.fields, { fieldId: CONST.SRC_MEDIA_FIELDS_ID() });
-                if (fieldSrc && fieldSrc.value && fieldSrc.value !== "") {
-                  item.src = fieldSrc.value;
-                }
-              }
-              self.defineTypeItem(item);
-            }
-            if (mediaItemsCount === indexRequest) {
-              self.renderMediaItems(mediaItems);
-            }
-          });
+        if (mediaItemsCount > 0) {
+          //
+          self.setLoading();
 
-        });
+          var indexRequest = 0;
+          _.each(mediaItems, function(item) {
+            application.getItemFields(item, function() {
+              indexRequest++;
+              if (item && item.fields) {
+                var fieldBlob = _.findWhere(item.fields, { fieldId: CONST.BLOB_MEDIA_FIELDS_ID() });
+                if (fieldBlob && !Utils.isValueNull(fieldBlob.value)) {
+                  item.src = "data:image;base64," + fieldBlob.value;
+                  item.isBlob = true;
+                } else {
+                  var fieldSrc = _.findWhere(item.fields, { fieldId: CONST.SRC_MEDIA_FIELDS_ID() });
+                  if (fieldSrc && fieldSrc.value && fieldSrc.value !== "") {
+                    item.src = fieldSrc.value;
+                  }
+                }
+                self.defineTypeItem(item);
+              }
+              if (mediaItemsCount === indexRequest) {
+                self.renderMediaItems(mediaItems);
+              }
+            });
+
+          });
+        } else {
+          self.showNoData();
+        }
 
       },
 
@@ -120,6 +126,17 @@
 
         var $tableElem = $imageGalleryFormElem.find("table");
         $tableElem.html($loadingTemplateElem.html());
+      },
+
+      showNoData: function() {
+        var $imageGalleryFormElem = $(imageGalleryFormSelector);
+        if ($imageGalleryFormElem.length === 0)
+          return;
+
+        var $noDataTemplateElem = $(noDataTemplateSelector);
+
+        var $tableElem = $imageGalleryFormElem.find("table");
+        $tableElem.html($noDataTemplateElem.html());
       },
 
       defineTypeItem: function (item) {

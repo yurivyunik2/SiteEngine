@@ -88,16 +88,16 @@
 #imageGalleryForm #imgArea #imgContainer {
   height: 100%;
 }
-#imageGalleryForm #imgArea #imgContainer #loadingElem {
+#imageGalleryForm #imgArea #imgContainer .dvCenter {
   display: table;
   margin: 0 auto;
   height: 100%;  
 }
-#imageGalleryForm #imgArea #imgContainer #loadingElem #innerContent {
+#imageGalleryForm #imgArea #imgContainer .dvCenter .dvInnerContent {
   display: table-cell;
   vertical-align: middle;
 }
-#imageGalleryForm #imgArea #imgContainer #loadingElem #innerContent img {
+#imageGalleryForm #imgArea #imgContainer .dvCenter .dvInnerContent img {
   width: 48px;
   height: 48px;
 }

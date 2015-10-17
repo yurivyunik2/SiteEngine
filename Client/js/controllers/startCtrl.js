@@ -79,6 +79,7 @@ function (application, CONST, Utils, EngineTree, ActionCtrl, ModalFormCtrl, TabP
         application.setModalFormCtrl(modalFormCtrl);
         setTimeout(function() {
           //modalFormCtrl.setType(modalFormCtrl.FORM_TYPE().IMAGE_GALLERY, {});
+          modalFormCtrl.setType(modalFormCtrl.FORM_TYPE().QUESTION, { message: "test" });
         }, 300);
 
 

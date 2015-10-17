@@ -7,6 +7,7 @@
     userManagerFormCtrl: "Views/forms/userManagerForm/userManagerFormCtrl",
     newUserFormCtrl: "Views/forms/newUserForm/newUserFormCtrl",
     imageGalleryFormCtrl: "Views/forms/imageGalleryForm/imageGalleryFormCtrl",
+    questionFormCtrl: "Views/forms/questionForm/questionFormCtrl",
   },
 });
 
@@ -19,8 +20,9 @@ define(["application", "CONST",
         "userManagerFormCtrl",
         "newUserFormCtrl",
         "imageGalleryFormCtrl",
+        "questionFormCtrl"
         ],
-function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, InsertOptionsForm, LayoutFormCtrl, UserManagerFormCtrl, NewUserFormCtrl, ImageGalleryFormCtrl) {
+function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, InsertOptionsForm, LayoutFormCtrl, UserManagerFormCtrl, NewUserFormCtrl, ImageGalleryFormCtrl, QuestionFormCtrl) {
 
   return function ($scope) {
 
@@ -35,6 +37,7 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
     var userManagerFormCtrl;
     var newUserFormCtrl;
     var imageGalleryFormCtrl;
+    var questionFormCtrl;
 
     var FormType = {
       CREATE_TEMPLATE: {
@@ -58,6 +61,10 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
 
       IMAGE_GALLERY: {
         getControl: function () { return imageGalleryFormCtrl; }
+      },
+
+      QUESTION: {
+        getControl: function () { return questionFormCtrl; }
       },
     };
 
@@ -96,6 +103,7 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
         userManagerFormCtrl = new UserManagerFormCtrl($scope);
         newUserFormCtrl = new NewUserFormCtrl($scope, self);
         imageGalleryFormCtrl = new ImageGalleryFormCtrl($scope);
+        questionFormCtrl = new QuestionFormCtrl($scope);
       },
 
       intervalUI: function (uiData) {

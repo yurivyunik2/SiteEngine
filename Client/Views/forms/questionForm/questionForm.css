@@ -1,0 +1,21 @@
+﻿
+#questionForm .dvMessage {
+  min-width: 300px;  
+
+  display: inline-block;
+  padding: 0px 15px;
+  /*width: 10px;*/
+  word-wrap: break-word;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#questionForm .dvIcon {
+  display: inline-block;
+  padding: 5px;
+  border-right: 1px solid white;
+}
+#questionForm .dvIcon img {
+  width: 36px;
+  height: 36px;
+}

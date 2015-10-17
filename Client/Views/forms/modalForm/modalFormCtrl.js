@@ -99,7 +99,7 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
       },
 
       intervalUI: function (uiData) {
-        if (uiData && uiData.keyDownEventLast) {
+        if ($scope.isShowModalForm && uiData && uiData.keyDownEventLast) {
           var event = uiData.keyDownEventLast;
           var isProcessed = false;
           if (currentCtrl && currentCtrl.keyDownEventFunc) {

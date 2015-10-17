@@ -14,11 +14,7 @@ define(["application", "CONST", "imageChangeCtrl", "richTextEditor"], function (
 
     var self;
 
-    var _idElem;
-
     var actualComponents = {};
-
-
 
     var componentMgrObj = {
 
@@ -26,6 +22,39 @@ define(["application", "CONST", "imageChangeCtrl", "richTextEditor"], function (
         self = this;
 
         //richTextEditor = application.getRichTextEditorCtrl();
+      },
+
+      clearComponents: function () {
+        var keys = _.keys(actualComponents);
+        _.each(keys, function (key) {
+          var component = actualComponents[key];
+          if (component.dispose)
+            component.dispose();
+        });
+        actualComponents = {};
+      },
+
+      populate: function (parentElem, fields) {
+        if (!parentElem || !fields)
+          return;
+
+        // clear
+        self.clearComponents();
+
+        var html;
+        for (var i = 0; i < fields.length; i++) {
+          var field = fields[i];
+          html =
+            "<tr>" +
+              "<td class='tdFieldName'><span><b>" + field.name + ": </b></span></td>" +
+            "</tr>";
+          parentElem.append(html);
+
+          // "tr" for component
+          parentElem.append("<tr></tr>");
+
+          self.addComponent(parentElem.children().last(), field);
+        }
       },
 
       addComponent: function (parentElem, field) {
@@ -40,7 +69,7 @@ define(["application", "CONST", "imageChangeCtrl", "richTextEditor"], function (
             var richTextEditor = new RichTextEditor(parentElem, field);
             actualComponents[field.id] = richTextEditor;
 
-            richTextEditor.addElementToHtml(disabledAttr);
+            richTextEditor.render(disabledAttr);
           }
           else if (parseInt(field.type) === CONST.INTEGER_TYPE() || parseInt(field.type) === CONST.NUMBER_TYPE()) { //INTEGER
             html += "<td><input type='number' " + disabledAttr + " id='" + field.fieldId + "' class='itemField' onclick='javascript:this.select();return false' value='" + field.value + "'></br></br></td>";
@@ -48,16 +77,10 @@ define(["application", "CONST", "imageChangeCtrl", "richTextEditor"], function (
             //DATETIME
             html += "<td><input type='datetime' " + disabledAttr + " id='" + field.fieldId + "' class='itemField' onclick='javascript:this.select();return false' value='" + field.value + "'></br></br></td>";
           } else if (parseInt(field.type) === CONST.IMAGE_TYPE()) {
-            //html += "<td>" + field.value + "</br></br></td>";
-            //if (!imageChangeCtrl)
-            //  imageChangeCtrl = application.getImageChangeCtrl();
-
-            //
             var imageChangeCtrl = new ImageChangeCtrl(parentElem, field);
             actualComponents[field.id] = imageChangeCtrl;
 
-            //html += "<td>" + imageChangeCtrl.getHtmlComponent(field) + "</br></br></td>";
-            imageChangeCtrl.addElementToHtml();
+            imageChangeCtrl.render();
           }
           else
             html += "<td><input " + disabledAttr + " id='" + field.fieldId + "' class='itemField' onclick='javascript:this.select();return false' value='" + field.value + "'></br></br></td>";
@@ -65,17 +88,26 @@ define(["application", "CONST", "imageChangeCtrl", "richTextEditor"], function (
         else
           html += "<td><input " + disabledAttr + " id='" + field.fieldId + "' class='itemField' onclick='javascript:this.select();return false' value='" + field.value + "'></br></br></td>";
 
-        if(html)
+        if (html) {
           parentElem.append(html);
+
+          var $elem = parentElem.children().last().find(".itemField");
+          actualComponents[field.id] = $elem;
+        }
       },
 
-      clearComponents: function () {
+      getValues: function () {
+        var values = {};
         var keys = _.keys(actualComponents);
         _.each(keys, function(key) {
           var component = actualComponents[key];
-          if (component.dispose)
-            component.dispose();
-        });        
+          if (component.getValue)
+            values[key] = component.getValue();
+          else if (component.val)
+            values[key] = component.val();
+        });
+
+        return values;
       },
 
     };

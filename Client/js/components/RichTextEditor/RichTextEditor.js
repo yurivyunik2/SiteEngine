@@ -5,7 +5,7 @@
 });
 
 
-define(["application", "CONST", "customEditor"], function (application, CONST, customEditor) {
+define(["application", "CONST", "Utils", "customEditor"], function (application, CONST, Utils, customEditor) {
   //
   // RichTextEditor
   //
@@ -14,21 +14,36 @@ define(["application", "CONST", "customEditor"], function (application, CONST, c
   var classImageBtn = ".cke_button__image";
   var classImgEditDlgTemplate = ".cke_editor_<%= idElem %>_dialog";
 
-  (function RichTextEditorStatic() {
-    if (CKEDITOR.env.ie && CKEDITOR.env.version < 9)
-      CKEDITOR.tools.enableHtml5Elements(document);
+  var richTextEditorParams = (function() {
+    var richTextEditorParams = {
+      constructor: function() {
+        if (CKEDITOR.env.ie && CKEDITOR.env.version < 9)
+          CKEDITOR.tools.enableHtml5Elements(document);
 
-    // The trick to keep the editor in the sample quite small
-    // unless user specified own height.
-    CKEDITOR.config.height = 150;
-    CKEDITOR.config.width = 'auto';
+        // The trick to keep the editor in the sample quite small
+        // unless user specified own height.
+        CKEDITOR.config.height = 150;
+        CKEDITOR.config.width = 'auto';
+      },
+
+      isWysiwygareaAvailable: function () {
+        // If in development mode, then the wysiwygarea must be available.
+        // Split REV into two strings so builder does not replace it :D.
+        if (CKEDITOR.revision === ('%RE' + 'V%')) {
+          return true;
+        }
+        return !!CKEDITOR.plugins.get('wysiwygarea');
+      },
+
+    };
+    richTextEditorParams.constructor();
+    return richTextEditorParams;
   })();
 
   function RichTextEditor(parentElem, field) {
     var self;
 
     var idElem;
-    var isSubscribed = false;
 
     var richTextEditorObj = {
 
@@ -52,61 +67,57 @@ define(["application", "CONST", "customEditor"], function (application, CONST, c
       },
 
       intervalUI: function (uiData) {
-        if (!isSubscribed && idElem) {
-          var idConvertedElement = "#" + idPrefix + idElem;
-          var $richElement = $(idConvertedElement);
-          if ($richElement.length > 0) {
-            isSubscribed = true;
-            var $btnImage = $richElement.find(classImageBtn);
-            $btnImage.click(function (event) {
-              setTimeout(self.addGalleryButtonForImage, 400, { event: event });
-            });
-          }
-        }
+
       },
 
-      addElementToHtml: function (isDisabled) {
+      render: function (isDisabled) {
         if (parentElem && field) {
           var html = "<td><div id='" + idElem + "' class='scrollCustom itemField'>" + field.value + "</div></br></br>";
           html += "</td>";
 
           parentElem.append(html);
-          self.convertElement();
 
-          if (isDisabled && CKEDITOR.instances && CKEDITOR.instances[idElem]) {
+          // Converting
+          //var editorElement = CKEDITOR.document.getById(idElem);
+          //editorElement.setHtml(field.value);
+          
+          // Depending on the wysiwygare plugin availability initialize classic or inline editor.
+          var wysiwygareaAvailable = richTextEditorParams.isWysiwygareaAvailable();
+          if (wysiwygareaAvailable) {            
+            CKEDITOR.replace(idElem);
+          } else {
+            //editorElement.setAttribute('contenteditable', 'true');            
+            CKEDITOR.inline(idElem);
+          }
+
+          // instanceReady
+          if (CKEDITOR.instances && CKEDITOR.instances[idElem]) {
             CKEDITOR.instances[idElem].on("instanceReady", function (event) {
-              //put your code here
-              CKEDITOR.instances[idElem].setReadOnly(true);
+              var idConvertedElement = "#" + idPrefix + idElem;
+              var $richElement = $(idConvertedElement);
+              if ($richElement.length > 0) {                
+                var $btnImage = $richElement.find(classImageBtn);
+                $btnImage.click(function (event) {
+                  setTimeout(self.addGalleryButtonForImage, 400, { event: event });
+                });
+              }
+
+              if(isDisabled)
+                CKEDITOR.instances[idElem].setReadOnly(true);
             });
           }
         }
       },
 
-      isWysiwygareaAvailable: function () {
-        // If in development mode, then the wysiwygarea must be available.
-        // Split REV into two strings so builder does not replace it :D.
-        if (CKEDITOR.revision === ( '%RE' + 'V%' )) {
-          return true;
+      getValue: function() {
+        var val;
+        if (CKEDITOR.instances && CKEDITOR.instances[idElem]) {
+          //val = encodeURI(CKEDITOR.instances[idElem].getData());
+          val = CKEDITOR.instances[idElem].getData();
+          val = Utils.escapeSpecialChars(val);
+          val = encodeURIComponent(val);
         }
-        return !!CKEDITOR.plugins.get('wysiwygarea');
-      },
-
-      convertElement: function () {
-        if (field) {
-          var editorElement = CKEDITOR.document.getById(idElem);
-          editorElement.setHtml(field.value);
-
-          // Depending on the wysiwygare plugin availability initialize classic or inline editor.
-          var wysiwygareaAvailable = self.isWysiwygareaAvailable();
-          if (wysiwygareaAvailable) {
-            //CKEDITOR.replace( 'editor' );
-            CKEDITOR.replace(idElem);
-          } else {
-            editorElement.setAttribute('contenteditable', 'true');
-            //CKEDITOR.inline( 'editor' );
-            CKEDITOR.inline(idElem);
-          }
-        }
+        return val;
       },
 
       // adding of the button for open Media(Image) gallery in ImageProperties dialog
@@ -155,7 +166,9 @@ define(["application", "CONST", "customEditor"], function (application, CONST, c
                 var $contentsBody = $imgDlgElem.find(".cke_dialog_contents_body");
                 var $inputUrl = $contentsBody.find("input.cke_dialog_ui_input_text").first();
                 var imgPath = CONST.SERVER.PATH() + selItem.imgSrc;
-                //var imgPath = CONST.SERVER.PATH() + "getMedia?id=" + selItem.id;
+                //imgPath = imgPath.replace("://", ":__");
+                //imgPath = imgPath.replace("//", "/");
+                //imgPath = imgPath.replace(":__", "://");                
                 $inputUrl.val(imgPath).change();
               }
             }

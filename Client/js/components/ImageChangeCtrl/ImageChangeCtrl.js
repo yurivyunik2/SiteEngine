@@ -29,7 +29,7 @@ define(["application", "CONST", "Utils"], function (application, CONST, Utils) {
         self = this;
       },
 
-      addElementToHtml: function () {
+      render: function () {
         if ($dvImgChangeCtrlElem && $dvImgChangeCtrlElem.length > 0) {
           $el = $dvImgChangeCtrlElem.clone();
           $el.css("display", "block");

@@ -113,30 +113,14 @@ define(["application", "CONST", "Utils"], function (application, CONST, Utils) {
         //var fields = itemData.fields;
         //var curLangguage = Utils.getLanguageCurrent();
         //var curVersion = Utils.getVersionCurrent();
-
-        var componentMgr = application.getComponentMgr();
-        componentMgr.clearComponents();
-
+        
         if (fieldsLang) {
-          //var fieldsLang = _.where(fields, { itemId: itemData.id, lang: curLangguage.code, version: parseInt(curVersion)});          
-
-          for (var i = 0; i < fieldsLang.length; i++) {
-            var field = fieldsLang[i];
-            html =
-              "<tr>" +
-                "<td class='tdFieldName'><span><b>" + field.name + ": </b></span></td>" +
-              "</tr>";
-            tbody.append(html);
-
-            // "tr" for component
-            tbody.append("<tr></tr>");
-
-            html += componentMgr.addComponent(tbody.children().last(), field);
-          }
+          var componentMgr = application.getComponentMgr();
+          componentMgr.populate(tbody, fieldsLang);
         }
       },
 
-      setValuesForItemFields: function (item) {
+      getValuesForItemFields: function (item) {
         if (!item || !item.fields)
           return;
         
@@ -145,18 +129,21 @@ define(["application", "CONST", "Utils"], function (application, CONST, Utils) {
         if (!curLangguage || !curVersion)
           return;
 
-        var $infoPanelElem = $(this.infoPanelSelector);
-        var arElemFields = $infoPanelElem.find(".itemField");
-        var arFields = {};
+        //var $infoPanelElem = $(this.infoPanelSelector);
+        //var arElemFields = $infoPanelElem.find(".itemField");
+        //var arFields = {};
         
-        _.each(arElemFields, function (elemField) {
-          arFields[elemField.id] = $(elemField).val();
-        });
+        //_.each(arElemFields, function (elemField) {
+        //  arFields[elemField.id] = $(elemField).val();
+        //});
+
+        var componentMgr = application.getComponentMgr();
+        var fieldsValues = componentMgr.getValues();
         
         var fieldsLangVersion = _.where(item.fields, { lang: curLangguage.code, version: parseInt(curVersion) });
         _.each(fieldsLangVersion, function (field) {
-          if (arFields[field.fieldId])
-            field.value = arFields[field.fieldId];
+          if (fieldsValues[field.id])
+            field.value = fieldsValues[field.id];
         });
       },
 

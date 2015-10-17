@@ -83,7 +83,7 @@ function (application, Utils, Notification, PanelFormCtrl, PanelTypes) {
           }
           case "saveItem": {
             if (selectedItem) {
-              engineTree.infoPanel.setValuesForItemFields(selectedItem);
+              engineTree.infoPanel.getValuesForItemFields(selectedItem);
               data.item = selectedItem;
               self.saveItem(data);
             }

@@ -8,10 +8,11 @@
 
 define(["application", "row", "headerRow", "CONST", "css!TreeGridCss"], function (application, Row, HeaderRow, CONST) {
 
-  return function TreeGrid(_$parentElem) {
+  return function TreeGrid(_$parentElem, _isApplicationEvents) {
 
     var self;
     var $parentElem;
+    var isApplicationEvents;
 
     var isCheckBoxElem = true;
     var isHeaderShow = false;
@@ -52,6 +53,7 @@ define(["application", "row", "headerRow", "CONST", "css!TreeGridCss"], function
       constructor: function() {
         self = this;
         $parentElem = _$parentElem;
+        isApplicationEvents = _isApplicationEvents;
 
         //
         application.addItemChangeSubscribers(self, self.itemChangeEvent);
@@ -67,6 +69,8 @@ define(["application", "row", "headerRow", "CONST", "css!TreeGridCss"], function
 
       getIsCheckBoxElem: function() { return isCheckBoxElem; },
       setIsCheckBoxElem: function(_isCheckBoxElem) { isCheckBoxElem = _isCheckBoxElem; },
+
+      getIsApplicationEvents: function () { return isApplicationEvents; },
 
       initializeItems: function(items) {
         this.treeItems = [];

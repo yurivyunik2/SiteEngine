@@ -2,11 +2,12 @@
   paths: {
     imageChangeCtrl: "js/components/ImageChangeCtrl/ImageChangeCtrl",
     richTextEditor: "js/components/RichTextEditor/RichTextEditor",
+    assignTemplateCtrl: "js/components/AssignTemplateCtrl/AssignTemplateCtrl",
   },
 });
 
 
-define(["application", "CONST", "imageChangeCtrl", "richTextEditor"], function (application, CONST, ImageChangeCtrl, RichTextEditor) {
+define(["application", "CONST", "imageChangeCtrl", "richTextEditor", "assignTemplateCtrl"], function (application, CONST, ImageChangeCtrl, RichTextEditor, AssignTemplateCtrl) {
   //
   // RichTextEditor
   //
@@ -64,29 +65,33 @@ define(["application", "CONST", "imageChangeCtrl", "richTextEditor"], function (
         var disabledAttr = field.isPublish ? "disabled" : "";
         var html = "";
 
-        if (field.type && !isNaN(parseInt(field.type))) {
-          if (parseInt(field.type) === CONST.RICH_TEXT_TYPE()) {
-            var richTextEditor = new RichTextEditor(parentElem, field);
-            actualComponents[field.id] = richTextEditor;
+        var iType = parseInt(field.type);
 
-            richTextEditor.render(disabledAttr);
-          }
-          else if (parseInt(field.type) === CONST.INTEGER_TYPE() || parseInt(field.type) === CONST.NUMBER_TYPE()) { //INTEGER
-            html += "<td><input type='number' " + disabledAttr + " id='" + field.fieldId + "' class='itemField' onclick='javascript:this.select();return false' value='" + field.value + "'></br></br></td>";
-          } else if (parseInt(field.type) === CONST.DATETIME_TYPE()) {
-            //DATETIME
-            html += "<td><input type='datetime' " + disabledAttr + " id='" + field.fieldId + "' class='itemField' onclick='javascript:this.select();return false' value='" + field.value + "'></br></br></td>";
-          } else if (parseInt(field.type) === CONST.IMAGE_TYPE()) {
-            var imageChangeCtrl = new ImageChangeCtrl(parentElem, field);
-            actualComponents[field.id] = imageChangeCtrl;
+        if (iType === CONST.RICH_TEXT_TYPE()) {
+          var richTextEditor = new RichTextEditor(parentElem, field);
+          actualComponents[field.id] = richTextEditor;
 
-            imageChangeCtrl.render();
-          }
-          else
-            html += "<td><input " + disabledAttr + " id='" + field.fieldId + "' class='itemField' onclick='javascript:this.select();return false' value='" + field.value + "'></br></br></td>";
+          richTextEditor.render(disabledAttr);
+        }
+        else if (iType === CONST.INTEGER_TYPE() || iType === CONST.NUMBER_TYPE()) { //INTEGER
+          html += "<td class='tdFieldCtrl'><input type='number' " + disabledAttr + " id='" + field.fieldId + "' class='itemField' onclick='javascript:this.select();return false' value='" + field.value + "'></br></br></td>";
+        } else if (parseInt(field.type) === CONST.DATETIME_TYPE()) {
+          //DATETIME
+          html += "<td class='tdFieldCtrl'><input type='datetime' " + disabledAttr + " id='" + field.fieldId + "' class='itemField' onclick='javascript:this.select();return false' value='" + field.value + "'></br></br></td>";
+        } else if (iType === CONST.IMAGE_TYPE()) {
+          var imageChangeCtrl = new ImageChangeCtrl(parentElem, field);
+          actualComponents[field.id] = imageChangeCtrl;
+
+          imageChangeCtrl.render();
+        } else if (field.fieldId === CONST.INSERT_OPTIONS_FIELD_ID()) {
+          var assignTemplateCtrl = new AssignTemplateCtrl(parentElem, field);
+          actualComponents[field.id] = assignTemplateCtrl;
+
+          assignTemplateCtrl.render();
         }
         else
-          html += "<td><input " + disabledAttr + " id='" + field.fieldId + "' class='itemField' onclick='javascript:this.select();return false' value='" + field.value + "'></br></br></td>";
+          html += "<td class='tdFieldCtrl'><input " + disabledAttr + " id='" + field.fieldId + "' class='itemField' onclick='javascript:this.select();return false' value='" + field.value + "'></br></br></td>";
+        
 
         if (html) {
           parentElem.append(html);

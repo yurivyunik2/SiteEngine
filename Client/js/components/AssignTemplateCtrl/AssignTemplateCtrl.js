@@ -1,61 +1,100 @@
-﻿define(["application", "TreeGrid", "CONST", "CommonTypes"], function (application, TreeGrid, CONST, CommonTypes) {
+﻿
+define(["application", "CONST", "TreeGrid"], function (application, CONST, TreeGrid) {
+  //
+  // AssignTemplateCtrl
+  //
+  var $dvInsertOptionsElem;
+  var pathTemplate = "js/components/AssignTemplateCtrl/AssignTemplateCtrl.html";
+  //var srcEmptyImage = "/SiteEngine/Client/images/media/emptyImage.png";
 
-  return function () {
+  (function LoadTemplate() {
+    var $template = $("<div></div>");
+    $template.load(pathTemplate, function () {
+      $(document.body).append($template.html());
+      $dvInsertOptionsElem = $template.find("#dvInsertOptions");
+    });
+  })();
 
+  var AssignTemplateCtrl = function (parentElem, field) {
     var self;
-    
+
+    var $el;
+
     var treeGrid;
 
     var selectedItems = [];
 
     var itemChange;
 
-    var insertOptionsForm = new CommonTypes.BaseElement();
-    _.extend(insertOptionsForm, {
+
+    var assignTemplateCtrl = {
+
       constructor: function () {
         self = this;
-        self.setBaseData({
-          formPath: "/SiteEngine/Client/Views/forms/insertOptionsForm/insertOptionsForm.html",
-          formSelector: "#dvInsertOptions",
-        });
+
+        //if (field)
+        //  imgValue = field.value;
       },
 
-      show: function (data) {
-        if (!data || !data.item)
-          return;
+      createElement: function () {
+        if (parentElem && field && $dvInsertOptionsElem) {
+          var $newElem = $dvInsertOptionsElem.clone();
+          $newElem.css("display", "block");
+          $newElem[0].id = field.id;
 
-        //self.setDataCtrl(data);
-        selectedItems = [];
-        itemChange = data.item;
-
-        setTimeout(function () {
-          var $formElem = self.get$Elem();
-          if ($formElem.length > 0) {
-            $formElem.find(".imgInsertOptionsArrow").click(self.clickArrow);
-
-            self.populate(data);
+          var html = "<td>" + $newElem[0].outerHTML + "</br></br></td>";
+          if (parentElem) {
+            parentElem.append(html);
+            $el = parentElem.children().last();
+            //$el.find("img, a").click(self.chooseImage);
+            //$el.find("input").change(self.changeSrc);
           }
-        }, 200);
-
+        }
       },
+
+      render: function () {
+        if (!$el) {
+          self.createElement();
+        }
+
+        //if (Utils.isValueNull(imgValue) && $el.find("img").length > 0) {
+        //  $el.find("img")[0].src = srcEmptyImage;
+        //  $el.find("input").val("");
+        //} else {
+        //  $el.find("img")[0].src = imgValue;
+        //  $el.find("input").val(imgValue);
+        //}
+
+        self.populate();
+      },
+
+      getValue: function () {
+        return imgValue;
+      },
+
+
 
       populate: function () {
-        var $formElem = self.get$Elem();
-        var $dvLeftArea = $formElem.find(".dvLeftArea");
+        //var $formElem = self.get$Elem();
+        if (!$el) {
+          return;
+        }
+
+        var $dvLeftArea = $el.find(".dvLeftArea");
         if ($dvLeftArea.length > 0) {
           //
           treeGrid = new TreeGrid($dvLeftArea);
           treeGrid.populate(application.getTemplateItems());
         }
 
-        var insertOptions;
-        if (itemChange.fields) {
-          _.each(itemChange.fields, function (field) {
-            if (field.fieldId === CONST.INSERT_OPTIONS_FIELD_ID()) {
-              insertOptions = field.value;
-            }
-          });
-        }
+        var insertOptions = field.value;
+        //if (itemChange.fields) {
+        //  _.each(itemChange.fields, function (field) {
+        //    if (field.fieldId === CONST.INSERT_OPTIONS_FIELD_ID()) {
+        //      insertOptions = field.value;
+        //    }
+        //  });
+        //}
 
         if (insertOptions) {
           var arInsertOptions = insertOptions.split("|");
@@ -104,9 +143,9 @@
       },
 
       removeItem: function () {
-        if (selectedItems) {
-          var $formElem = self.get$Elem();
-          var $selItemsElem = $formElem.find("#selItems");
+        if ($el && selectedItems) {
+          //var $formElem = self.get$Elem();
+          var $selItemsElem = $el.find("#selItems");
 
           var selIds = [];
           _.each($selItemsElem[0].selectedOptions, function (option) {
@@ -128,13 +167,12 @@
       },
 
       renderSelectedItems: function () {
-        if (selectedItems) {
+        if ($el && selectedItems) {
           var html = "";
           _.each(selectedItems, function (item) {
             html += "<option id='" + item.id + "'>" + item.name + "</option>";
           });
-          var $formElem = self.get$Elem();
-          var $selItemsElem = $formElem.find("#selItems");
+          var $selItemsElem = $el.find("#selItems");
           $selItemsElem.html(html);
         }
       },
@@ -164,9 +202,14 @@
           actionCtrl.process(data);
         }
       },
-    });
-    insertOptionsForm.constructor();
-    return insertOptionsForm;
 
+    };
+
+    assignTemplateCtrl.constructor();
+    return assignTemplateCtrl;
   };
+
+  AssignTemplateCtrl.isLoadTemplate = false;
+  return AssignTemplateCtrl;
 });
+

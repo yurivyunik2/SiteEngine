@@ -5,8 +5,8 @@ define(["CommonTypes", "Utils"], function (CommonTypes, Utils) {
 
     var self;
 
-    var questionFormCtrl = new CommonTypes.BaseElement();
-    _.extend(questionFormCtrl, {
+    var notificationModalFormCtrl = new CommonTypes.BaseElement();
+    _.extend(notificationModalFormCtrl, {
       constructor: function() {
         self = this;
         self.setBaseData({
@@ -24,9 +24,19 @@ define(["CommonTypes", "Utils"], function (CommonTypes, Utils) {
         $dvMessageElem.html(data.message);
       },
 
+      clickOK: function(callback) {
+
+        var dataCtrl = self.getDataCtrl();
+        if (dataCtrl && dataCtrl.callback) {
+          dataCtrl.callback(dataCtrl.callbackData);
+        }
+        if (callback)
+          callback();
+      },
+
     });
-    questionFormCtrl.constructor();
-    return questionFormCtrl;
+    notificationModalFormCtrl.constructor();
+    return notificationModalFormCtrl;
   };
 
 });

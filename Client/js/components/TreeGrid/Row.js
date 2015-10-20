@@ -35,7 +35,7 @@
         if ($trElem && $trElem.length > 0)
           item.trElem = $trElem[0];
 
-        // event-definition
+        // event-definition        
         this.rowEventDefine();
       },
 
@@ -116,7 +116,8 @@
           if (!selItem)
             return;
 
-          application.getItemFields(selItem, function() {
+          if(treeGrid.getIsApplicationEvents())
+            application.getItemFields(selItem, function() {
             ////var responseData = JSON.parse(response);            
             //if (!responseData.error) {
             //  self.isRequestProcess = false;
@@ -176,7 +177,7 @@
         // menu for first column
         var tdFirstElem = $trElem.find(".tdFirst");
         tdFirstElem.mousedown(function (event) {
-          if (event.which === CONST.RIGHT_MOUSE_KEY()) {  // right click
+          if (treeGrid.getIsApplicationEvents() && event.which === CONST.RIGHT_MOUSE_KEY()) {  // right click
             var menuItem = application.getMenuItemEngineTree();
             if (menuItem)
               menuItem.show(event.pageX + 5, event.pageY, item);

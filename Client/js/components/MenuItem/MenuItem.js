@@ -39,7 +39,7 @@ define(["application", "css!menuItemCss"], function (application) {
       }
     ],
   }, {
-    id: 'menu_edit',
+    id: 'editItem',
     img: 'images/edit.png',
     title: 'Edit',
     isVisible: function (dataItem) {
@@ -57,11 +57,10 @@ define(["application", "css!menuItemCss"], function (application) {
     img: 'images/paste.png',
     title: 'Paste',
   }, {
-    id: 'menu_delete',
+    id: 'deleteItem',
     img: 'images/delete.png',
     title: 'Delete',
-  }
-  ];
+  }];
 
   MenuItem.index = 0;
   function MenuItem(menuItems) {
@@ -272,12 +271,12 @@ define(["application", "css!menuItemCss"], function (application) {
       },
 
       clickItemEvent: function (event) {
-
         self.hide();
         
-        var actionType;
         var liElem = event.currentTarget;
-        var dataEvent = {};
+        var dataEvent = {
+          isNotification: true,
+        };
         switch (liElem.id) {
           case "menu_insert_template":
             {
@@ -295,17 +294,19 @@ define(["application", "css!menuItemCss"], function (application) {
               }
               break;
             }
-          case "menu_delete":
-            {
-              dataEvent.actionType = "deleteItem";
-              break;
-            }
-          case "menu_edit":
+          case "editItem":
             {
               dataEvent.actionType = "editItem";
               break;
             }
+          default:
+            {
+              dataEvent.actionType = liElem.id;
+              break;
+            }
         }
+        
+
         if (dataEvent.actionType) {
           $(self).trigger(self.EVENT_CLICK_ITEM(), dataEvent);
         }

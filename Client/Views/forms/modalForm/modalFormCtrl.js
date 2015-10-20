@@ -155,7 +155,10 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
 
       show: function (data) {
         if (!currentCtrl)
-          return;        
+          return;
+
+        if (currentCtrl.setDataCtrl)
+          currentCtrl.setDataCtrl(data);
 
         $scope.formPath = currentCtrl.getFormPath();
         try {

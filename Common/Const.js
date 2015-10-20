@@ -111,6 +111,7 @@ var CONST = function (CommonTypes, AppConfig) {
 
       ROLE_ID_DEFAULT: this.ROLE_USER,
     },
+
   };
 };
 

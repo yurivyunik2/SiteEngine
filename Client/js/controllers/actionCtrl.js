@@ -14,6 +14,11 @@ define(["application",
 function (application, Utils, Notification, PanelFormCtrl, PanelTypes) {
   //function (application, PanelFormCtrl, PanelTypes) {
 
+  var NOTIFICATION_MESSAGES = {
+    "deleteItem": "Do you really want to remove the item?",
+    "editItem": "Do you really want to edit the item?",
+  };
+
   var ActionCtrl = function ($scope, $http) {
 
     var self;
@@ -24,6 +29,22 @@ function (application, Utils, Notification, PanelFormCtrl, PanelTypes) {
       },
 
       process: function (data) {
+        if (!data || !data.actionType)
+          return;
+
+        if (data.isNotification && NOTIFICATION_MESSAGES[data.actionType]) {
+          var modalFormCtrl = application.getModalFormCtrl();
+          modalFormCtrl.setType(modalFormCtrl.FORM_TYPE().NOTIFICATION_MODAL, {
+            message: NOTIFICATION_MESSAGES[data.actionType],
+            callback: self.processCallback,
+            callbackData: data
+          });
+        } else {
+          self.processCallback(data);
+        }
+      },
+
+      processCallback: function (data) {
         if (!data || !data.actionType)
           return;
 
@@ -100,17 +121,17 @@ function (application, Utils, Notification, PanelFormCtrl, PanelTypes) {
 
                 },
               };
-              self.deleteItem(dataRequest);
+              self.deleteItem(dataRequest);              
             }
             break;
           }
           case "previewItem":
-            {              
+            {
               break;
             }
           case "assignItem": {
-            
-            if (selectedItem) {              
+
+            if (selectedItem) {
               modalFormCtrl.setType(modalFormCtrl.FORM_TYPE().INSERT_OPTIONS, { item: selectedItem });
             } else {
               Notification.show(Notification.INFO(), "You need to select item!");
@@ -118,7 +139,7 @@ function (application, Utils, Notification, PanelFormCtrl, PanelTypes) {
 
             break;
           }
-            
+
           case "detailsItem":
             {
               if (selectedItem) {
@@ -152,7 +173,6 @@ function (application, Utils, Notification, PanelFormCtrl, PanelTypes) {
             }
             break;
           }
-
         }
       },
 

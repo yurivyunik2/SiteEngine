@@ -73,7 +73,7 @@
   cursor: default;
 }
 
-  .dvInfoPanel table {
+  .dvInfoPanel .tbStandardParams, .dvInfoPanel .tbOwnParameters {
     width: 1100px;
     /*margin-top: 14px;
     margin-bottom: 14px;
@@ -108,16 +108,20 @@
   .dvInfoPanel .tbOwnParameters {
     margin-top: 15px;
   }
-  .dvInfoPanel .tbOwnParameters td {
+  .dvInfoPanel .tbOwnParameters .tdFieldName, .dvInfoPanel .tbOwnParameters .tdFieldCtrl {
     padding-top: 3px;
   }
   .dvInfoPanel .tbOwnParameters span {
     font: 12px arial;
   }
-  .dvInfoPanel .tbOwnParameters input {
+  /*.dvInfoPanel .tbOwnParameters input {
     cursor: default;
     width: 100%;
-  }
+  }*/
+  .dvInfoPanel .tbOwnParameters input.itemField {
+    cursor: default;
+    width: 100%;
+  }  
   .dvInfoPanel .tbOwnParameters textarea {
     cursor: default;
     width: 100%;

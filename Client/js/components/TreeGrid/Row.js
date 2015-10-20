@@ -104,6 +104,8 @@
 
         // mousedown - select item
         $trElem.mousedown(function (event) {
+          //
+          application.setTreeGridFocused(treeGrid);
 
           $(this).parent().find(".trSelected").removeClass("trSelected");
           $(this).addClass("trSelected");

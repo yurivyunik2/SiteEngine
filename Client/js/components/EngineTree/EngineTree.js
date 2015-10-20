@@ -109,9 +109,9 @@ function (application, CONST, TreeGrid, MenuItem, InfoPanel, TooltipCustom) {
       intervalUI: function (uiData) {
         if (!uiData)
           return;        
-        if (treeGrid && treeGrid.intervalUI) {
-          treeGrid.intervalUI(uiData);
-        }
+        //if (treeGrid && treeGrid.intervalUI) {
+        //  treeGrid.intervalUI(uiData);
+        //}
         if (!isWidthCorrect && self.isAvailableElements()) {
           isWidthCorrect = true;
           self.resizePanels(1);

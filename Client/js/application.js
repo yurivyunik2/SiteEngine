@@ -15,6 +15,7 @@ define(["CONST", "Utils"], function (CONST, Utils) {
     // controls(elements)
     var modalFormCtrl;
     var engineTree;
+    var treeGridFocused;
     var actionCtrl;
     var tabPanel;
     var componentMgr;
@@ -151,6 +152,9 @@ define(["CONST", "Utils"], function (CONST, Utils) {
           tabPanel.treeGridItemSelected();
         }
       },
+
+      setTreeGridFocused: function (treeGrid) { treeGridFocused = treeGrid; },
+      getTreeGridFocused: function () { return treeGridFocused; },
 
       setModalFormCtrl: function(_modalFormCtrl) {
         if (_modalFormCtrl)

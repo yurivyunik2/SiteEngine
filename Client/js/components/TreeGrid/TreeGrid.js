@@ -8,11 +8,14 @@
 
 define(["application", "row", "headerRow", "CONST", "css!TreeGridCss"], function (application, Row, HeaderRow, CONST) {
 
+  var treeGridCounter = 0;
+
   return function TreeGrid(_$parentElem, _isApplicationEvents) {
 
     var self;
     var $parentElem;
     var isApplicationEvents;
+    var identifier = "treeGrid_" + treeGridCounter++;
 
     var isCheckBoxElem = true;
     var isHeaderShow = false;
@@ -57,10 +60,17 @@ define(["application", "row", "headerRow", "CONST", "css!TreeGridCss"], function
 
         //
         application.addItemChangeSubscribers(self, self.itemChangeEvent);
+
+        //
+        application.addUIComponent(identifier, self);
+      },
+
+      dispose: function() {
+        application.removeUIComponent(identifier, self);
       },
 
       intervalUI: function(uiData) {
-        if (!uiData)
+        if (!uiData || self !== application.getTreeGridFocused())
           return;
         if (uiData.keyDownEventLast) {
           self.keyDownEventFunc(uiData.keyDownEventLast);

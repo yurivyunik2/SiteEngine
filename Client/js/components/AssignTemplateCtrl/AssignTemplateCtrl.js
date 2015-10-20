@@ -11,7 +11,7 @@ define(["application", "CONST", "TreeGrid"], function (application, CONST, TreeG
     var $template = $("<div></div>");
     $template.load(pathTemplate, function () {
       $(document.body).append($template.html());
-      $dvInsertOptionsElem = $template.find("#dvInsertOptions");
+      $dvInsertOptionsElem = $template.find(".dvInsertOptions");
     });
   })();
 
@@ -19,21 +19,18 @@ define(["application", "CONST", "TreeGrid"], function (application, CONST, TreeG
     var self;
 
     var $el;
-
     var treeGrid;
-
     var selectedItems = [];
-
-    var itemChange;
-
 
     var assignTemplateCtrl = {
 
       constructor: function () {
         self = this;
+      },
 
-        //if (field)
-        //  imgValue = field.value;
+      dispose: function() {
+        if (treeGrid)
+          treeGrid.dispose();
       },
 
       createElement: function () {
@@ -46,8 +43,7 @@ define(["application", "CONST", "TreeGrid"], function (application, CONST, TreeG
           if (parentElem) {
             parentElem.append(html);
             $el = parentElem.children().last();
-            //$el.find("img, a").click(self.chooseImage);
-            //$el.find("input").change(self.changeSrc);
+            $el.find(".imgInsertOptionsArrow").click(self.clickArrow);
           }
         }
       },
@@ -56,30 +52,22 @@ define(["application", "CONST", "TreeGrid"], function (application, CONST, TreeG
         if (!$el) {
           self.createElement();
         }
-
-        //if (Utils.isValueNull(imgValue) && $el.find("img").length > 0) {
-        //  $el.find("img")[0].src = srcEmptyImage;
-        //  $el.find("input").val("");
-        //} else {
-        //  $el.find("img")[0].src = imgValue;
-        //  $el.find("input").val(imgValue);
-        //}
-
         self.populate();
       },
 
       getValue: function () {
-        return imgValue;
+        var insertOptions = "";
+        _.each(selectedItems, function (item) {
+          insertOptions += item.id + "|";
+        });
+        return insertOptions;
       },
 
 
-
       populate: function () {
-        //var $formElem = self.get$Elem();
         if (!$el) {
           return;
         }
-
         var $dvLeftArea = $el.find(".dvLeftArea");
         if ($dvLeftArea.length > 0) {
           //
@@ -87,17 +75,8 @@ define(["application", "CONST", "TreeGrid"], function (application, CONST, TreeG
           treeGrid.populate(application.getTemplateItems());
         }
 
-        var insertOptions = field.value;
-        //if (itemChange.fields) {
-        //  _.each(itemChange.fields, function (field) {
-        //    if (field.fieldId === CONST.INSERT_OPTIONS_FIELD_ID()) {
-        //      insertOptions = field.value;
-        //    }
-        //  });
-        //}
-
-        if (insertOptions) {
-          var arInsertOptions = insertOptions.split("|");
+        if (field.value) {
+          var arInsertOptions = field.value.split("|");
           var items = application.getItems();
           for (var i = 0; i < arInsertOptions.length; i++) {
             var id = parseInt(arInsertOptions[i]);
@@ -144,14 +123,11 @@ define(["application", "CONST", "TreeGrid"], function (application, CONST, TreeG
 
       removeItem: function () {
         if ($el && selectedItems) {
-          //var $formElem = self.get$Elem();
           var $selItemsElem = $el.find("#selItems");
-
           var selIds = [];
           _.each($selItemsElem[0].selectedOptions, function (option) {
             selIds.push(option.id);
           });
-
           _.each(selIds, function (id) {
             var itemsFound = _.where(selectedItems, { id: parseInt(id) });
             if (itemsFound.length > 0) {
@@ -174,32 +150,6 @@ define(["application", "CONST", "TreeGrid"], function (application, CONST, TreeG
           });
           var $selItemsElem = $el.find("#selItems");
           $selItemsElem.html(html);
-        }
-      },
-
-      clickOK: function (callback) {
-
-        var insertOptions = "";
-        _.each(selectedItems, function (item) {
-          insertOptions += item.id + "|";
-        });
-
-        if (itemChange && itemChange.fields) {
-          _.each(itemChange.fields, function (field) {
-            if (field.id === CONST.INSERT_OPTIONS_FIELD_ID()) {
-              field.value = insertOptions;
-            }
-          });
-        }
-
-        var actionCtrl = application.getActionCtrl();
-        if (actionCtrl) {
-          var data = {
-            actionType: "saveItem",
-            item: itemChange,
-            callback: callback,
-          };
-          actionCtrl.process(data);
         }
       },
 

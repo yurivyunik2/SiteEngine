@@ -84,15 +84,18 @@
         }
       },
 
-      findChildItems: function (allItems, parentItem) {
+      findChildItems: function (allItems, parentItem, isClone) {
         if (!allItems || !parentItem)
           return;
 
         if (parentItem && parentItem.children) {
           _.each(parentItem.children, function (item) {
-            allItems.push(item);
+            if(isClone)
+              allItems.push(_.clone(item));
+            else
+              allItems.push(item);
 
-            self.findChildItems(allItems, item);
+            self.findChildItems(allItems, item, isClone);
           });
         }
       },

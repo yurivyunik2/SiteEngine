@@ -72,6 +72,7 @@ define(["application", "row", "headerRow", "CONST", "css!TreeGridCss"], function
       intervalUI: function(uiData) {
         if (!uiData || self !== application.getTreeGridFocused())
           return;
+
         if (uiData.keyDownEventLast) {
           self.keyDownEventFunc(uiData.keyDownEventLast);
         }

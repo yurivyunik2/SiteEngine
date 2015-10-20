@@ -415,8 +415,9 @@ define(["CONST", "Utils"], function (CONST, Utils) {
 
         var allTemplates = [];
         _.each(templateItems, function (item) {
-          allTemplates.push(item);
-          Utils.findChildItems(allTemplates, item);
+          allTemplates.push(_.clone(item));
+          item.parentObj = null;
+          Utils.findChildItems(allTemplates, item, true);
         });
 
         return allTemplates;

@@ -1,35 +1,41 @@
-﻿.dvArea {
+﻿.dvInsertOptions {
+  /*width: 800px;*/
+  width: 100%;
+  height: 200px;
+  background-color: white;
+}
+.dvInsertOptions .dvArea {
   width: 45%;
   overflow: auto;
   height: 100%;
   border: 2px solid #C2A9A9;
 }
-.dvLeftArea {
+.dvInsertOptions .dvLeftArea {
  float: left; 
 }
-.dvMiddle {
+.dvInsertOptions .dvMiddle {
   width: 6%;
   height: 100%;
   float: left;
   margin-left: 2%;
   border: 2px solid red;
 }
-.dvRightArea {
+.dvInsertOptions .dvRightArea {
   float: right;
 }
 
-.imgInsertOptionsArrow {
+.dvInsertOptions .imgInsertOptionsArrow {
   width: 20px;
   height: 20px;
   margin-top: 5px;
   cursor: pointer;
 }
-.selectInsertOptions {
+.dvInsertOptions .selectInsertOptions {
   height: 100% !important;
   overflow-y: hidden;
   padding: 0;  
   border-radius: 0px;
 }
-.selectInsertOptions option{
+.dvInsertOptions .selectInsertOptions option{
   padding-left: 5px;
 }

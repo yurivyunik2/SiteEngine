@@ -1,5 +1,5 @@
 ﻿
-#questionForm .dvMessage {
+#notificationModalForm .dvMessage {
   min-width: 300px;  
 
   display: inline-block;
@@ -10,12 +10,12 @@
   white-space: nowrap;
 }
 
-#questionForm .dvIcon {
+#notificationModalForm .dvIcon {
   display: inline-block;
   padding: 5px;
-  border-right: 1px solid white;
+  /*border-right: 1px solid white;*/
 }
-#questionForm .dvIcon img {
-  width: 36px;
-  height: 36px;
+#notificationModalForm .dvIcon img {
+  width: 48px;
+  height: 48px;
 }

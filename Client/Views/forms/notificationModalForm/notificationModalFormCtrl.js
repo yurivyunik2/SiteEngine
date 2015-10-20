@@ -10,9 +10,9 @@ define(["CommonTypes", "Utils"], function (CommonTypes, Utils) {
       constructor: function() {
         self = this;
         self.setBaseData({
-          formId: "questionForm",
-          formPath: "/SiteEngine/Client/Views/forms/questionForm/questionForm.html",
-          formSelector: "#questionForm",
+          formId: "notificationModalForm",
+          formPath: "/SiteEngine/Client/Views/forms/notificationModalForm/notificationModalForm.html",
+          formSelector: "#notificationModalForm",
         });
       },
 

@@ -7,7 +7,7 @@
     userManagerFormCtrl: "Views/forms/userManagerForm/userManagerFormCtrl",
     newUserFormCtrl: "Views/forms/newUserForm/newUserFormCtrl",
     imageGalleryFormCtrl: "Views/forms/imageGalleryForm/imageGalleryFormCtrl",
-    questionFormCtrl: "Views/forms/questionForm/questionFormCtrl",
+    notificationModalFormCtrl: "Views/forms/notificationModalForm/notificationModalFormCtrl",
   },
 });
 
@@ -20,9 +20,9 @@ define(["application", "CONST",
         "userManagerFormCtrl",
         "newUserFormCtrl",
         "imageGalleryFormCtrl",
-        "questionFormCtrl"
+        "notificationModalFormCtrl"
         ],
-function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, InsertOptionsForm, LayoutFormCtrl, UserManagerFormCtrl, NewUserFormCtrl, ImageGalleryFormCtrl, QuestionFormCtrl) {
+function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, InsertOptionsForm, LayoutFormCtrl, UserManagerFormCtrl, NewUserFormCtrl, ImageGalleryFormCtrl, NotificationModalFormCtrl) {
 
   return function ($scope) {
 
@@ -37,7 +37,7 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
     var userManagerFormCtrl;
     var newUserFormCtrl;
     var imageGalleryFormCtrl;
-    var questionFormCtrl;
+    var notificationModalFormCtrl;
 
     var FormType = {
       CREATE_TEMPLATE: {
@@ -63,8 +63,8 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
         getControl: function () { return imageGalleryFormCtrl; }
       },
 
-      QUESTION: {
-        getControl: function () { return questionFormCtrl; }
+      NOTIFICATION_MODAL: {
+        getControl: function () { return notificationModalFormCtrl; }
       },
     };
 
@@ -103,7 +103,7 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
         userManagerFormCtrl = new UserManagerFormCtrl($scope);
         newUserFormCtrl = new NewUserFormCtrl($scope, self);
         imageGalleryFormCtrl = new ImageGalleryFormCtrl($scope);
-        questionFormCtrl = new QuestionFormCtrl($scope);
+        notificationModalFormCtrl = new NotificationModalFormCtrl($scope);
       },
 
       intervalUI: function (uiData) {

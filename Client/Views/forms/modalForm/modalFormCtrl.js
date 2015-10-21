@@ -161,9 +161,14 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
           currentCtrl.setDataCtrl(data);
 
         $scope.formPath = currentCtrl.getFormPath();
-        try {
-          $scope.$apply();
-        } catch (ex) { }
+        if ($scope.formPath) {
+          try {
+            $scope.$apply();
+          } catch (ex) {
+          }
+        } else {
+          isCtrlLoaded = true;
+        }
 
         if (isCtrlLoaded)
           self.showControl(data);

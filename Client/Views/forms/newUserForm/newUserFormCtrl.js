@@ -15,7 +15,7 @@
     var commentSelector = "#comment";
     var languageSelector = "#language";
 
-    var newUserFormObj = new CommonTypes.BaseElement();
+    var newUserFormObj = new CommonTypes.BaseFormElement();
     _.extend(newUserFormObj, {
       modalForm: null,
 

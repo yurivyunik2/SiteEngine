@@ -3,7 +3,7 @@
   return function ($scope) {
     var self;
 
-    var createItemFormCtrl = new CommonTypes.BaseElement();
+    var createItemFormCtrl = new CommonTypes.BaseFormElement();
     _.extend(createItemFormCtrl, {
       constructor: function () {
         self = this;

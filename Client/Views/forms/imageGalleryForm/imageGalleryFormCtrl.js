@@ -31,7 +31,7 @@
     var indexFileUpload = 0;
     var uploadErrors = [];
 
-    var imgGalleryObj = new CommonTypes.BaseElement();
+    var imgGalleryObj = new CommonTypes.BaseFormElement();
     _.extend(imgGalleryObj, {
       constructor: function () {
         self = this;

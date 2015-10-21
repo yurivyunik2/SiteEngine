@@ -132,7 +132,7 @@ function (application, Utils, Notification, PanelFormCtrl, PanelTypes) {
           case "assignItem": {
 
             if (selectedItem) {
-              modalFormCtrl.setType(modalFormCtrl.FORM_TYPE().INSERT_OPTIONS, { item: selectedItem });
+              modalFormCtrl.setType(modalFormCtrl.FORM_TYPE().ASSIGN_TEMPLATE, { item: selectedItem });
             } else {
               Notification.show(Notification.INFO(), "You need to select item!");
             }

@@ -5,7 +5,7 @@
     var self;
     var selTypeSelector = "#selType";
 
-    var createTemplateFormCtrl = new CommonTypes.BaseElement();
+    var createTemplateFormCtrl = new CommonTypes.BaseFormElement();
     _.extend(createTemplateFormCtrl, {
       constructor: function() {
         self = this;

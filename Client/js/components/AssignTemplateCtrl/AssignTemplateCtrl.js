@@ -3,7 +3,7 @@ define(["application", "CONST", "TreeGrid"], function (application, CONST, TreeG
   //
   // AssignTemplateCtrl
   //
-  var $dvInsertOptionsElem;
+  var $dvAssignTemplateElem;
   var pathTemplate = "js/components/AssignTemplateCtrl/AssignTemplateCtrl.html";
   //var srcEmptyImage = "/SiteEngine/Client/images/media/emptyImage.png";
 
@@ -11,7 +11,7 @@ define(["application", "CONST", "TreeGrid"], function (application, CONST, TreeG
     var $template = $("<div></div>");
     $template.load(pathTemplate, function () {
       $(document.body).append($template.html());
-      $dvInsertOptionsElem = $template.find(".dvInsertOptions");
+      $dvAssignTemplateElem = $template.find(".dvAssignTemplate");
     });
   })();
 
@@ -22,6 +22,8 @@ define(["application", "CONST", "TreeGrid"], function (application, CONST, TreeG
     var treeGrid;
     var selectedItems = [];
 
+    var isEnabled = true;
+
     var assignTemplateCtrl = {
 
       constructor: function () {
@@ -29,21 +31,42 @@ define(["application", "CONST", "TreeGrid"], function (application, CONST, TreeG
       },
 
       dispose: function() {
-        if (treeGrid)
+        if (treeGrid) {
           treeGrid.dispose();
+          treeGrid = null;
+        }        
       },
 
+      isEnabled: function(_isEnabled) {
+        if (!$el)
+          return;
+
+        isEnabled = _isEnabled;
+
+        var arElems = $el.find("*");
+        if (!isEnabled) {
+          arElems.attr("disabled", "disabled");
+          arElems.off("click").off("mousedown").off("dblclick");
+          $el.addClass("dvDisabled");
+        } else {
+          arElems.removeAttr("disabled");
+          arElems.on("click").on("mousedown").on("dblclick");
+          $el.removeClass("dvDisabled");
+        }
+      },
+      getIsEnabled: function() { return isEnabled; },
+
       createElement: function () {
-        if (parentElem && field && $dvInsertOptionsElem) {
-          var $newElem = $dvInsertOptionsElem.clone();
+        if (parentElem && field && $dvAssignTemplateElem) {
+          var $newElem = $dvAssignTemplateElem.clone();
           $newElem.css("display", "block");
           $newElem[0].id = field.id;
 
-          var html = "<td>" + $newElem[0].outerHTML + "</br></br></td>";
+          var html = $newElem[0].outerHTML;
           if (parentElem) {
             parentElem.append(html);
             $el = parentElem.children().last();
-            $el.find(".imgInsertOptionsArrow").click(self.clickArrow);
+            $el.find(".imgAssignTemplateArrow").click(self.clickArrow);
           }
         }
       },
@@ -87,6 +110,9 @@ define(["application", "CONST", "TreeGrid"], function (application, CONST, TreeG
         }
 
         self.renderSelectedItems();
+
+        //
+        self.isEnabled(isEnabled);
       },
 
       clickArrow: function (event) {

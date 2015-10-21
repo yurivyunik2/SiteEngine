@@ -31,7 +31,7 @@
       ]
     };
 
-    var layoutFormCtrl = new CommonTypes.BaseElement();
+    var layoutFormCtrl = new CommonTypes.BaseFormElement();
     _.extend(layoutFormCtrl, {
       constructor: function () {
         self = this;

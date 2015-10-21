@@ -13,8 +13,8 @@ define(["application", "CONST", "assignTemplateCtrl", "CommonTypes"], function (
 
     var self;
     
-    var insertOptionsForm = new CommonTypes.BaseElement();
-    _.extend(insertOptionsForm, {
+    var assignTemplateForm = new CommonTypes.BaseElement();
+    _.extend(assignTemplateForm, {
       constructor: function () {
         self = this;
       },
@@ -35,7 +35,7 @@ define(["application", "CONST", "assignTemplateCtrl", "CommonTypes"], function (
         var parentElem = $(".dvIncludePart");
         if (!assignTemplateCtrl) {
           assignTemplateCtrl = new AssignTemplateCtrl(parentElem, insertOptionsField);
-        }        
+        }
         //actualComponents[field.id] = assignTemplateCtrl;
         assignTemplateCtrl.render();
       },
@@ -66,8 +66,8 @@ define(["application", "CONST", "assignTemplateCtrl", "CommonTypes"], function (
         }
       },
     });
-    insertOptionsForm.constructor();
-    return insertOptionsForm;
+    assignTemplateForm.constructor();
+    return assignTemplateForm;
 
   };
 });

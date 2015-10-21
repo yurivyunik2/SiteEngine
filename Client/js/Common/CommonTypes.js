@@ -10,7 +10,7 @@
         };
       },
       
-      BaseElement: function () {
+      BaseFormElement: function () {
         var formId;
         var formPath;
         var formSelector;

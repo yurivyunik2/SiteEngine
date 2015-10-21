@@ -36,7 +36,7 @@ define(["application", "CONST", "Utils"], function (application, CONST, Utils) {
           $newElem.css("display", "block");
           $newElem[0].id = field.id;
 
-          var html = "<td>" + $newElem[0].outerHTML + "</br></br></td>";
+          var html = $newElem[0].outerHTML;
           if (parentElem) {
             parentElem.append(html);
             $el = parentElem.children().last();

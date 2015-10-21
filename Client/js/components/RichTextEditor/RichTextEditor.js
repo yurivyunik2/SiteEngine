@@ -72,8 +72,7 @@ define(["application", "CONST", "Utils", "customEditor"], function (application,
 
       render: function (isDisabled) {
         if (parentElem && field) {
-          var html = "<td><div id='" + idElem + "' class='scrollCustom itemField'>" + field.value + "</div></br></br>";
-          html += "</td>";
+          var html = "<div id='" + idElem + "' class='scrollCustom itemField'>" + field.value + "</div>";
 
           parentElem.append(html);
 

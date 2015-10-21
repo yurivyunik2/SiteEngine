@@ -108,8 +108,12 @@
   .dvInfoPanel .tbOwnParameters {
     margin-top: 15px;
   }
-  .dvInfoPanel .tbOwnParameters .tdFieldName, .dvInfoPanel .tbOwnParameters .tdFieldCtrl {
+  .dvInfoPanel .tbOwnParameters .tdFieldName {
     padding-top: 3px;
+  }
+  .dvInfoPanel .tbOwnParameters .tdFieldCtrl {
+    padding-top: 3px;
+    padding-bottom: 20px;
   }
   .dvInfoPanel .tbOwnParameters span {
     font: 12px arial;

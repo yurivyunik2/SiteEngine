@@ -5,7 +5,7 @@ define(["CommonTypes", "Utils"], function (CommonTypes, Utils) {
 
     var self;
 
-    var notificationModalFormCtrl = new CommonTypes.BaseElement();
+    var notificationModalFormCtrl = new CommonTypes.BaseFormElement();
     _.extend(notificationModalFormCtrl, {
       constructor: function() {
         self = this;

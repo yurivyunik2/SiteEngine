@@ -49,7 +49,7 @@ var CONST = function (CommonTypes, AppConfig) {
     // ITEMS
     TEMPLATES_ROOT_ID: function () { return 5; },
     CONTENT_ROOT_ID: function () { return 2; },
-    LAYOUTS_ROOT_ID: function () { return 4; },
+    LAYOUTS_ROOT_ID: function () { return 3; },
     MEDIA_ROOT_ID: function () { return 2000; },
     DATA_TYPES_ROOT_ID: function () { return 337; },
     

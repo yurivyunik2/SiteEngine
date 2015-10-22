@@ -3,11 +3,12 @@
     imageChangeCtrl: "js/components/ImageChangeCtrl/ImageChangeCtrl",
     richTextEditor: "js/components/RichTextEditor/RichTextEditor",
     assignTemplateCtrl: "js/components/AssignTemplateCtrl/AssignTemplateCtrl",
+    layoutRenderingCtrl: "js/components/LayoutRenderingCtrl/LayoutRenderingCtrl",
   },
 });
 
 
-define(["application", "CONST", "imageChangeCtrl", "richTextEditor", "assignTemplateCtrl"], function (application, CONST, ImageChangeCtrl, RichTextEditor, AssignTemplateCtrl) {
+define(["application", "CONST", "imageChangeCtrl", "richTextEditor", "assignTemplateCtrl", "layoutRenderingCtrl"], function (application, CONST, ImageChangeCtrl, RichTextEditor, AssignTemplateCtrl, LayoutRenderingCtrl) {
   //
   // RichTextEditor
   //
@@ -93,6 +94,12 @@ define(["application", "CONST", "imageChangeCtrl", "richTextEditor", "assignTemp
 
           assignTemplateCtrl.render();
           assignTemplateCtrl.isEnabled(disabledAttr === "");
+        } else if (field.fieldId === CONST.RENDERINGS_FIELD_ID()) {
+          var layoutRenderingCtrl = new LayoutRenderingCtrl(parentTdElem, field);
+          actualComponents[field.id] = layoutRenderingCtrl;
+
+          layoutRenderingCtrl.render();
+          //layoutRenderingCtrl.isEnabled(disabledAttr === "");
         }
         else
           html += "<input " + disabledAttr + " id='" + field.fieldId + "' class='itemField' onclick='javascript:this.select();return false' value='" + field.value + "'>";

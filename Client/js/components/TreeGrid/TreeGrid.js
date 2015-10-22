@@ -226,6 +226,11 @@ define(["application", "row", "headerRow", "CONST", "css!TreeGridCss"], function
         return row.render({ elem: parentElem, id: parentId }, marginLeft, isFiltered);
       },
 
+      hide: function() {
+        if ($parentElem)
+          $parentElem.hide();
+      },
+
       selectItem: function(item) {
         if (!item || !item.trElem)
           return;

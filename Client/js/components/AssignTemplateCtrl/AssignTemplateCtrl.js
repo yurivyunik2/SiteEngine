@@ -4,7 +4,7 @@ define(["application", "CONST", "CommonTypes", "TreeGrid"], function (applicatio
   // AssignTemplateCtrl
   //
   var $dvAssignTemplateElem;
-  var pathTemplate = "js/components/AssignTemplateCtrl/AssignTemplateCtrl.html";
+  var pathTemplate = "/SiteEngine/Client/js/components/AssignTemplateCtrl/AssignTemplateCtrl.html";
   //var srcEmptyImage = "/SiteEngine/Client/images/media/emptyImage.png";
 
   (function LoadTemplate() {

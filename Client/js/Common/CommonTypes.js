@@ -45,7 +45,58 @@
         };
       },
 
-  };
+      BaseCtrl: function () {
+        var isEnabled = true;
+
+        return {
+
+          get$el: function () {
+            if (this.get$el)
+              return this.get$el();
+            else
+              return null;
+          },
+
+          dispose: function () { },
+
+          isEnabled: function (_isEnabled) {
+            var $el = this.get$el();
+            if (!$el)
+              return;
+
+            isEnabled = _isEnabled;
+
+            var arElems = $el.find("*");
+            if (!isEnabled) {
+              arElems.attr("disabled", "disabled");
+              arElems.off("click").off("mousedown").off("dblclick");
+              $el.addClass("dvDisabled");
+            } else {
+              arElems.removeAttr("disabled");
+              arElems.on("click").on("mousedown").on("dblclick");
+              $el.removeClass("dvDisabled");
+            }
+          },
+          getIsEnabled: function () { return isEnabled; },
+
+          createElement: function () { },
+
+          render: function () {
+            var $el = this.get$el();
+            if (!$el) {
+              this.createElement();
+            }
+            this.populate();
+          },
+
+          getValue: function () { },
+
+          populate: function () { },
+        };
+
+      },
+
+    };
   };
   return (new CommonTypes());
 });

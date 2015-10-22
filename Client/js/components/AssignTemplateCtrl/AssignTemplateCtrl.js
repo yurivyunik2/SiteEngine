@@ -1,5 +1,5 @@
 ﻿
-define(["application", "CONST", "TreeGrid"], function (application, CONST, TreeGrid) {
+define(["application", "CONST", "CommonTypes", "TreeGrid"], function (application, CONST, CommonTypes, TreeGrid) {
   //
   // AssignTemplateCtrl
   //
@@ -22,11 +22,9 @@ define(["application", "CONST", "TreeGrid"], function (application, CONST, TreeG
     var treeGrid;
     var selectedItems = [];
 
-    var isEnabled = true;
-
-    var assignTemplateCtrl = {
-
-      constructor: function () {
+    var assignTemplateCtrl = CommonTypes.BaseCtrl();
+    _.extend(assignTemplateCtrl, {
+      constructor: function() {
         self = this;
       },
 
@@ -34,29 +32,12 @@ define(["application", "CONST", "TreeGrid"], function (application, CONST, TreeG
         if (treeGrid) {
           treeGrid.dispose();
           treeGrid = null;
-        }        
-      },
-
-      isEnabled: function(_isEnabled) {
-        if (!$el)
-          return;
-
-        isEnabled = _isEnabled;
-
-        var arElems = $el.find("*");
-        if (!isEnabled) {
-          arElems.attr("disabled", "disabled");
-          arElems.off("click").off("mousedown").off("dblclick");
-          $el.addClass("dvDisabled");
-        } else {
-          arElems.removeAttr("disabled");
-          arElems.on("click").on("mousedown").on("dblclick");
-          $el.removeClass("dvDisabled");
         }
       },
-      getIsEnabled: function() { return isEnabled; },
 
-      createElement: function () {
+      get$el: function () { return $el; },
+
+      createElement: function() {
         if (parentElem && field && $dvAssignTemplateElem) {
           var $newElem = $dvAssignTemplateElem.clone();
           $newElem.css("display", "block");
@@ -71,23 +52,16 @@ define(["application", "CONST", "TreeGrid"], function (application, CONST, TreeG
         }
       },
 
-      render: function () {
-        if (!$el) {
-          self.createElement();
-        }
-        self.populate();
-      },
-
-      getValue: function () {
-        var insertOptions = "";
-        _.each(selectedItems, function (item) {
-          insertOptions += item.id + "|";
+      getValue: function() {
+        var assignedTemplates = "";
+        _.each(selectedItems, function(item) {
+          assignedTemplates += item.id + "|";
         });
-        return insertOptions;
+        return assignedTemplates;
       },
 
 
-      populate: function () {
+      populate: function() {
         if (!$el) {
           return;
         }
@@ -112,28 +86,28 @@ define(["application", "CONST", "TreeGrid"], function (application, CONST, TreeG
         self.renderSelectedItems();
 
         //
-        self.isEnabled(isEnabled);
+        self.isEnabled(self.getIsEnabled());
       },
 
-      clickArrow: function (event) {
+      clickArrow: function(event) {
         if (event && event.target) {
           var id = event.target.id;
           switch (id) {
-            case "imgLeft":
-              {
-                self.removeItem();
-                break;
-              }
-            case "imgRight":
-              {
-                self.addItem();
-                break;
-              }
+          case "imgLeft":
+          {
+            self.removeItem();
+            break;
+          }
+          case "imgRight":
+          {
+            self.addItem();
+            break;
+          }
           }
         }
       },
 
-      addItem: function () {
+      addItem: function() {
         if (treeGrid) {
           var selectedTreeItem = treeGrid.selectedItem;
           if (selectedTreeItem) {
@@ -147,14 +121,14 @@ define(["application", "CONST", "TreeGrid"], function (application, CONST, TreeG
         }
       },
 
-      removeItem: function () {
+      removeItem: function() {
         if ($el && selectedItems) {
           var $selItemsElem = $el.find("#selItems");
           var selIds = [];
-          _.each($selItemsElem[0].selectedOptions, function (option) {
+          _.each($selItemsElem[0].selectedOptions, function(option) {
             selIds.push(option.id);
           });
-          _.each(selIds, function (id) {
+          _.each(selIds, function(id) {
             var itemsFound = _.where(selectedItems, { id: parseInt(id) });
             if (itemsFound.length > 0) {
               var index = selectedItems.indexOf(itemsFound[0]);
@@ -168,10 +142,10 @@ define(["application", "CONST", "TreeGrid"], function (application, CONST, TreeG
         }
       },
 
-      renderSelectedItems: function () {
+      renderSelectedItems: function() {
         if ($el && selectedItems) {
           var html = "";
-          _.each(selectedItems, function (item) {
+          _.each(selectedItems, function(item) {
             html += "<option id='" + item.id + "'>" + item.name + "</option>";
           });
           var $selItemsElem = $el.find("#selItems");
@@ -179,7 +153,7 @@ define(["application", "CONST", "TreeGrid"], function (application, CONST, TreeG
         }
       },
 
-    };
+    });
 
     assignTemplateCtrl.constructor();
     return assignTemplateCtrl;

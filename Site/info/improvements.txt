@@ -29,7 +29,6 @@
 
 !!!16) To implement the beginning of the analytics - statistical information about page's visiting
 
-14.09 - 20.09
 16_2) To implement the Localization
 //17) To add the support of the  Social Networks
 17_2) Monitoring of the programming news(features, tools), technologies

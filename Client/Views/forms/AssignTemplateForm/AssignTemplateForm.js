@@ -13,7 +13,7 @@ define(["application", "CONST", "assignTemplateCtrl", "CommonTypes"], function (
 
     var self;
     
-    var assignTemplateForm = new CommonTypes.BaseElement();
+    var assignTemplateForm = new CommonTypes.BaseFormElement();
     _.extend(assignTemplateForm, {
       constructor: function () {
         self = this;

@@ -45,7 +45,7 @@
         };
       },
 
-      BaseCtrl: function () {
+      BaseCtrl: function (field) {
         var isEnabled = true;
 
         return {
@@ -86,7 +86,8 @@
             if (!$el) {
               this.createElement();
             }
-            this.populate();
+            if(field)
+              this.populate(field.value);
           },
 
           getValue: function () { },

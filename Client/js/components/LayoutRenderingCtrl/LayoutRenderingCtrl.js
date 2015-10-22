@@ -23,7 +23,7 @@ define(["application", "CONST", "CommonTypes", "TreeGrid"], function (applicatio
     var dvTreeLayoutSelector = ".dvTreeLayout";
     var spLayoutSelector = ".spLayout";
 
-    var layoutRenderingCtr = CommonTypes.BaseCtrl();
+    var layoutRenderingCtr = CommonTypes.BaseCtrl(field);
     _.extend(layoutRenderingCtr, {
       constructor: function () {
         self = this;
@@ -46,10 +46,10 @@ define(["application", "CONST", "CommonTypes", "TreeGrid"], function (applicatio
             parentElem.append(html);
             $el = parentElem.children().last();
 
-            var $treeLayout = $el.find(dvTreeLayoutSelector);
-            treeGridLayout = new TreeGrid($treeLayout);
+            // TreeGridLayout
+            treeGridLayout = new TreeGrid($el.find(dvTreeLayoutSelector));
 
-            //
+            // events
             $el.find(btnLayoutSelector).click(self.btnChooseClick);
             $el.find(dvTreeLayoutSelector).click(self.treeGridClick);
           }
@@ -66,20 +66,25 @@ define(["application", "CONST", "CommonTypes", "TreeGrid"], function (applicatio
       },
 
 
-      populate: function () {
+      populate: function (layout) {
         if (!$el)
           return;
 
         treeGridLayout.populate(application.getLayoutItems());
 
-        var $layoutBtn = $el.find(btnLayoutSelector);
-        $layoutBtn.find(spLayoutSelector).html("");
+        var $btnLayoutElem = $el.find(btnLayoutSelector);
+        $btnLayoutElem.find(spLayoutSelector).html("");
 
-        if (field.value) {
+        if (layout) {
           try {
-            var renderignObj = JSON.parse(field.value);
-            if (renderignObj && renderignObj.layout) {
-              $layoutBtn.find(spLayoutSelector).html(renderignObj.layout.name);
+            var layoutObj;
+            if (typeof layout === "string")
+              layoutObj = JSON.parse(layout);
+            else
+              layoutObj = layout;
+            if (layoutObj) {
+              $btnLayoutElem.find(spLayoutSelector).html(layoutObj.name);
+              $btnLayoutElem.find(spLayoutSelector).attr("_id", layoutObj.id);
             }
           } catch (ex) {
           }
@@ -100,14 +105,13 @@ define(["application", "CONST", "CommonTypes", "TreeGrid"], function (applicatio
 
       treeGridClick: function (event) {
         if (!$el)
-          return;
-        var $btnLayoutElem = $el.find(btnLayoutSelector);
+          return;        
 
         if (treeGridLayout && treeGridLayout.selectedItem &&
             (!treeGridLayout.selectedItem.children || treeGridLayout.selectedItem.children.length === 0)) {
-          var selItem = treeGridLayout.selectedItem;
-          $btnLayoutElem.find(spLayoutSelector).html(selItem.name);
-          $btnLayoutElem.find(spLayoutSelector).attr("_id", selItem.id);
+          var selItem = treeGridLayout.selectedItem;          
+          var layout = { name: selItem.name, id: selItem.id };
+          self.populate(layout);
 
           treeGridLayout.hide();
         }

@@ -107,13 +107,14 @@ exports.ItemMgr = function () {
 
           if (baseTemplateField && baseTemplateField.value && !objResponse.amountBaseTemplate) {
             var arTemplates = baseTemplateField.value.split("|");
+            arTemplates = _.without(arTemplates, "");
             objResponse.amountBaseTemplate = arTemplates.length;
             //if (objResponse.amountBaseTemplate >= 0)
             //  objResponse.amountBaseTemplate += arTemplates.length;
             //else              
             for (var i = 0; i < arTemplates.length; i++) {
-              var template = arTemplates[i];
-              self.getItemFields({ templateId: template, id: data.id, baseId: data.templateId }, objResponse, callback);
+              var template = arTemplates[i];              
+              self.getItemFields({ templateId: template, id: data.id, baseId: data.templateId }, objResponse, callback);              
             }
           }
 

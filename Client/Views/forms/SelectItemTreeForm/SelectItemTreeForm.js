@@ -1,20 +1,20 @@
 ﻿require.config({
   paths: {
-    assignTemplateCtrl: "js/components/AssignTemplateCtrl/AssignTemplateCtrl",
+    selectItemTreeCtrl: "js/components/SelectItemTreeCtrl/SelectItemTreeCtrl",
   },
 });
 
 
-define(["application", "CONST", "assignTemplateCtrl", "CommonTypes"], function (application, CONST, AssignTemplateCtrl, CommonTypes) {
+define(["application", "CONST", "selectItemTreeCtrl", "CommonTypes"], function (application, CONST, SelectItemTreeCtrl, CommonTypes) {
 
-  var assignTemplateCtrl;
+  var selectItemTreeCtrl;
 
   return function () {
 
     var self;
     
-    var assignTemplateForm = new CommonTypes.BaseFormElement();
-    _.extend(assignTemplateForm, {
+    var selectItemTreeForm = new CommonTypes.BaseFormElement();
+    _.extend(selectItemTreeForm, {
       constructor: function () {
         self = this;
       },
@@ -33,11 +33,11 @@ define(["application", "CONST", "assignTemplateCtrl", "CommonTypes"], function (
         }
 
         var parentElem = $(".dvIncludePart");
-        if (!assignTemplateCtrl) {
-          assignTemplateCtrl = new AssignTemplateCtrl(parentElem, insertOptionsField);
+        if (!selectItemTreeCtrl) {
+          selectItemTreeCtrl = new SelectItemTreeCtrl(parentElem, insertOptionsField);
         }
-        //actualComponents[field.id] = assignTemplateCtrl;
-        assignTemplateCtrl.render();
+        //actualComponents[field.id] = selectItemTreeCtrl;
+        selectItemTreeCtrl.render();
       },
 
       clickOK: function (callback) {
@@ -66,8 +66,8 @@ define(["application", "CONST", "assignTemplateCtrl", "CommonTypes"], function (
         }
       },
     });
-    assignTemplateForm.constructor();
-    return assignTemplateForm;
+    selectItemTreeForm.constructor();
+    return selectItemTreeForm;
 
   };
 });

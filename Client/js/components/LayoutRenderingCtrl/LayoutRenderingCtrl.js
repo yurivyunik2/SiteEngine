@@ -1,62 +1,54 @@
 ﻿
-define(["application", "CONST", "CommonTypes", "TreeGrid"], function (application, CONST, CommonTypes, TreeGrid) {
+define(["application", "CONST", "Utils", "CommonTypes", "TreeGrid"], function (application, CONST, Utils, CommonTypes, TreeGrid) {
   //
   // LayoutRenderingCtrl
   //
   var $dvLayoutFormElem;
   var pathTemplate = "/SiteEngine/Client/js/components/LayoutRenderingCtrl/LayoutRenderingCtrl.html";
 
-  (function LoadTemplate() {
-    var $template = $("<div></div>");
-    $template.load(pathTemplate, function () {
-      $(document.body).append($template.html());
-      $dvLayoutFormElem = $template.find(".dvLayoutForm");
-    });
-  })();
+  
+  Utils.LoadTemplate(pathTemplate, function($template) {
+    $dvLayoutFormElem = $template.find(".dvLayoutForm");
+  });
 
   var LayoutRenderingCtr = function (parentElem, field) {
     var self;
+    var $el;
 
-    var $el;    
     var treeGridLayout;
     var btnLayoutSelector = ".btnLayout";
     var dvTreeLayoutSelector = ".dvTreeLayout";
     var spLayoutSelector = ".spLayout";
 
-    var layoutRenderingCtr = CommonTypes.BaseCtrl(field);
+    var layoutRenderingCtr = CommonTypes.BaseCtrl(field, parentElem, $dvLayoutFormElem);
     _.extend(layoutRenderingCtr, {
       constructor: function () {
         self = this;
+
+        self.createElement(self.createElementCallback);
+        $el = self.get$el();
       },
 
       dispose: function () {
 
       },
 
-      get$el: function () { return $el; },
+      createElementCallback: function () {
+        $el = self.get$el();
 
-      createElement: function () {
-        if (parentElem && field && $dvLayoutFormElem) {
-          var $newElem = $dvLayoutFormElem.clone();
-          $newElem.css("display", "block");
-          $newElem[0].id = field.id;
+        // TreeGridLayout
+        treeGridLayout = new TreeGrid($el.find(dvTreeLayoutSelector));
+        treeGridLayout.setIsCheckBoxElem(false);
 
-          var html = $newElem[0].outerHTML;
-          if (parentElem) {
-            parentElem.append(html);
-            $el = parentElem.children().last();
-
-            // TreeGridLayout
-            treeGridLayout = new TreeGrid($el.find(dvTreeLayoutSelector));
-
-            // events
-            $el.find(btnLayoutSelector).click(self.btnChooseClick);
-            $el.find(dvTreeLayoutSelector).click(self.treeGridClick);
-          }
-        }
+        // events
+        $el.find(btnLayoutSelector).click(self.btnChooseClick);
+        $el.find(dvTreeLayoutSelector).click(self.treeGridClick);
       },
 
       getValue: function () {
+        if (!$el)
+          return "";
+
         var $btnLayoutElem = $el.find(btnLayoutSelector);
         var layout = {
           name: $btnLayoutElem.find(spLayoutSelector).html(),
@@ -104,9 +96,6 @@ define(["application", "CONST", "CommonTypes", "TreeGrid"], function (applicatio
       },
 
       treeGridClick: function (event) {
-        if (!$el)
-          return;        
-
         if (treeGridLayout && treeGridLayout.selectedItem &&
             (!treeGridLayout.selectedItem.children || treeGridLayout.selectedItem.children.length === 0)) {
           var selItem = treeGridLayout.selectedItem;          

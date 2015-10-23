@@ -1,7 +1,7 @@
 ﻿.dvLayoutForm {
-  width: 500px; 
-  height: 400px;
-  background-color: white;
+  width: 100%;
+  border: 2px solid #C2A9A9;
+  border-radius: 3px;
 }
 .dvLayoutForm .dvFormContent {
   padding: 10px 10px;
@@ -24,8 +24,12 @@
   height: 30px;
   text-align: left;
 }
+.dvLayoutForm .dvFormContent .btn-default .spLayout {
+  float: left;
+}
 .dvLayoutForm .dvFormContent .btn-default .caret {
   float: right;
+  margin-top: 2px;
 }
 
 .dvLayoutForm .dvFormContent .dvTreeLayout {

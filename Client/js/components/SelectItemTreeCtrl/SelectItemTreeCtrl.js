@@ -1,31 +1,28 @@
 ﻿
-define(["application", "CONST", "CommonTypes", "TreeGrid"], function (application, CONST, CommonTypes, TreeGrid) {
+define(["application", "CONST", "Utils", "CommonTypes", "TreeGrid"], function (application, CONST, Utils, CommonTypes, TreeGrid) {
   //
-  // AssignTemplateCtrl
+  // SelectItemTreeCtrl
   //
-  var $dvAssignTemplateElem;
-  var pathTemplate = "/SiteEngine/Client/js/components/AssignTemplateCtrl/AssignTemplateCtrl.html";
-  //var srcEmptyImage = "/SiteEngine/Client/images/media/emptyImage.png";
+  var $dvSelectItemTreeElem;
+  var pathTemplate = "/SiteEngine/Client/js/components/SelectItemTreeCtrl/SelectItemTreeCtrl.html";
 
-  (function LoadTemplate() {
-    var $template = $("<div></div>");
-    $template.load(pathTemplate, function () {
-      $(document.body).append($template.html());
-      $dvAssignTemplateElem = $template.find(".dvAssignTemplate");
-    });
-  })();
+  Utils.LoadTemplate(pathTemplate, function ($template) {
+    $dvSelectItemTreeElem = $template.find(".dvSelectItemTree");
+  });
 
-  var AssignTemplateCtrl = function (parentElem, field) {
+  var SelectItemTreeCtrl = function (parentElem, field) {
     var self;
-
     var $el;
+
     var treeGrid;
     var selectedItems = [];
 
-    var assignTemplateCtrl = CommonTypes.BaseCtrl();
-    _.extend(assignTemplateCtrl, {
+    var selectItemTreeCtrl = CommonTypes.BaseCtrl(field, parentElem, $dvSelectItemTreeElem);
+    _.extend(selectItemTreeCtrl, {
       constructor: function() {
         self = this;
+
+        self.createElement(self.createElementCallback);
       },
 
       dispose: function() {
@@ -35,21 +32,9 @@ define(["application", "CONST", "CommonTypes", "TreeGrid"], function (applicatio
         }
       },
 
-      get$el: function () { return $el; },
-
-      createElement: function() {
-        if (parentElem && field && $dvAssignTemplateElem) {
-          var $newElem = $dvAssignTemplateElem.clone();
-          $newElem.css("display", "block");
-          $newElem[0].id = field.id;
-
-          var html = $newElem[0].outerHTML;
-          if (parentElem) {
-            parentElem.append(html);
-            $el = parentElem.children().last();
-            $el.find(".imgAssignTemplateArrow").click(self.clickArrow);
-          }
-        }
+      createElementCallback: function () {
+        $el = self.get$el();
+        $el.find(".imgSelectItemTreeArrow").click(self.clickArrow);
       },
 
       getValue: function() {
@@ -61,7 +46,7 @@ define(["application", "CONST", "CommonTypes", "TreeGrid"], function (applicatio
       },
 
 
-      populate: function() {
+      populate: function () {
         if (!$el) {
           return;
         }
@@ -155,11 +140,11 @@ define(["application", "CONST", "CommonTypes", "TreeGrid"], function (applicatio
 
     });
 
-    assignTemplateCtrl.constructor();
-    return assignTemplateCtrl;
+    selectItemTreeCtrl.constructor();
+    return selectItemTreeCtrl;
   };
 
-  AssignTemplateCtrl.isLoadTemplate = false;
-  return AssignTemplateCtrl;
+  SelectItemTreeCtrl.isLoadTemplate = false;
+  return SelectItemTreeCtrl;
 });
 

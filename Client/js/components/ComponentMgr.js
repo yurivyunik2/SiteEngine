@@ -2,13 +2,13 @@
   paths: {
     imageChangeCtrl: "js/components/ImageChangeCtrl/ImageChangeCtrl",
     richTextEditor: "js/components/RichTextEditor/RichTextEditor",
-    assignTemplateCtrl: "js/components/AssignTemplateCtrl/AssignTemplateCtrl",
+    selectItemTreeCtrl: "js/components/SelectItemTreeCtrl/SelectItemTreeCtrl",
     layoutRenderingCtrl: "js/components/LayoutRenderingCtrl/LayoutRenderingCtrl",
   },
 });
 
 
-define(["application", "CONST", "imageChangeCtrl", "richTextEditor", "assignTemplateCtrl", "layoutRenderingCtrl"], function (application, CONST, ImageChangeCtrl, RichTextEditor, AssignTemplateCtrl, LayoutRenderingCtrl) {
+define(["application", "CONST", "imageChangeCtrl", "richTextEditor", "selectItemTreeCtrl", "layoutRenderingCtrl"], function (application, CONST, ImageChangeCtrl, RichTextEditor, SelectItemTreeCtrl, LayoutRenderingCtrl) {
   //
   // RichTextEditor
   //
@@ -89,17 +89,17 @@ define(["application", "CONST", "imageChangeCtrl", "richTextEditor", "assignTemp
 
           imageChangeCtrl.render();
         } else if (field.fieldId === CONST.INSERT_OPTIONS_FIELD_ID()) {
-          var assignTemplateCtrl = new AssignTemplateCtrl(parentTdElem, field);
-          actualComponents[field.id] = assignTemplateCtrl;
+          var selectItemTreeCtrl = new SelectItemTreeCtrl(parentTdElem, field);
+          actualComponents[field.id] = selectItemTreeCtrl;
 
-          assignTemplateCtrl.render();
-          assignTemplateCtrl.isEnabled(disabledAttr === "");
+          selectItemTreeCtrl.render();
+          selectItemTreeCtrl.isEnabled(disabledAttr === "");
         } else if (field.fieldId === CONST.RENDERINGS_FIELD_ID()) {
           var layoutRenderingCtrl = new LayoutRenderingCtrl(parentTdElem, field);
           actualComponents[field.id] = layoutRenderingCtrl;
 
           layoutRenderingCtrl.render();
-          //layoutRenderingCtrl.isEnabled(disabledAttr === "");
+          layoutRenderingCtrl.isEnabled(disabledAttr === "");
         }
         else
           html += "<input " + disabledAttr + " id='" + field.fieldId + "' class='itemField' onclick='javascript:this.select();return false' value='" + field.value + "'>";

@@ -146,6 +146,17 @@
           return false;
       },
 
+      LoadTemplate: function (pathTemplate, callback) {
+        var $template = $("<div></div>");
+        $template.load(pathTemplate, function() {
+          $(document.body).append($template.html());
+          if (callback) {
+            callback($template);
+          }
+          $dvLayoutFormElem = $template.find(".dvLayoutForm");
+        });
+      },
+
     };
     utilsObj.constructor();
     return utilsObj;

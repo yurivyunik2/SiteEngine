@@ -45,22 +45,36 @@
         };
       },
 
-      BaseCtrl: function (field) {
+      BaseCtrl: function (field, parentElem, $templateElem) {
+        var $el;
         var isEnabled = true;
 
         return {
 
+          createElement: function (callback) {
+            if (!$el && parentElem && field && $templateElem) {
+              var $newElem = $templateElem.clone();
+              $newElem.css("display", "block");
+              $newElem[0].id = field.id;
+
+              var html = $newElem[0].outerHTML;
+              if (parentElem) {
+                parentElem.append(html);
+                $el = parentElem.children().last();
+
+                if (callback)
+                  callback();
+              }
+            }
+          },
+
           get$el: function () {
-            if (this.get$el)
-              return this.get$el();
-            else
-              return null;
+            return $el;
           },
 
           dispose: function () { },
 
           isEnabled: function (_isEnabled) {
-            var $el = this.get$el();
             if (!$el)
               return;
 
@@ -79,13 +93,7 @@
           },
           getIsEnabled: function () { return isEnabled; },
 
-          createElement: function () { },
-
           render: function () {
-            var $el = this.get$el();
-            if (!$el) {
-              this.createElement();
-            }
             if(field)
               this.populate(field.value);
           },

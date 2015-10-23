@@ -2,7 +2,7 @@
   paths: {
     createTemplateFormCtrl: "Views/forms/createTemplateForm/createTemplateFormCtrl",
     createItemFormCtrl: "Views/forms/createItemForm/createItemFormCtrl",
-    assignTemplateForm: "Views/forms/assignTemplateForm/assignTemplateForm",
+    selectItemTreeForm: "Views/forms/selectItemTreeForm/selectItemTreeForm",
     layoutFormCtrl: "Views/forms/layoutForm/layoutFormCtrl",
     userManagerFormCtrl: "Views/forms/userManagerForm/userManagerFormCtrl",
     newUserFormCtrl: "Views/forms/newUserForm/newUserFormCtrl",
@@ -15,14 +15,14 @@
 define(["application", "CONST",
         "createTemplateFormCtrl",
         "createItemFormCtrl",
-        "assignTemplateForm",
+        "selectItemTreeForm",
         "layoutFormCtrl",
         "userManagerFormCtrl",
         "newUserFormCtrl",
         "imageGalleryFormCtrl",
         "notificationModalFormCtrl"
         ],
-function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, AssignTemplateForm, LayoutFormCtrl, UserManagerFormCtrl, NewUserFormCtrl, ImageGalleryFormCtrl, NotificationModalFormCtrl) {
+function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, SelectItemTreeForm, LayoutFormCtrl, UserManagerFormCtrl, NewUserFormCtrl, ImageGalleryFormCtrl, NotificationModalFormCtrl) {
 
   return function ($scope) {
 
@@ -32,7 +32,7 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Assign
 
     var createTemplateFormCtrl;
     var createItemFormCtrl;
-    var assignTemplateForm;
+    var selectItemTreeForm;
     var layoutFormCtrl;
     var userManagerFormCtrl;
     var newUserFormCtrl;
@@ -47,7 +47,7 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Assign
         getControl: function() { return createItemFormCtrl; }
       },
       ASSIGN_TEMPLATE: {
-        getControl: function () { return assignTemplateForm; }
+        getControl: function () { return selectItemTreeForm; }
       },
       LAYOUT: {
         getControl: function() { return layoutFormCtrl; }      
@@ -98,7 +98,7 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Assign
       loadFormControls: function() {
         createTemplateFormCtrl = new CreateTemplateFormCtrl($scope);
         createItemFormCtrl = new CreateItemFormCtrl($scope);
-        assignTemplateForm = new AssignTemplateForm($scope);
+        selectItemTreeForm = new SelectItemTreeForm($scope);
         layoutFormCtrl = new LayoutFormCtrl($scope);
         userManagerFormCtrl = new UserManagerFormCtrl($scope);
         newUserFormCtrl = new NewUserFormCtrl($scope, self);

@@ -30,19 +30,24 @@ define(["application", "CONST", "Utils", "CommonTypes", "TreeGrid"], function (a
       },
 
       dispose: function () {
-
+        if (treeGridLayout) {
+          treeGridLayout.dispose();
+          treeGridLayout = null;
+        }
       },
 
       createElementCallback: function () {
         $el = self.get$el();
 
         // TreeGridLayout
-        treeGridLayout = new TreeGrid($el.find(dvTreeLayoutSelector));
-        treeGridLayout.setIsCheckBoxElem(false);
+        if ($el) {
+          treeGridLayout = new TreeGrid($el.find(dvTreeLayoutSelector));
+          treeGridLayout.setIsCheckBoxElem(false);
 
-        // events
-        $el.find(btnLayoutSelector).click(self.btnChooseClick);
-        $el.find(dvTreeLayoutSelector).click(self.treeGridClick);
+          // events
+          $el.find(btnLayoutSelector).click(self.btnChooseClick);
+          $el.find(dvTreeLayoutSelector).click(self.treeGridClick);
+        }
       },
 
       getValue: function () {

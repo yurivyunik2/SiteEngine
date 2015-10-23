@@ -34,7 +34,13 @@ define(["application", "CONST", "Utils", "CommonTypes", "TreeGrid"], function (a
 
       createElementCallback: function () {
         $el = self.get$el();
-        $el.find(".imgSelectItemTreeArrow").click(self.clickArrow);
+        if ($el) {
+          $el.find(".imgSelectItemTreeArrow").click(self.clickArrow);
+
+          var $dvLeftArea = $el.find(".dvLeftArea");
+          treeGrid = new TreeGrid($dvLeftArea);
+          treeGrid.setIsCheckBoxElem(false);
+        }
       },
 
       getValue: function() {
@@ -50,10 +56,8 @@ define(["application", "CONST", "Utils", "CommonTypes", "TreeGrid"], function (a
         if (!$el) {
           return;
         }
-        var $dvLeftArea = $el.find(".dvLeftArea");
-        if ($dvLeftArea.length > 0) {
-          //
-          treeGrid = new TreeGrid($dvLeftArea);
+
+        if (treeGrid) {
           treeGrid.populate(application.getTemplateItems());
         }
 

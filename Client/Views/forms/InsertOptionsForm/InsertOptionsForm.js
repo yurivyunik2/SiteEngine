@@ -13,8 +13,8 @@ define(["application", "CONST", "selectItemTreeCtrl", "CommonTypes"], function (
 
     var self;
     
-    var selectItemTreeForm = new CommonTypes.BaseFormElement();
-    _.extend(selectItemTreeForm, {
+    var insertOptionsForm = new CommonTypes.BaseFormElement();
+    _.extend(insertOptionsForm, {
       constructor: function () {
         self = this;
       },
@@ -41,33 +41,40 @@ define(["application", "CONST", "selectItemTreeCtrl", "CommonTypes"], function (
       },
 
       clickOK: function (callback) {
+        if (!selectItemTreeCtrl)
+          return;
 
+        var selectedItems = selectItemTreeCtrl.getValue();
         var insertOptions = "";
         _.each(selectedItems, function (item) {
           insertOptions += item.id + "|";
         });
 
-        if (itemChange && itemChange.fields) {
-          _.each(itemChange.fields, function (field) {
-            if (field.id === CONST.INSERT_OPTIONS_FIELD_ID()) {
-              field.value = insertOptions;
-            }
-          });
-        }
+        var dataCtrl = self.getDataCtrl();
+        if (dataCtrl) {
+          if (dataCtrl.item && dataCtrl.item.fields) {
+            _.each(dataCtrl.item.fields, function (field) {
+              if (field.id === CONST.INSERT_OPTIONS_FIELD_ID()) {
+                field.value = insertOptions;
+              }
+            });
+          }
 
-        var actionCtrl = application.getActionCtrl();
-        if (actionCtrl) {
-          var data = {
-            actionType: "saveItem",
-            item: itemChange,
-            callback: callback,
-          };
-          actionCtrl.process(data);
+          var actionCtrl = application.getActionCtrl();
+          if (actionCtrl) {
+            var data = {
+              actionType: "saveItem",
+              item: dataCtrl.item,
+              callback: callback,
+            };
+            actionCtrl.process(data);
+          }
         }
       },
+
     });
-    selectItemTreeForm.constructor();
-    return selectItemTreeForm;
+    insertOptionsForm.constructor();
+    return insertOptionsForm;
 
   };
 });

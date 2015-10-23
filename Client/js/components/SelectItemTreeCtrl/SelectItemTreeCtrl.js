@@ -58,10 +58,10 @@ define(["application", "CONST", "Utils", "CommonTypes", "TreeGrid"], function (a
         }
 
         if (field.value) {
-          var arInsertOptions = field.value.split("|");
+          var arSelectItems = field.value.split("|");
           var items = application.getItems();
-          for (var i = 0; i < arInsertOptions.length; i++) {
-            var id = parseInt(arInsertOptions[i]);
+          for (var i = 0; i < arSelectItems.length; i++) {
+            var id = parseInt(arSelectItems[i]);
             var itemsFound = _.where(items, { id: id });
             if (itemsFound.length > 0)
               selectedItems.push(itemsFound[0]);

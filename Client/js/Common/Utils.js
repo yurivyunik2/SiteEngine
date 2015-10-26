@@ -169,6 +169,21 @@
         });
       },
 
+      clone: function (obj) {
+        var newObj;
+        if (!$.isFunction(obj))
+          newObj = _.clone(obj);
+        else
+          newObj = obj;
+        var arKeys = _.keys(newObj);
+        _.each(arKeys, function (key) {
+          newObj[key] = self.clone(newObj[key]);
+        });
+        return newObj;
+      },
+
+
+
     };
     utilsObj.constructor();
     return utilsObj;

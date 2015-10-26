@@ -6,7 +6,7 @@
   },
 });
 
-define(["application", "row", "headerRow", "CONST", "css!TreeGridCss"], function (application, Row, HeaderRow, CONST) {
+define(["application", "CONST", "Utils", "row", "headerRow", "css!TreeGridCss"], function (application, CONST, Utils, Row, HeaderRow) {
 
   var treeGridCounter = 0;
 
@@ -101,7 +101,16 @@ define(["application", "row", "headerRow", "CONST", "css!TreeGridCss"], function
         this.renderTree();
       },
 
-      populateItems: function(items) {
+      populateItems: function(_items) {
+
+        //var items = Utils.clone(_items);
+        var items = [];
+        _.each(_items, function(item) {
+          var newItem = _.clone(item);
+          delete newItem.children;
+          delete newItem.childrenHash;
+          items.push(newItem);
+        });
 
         try {
           // find parent for each item
@@ -125,7 +134,7 @@ define(["application", "row", "headerRow", "CONST", "css!TreeGridCss"], function
 
               if (typeof parentItem === 'undefined') {
                 for (var j = 0; j < items.length; j++) {
-                  if (curItem.parent == items[j].id) {
+                  if (curItem.parent === items[j].id) {
                     parentItem = items[j];
                     break;
                   }
@@ -248,7 +257,7 @@ define(["application", "row", "headerRow", "CONST", "css!TreeGridCss"], function
           return;
 
         // if there are focused elements - then refuse action
-        var focusedElems = $("*:focus");
+        var focusedElems = $parentElem.find("*:focus");
         if (focusedElems.length > 0)
           return;
 
@@ -401,7 +410,7 @@ define(["application", "row", "headerRow", "CONST", "css!TreeGridCss"], function
 
           // hidding of the "arrow" for opening of the node
           if (!itemObj.children || itemObj.children.length === 0) {
-            $(imgArrowElem).css("visibility", "hidden");
+            $parentElem.find(imgArrowElem).css("visibility", "hidden");
           }
 
           var display = "none";

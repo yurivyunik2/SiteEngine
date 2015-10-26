@@ -7,7 +7,7 @@
 //
 // MeniItem
 //
-define(["application", "css!menuItemCss"], function (application) {
+define(["application", "Utils", "css!menuItemCss"], function (application, Utils) {
 
   var menuTestItems = [{
     id: 'menu_insert',
@@ -89,7 +89,7 @@ define(["application", "css!menuItemCss"], function (application) {
         self = this;
 
         //
-        this.menuItems = this.clone(menuTestItems);
+        this.menuItems = Utils.clone(menuTestItems);
 
         MenuItem.index++;
         this.id = this.className + MenuItem.index;
@@ -110,19 +110,6 @@ define(["application", "css!menuItemCss"], function (application) {
         return "<div id=" + id + " class='menuItem'></div>";
       },
 
-      clone: function (obj) {
-        var newObj;
-        if(!$.isFunction(obj))
-          newObj = _.clone(obj);
-        else
-          newObj = obj;
-        var arKeys = _.keys(newObj);
-        _.each(arKeys, function (key) {
-          newObj[key] = self.clone(newObj[key]);
-        });
-        return newObj;
-      },
-
       hasElem: function (childElem) {
         var isHas = false;
         _.each(hashMenuElems, function (menu) {
@@ -136,7 +123,7 @@ define(["application", "css!menuItemCss"], function (application) {
         if (!insertTemplates)
           return;
 
-        this.menuItems = this.clone(menuTestItems);
+        this.menuItems = Utils.clone(menuTestItems);
 
         this.insertTemplates = insertTemplates;
 

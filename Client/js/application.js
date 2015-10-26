@@ -346,9 +346,8 @@ define(["CONST", "Utils"], function (CONST, Utils) {
             self.isRequestProcess = false;
 
             if (response.data) {
-              //self.initializeItems(response.data);
-              items = _.clone(response.data);
-              //items[0] = _.clone(items[0]);
+              self.initializeItems(response.data);
+              //items = _.clone(response.data);              
               if (callback)
                 callback(items);
             }
@@ -362,6 +361,89 @@ define(["CONST", "Utils"], function (CONST, Utils) {
       getItems: function() {
         return items;
       },
+
+      ///
+      /// --------- Initialize items ---------
+      ///
+      hashParentItems: {},
+      hashItems: {},
+
+      treeItems: [],
+      treeItemsHash: {},
+
+      initializeItems: function (_items) {
+        items = _items;
+        this.treeItems = [];
+        this.treeItemsHash = {};
+
+        this.hashParentItems = {};
+        this.hashItems = {};
+
+        this.populateItems(items);
+      },
+
+      // populate
+      populateItems: function (items) {
+
+        try {
+          // find parent for each item
+          for (var i = 0; i < items.length; i++) {
+            var curItem = items[i];
+
+            //----fix----//
+            if (typeof this.hashParentItems[curItem.id] != 'undefined') {
+              this.hashParentItems[curItem.id].children = curItem.children;
+              curItem = this.hashParentItems[curItem.id];
+            }
+            //----fix end----//
+
+            //
+            //this.hashItemsPopulate[curItem.id] = curItem;
+
+            var parentItem;
+
+            if (curItem.parent && curItem.parent !== '') {
+              parentItem = this.hashParentItems[curItem.parent];
+
+              if (typeof parentItem === 'undefined') {
+                for (var j = 0; j < items.length; j++) {
+                  if (curItem.parent === items[j].id) {
+                    parentItem = items[j];
+                    break;
+                  }
+                }
+              }
+            }
+
+            if (parentItem && curItem.parent && curItem.parent !== "") {
+              if (!parentItem.children) {
+                parentItem.children = [];
+                parentItem.childrenHash = {};
+              }
+
+              if (typeof parentItem.childrenHash[curItem.id] == 'undefined') {
+                parentItem.children.push(curItem);
+              } else {
+                curItem = parentItem.childrenHash[curItem.id];
+              }
+              parentItem.childrenHash[curItem.id] = curItem;
+
+              curItem.parentObj = parentItem;
+              this.hashParentItems[parentItem.id] = parentItem;
+            } else {
+              if (typeof this.treeItemsHash[curItem.id] == 'undefined') {
+                this.treeItems.push(curItem);
+              }
+              this.treeItemsHash[curItem.id] = curItem;
+            }
+          }
+        } catch (ex) {
+
+        }
+      },
+      ///
+      /// --------- END Initialize items ---------
+      ///
 
       addItemChangeSubscribers: function (subscriber, handler) {
         if (!subscriber || !handler)
@@ -415,9 +497,10 @@ define(["CONST", "Utils"], function (CONST, Utils) {
 
         var allTemplates = [];
         _.each(templateItems, function (item) {
-          allTemplates.push(_.clone(item));
+          var newItem = _.clone(item);
+          allTemplates.push(_.clone(newItem));
           item.parentObj = null;
-          Utils.findChildItems(allTemplates, item, true);
+          Utils.findChildItems(allTemplates, newItem, true);
         });
 
         return allTemplates;

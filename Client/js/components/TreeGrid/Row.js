@@ -160,14 +160,24 @@
         });
         $(window).mousemove(function (event) {
 
-          if (treeGrid.isDrag && treeGrid.$trDrag && treeGrid.$trDragStart[0] != treeGrid.$trDrag[0]) {
-            treeGrid.$dragLine.css("display", "block");
-            var offsetTop = ($("table")[0].offsetTop + treeGrid.$trDrag[0].offsetTop + treeGrid.$trDrag[0].offsetHeight - 1);
-            treeGrid.$dragLine.css("top", offsetTop + "px");
-            var offsetLeft = $("table")[0].offsetLeft + treeGrid.$trDrag.find(".dvFirst")[0].offsetLeft + treeGrid.$trDrag.find(".dvData")[0].offsetLeft;
-            treeGrid.$dragLine.css("left", offsetLeft + "px");
-            
-            treeGrid.$dragLine.css("width", treeGrid.$trDrag.find(".dvData")[0].offsetWidth + "px");
+          if (treeGrid.isDrag && treeGrid.$trDrag && treeGrid.$trDragStart[0] !== treeGrid.$trDrag[0]) {
+            var $parentElem = treeGrid.getParentElem();
+            var $table;
+            if ($parentElem) {
+              var tables = $parentElem.find("table");
+              if (tables.length > 0)
+                $table = tables[0];
+            }
+
+            if ($table) {
+              treeGrid.$dragLine.css("display", "block");
+              var offsetTop = ($table.offsetTop + treeGrid.$trDrag[0].offsetTop + treeGrid.$trDrag[0].offsetHeight - 1);
+              treeGrid.$dragLine.css("top", offsetTop + "px");
+              var offsetLeft = $table.offsetLeft + treeGrid.$trDrag.find(".dvFirst")[0].offsetLeft + treeGrid.$trDrag.find(".dvData")[0].offsetLeft;
+              treeGrid.$dragLine.css("left", offsetLeft + "px");
+
+              treeGrid.$dragLine.css("width", treeGrid.$trDrag.find(".dvData")[0].offsetWidth + "px");
+            }
           }
           
           event.preventDefault();

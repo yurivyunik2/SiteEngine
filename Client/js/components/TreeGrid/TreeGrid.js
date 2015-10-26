@@ -78,6 +78,10 @@ define(["application", "CONST", "Utils", "row", "headerRow", "css!TreeGridCss"],
         }
       },
 
+      getParentElem: function() {
+        return $parentElem;
+      },
+
       getIsCheckBoxElem: function() { return isCheckBoxElem; },
       setIsCheckBoxElem: function(_isCheckBoxElem) { isCheckBoxElem = _isCheckBoxElem; },
 

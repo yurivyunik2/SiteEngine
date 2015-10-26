@@ -88,7 +88,8 @@ define(["application", "CONST", "imageChangeCtrl", "richTextEditor", "selectItem
           actualComponents[field.id] = imageChangeCtrl;
 
           imageChangeCtrl.render();
-        } else if (field.fieldId === CONST.INSERT_OPTIONS_FIELD_ID() || field.fieldId === CONST.BASE_TEMPLATE_FIELD_ID()) {
+        }
+        else if (field.fieldId === CONST.INSERT_OPTIONS_FIELD_ID() || field.fieldId === CONST.BASE_TEMPLATE_FIELD_ID()) {
           var selectItemTreeCtrl = new SelectItemTreeCtrl(parentTdElem, field);
           actualComponents[field.id] = selectItemTreeCtrl;
 

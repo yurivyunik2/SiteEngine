@@ -12,16 +12,24 @@
     </div>
   </div>
   <div id="actionPanel">
-    <div id="dvTabContent"><a href="index.html#/Views/start" id="btn_save" action="saveItem" class="button-ribbon">Save</a><a href="index.html#/Views/start" id="btn_listUsers" action="listUsers" class="button-ribbon">List Users</a></div>
+    <div id="dvTabContent"><a href="index.html#/Views/start" id="btn_save" action="saveItem" class="button-ribbon">Save</a><a href="index.html#/Views/start" id="btn_listUsers" action="listUsers" class="button-ribbon">List Users</a>
+    </div>
+
     <div id="languageChoosePanel">
+      <div id="progressBar" >
+        <span>Processing:</span>
+        <img src="/SiteEngine/Client/images/progressBar.gif">
+      </div>
+
       <select class="form-control" id="selLanguage">
         <option value="en">English</option>
         <option value="ru">Russian</option>
         <option value="da">Danish</option>
-      </select>      
+      </select>
       <div class="dvVersion" style="display: none;">
         <select class="form-control" id="selVersion"></select>
-        <div id="removeVersion"><img id="imgRemoveVersion" src="/SiteEngine/Client/images/remove.png" ng-click="clickAddField($event)"></div>
+        <div id="removeVersion"><img id="imgRemoveVersion" src="/SiteEngine/Client/images/remove.png" ng-click="clickAddField($event)">
+        </div>
       </div>
       <button id="btnNewVersion" type="button" class="btn btnForm">New version</button>
     </div>

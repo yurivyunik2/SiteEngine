@@ -64,6 +64,18 @@
         }
       },
 
+      showProcessBar: function (isShow) {
+        var $progressBarElem = $("#progressBar");
+        //var $viewAppElem = $("#viewApp");
+        if (isShow) {
+          $progressBarElem.css("display", "inline-block");
+          //$viewAppElem.css("display", "none");
+        } else {
+          $progressBarElem.css("display", "none");
+          //$viewAppElem.css("display", "block");
+        }
+      },
+
       showNotification: function (data, response) {
         if (!data || !data.isNotified)
           return;

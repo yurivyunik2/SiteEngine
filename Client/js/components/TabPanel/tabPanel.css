@@ -68,6 +68,18 @@ a.button-ribbon {
   float: left;
   width: 60%;
 }
+
+#tabPanel #actionPanel #progressBar {
+  display: none;
+}
+#tabPanel #actionPanel #progressBar span {
+  color: #E4E2E2;
+}
+#tabPanel #actionPanel #progressBar img {
+  width: 114px;
+  height: 15px;
+}
+
 #tabPanel #actionPanel #languageChoosePanel {
   float: right;
   width: 35%;

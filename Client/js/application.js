@@ -504,20 +504,29 @@ define(["CONST", "Utils"], function (CONST, Utils) {
           data: JSON.stringify(data)
         };
 
+        if(data.isNotified)
+          Utils.showProcessBar(true);
+
         $http(req).
           success(function (response, status, headers, config) {
-            if (success) {
+            if (success)
               success(response);
-              Utils.showNotification(data, response);
-            }            
+            self.httpRequestCallback(data, response);
           }).
           error(function (response, status, headers, config) {
-            if(error)
+            if (error)
               error(response, status, header, config);
-            Utils.showNotification(data, response);
+            self.httpRequestCallback(data, response);
           });
       },
-      
+
+      httpRequestCallback: function(data, response) {
+        if (data.isNotified) {
+          Utils.showProcessBar(false);
+          Utils.showNotification(data, response);
+        }
+      },
+
     };
     application.constructor();
     return application;

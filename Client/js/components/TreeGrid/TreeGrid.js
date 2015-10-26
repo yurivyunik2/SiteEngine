@@ -372,7 +372,7 @@ define(["application", "row", "headerRow", "CONST", "css!TreeGridCss"], function
         //$(trElem).draggable();
         self.openCloseNode(trElem);
         $(trElem).mousedown();
-      },      
+      },
 
       // setOpenCloseNodeEvent
       setOpenCloseNodeEvent: function (_openCloseNodeEvent) {
@@ -439,7 +439,7 @@ define(["application", "row", "headerRow", "CONST", "css!TreeGridCss"], function
                   marginLeftVar += parseInt(marginLeft);
 
                 self.renderItem($(trElem), itemObj.childrenHash[itemObj.children[i].id], itemObj.id, marginLeftVar, self.isFiltered);
-              }              
+              }
             }
           } else { // Closed
             $(childElems).css("display", "none");

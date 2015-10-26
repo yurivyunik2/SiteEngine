@@ -24,7 +24,7 @@
 ++ 15_4) To implement notification-dialog for actions
 ++ !!!!15_5) To implement different components for specified data-types: ImageChangeCtrl, ....
 	++ 15_5_1) ImageChangeCtrl
-15_6) To implement the loading message during accomplishing of the action.
+++ 15_6) To implement the loading message during accomplishing of the action.
 15_7) To implement keeping the history of actions
 
 !!!16) To implement the beginning of the analytics - statistical information about page's visiting

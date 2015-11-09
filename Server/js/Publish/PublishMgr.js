@@ -57,11 +57,11 @@
                 });
               }
               data.item.fields = fields;
-              itemMgr.saveItem({ item: data.item, lang: data.lang, version: data.version }, objResponseClone, function () {                
+              itemMgr.saveItem({ item: data.item, lang: data.lang, version: data.version }, objResponseClone, function () {
                 if (callback) {
                   objResponse.error = objResponseClone.error;
                   callback();
-                }                
+                }
               });
             } else {
               if (callback) {

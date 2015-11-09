@@ -251,6 +251,10 @@ define(["application", "CONST", "Utils", "row", "headerRow", "css!TreeGridCss"],
         $(item.trElem).mousedown();
       },
 
+      selectCurrentItem: function() {
+        self.selectItem(self.selectedItem);
+      },
+
       //
       // EVENTS
       //

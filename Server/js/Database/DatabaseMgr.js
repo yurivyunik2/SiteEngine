@@ -65,19 +65,31 @@
           var body = data.value;
           var base64Data = body.replace(/^data:image\/png;base64,/, "");
           var binaryData = new Buffer(base64Data, 'base64').toString('binary');
-
-          var filePath = CONST.UPLOAD_MEDIA_PATH() + data.itemId + "_" + data.itemName;
-          //var itemPath = "." + filePath;
-          require("fs").writeFile("." + filePath, binaryData, "binary", function (err) {
-            if (!err) {
-              data.value = filePath;
-              insertFields();
-            } else {
-              objResponse.error = "Error: " + err;
-              if (callback)
-                callback(data);
+          
+          try {
+            var uploadDir = "." + CONST.UPLOAD_MEDIA_PATH();
+            if (!fs.existsSync(uploadDir)) {
+              fs.mkdirSync(uploadDir);
             }
-          });
+
+            var filePath = CONST.UPLOAD_MEDIA_PATH() + data.itemId + "_" + data.itemName;
+
+            require("fs").writeFile("." + filePath, binaryData, "binary", function (err) {
+              if (!err) {
+                data.value = filePath;
+                insertFields();
+              } else {
+                objResponse.error = "Error: " + err;
+                if (callback)
+                  callback(data);
+              }
+            });
+          } catch (ex) {
+            objResponse.error = "Error: " + ex;
+            if (callback)
+              callback(data);
+          }
+          
         }
       }
       //// INSERT INTO BLOBS
@@ -237,27 +249,36 @@
 
           var path = require('path');
           var currentDirPath = "." + CONST.UPLOAD_MEDIA_PATH();
-          fs.readdirSync(currentDirPath).forEach(function (name) {
-            var itemId;
-            if (name.indexOf("_") >= 0) {
-              itemId = name.substr(0, name.indexOf("_"));
-            }
-            //var  data.itemChilds
-            if (itemId && itemId !== "") {
-              var child = _.findWhere(data.itemChilds, { id: parseInt(itemId) });
-              if (child) {
-                var filePath = path.join(currentDirPath, name);
-                if (fs.existsSync(filePath)) {
-                  try {
-                    fs.unlinkSync(filePath);
-                  } catch (ex) {
-                    objResponse.error = "Error: " + ex;
-                  }
-                }
+          var arFiles = [];
+          try {
+            arFiles = fs.readdirSync(currentDirPath);
+          } catch (ex) {
+          }
 
+          if (arFiles && arFiles.length > 0) {
+            arFiles.forEach(function (name) {
+              var itemId;
+              if (name.indexOf("_") >= 0) {
+                itemId = name.substr(0, name.indexOf("_"));
               }
-            }
-          });
+              //var  data.itemChilds
+              if (itemId && itemId !== "") {
+                var child = _.findWhere(data.itemChilds, { id: parseInt(itemId) });
+                if (child) {
+                  var filePath = path.join(currentDirPath, name);
+                  if (fs.existsSync(filePath)) {
+                    try {
+                      fs.unlinkSync(filePath);
+                    } catch (ex) {
+                      objResponse.error = "Error: " + ex;
+                    }
+                  }
+
+                }
+              }
+            });
+          }
+
 
           if (!objResponse.error) {
             query = "DELETE FROM fields where itemId in " + strIn + " or fieldId in " + strIn;
@@ -307,7 +328,61 @@
       }
     },
 
+    historyLog: function(dataRequest, objResponse) {
+      try {
+        if (!dataRequest || !dataRequest.action || !dataRequest.item || !objResponse) {
+          return;
+        }
 
+        var self = this;
+
+        var historyResponse = {};
+        var infoData = {
+           item: {
+             id: dataRequest.item.id,
+             name: dataRequest.item.name,
+           },
+        };
+        var infoResults = {
+          isOK: objResponse.isOK,
+          error: objResponse.error,
+        };
+        self.insertIntoHistory({ action: dataRequest.action, info: "Data: " + JSON.stringify(infoData) + ", Results: " + JSON.stringify(infoResults) }, historyResponse, function () {
+          if (historyResponse.error) {
+            var error = historyResponse.error.replace(/'/g, "\"");
+            self.insertIntoHistory({ action: dataRequest.action, info: error }, historyResponse);
+          }
+        });
+      } catch (ex) {
+
+      }
+    },
+
+    insertIntoHistory: function (data, objResponse, callback) {
+      if (!data || !data.action) {
+        objResponse.error = "Error: data";
+        if (callback)
+          callback();
+        return;
+      }
+      if (!data.user || typeof data.user !== "number" || isNaN(parseInt(data.user)))
+        data.user = -1;
+
+      var query = "INSERT INTO db_site_engine.history(action, info, user, datetime) VALUES('" + data.action + "', '" + data.info + "', " + data.user + ", NOW())";
+      var insertIntoHistoryCallback = function (err, rows) {
+        if (!err && rows && rows.insertId) {
+          
+        } else {
+          objResponse.error = "Error: " + err;
+        }
+        if (callback)
+          callback(data);
+      };
+      if (database) {
+        database.query(query, insertIntoHistoryCallback);
+      }
+
+    },
 
   };
 };

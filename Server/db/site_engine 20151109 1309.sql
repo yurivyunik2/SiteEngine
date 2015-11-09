@@ -49,15 +49,15 @@ DROP TABLE IF EXISTS `fields`;
 CREATE TABLE `fields` (
   `Id` bigint(20) unsigned NOT NULL auto_increment,
   `ItemId` bigint(20) default NULL,
-  `Language` varchar(50) character set latin1 default NULL,
+  `Language` varchar(50) default NULL,
   `Version` int(10) unsigned default NULL,
   `FieldId` bigint(20) default NULL,
-  `Value` varchar(700) character set latin1 NOT NULL default '',
+  `Value` varchar(700) NOT NULL default '',
   `isPublish` tinyint(1) NOT NULL default '0',
   `Created` datetime default NULL,
   `Updated` datetime default NULL,
   UNIQUE KEY `Id` (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1646 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1742 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `db_site_engine`.`fields`
@@ -83,16 +83,16 @@ INSERT INTO `fields` (`Id`,`ItemId`,`Language`,`Version`,`FieldId`,`Value`,`isPu
  (49,4,'en',1,99,'null',0,'2015-06-19 15:52:49','2015-06-19 15:52:49'),
  (50,103,'en',1,101,'./SiteEngine/Site/layouts/Sample Layout.html',0,'2015-06-19 16:04:46','2015-06-19 16:04:46'),
  (51,103,'en',1,102,'null',0,'2015-06-19 16:04:46','2015-06-19 16:04:46'),
- (52,84,'en',1,78,'76|77',1,'2015-06-19 16:09:18','2015-06-19 16:09:18'),
- (53,84,'en',1,80,'2128|285|128|105|72|',1,'2015-06-19 16:09:18','2015-06-19 16:09:18'),
- (54,84,'en',1,81,'{\"layout\":{\"name\":\"mainLayout\",\"id\":127},\"subLayouts\":[]}',1,'2015-06-19 16:09:18','2015-06-19 16:09:18'),
+ (52,84,'en',1,78,'76|77|',1,'2015-06-19 16:09:18','2015-06-19 16:09:18'),
+ (53,84,'en',1,80,'2128|128|72|',1,'2015-06-19 16:09:18','2015-06-19 16:09:18'),
+ (54,84,'en',1,81,'{\"name\":\"\"}',1,'2015-06-19 16:09:18','2015-06-19 16:09:18'),
  (55,84,'en',1,82,'field2_value323',0,'2015-06-19 16:09:18','2015-06-19 16:09:18'),
  (56,84,'en',1,98,'null',0,'2015-06-19 16:09:18','2015-06-19 16:09:18'),
  (57,84,'en',1,99,'null',0,'2015-06-19 16:09:18','2015-06-19 16:09:18'),
  (59,75,'en',1,98,'null',0,'2015-06-19 16:10:53','2015-06-19 16:10:53'),
- (60,75,'en',1,99,'null',0,'2015-06-19 16:10:53','2015-06-19 16:10:53');
+ (60,75,'en',1,99,'null',0,'2015-06-19 16:10:53','2015-06-19 16:10:53'),
+ (62,97,'en',1,80,'79|72',0,'2015-06-19 16:11:26','2015-06-19 16:11:26');
 INSERT INTO `fields` (`Id`,`ItemId`,`Language`,`Version`,`FieldId`,`Value`,`isPublish`,`Created`,`Updated`) VALUES 
- (62,97,'en',1,80,'79|72',0,'2015-06-19 16:11:26','2015-06-19 16:11:26'),
  (63,97,'en',1,81,'renderings_standart',0,'2015-06-19 16:11:26','2015-06-19 16:11:26'),
  (68,105,'en',1,82,'field2_value',0,'2015-06-19 16:16:24','2015-06-19 16:16:24'),
  (69,108,'en',1,78,'76|77',0,'2015-06-19 16:27:21','2015-06-19 16:27:21'),
@@ -102,9 +102,9 @@ INSERT INTO `fields` (`Id`,`ItemId`,`Language`,`Version`,`FieldId`,`Value`,`isPu
  (73,108,'en',1,106,'Title_test',0,'2015-06-19 16:27:21','2015-06-19 16:27:21'),
  (74,108,'en',1,107,'Text_test',0,'2015-06-19 16:27:21','2015-06-19 16:27:21'),
  (83,5,'en',1,78,'76|77',0,'2015-07-14 09:20:30','2015-07-14 09:20:30'),
- (84,5,'en',1,80,'100|72',0,'2015-07-14 09:20:30','2015-07-14 09:20:30');
+ (84,5,'en',1,80,'100|72',0,'2015-07-14 09:20:30','2015-07-14 09:20:30'),
+ (85,5,'en',1,81,'null',0,'2015-07-14 09:20:30','2015-07-14 09:20:30');
 INSERT INTO `fields` (`Id`,`ItemId`,`Language`,`Version`,`FieldId`,`Value`,`isPublish`,`Created`,`Updated`) VALUES 
- (85,5,'en',1,81,'null',0,'2015-07-14 09:20:30','2015-07-14 09:20:30'),
  (86,126,'en',1,78,'76|77',0,'2015-07-14 09:22:01','2015-07-14 09:22:01'),
  (87,126,'en',1,80,'100|72',0,'2015-07-14 09:22:33','2015-07-14 09:22:33'),
  (88,126,'en',1,81,'null',0,'2015-07-14 09:22:36','2015-07-14 09:22:36'),
@@ -113,9 +113,9 @@ INSERT INTO `fields` (`Id`,`ItemId`,`Language`,`Version`,`FieldId`,`Value`,`isPu
  (91,135,'en',1,78,'76|77',1,'2015-07-15 12:03:38','2015-07-15 12:03:38'),
  (92,135,'en',1,80,'131|75|72',1,'2015-07-15 12:03:38','2015-07-15 12:03:38'),
  (93,135,'en',1,81,'null',1,'2015-07-15 12:03:38','2015-07-15 12:03:38'),
- (94,136,'en',1,78,'76|77',0,'2015-07-15 12:04:18','2015-07-15 12:04:18'),
- (95,136,'en',1,80,'131|75|72',0,'2015-07-15 12:04:18','2015-07-15 12:04:18'),
- (96,136,'en',1,81,'null',0,'2015-07-15 12:04:18','2015-07-15 12:04:18'),
+ (94,136,'en',1,78,'76|77|',0,'2015-07-15 12:04:18','2015-07-15 12:04:18'),
+ (95,136,'en',1,80,'131|75|72|',0,'2015-07-15 12:04:18','2015-07-15 12:04:18'),
+ (96,136,'en',1,81,'{\"name\":\"\"}',0,'2015-07-15 12:04:18','2015-07-15 12:04:18'),
  (97,137,'en',1,78,'76|77',0,'2015-07-15 12:04:59','2015-07-15 12:04:59');
 INSERT INTO `fields` (`Id`,`ItemId`,`Language`,`Version`,`FieldId`,`Value`,`isPublish`,`Created`,`Updated`) VALUES 
  (98,137,'en',1,80,'null',0,'2015-07-15 12:04:59','2015-07-15 12:04:59'),
@@ -139,7 +139,7 @@ INSERT INTO `fields` (`Id`,`ItemId`,`Language`,`Version`,`FieldId`,`Value`,`isPu
  (116,73,'en',1,78,'76|77',0,'2015-07-24 16:45:43','2015-07-24 16:45:43'),
  (117,73,'en',1,80,'161|75|72',0,'2015-07-24 16:45:43','2015-07-24 16:45:43'),
  (118,73,'en',1,81,'null',0,'2015-07-24 16:45:43','2015-07-24 16:45:43'),
- (240,136,'en',1,78,'76|77',0,'2015-07-29 13:50:19','2015-07-29 13:50:19'),
+ (240,136,'en',1,78,'76|77|',0,'2015-07-29 13:50:19','2015-07-29 13:50:19'),
  (241,135,'en',1,78,'76|77',1,'2015-07-29 13:51:31','2015-07-29 13:51:31'),
  (242,135,'en',1,78,'76|77',1,'2015-07-29 13:51:34','2015-07-29 13:51:34'),
  (243,135,'en',1,78,'76|77',1,'2015-07-29 14:02:05','2015-07-29 14:02:05'),
@@ -158,25 +158,25 @@ INSERT INTO `fields` (`Id`,`ItemId`,`Language`,`Version`,`FieldId`,`Value`,`isPu
  (492,326,'en',2,81,'2222_222',0,'2015-08-03 15:21:03','2015-08-03 15:21:03'),
  (493,326,'en',3,324,'f11_33344',0,'2015-08-03 15:23:39','2015-08-03 15:23:39'),
  (494,326,'en',3,325,'f22_33344',0,'2015-08-03 15:23:39','2015-08-03 15:23:39'),
- (495,326,'en',3,78,'76|77|79|33',0,'2015-08-03 15:23:39','2015-08-03 15:23:39'),
+ (495,326,'en',3,78,'76|77|79|',0,'2015-08-03 15:23:39','2015-08-03 15:23:39'),
  (496,326,'en',3,80,'1111_333',0,'2015-08-03 15:23:39','2015-08-03 15:23:39'),
- (497,326,'en',3,81,'{\"layout\":{\"name\":\"mainLayout\",\"id\":127},\"subLayouts\":[]}',0,'2015-08-03 15:23:39','2015-08-03 15:23:39'),
- (548,331,'en',2,78,'76|77',0,'2015-08-03 17:04:23','2015-08-03 17:04:23');
+ (497,326,'en',3,81,'{\"name\":\"\"}',0,'2015-08-03 15:23:39','2015-08-03 15:23:39'),
+ (548,331,'en',2,78,'76|77',0,'2015-08-03 17:04:23','2015-08-03 17:04:23'),
+ (549,331,'en',2,80,'null',0,'2015-08-03 17:04:23','2015-08-03 17:04:23');
 INSERT INTO `fields` (`Id`,`ItemId`,`Language`,`Version`,`FieldId`,`Value`,`isPublish`,`Created`,`Updated`) VALUES 
- (549,331,'en',2,80,'null',0,'2015-08-03 17:04:23','2015-08-03 17:04:23'),
  (550,331,'en',2,81,'{\"layout\":{\"name\":\"mainLayout\",\"id\":128},\"subLayouts\":[]}',0,'2015-08-03 17:04:23','2015-08-03 17:04:23'),
- (551,135,'en',2,78,'76|77|78',0,'2015-08-12 17:53:21','2015-08-12 17:53:21'),
- (552,135,'en',2,80,'131|75|72',0,'2015-08-12 17:53:21','2015-08-12 17:53:21'),
- (553,135,'en',2,81,'null',0,'2015-08-12 17:53:21','2015-08-12 17:53:21'),
+ (551,135,'en',2,78,'76|77|78|',0,'2015-08-12 17:53:21','2015-08-12 17:53:21'),
+ (552,135,'en',2,80,'131|75|72|',0,'2015-08-12 17:53:21','2015-08-12 17:53:21'),
+ (553,135,'en',2,81,'{\"name\":\"\"}',0,'2015-08-12 17:53:21','2015-08-12 17:53:21'),
  (556,337,'en',1,78,'76|77',0,'2015-08-14 13:37:58','2015-08-14 13:37:58'),
  (557,337,'en',1,80,'338',0,'2015-08-14 13:37:58','2015-08-14 13:37:58'),
  (558,337,'en',1,81,'null',0,'2015-08-14 13:37:58','2015-08-14 13:37:58'),
  (559,339,'en',1,150,'string',0,'2015-08-14 13:42:31','2015-08-14 13:42:31'),
  (560,340,'en',1,150,'string',0,'2015-08-14 13:42:31','2015-08-14 13:42:31'),
  (566,342,'en',1,339,'null',0,'2015-08-14 13:43:53','2015-08-14 13:43:53'),
- (567,342,'en',1,340,'null',0,'2015-08-14 13:43:53','2015-08-14 13:43:53');
+ (567,342,'en',1,340,'null',0,'2015-08-14 13:43:53','2015-08-14 13:43:53'),
+ (568,342,'en',1,78,'76|77',0,'2015-08-14 13:43:53','2015-08-14 13:43:53');
 INSERT INTO `fields` (`Id`,`ItemId`,`Language`,`Version`,`FieldId`,`Value`,`isPublish`,`Created`,`Updated`) VALUES 
- (568,342,'en',1,78,'76|77',0,'2015-08-14 13:43:53','2015-08-14 13:43:53'),
  (569,342,'en',1,80,'null',0,'2015-08-14 13:43:53','2015-08-14 13:43:53'),
  (570,342,'en',1,81,'null',0,'2015-08-14 13:43:53','2015-08-14 13:43:53'),
  (571,343,'en',1,339,'null',0,'2015-08-14 13:43:58','2015-08-14 13:43:58'),
@@ -188,9 +188,9 @@ INSERT INTO `fields` (`Id`,`ItemId`,`Language`,`Version`,`FieldId`,`Value`,`isPu
  (577,344,'en',1,340,'null',0,'2015-08-14 13:44:04','2015-08-14 13:44:04'),
  (578,344,'en',1,78,'76|77',0,'2015-08-14 13:44:04','2015-08-14 13:44:04'),
  (579,344,'en',1,80,'null',0,'2015-08-14 13:44:04','2015-08-14 13:44:04'),
- (580,344,'en',1,81,'null',0,'2015-08-14 13:44:04','2015-08-14 13:44:04');
+ (580,344,'en',1,81,'null',0,'2015-08-14 13:44:04','2015-08-14 13:44:04'),
+ (581,345,'en',1,339,'null',0,'2015-08-14 13:44:12','2015-08-14 13:44:12');
 INSERT INTO `fields` (`Id`,`ItemId`,`Language`,`Version`,`FieldId`,`Value`,`isPublish`,`Created`,`Updated`) VALUES 
- (581,345,'en',1,339,'null',0,'2015-08-14 13:44:12','2015-08-14 13:44:12'),
  (582,345,'en',1,340,'null',0,'2015-08-14 13:44:12','2015-08-14 13:44:12'),
  (583,345,'en',1,78,'76|77',0,'2015-08-14 13:44:12','2015-08-14 13:44:12'),
  (584,345,'en',1,80,'null',0,'2015-08-14 13:44:12','2015-08-14 13:44:12'),
@@ -202,9 +202,9 @@ INSERT INTO `fields` (`Id`,`ItemId`,`Language`,`Version`,`FieldId`,`Value`,`isPu
  (590,346,'en',1,81,'null',0,'2015-08-14 13:44:23','2015-08-14 13:44:23'),
  (591,347,'en',1,339,'null',0,'2015-08-14 13:44:33','2015-08-14 13:44:33'),
  (592,347,'en',1,340,'null',0,'2015-08-14 13:44:33','2015-08-14 13:44:33'),
- (593,347,'en',1,78,'76|77',0,'2015-08-14 13:44:33','2015-08-14 13:44:33');
+ (593,347,'en',1,78,'76|77',0,'2015-08-14 13:44:33','2015-08-14 13:44:33'),
+ (594,347,'en',1,80,'null',0,'2015-08-14 13:44:33','2015-08-14 13:44:33');
 INSERT INTO `fields` (`Id`,`ItemId`,`Language`,`Version`,`FieldId`,`Value`,`isPublish`,`Created`,`Updated`) VALUES 
- (594,347,'en',1,80,'null',0,'2015-08-14 13:44:33','2015-08-14 13:44:33'),
  (595,347,'en',1,81,'null',0,'2015-08-14 13:44:33','2015-08-14 13:44:33'),
  (605,2000,'en',1,78,'76|77',0,'2015-08-27 13:18:59','2015-08-27 13:18:59'),
  (606,2000,'en',1,80,'2003|72',0,'2015-08-27 13:18:59','2015-08-27 13:18:59'),
@@ -216,9 +216,9 @@ INSERT INTO `fields` (`Id`,`ItemId`,`Language`,`Version`,`FieldId`,`Value`,`isPu
  (612,2001,'en',1,80,'75',0,'2015-08-27 13:32:05','2015-08-27 13:32:05'),
  (613,2001,'en',1,81,'null',0,'2015-08-27 13:32:05','2015-08-27 13:32:05'),
  (617,2004,'en',1,150,'342',0,'2015-08-27 13:39:39','2015-08-27 13:39:39'),
- (618,2005,'en',1,150,'343',0,'2015-08-27 13:39:39','2015-08-27 13:39:39');
+ (618,2005,'en',1,150,'343',0,'2015-08-27 13:39:39','2015-08-27 13:39:39'),
+ (619,2006,'en',1,150,'343',0,'2015-08-27 13:39:39','2015-08-27 13:39:39');
 INSERT INTO `fields` (`Id`,`ItemId`,`Language`,`Version`,`FieldId`,`Value`,`isPublish`,`Created`,`Updated`) VALUES 
- (619,2006,'en',1,150,'343',0,'2015-08-27 13:39:39','2015-08-27 13:39:39'),
  (620,2007,'en',1,150,'342',0,'2015-08-27 13:39:39','2015-08-27 13:39:39'),
  (698,2019,'en',1,2004,'null',0,'2015-09-01 10:05:44','2015-09-01 10:05:44'),
  (699,2019,'en',1,2005,'null',0,'2015-09-01 10:05:44','2015-09-01 10:05:44'),
@@ -230,9 +230,9 @@ INSERT INTO `fields` (`Id`,`ItemId`,`Language`,`Version`,`FieldId`,`Value`,`isPu
  (705,2019,'en',1,81,'null',0,'2015-09-01 10:05:47','2015-09-01 10:05:47'),
  (706,2020,'en',1,2005,'null',0,'2015-09-01 10:05:50','2015-09-01 10:05:50'),
  (707,2021,'en',1,2004,'/SiteEngine/Site/media/TEST',0,'2015-09-01 10:30:49','2015-09-01 10:30:49'),
- (708,2021,'en',1,2005,'null',0,'2015-09-01 10:30:49','2015-09-01 10:30:49');
+ (708,2021,'en',1,2005,'null',0,'2015-09-01 10:30:49','2015-09-01 10:30:49'),
+ (709,2021,'en',1,2006,'null',0,'2015-09-01 10:30:49','2015-09-01 10:30:49');
 INSERT INTO `fields` (`Id`,`ItemId`,`Language`,`Version`,`FieldId`,`Value`,`isPublish`,`Created`,`Updated`) VALUES 
- (709,2021,'en',1,2006,'null',0,'2015-09-01 10:30:49','2015-09-01 10:30:49'),
  (710,2021,'en',1,2007,'null',0,'2015-09-01 10:30:49','2015-09-01 10:30:49'),
  (711,2021,'en',1,78,'76|77',0,'2015-09-01 10:30:49','2015-09-01 10:30:49'),
  (712,2021,'en',1,80,'null',0,'2015-09-01 10:30:49','2015-09-01 10:30:49'),
@@ -244,9 +244,9 @@ INSERT INTO `fields` (`Id`,`ItemId`,`Language`,`Version`,`FieldId`,`Value`,`isPu
  (718,2022,'en',1,78,'76|77',0,'2015-09-01 10:38:12','2015-09-01 10:38:12'),
  (719,2022,'en',1,80,'null',0,'2015-09-01 10:38:12','2015-09-01 10:38:12'),
  (720,2022,'en',1,81,'null',0,'2015-09-01 10:38:12','2015-09-01 10:38:12'),
- (721,2023,'en',1,2004,'/SiteEngine/Site/media/TEST',0,'2015-09-01 10:40:06','2015-09-01 10:40:06');
+ (721,2023,'en',1,2004,'/SiteEngine/Site/media/TEST',0,'2015-09-01 10:40:06','2015-09-01 10:40:06'),
+ (722,2023,'en',1,2005,'null',0,'2015-09-01 10:40:06','2015-09-01 10:40:06');
 INSERT INTO `fields` (`Id`,`ItemId`,`Language`,`Version`,`FieldId`,`Value`,`isPublish`,`Created`,`Updated`) VALUES 
- (722,2023,'en',1,2005,'null',0,'2015-09-01 10:40:06','2015-09-01 10:40:06'),
  (723,2023,'en',1,2006,'null',0,'2015-09-01 10:40:06','2015-09-01 10:40:06'),
  (724,2023,'en',1,2007,'null',0,'2015-09-01 10:40:06','2015-09-01 10:40:06'),
  (725,2023,'en',1,78,'76|77',0,'2015-09-01 10:40:06','2015-09-01 10:40:06'),
@@ -258,12 +258,11 @@ INSERT INTO `fields` (`Id`,`ItemId`,`Language`,`Version`,`FieldId`,`Value`,`isPu
  (904,2058,'en',1,78,'76|77',0,'2015-09-05 11:16:44','2015-09-05 11:16:44'),
  (905,2058,'en',1,80,'null',0,'2015-09-05 11:16:44','2015-09-05 11:16:44'),
  (906,2058,'en',1,81,'null',0,'2015-09-05 11:16:44','2015-09-05 11:16:44'),
- (1448,137,'ru',1,132,'Organisation',0,'2015-09-08 16:40:03','2015-09-08 16:40:03');
+ (1448,137,'ru',1,132,'Organisation',0,'2015-09-08 16:40:03','2015-09-08 16:40:03'),
+ (1449,137,'ru',1,133,'The iWith.org Foundation is a non-profit organisation with an international scope founded in 2001 to participate actively in the development of the most disadvantaged regions and populations, offering active assistance to take advantage of the opportunities offered by the internet and the organisations.  iWith.org is a pioneer in Internet-based training with the Ab-soo “sharing for education” programme which had the participation of organisations from Mexico, Guatemala, Dominican Republic and Ecuador.  Using its own technology, iWith.org has developed Ab-core, a platform of services which are being used by hundreds of organisations to manage their internet projects and online working.',0,'2015-09-08 16:40:03','2015-09-08 16:40:03');
 INSERT INTO `fields` (`Id`,`ItemId`,`Language`,`Version`,`FieldId`,`Value`,`isPublish`,`Created`,`Updated`) VALUES 
- (1449,137,'ru',1,133,'The iWith.org Foundation is a non-profit organisation with an international scope founded in 2001 to participate actively in the development of the most disadvantaged regions and populations, offering active assistance to take advantage of the opportunities offered by the internet and the organisations.  iWith.org is a pioneer in Internet-based training with the Ab-soo “sharing for education” programme which had the participation of organisations from Mexico, Guatemala, Dominican Republic and Ecuador.  Using its own technology, iWith.org has developed Ab-core, a platform of services which are being used by hundreds of organisations to manage their internet projects and online working.',0,'2015-09-08 16:40:03','2015-09-08 16:40:03'),
  (1450,137,'ru',1,134,'http://www.iwith.org/mm/image/web2013/voluntarios.jpg',0,'2015-09-08 16:40:03','2015-09-08 16:40:03'),
- (1451,137,'ru',1,78,'76|77',0,'2015-09-08 16:40:03','2015-09-08 16:40:03');
-INSERT INTO `fields` (`Id`,`ItemId`,`Language`,`Version`,`FieldId`,`Value`,`isPublish`,`Created`,`Updated`) VALUES 
+ (1451,137,'ru',1,78,'76|77',0,'2015-09-08 16:40:03','2015-09-08 16:40:03'),
  (1452,137,'ru',1,80,'null',0,'2015-09-08 16:40:03','2015-09-08 16:40:03'),
  (1453,137,'ru',1,81,'null',0,'2015-09-08 16:40:03','2015-09-08 16:40:03'),
  (1578,2129,'en',1,150,'342',0,'2015-09-16 12:30:30','2015-09-16 12:30:30'),
@@ -272,14 +271,14 @@ INSERT INTO `fields` (`Id`,`ItemId`,`Language`,`Version`,`FieldId`,`Value`,`isPu
  (1591,146,'en',2,144,'http://www.iwith.org//en/soluciones/consultoria_internet.html',0,'2015-09-22 13:56:07','2015-09-22 13:56:07'),
  (1592,146,'en',2,78,'null',0,'2015-09-22 13:56:07','2015-09-22 13:56:07'),
  (1593,146,'en',3,143,'Internet consulting222',0,'2015-09-22 13:56:23','2015-09-22 13:56:23'),
- (1594,146,'en',3,144,'http://www.iwith.org//en/soluciones/consultoria_internet.html',0,'2015-09-22 13:56:23','2015-09-22 13:56:23'),
+ (1594,146,'en',3,144,'http://www.iwith.org//en/soluciones/consultoria_internet.html',0,'2015-09-22 13:56:23','2015-09-22 13:56:23');
+INSERT INTO `fields` (`Id`,`ItemId`,`Language`,`Version`,`FieldId`,`Value`,`isPublish`,`Created`,`Updated`) VALUES 
  (1595,146,'en',3,78,'null',0,'2015-09-22 13:56:23','2015-09-22 13:56:23'),
- (1596,137,'en',2,132,'Organisation',0,'2015-09-22 14:11:52','2015-09-22 14:11:52');
-INSERT INTO `fields` (`Id`,`ItemId`,`Language`,`Version`,`FieldId`,`Value`,`isPublish`,`Created`,`Updated`) VALUES 
+ (1596,137,'en',2,132,'Organisation',0,'2015-09-22 14:11:52','2015-09-22 14:11:52'),
  (1597,137,'en',2,133,'The iWith.org Foundation is a non-profit organisation with an international scope founded in 2001 to participate actively in the development of the most disadvantaged regions and populations, offering active assistance to take advantage of the opportunities offered by the internet and the organisations.  iWith.org is a pioneer in Internet-based training with the Ab-soo “sharing for education” programme which had the participation of organisations from Mexico, Guatemala, Dominican Republic and Ecuador.  Using its own technology, iWith.org has developed Ab-core, a platform of services which are being used by hundreds of organisations to manage their internet projects and online working.',0,'2015-09-22 14:11:52','2015-09-22 14:11:52'),
- (1598,137,'en',2,134,'http://www.iwith.org/mm/image/web2013/voluntarios.jpg',0,'2015-09-22 14:11:52','2015-09-22 14:11:52'),
- (1599,137,'en',2,78,'76|77',0,'2015-09-22 14:11:52','2015-09-22 14:11:52');
+ (1598,137,'en',2,134,'http://www.iwith.org/mm/image/web2013/voluntarios.jpg',0,'2015-09-22 14:11:52','2015-09-22 14:11:52');
 INSERT INTO `fields` (`Id`,`ItemId`,`Language`,`Version`,`FieldId`,`Value`,`isPublish`,`Created`,`Updated`) VALUES 
+ (1599,137,'en',2,78,'76|77',0,'2015-09-22 14:11:52','2015-09-22 14:11:52'),
  (1600,137,'en',2,80,'null',0,'2015-09-22 14:11:52','2015-09-22 14:11:52'),
  (1601,137,'en',2,81,'null',0,'2015-09-22 14:11:52','2015-09-22 14:11:52'),
  (1602,138,'en',1,132,'null',0,'2015-09-22 14:11:57','2015-09-22 14:11:57'),
@@ -291,9 +290,9 @@ INSERT INTO `fields` (`Id`,`ItemId`,`Language`,`Version`,`FieldId`,`Value`,`isPu
  (1608,2132,'en',1,339,'null',0,'2015-10-07 10:52:56','2015-10-07 10:52:56'),
  (1609,2132,'en',1,340,'null',0,'2015-10-07 10:52:56','2015-10-07 10:52:56'),
  (1610,2132,'en',1,78,'76|77',0,'2015-10-07 10:52:56','2015-10-07 10:52:56'),
- (1611,2132,'en',1,80,'null',0,'2015-10-07 10:52:56','2015-10-07 10:52:56'),
- (1612,2132,'en',1,81,'null',0,'2015-10-07 10:52:56','2015-10-07 10:52:56');
+ (1611,2132,'en',1,80,'null',0,'2015-10-07 10:52:56','2015-10-07 10:52:56');
 INSERT INTO `fields` (`Id`,`ItemId`,`Language`,`Version`,`FieldId`,`Value`,`isPublish`,`Created`,`Updated`) VALUES 
+ (1612,2132,'en',1,81,'null',0,'2015-10-07 10:52:56','2015-10-07 10:52:56'),
  (1613,2133,'en',1,339,'null',0,'2015-10-07 10:53:32','2015-10-07 10:53:32'),
  (1614,2133,'en',1,340,'null',0,'2015-10-07 10:53:32','2015-10-07 10:53:32'),
  (1615,2133,'en',1,78,'76|77',0,'2015-10-07 10:53:32','2015-10-07 10:53:32'),
@@ -301,30 +300,52 @@ INSERT INTO `fields` (`Id`,`ItemId`,`Language`,`Version`,`FieldId`,`Value`,`isPu
  (1617,2133,'en',1,81,'null',0,'2015-10-07 10:53:32','2015-10-07 10:53:32'),
  (1618,2134,'en',1,150,'345',0,'2015-10-07 11:13:56','2015-10-07 11:13:56'),
  (1624,2131,'en',1,2129,'null',0,'2015-10-07 12:48:56','2015-10-07 12:48:56'),
- (1625,2131,'en',1,2130,'null',0,'2015-10-07 12:48:56','2015-10-07 12:48:56'),
+ (1625,2131,'en',1,2130,'<p>null</p>\n',0,'2015-10-07 12:48:56','2015-10-07 12:48:56'),
  (1626,2131,'en',1,2134,'null',0,'2015-10-07 12:48:56','2015-10-07 12:48:56'),
- (1627,2131,'en',1,78,'76|77',0,'2015-10-07 12:48:56','2015-10-07 12:48:56'),
+ (1627,2131,'en',1,78,'76|77|',0,'2015-10-07 12:48:56','2015-10-07 12:48:56'),
  (1628,2131,'en',1,80,'null',0,'2015-10-07 12:48:56','2015-10-07 12:48:56'),
- (1629,2131,'en',1,81,'null',0,'2015-10-07 12:48:56','2015-10-07 12:48:56'),
- (1630,2135,'en',1,2004,'/SiteEngine/Client/upload/2135_flowers.jpg',0,'2015-10-16 11:39:16','2015-10-16 11:39:16');
+ (1629,2131,'en',1,81,'{\"name\":\"\"}',0,'2015-10-07 12:48:56','2015-10-07 12:48:56');
 INSERT INTO `fields` (`Id`,`ItemId`,`Language`,`Version`,`FieldId`,`Value`,`isPublish`,`Created`,`Updated`) VALUES 
- (1631,2135,'en',1,2005,'null',0,'2015-10-16 11:39:16','2015-10-16 11:39:16'),
- (1632,2135,'en',1,2006,'null',0,'2015-10-16 11:39:16','2015-10-16 11:39:16'),
- (1633,2135,'en',1,2007,'null',0,'2015-10-16 11:39:16','2015-10-16 11:39:16'),
- (1634,2135,'en',1,2027,'null',0,'2015-10-16 11:39:16','2015-10-16 11:39:16'),
- (1635,2135,'en',1,78,'76|77',0,'2015-10-16 11:39:16','2015-10-16 11:39:16'),
- (1636,2135,'en',1,80,'null',0,'2015-10-16 11:39:16','2015-10-16 11:39:16'),
- (1637,2135,'en',1,81,'null',0,'2015-10-16 11:39:16','2015-10-16 11:39:16'),
- (1638,2136,'en',1,2004,'/SiteEngine/Client/upload/2136_file2.txt',0,'2015-10-16 11:39:23','2015-10-16 11:39:23'),
- (1639,2136,'en',1,2005,'null',0,'2015-10-16 11:39:23','2015-10-16 11:39:23'),
- (1640,2136,'en',1,2006,'null',0,'2015-10-16 11:39:23','2015-10-16 11:39:23'),
- (1641,2136,'en',1,2007,'null',0,'2015-10-16 11:39:23','2015-10-16 11:39:23'),
- (1642,2136,'en',1,2027,'null',0,'2015-10-16 11:39:23','2015-10-16 11:39:23');
+ (1726,2158,'en',1,2004,'/SiteEngine/Client/upload/2158_flowers.jpg',0,'2015-10-27 11:55:34','2015-10-27 11:55:34'),
+ (1727,2158,'en',1,2005,'null',0,'2015-10-27 11:55:35','2015-10-27 11:55:35'),
+ (1728,2158,'en',1,2006,'null',0,'2015-10-27 11:55:35','2015-10-27 11:55:35'),
+ (1729,2158,'en',1,2007,'null',0,'2015-10-27 11:55:35','2015-10-27 11:55:35'),
+ (1730,2158,'en',1,2027,'null',0,'2015-10-27 11:55:35','2015-10-27 11:55:35'),
+ (1731,2158,'en',1,78,'76|77|',0,'2015-10-27 11:55:35','2015-10-27 11:55:35'),
+ (1732,2158,'en',1,80,'null',0,'2015-10-27 11:55:35','2015-10-27 11:55:35'),
+ (1733,2158,'en',1,81,'{\"name\":\"\"}',0,'2015-10-27 11:55:35','2015-10-27 11:55:35'),
+ (1734,2159,'en',1,2004,'/SiteEngine/Client/upload/2159_flowers2.jpg',0,'2015-10-27 11:58:50','2015-10-27 11:58:50'),
+ (1735,2159,'en',1,2005,'23249',0,'2015-10-27 11:58:50','2015-10-27 11:58:50'),
+ (1736,2159,'en',1,2006,'null',0,'2015-10-27 11:58:50','2015-10-27 11:58:50'),
+ (1737,2159,'en',1,2007,'null',0,'2015-10-27 11:58:50','2015-10-27 11:58:50');
 INSERT INTO `fields` (`Id`,`ItemId`,`Language`,`Version`,`FieldId`,`Value`,`isPublish`,`Created`,`Updated`) VALUES 
- (1643,2136,'en',1,78,'76|77',0,'2015-10-16 11:39:23','2015-10-16 11:39:23'),
- (1644,2136,'en',1,80,'null',0,'2015-10-16 11:39:23','2015-10-16 11:39:23'),
- (1645,2136,'en',1,81,'null',0,'2015-10-16 11:39:23','2015-10-16 11:39:23');
+ (1738,2159,'en',1,2027,'null',0,'2015-10-27 11:58:50','2015-10-27 11:58:50'),
+ (1739,2159,'en',1,78,'76|77|',0,'2015-10-27 11:58:50','2015-10-27 11:58:50'),
+ (1740,2159,'en',1,80,'null',0,'2015-10-27 11:58:50','2015-10-27 11:58:50'),
+ (1741,2159,'en',1,81,'{\"name\":\"\"}',0,'2015-10-27 11:58:50','2015-10-27 11:58:50');
 /*!40000 ALTER TABLE `fields` ENABLE KEYS */;
+
+
+--
+-- Table structure for table `db_site_engine`.`history`
+--
+
+DROP TABLE IF EXISTS `history`;
+CREATE TABLE `history` (
+  `ID` int(11) NOT NULL auto_increment,
+  `action` varchar(45) NOT NULL default '',
+  `info` varchar(300) NOT NULL default '',
+  `user` bigint(20) unsigned NOT NULL default '0',
+  `datatime` datetime NOT NULL default '0000-00-00 00:00:00',
+  PRIMARY KEY  (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `db_site_engine`.`history`
+--
+
+/*!40000 ALTER TABLE `history` DISABLE KEYS */;
+/*!40000 ALTER TABLE `history` ENABLE KEYS */;
 
 
 --
@@ -334,7 +355,7 @@ INSERT INTO `fields` (`Id`,`ItemId`,`Language`,`Version`,`FieldId`,`Value`,`isPu
 DROP TABLE IF EXISTS `items`;
 CREATE TABLE `items` (
   `ID` bigint(20) unsigned NOT NULL auto_increment,
-  `Name` varchar(256) character set latin1 NOT NULL,
+  `Name` varchar(256) NOT NULL default '',
   `TemplateID` bigint(20) default NULL,
   `MasterID` bigint(20) default NULL,
   `ParentID` bigint(20) default NULL,
@@ -342,7 +363,7 @@ CREATE TABLE `items` (
   `Created` datetime NOT NULL,
   `Updated` datetime NOT NULL,
   UNIQUE KEY `ID` (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=2138 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2160 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `db_site_engine`.`items`
@@ -444,9 +465,8 @@ INSERT INTO `items` (`ID`,`Name`,`TemplateID`,`MasterID`,`ParentID`,`isPublish`,
  (2132,'Checkbox',338,NULL,337,0,'2015-10-07 10:52:56','2015-10-07 10:52:56'),
  (2133,'Password',338,NULL,337,0,'2015-10-07 10:53:32','2015-10-07 10:53:32'),
  (2134,'image',148,NULL,2128,0,'2015-10-07 11:13:56','2015-10-07 11:13:56'),
- (2135,'flowers.jpg',2003,NULL,2000,0,'2015-10-16 11:39:16','2015-10-16 11:39:16'),
- (2136,'file2.txt',2003,NULL,2000,0,'2015-10-16 11:39:23','2015-10-16 11:39:23'),
- (2137,'test',2003,NULL,2000,0,'2015-10-16 11:39:23','2015-10-16 11:39:23');
+ (2158,'flowers.jpg',2003,NULL,2000,0,'2015-10-27 11:55:34','2015-10-27 11:55:34'),
+ (2159,'flowers2.jpg',2003,NULL,2000,0,'2015-10-27 11:58:50','2015-10-27 11:58:50');
 /*!40000 ALTER TABLE `items` ENABLE KEYS */;
 
 
@@ -457,7 +477,7 @@ INSERT INTO `items` (`ID`,`Name`,`TemplateID`,`MasterID`,`ParentID`,`isPublish`,
 DROP TABLE IF EXISTS `user_roles`;
 CREATE TABLE `user_roles` (
   `id` bigint(20) unsigned NOT NULL auto_increment,
-  `name` varchar(45) character set latin1 NOT NULL default '',
+  `name` varchar(45) NOT NULL default '',
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
@@ -482,13 +502,13 @@ INSERT INTO `user_roles` (`id`,`name`) VALUES
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `id` bigint(20) unsigned NOT NULL auto_increment,
-  `name` varchar(45) character set latin1 NOT NULL default '',
-  `fullname` varchar(80) character set latin1 NOT NULL default '',
+  `name` varchar(45) NOT NULL default '',
+  `fullname` varchar(80) NOT NULL default '',
   `role` bigint(20) unsigned NOT NULL default '0',
-  `email` varchar(45) character set latin1 NOT NULL default '',
-  `password` varchar(60) character set latin1 NOT NULL default '',
-  `comment` varchar(300) character set latin1 NOT NULL default '',
-  `language` varchar(10) character set latin1 NOT NULL default '',
+  `email` varchar(45) NOT NULL default '',
+  `password` varchar(60) NOT NULL default '',
+  `comment` varchar(300) NOT NULL default '',
+  `language` varchar(10) NOT NULL default '',
   PRIMARY KEY  (`id`),
   KEY `FK_role` (`role`),
   CONSTRAINT `FK_role` FOREIGN KEY (`role`) REFERENCES `user_roles` (`id`)

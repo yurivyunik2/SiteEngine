@@ -275,7 +275,7 @@ function (application, Utils, Notification, PanelFormCtrl, PanelTypes) {
           application.httpRequest(requestData, function (response) {
             if (!response.error) {
               if (response.data && response.data.item) {
-                //selItem.fields = response.data.item.fields;
+                application.getEngineTree().selectCurrentItem();
               }
             }
             if (data.callback)
@@ -321,7 +321,7 @@ function (application, Utils, Notification, PanelFormCtrl, PanelTypes) {
           application.httpRequest(requestData, function (response) {
             if (!response.error) {
               if (response.data && response.data.item) {
-                //selItem.fields = response.data.item.fields;
+                application.getEngineTree().selectCurrentItem();
               }
             }
             if (data.callback)

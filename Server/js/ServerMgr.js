@@ -32,6 +32,8 @@
   var roleMgrModule = require('./RoleMgr.js');
   var roleMgr = new roleMgrModule.RoleMgr();
 
+  var DatabaseMgr = Modules.DatabaseMgr;
+
 
   var self;
 
@@ -71,6 +73,12 @@
         objResponse.error = "ERROR: UNKNOWN REQUEST";
         response.end(JSON.stringify(objResponse));
       }
+    },
+
+    responseCallbackPOST: function (response, dataRequest, objResponse) {
+      DatabaseMgr.historyLog(dataRequest, objResponse);
+
+      response.end(JSON.stringify(objResponse));
     },
 
     processPOST: function (request, response) {
@@ -178,7 +186,7 @@
             case "deleteItem":
               {
                 itemMgr.deleteItem(dataRequest, objResponse, function () {
-                  if (!(objResponse.error && objResponse.error != "")) {
+                  if (!(objResponse.error && objResponse.error !== "")) {
 
                   }
                   response.end(JSON.stringify(objResponse));
@@ -188,13 +196,28 @@
             case "publishItem":
               {
                 publishMgr.publishItem(dataRequest, objResponse, function () {
-                  response.end(JSON.stringify(objResponse));
+                  if (dataRequest) {
+                    objResponse.data = {
+                      item: dataRequest.item,
+                    };
+                  }
+
+                  self.responseCallbackPOST(response, dataRequest, objResponse);
+
+                  //DatabaseMgr.historyLog(dataRequest, objResponse);
+
+                  //response.end(JSON.stringify(objResponse));
                 });
                 break;
               }
             case "publishTree":
               {
                 publishMgr.publishTree(dataRequest, objResponse, function () {
+                  if (dataRequest) {
+                    objResponse.data = {
+                      item: dataRequest.item,
+                    };
+                  }
                   response.end(JSON.stringify(objResponse));
                 });
                 break;

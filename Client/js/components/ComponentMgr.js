@@ -109,9 +109,11 @@ define(["application", "CONST", "imageChangeCtrl", "richTextEditor", "selectItem
         if (html) {
           parentTdElem.append(html);
 
-          var $elem = parentTdElem.children().last().find(".itemField");
+          //var $elem = parentTdElem.children().last().find(".itemField");
+          var $elem = parentTdElem.children().last();
           actualComponents[field.id] = $elem;
         }
+
       },
 
       getValues: function () {

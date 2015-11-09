@@ -343,10 +343,12 @@
              name: dataRequest.item.name,
            },
         };
-        var infoResults = {
-          isOK: objResponse.isOK,
-          error: objResponse.error,
-        };
+        var infoResults = {};        
+        if (objResponse.data) {
+          infoResults.isOK = !objResponse.data.error;
+          infoResults.error = objResponse.data.error;
+        }
+
         self.insertIntoHistory({ action: dataRequest.action, info: "Data: " + JSON.stringify(infoData) + ", Results: " + JSON.stringify(infoResults) }, historyResponse, function () {
           if (historyResponse.error) {
             var error = historyResponse.error.replace(/'/g, "\"");

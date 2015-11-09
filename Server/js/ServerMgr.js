@@ -113,7 +113,8 @@
             case "getItems":
               {
                 ServerApplication.updateItemsCash(dataRequest, objResponse, function () {
-                  response.end(JSON.stringify(objResponse));
+                  //response.end(JSON.stringify(objResponse));
+                  self.responseCallbackPOST(response, dataRequest, objResponse);
                 });
                 //itemMgr.getItems(dataRequest, objResponse, function () {
                 //  response.end(JSON.stringify(objResponse));
@@ -123,63 +124,72 @@
             case "getItemFields":
               {
                 itemMgr.getItemFields(dataRequest, objResponse, function () {
-                  response.end(JSON.stringify(objResponse));
+                  //response.end(JSON.stringify(objResponse));
+                  self.responseCallbackPOST(response, dataRequest, objResponse);
                 });
                 break;
               }
             case "getTemplates":
               {
                 templateMgr.getTemplates(objResponse, function () {
-                  response.end(JSON.stringify(objResponse));
+                  //response.end(JSON.stringify(objResponse));
+                  self.responseCallbackPOST(response, dataRequest, objResponse);
                 });
                 break;
               }
             case "addTemplate":
               {
                 templateMgr.addTemplate(dataRequest, objResponse, function () {
-                  response.end(JSON.stringify(objResponse));
+                  //response.end(JSON.stringify(objResponse));
+                  self.responseCallbackPOST(response, dataRequest, objResponse);
                 });
                 break;
               }
             case "updateTemplate":
               {
                 templateMgr.updateTemplate(dataRequest, objResponse, function () {
-                  response.end(JSON.stringify(objResponse));
+                  //response.end(JSON.stringify(objResponse));
+                  self.responseCallbackPOST(response, dataRequest, objResponse);
                 });
                 break;
               }
             case "createItem":
               {
                 itemMgr.createItem(dataRequest, objResponse, function () {
-                  response.end(JSON.stringify(objResponse));
+                  //response.end(JSON.stringify(objResponse));
+                  self.responseCallbackPOST(response, dataRequest, objResponse);
                 });
                 break;
               }
             case "addItem":
               {
                 itemMgr.addItem(dataRequest, objResponse, function () {
-                  response.end(JSON.stringify(objResponse));
+                  //response.end(JSON.stringify(objResponse));
+                  self.responseCallbackPOST(response, dataRequest, objResponse);
                 });
                 break;
               }
             case "newVersionCreate":
               {
                 itemMgr.newVersionCreate(dataRequest, objResponse, function () {
-                  response.end(JSON.stringify(objResponse));
+                  //response.end(JSON.stringify(objResponse));
+                  self.responseCallbackPOST(response, dataRequest, objResponse);
                 });
                 break;
               }
             case "deleteVersion":
               {
                 itemMgr.deleteVersion(dataRequest, objResponse, function () {
-                  response.end(JSON.stringify(objResponse));
+                  //response.end(JSON.stringify(objResponse));
+                  self.responseCallbackPOST(response, dataRequest, objResponse);
                 });
                 break;
               }              
             case "saveItem":
               {
                 itemMgr.saveItem(dataRequest, objResponse, function () {
-                  response.end(JSON.stringify(objResponse));
+                  //response.end(JSON.stringify(objResponse));
+                  self.responseCallbackPOST(response, dataRequest, objResponse);
                 });
                 break;
               }
@@ -189,7 +199,8 @@
                   if (!(objResponse.error && objResponse.error !== "")) {
 
                   }
-                  response.end(JSON.stringify(objResponse));
+                  //response.end(JSON.stringify(objResponse));
+                  self.responseCallbackPOST(response, dataRequest, objResponse);
                 });
                 break;
               }
@@ -202,11 +213,8 @@
                     };
                   }
 
-                  self.responseCallbackPOST(response, dataRequest, objResponse);
-
-                  //DatabaseMgr.historyLog(dataRequest, objResponse);
-
                   //response.end(JSON.stringify(objResponse));
+                  self.responseCallbackPOST(response, dataRequest, objResponse);
                 });
                 break;
               }
@@ -218,7 +226,8 @@
                       item: dataRequest.item,
                     };
                   }
-                  response.end(JSON.stringify(objResponse));
+                  //response.end(JSON.stringify(objResponse));
+                  self.responseCallbackPOST(response, dataRequest, objResponse);
                 });
                 break;
               }
@@ -228,56 +237,64 @@
                     'Content-Type': 'text/html',
                     'Access-Control-Allow-Origin': '*'
                   });
-                  response.end(JSON.stringify(objResponse));
+                  //response.end(JSON.stringify(objResponse));
+                  self.responseCallbackPOST(response, dataRequest, objResponse);
                 });
               break;
               }
             case "getUsers":
               {
                 userMgr.getUsers(dataRequest, objResponse, function () {
-                  response.end(JSON.stringify(objResponse));
+                  //response.end(JSON.stringify(objResponse));
+                  self.responseCallbackPOST(response, dataRequest, objResponse);
                 });
                 break;
               }
             case "getUserRoles":
               {
                 userMgr.getUserRoles(dataRequest, objResponse, function () {
-                  response.end(JSON.stringify(objResponse));
+                  //response.end(JSON.stringify(objResponse));
+                  self.responseCallbackPOST(response, dataRequest, objResponse);
                 });
                 break;
               }
             case "newUser":
               {
                 userMgr.newUser(dataRequest, objResponse, function () {
-                  response.end(JSON.stringify(objResponse));
+                  //response.end(JSON.stringify(objResponse));
+                  self.responseCallbackPOST(response, dataRequest, objResponse);
                 });
                 break;
               }
             case "removeUser":
               {
                 userMgr.removeUser(dataRequest, objResponse, function () {
-                  response.end(JSON.stringify(objResponse));
+                  //response.end(JSON.stringify(objResponse));
+                  self.responseCallbackPOST(response, dataRequest, objResponse);
                 });
                 break;
               }
             case "editUser":
               {
                 userMgr.updateUser(dataRequest, objResponse, function () {
-                  response.end(JSON.stringify(objResponse));
+                  //response.end(JSON.stringify(objResponse));
+                  self.responseCallbackPOST(response, dataRequest, objResponse);
                 });
                 break;
               }
             case "login":
               {
                 userMgr.login(dataRequest, objResponse, function () {
-                  response.end(JSON.stringify(objResponse));
+                  //response.end(JSON.stringify(objResponse));
+                  self.responseCallbackPOST(response, dataRequest, objResponse);
                 });
                 break;
               }
             case "logout":
               {
                 userMgr.logout(dataRequest, objResponse, function () {
-                  response.end(JSON.stringify(objResponse));
+                  //response.end(JSON.stringify(objResponse));
+                  self.responseCallbackPOST(response, dataRequest, objResponse);
                 });
                 break;
               }

@@ -47,37 +47,37 @@ var CONST = function (CommonTypes, AppConfig) {
     MEDIA_TYPES: function () { return MediaTypes; },
 
     // ITEMS
-    TEMPLATES_ROOT_ID: function () { return 5; },
+    TEMPLATES_ROOT_ID: function () { return 2000; },
     CONTENT_ROOT_ID: function () { return 2; },
-    LAYOUTS_ROOT_ID: function () { return 3; },
-    MEDIA_ROOT_ID: function () { return 2000; },
-    DATA_TYPES_ROOT_ID: function () { return 337; },
+    LAYOUTS_ROOT_ID: function () { return 3000; },
+    MEDIA_ROOT_ID: function () { return 5000; },
+    DATA_TYPES_ROOT_ID: function () { return 4001; },
     
     // TEMPLATES
-    TEMPLATE_FIELD_ID: function () { return 148; },
-    FOLDER_TEMPLATE_ID: function () { return 72; },
-    MEDIA_ITEM_TEMPLATE_ID: function () { return 2003; },
+    TEMPLATE_FIELD_ID: function () { return 2017; },
+    FOLDER_TEMPLATE_ID: function () { return 2003; },
+    MEDIA_ITEM_TEMPLATE_ID: function () { return 2023; },
 
     // FIELDS
-    INSERT_OPTIONS_FIELD_ID: function () { return 80; },
-    BASE_TEMPLATE_FIELD_ID: function () { return 78; },
-    RENDERINGS_FIELD_ID: function () { return 81; },
-    TYPE_FIELD_ID: function () { return 150; },
-    SRC_MEDIA_FIELDS_ID: function () { return 2004; },
-    BLOB_MEDIA_FIELDS_ID: function () { return 2027; },
-    WIDTH_MEDIA_FIELDS_ID: function () { return 2005; },
-    HEIGHT_MEDIA_FIELDS_ID: function () { return 2006; },
-    ALTERNATIVE_TEXT_MEDIA_FIELDS_ID: function () { return 2007; },
+    INSERT_OPTIONS_FIELD_ID: function () { return 2011; },
+    BASE_TEMPLATE_FIELD_ID: function () { return 2009; },
+    RENDERINGS_FIELD_ID: function () { return 2012; },
+    TYPE_FIELD_ID: function () { return 2018; },
+    SRC_MEDIA_FIELDS_ID: function () { return 2024; },
+    BLOB_MEDIA_FIELDS_ID: function () { return 2028; },
+    WIDTH_MEDIA_FIELDS_ID: function () { return 2025; },
+    HEIGHT_MEDIA_FIELDS_ID: function () { return 2026; },
+    ALTERNATIVE_TEXT_MEDIA_FIELDS_ID: function () { return 2027; },
 
 
     // TYPES
-    SINGLE_LINE_TYPE: function () { return 342; },
-    INTEGER_TYPE: function () { return 343; },
-    RICH_TEXT_TYPE: function () { return 344; },
-    IMAGE_TYPE: function () { return 345; },
-    NUMBER_TYPE: function () { return 346; },
-    DATETIME_TYPE: function () { return 347; },
-    BLOB_TYPE: function () { return 2058; },    
+    SINGLE_LINE_TYPE: function () { return 4002; },
+    INTEGER_TYPE: function () { return 4003; },
+    RICH_TEXT_TYPE: function () { return 4004; },
+    IMAGE_TYPE: function () { return 4005; },
+    NUMBER_TYPE: function () { return 4006; },
+    DATETIME_TYPE: function () { return 4007; },
+    BLOB_TYPE: function () { return 4008; },
 
     // KEYS      
     RIGHT_MOUSE_KEY: function () { return 3; },

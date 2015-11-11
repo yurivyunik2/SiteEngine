@@ -26,16 +26,15 @@
 	++ 15_5_1) ImageChangeCtrl
 ++ 15_6) To implement the loading message during accomplishing of the action.
 ++ 15_7) To implement keeping the history of actions
-!!!15_8) To structurize the database. 
+++ !!!15_8) To structurize the database. 
 
-!!!16) To implement the beginning of the analytics - statistical information about page's visiting
 
-16_2) To implement the Localization
-//17) To add the support of the  Social Networks
 17_2) Monitoring of the programming news(features, tools), technologies
+17_3) Restyling(Crossbrowsing)
 
 --
-17_3) Restyling(Crossbrowsing)
+!!!16) To implement the beginning of the analytics - statistical information about page's visiting
+16_2) To implement the Localization
 17_4) Settings
 18) To implement the using of the devices
 19) Unit-testing

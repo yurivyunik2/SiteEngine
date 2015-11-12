@@ -90,10 +90,11 @@
         }
       });
 
-      if (renderingObj && renderingObj.layout) {
+      if (renderingObj && renderingObj.id && parseInt(renderingObj.id) > 0) {
+        var renderingId = parseInt(renderingObj.id);
         var items = ServerApplication.getItemsCash();
         _.each(items, function(item) {
-          if (item.id === renderingObj.layout.id) {
+          if (item.id === renderingId) {
             renderingObj.layoutItem = item;
           }
         });

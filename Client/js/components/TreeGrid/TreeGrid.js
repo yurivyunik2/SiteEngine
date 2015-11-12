@@ -59,14 +59,16 @@ define(["application", "CONST", "Utils", "row", "headerRow", "css!TreeGridCss"],
         isApplicationEvents = _isApplicationEvents;
 
         //
-        application.addItemChangeSubscribers(self, self.itemChangeEvent);
+        application.addItemChangeSubscribers(identifier, self.itemChangeEvent);
 
         //
         application.addUIComponent(identifier, self);
       },
 
-      dispose: function() {
-        application.removeUIComponent(identifier, self);
+      dispose: function () {
+        application.removeItemChangeSubscribers(identifier);
+
+        application.removeUIComponent(identifier);
       },
 
       intervalUI: function(uiData) {
@@ -105,14 +107,19 @@ define(["application", "CONST", "Utils", "row", "headerRow", "css!TreeGridCss"],
         this.renderTree();
       },
 
+      newItemClone: function(item) {
+        var newItem = _.clone(item);
+        delete newItem.children;
+        delete newItem.childrenHash;
+        return newItem;
+      },
+
       populateItems: function(_items) {
 
         //var items = Utils.clone(_items);
         var items = [];
         _.each(_items, function(item) {
-          var newItem = _.clone(item);
-          delete newItem.children;
-          delete newItem.childrenHash;
+          var newItem = self.newItemClone(item);
           items.push(newItem);
         });
 
@@ -311,7 +318,10 @@ define(["application", "CONST", "Utils", "row", "headerRow", "css!TreeGridCss"],
         if (event && event.action && event.item) {
           if (event.action === "addItem") {
             self.addChildNode(event.item);
+          } else if (event.action === "removeItem") {
+            self.removeChildNode(event.item);
           }
+
         }
       },
       //
@@ -472,12 +482,18 @@ define(["application", "CONST", "Utils", "row", "headerRow", "css!TreeGridCss"],
           return;
 
         try {
-          var parentItem = newItem.parentObj;
-          var $trElem = $(parentItem.trElem);
-          var marginLeftVar = marginLeftInterval;
-          var marginLeft = $trElem.find(".dvFirst").css("margin-left");
-          if (marginLeft)
-            marginLeftVar += parseInt(marginLeft);
+
+          newItem = self.newItemClone(newItem);
+          //var parentItem = newItem.parentObj;
+          var parentItem = self.hashParentItems[newItem.parentObj.id];
+          if (!parentItem)
+            return;
+
+          //var $trElem = $(parentItem.trElem);
+          //var marginLeftVar = marginLeftInterval;
+          //var marginLeft = $trElem.find(".dvFirst").css("margin-left");
+          //if (marginLeft)
+          //  marginLeftVar += parseInt(marginLeft);
 
           if (!parentItem.childrenHash)
             parentItem.childrenHash = {};
@@ -487,30 +503,41 @@ define(["application", "CONST", "Utils", "row", "headerRow", "css!TreeGridCss"],
           parentItem.children.push(newItem);
           //self.renderItem($trElem, newItem, parentItem.id, marginLeftVar, self.isFiltered);
           //self.openCloseNode(parentItem.trElem, !isNodeUpdate);
-          self.openCloseNode(parentItem.trElem, true);
+          
+          self.hashParentItems[newItem.id] = newItem;
+          if (parentItem.trElem) {
+            parentItem.isOpened = true;
+            self.openCloseNode(parentItem.trElem, true);
 
-          $(newItem.trElem).mousedown();
+            $(newItem.trElem).mousedown();
+          }
         } catch (ex) {
         }
       },
 
-      removeChildNode: function (itemObj) {
-        if (!itemObj || !itemObj.id)
+      removeChildNode: function (item) {
+        if (!item || !item.id || !item.parentObj)
           return;
         
         try {
-          var initItems = application.getItems();
+          //var initItems = application.getItems();
 
-          var item = _.findWhere(initItems, { id: itemObj.id });
-          if (!item || !item.parentObj || !item.parentObj.trElem)
+          //var item = _.findWhere(initItems, { id: itemObj.id });
+          ////if (!item || !item.parentObj || !item.parentObj.trElem)
+          ////  return;
+          //if (!item || !item.parentObj)
+          //  return;
+
+          //var parentItem = item.parentObj;
+          var parentItem = self.hashParentItems[item.parentObj.id];
+          if (!parentItem)
             return;
-
-          var parentItem = item.parentObj;
 
           delete parentItem.childrenHash[item.id];
 
-          var index = parentItem.children.indexOf(item);
-          parentItem.children.splice(index, 1);
+          parentItem.children = _.without(parentItem.children, _.findWhere(parentItem.children, { id: item.id }));
+          //var index = parentItem.children.indexOf(item);
+          //parentItem.children.splice(index, 1);
           
           self.openCloseNode(parentItem.trElem, true);
 

@@ -229,9 +229,7 @@ function (application, Utils, Notification, PanelFormCtrl, PanelTypes) {
           if (!response.error) {
             if (response.data && response.data.item) {
               //selItem.fields = response.data.item.fields;
-              var engineTree = application.getEngineTree();
-              var treeGrid = engineTree.getTreeGrid();
-              treeGrid.removeChildNode(response.data.item);
+              application.removeItem(response.data.item);
             }
           }
           if (data.callback)

@@ -463,7 +463,9 @@ define(["CONST", "Utils"], function (CONST, Utils) {
         var newItem = { id: item.id, name: item.name, templateId: item.templateId };
 
         var parentItem = _.findWhere(items, { id: parentObj.id });
-        if (!parentItem || !parentItem.trElem)
+        //if (!parentItem || !parentItem.trElem)
+        //  return;
+        if (!parentItem)
           return;
 
         var newItemFound = _.findWhere(items, { id: newItem.id });
@@ -477,6 +479,39 @@ define(["CONST", "Utils"], function (CONST, Utils) {
         var event = {
           action: "addItem",
           item: newItem
+        };
+        var keys = _.keys(itemChangeSubscribers);
+        _.each(keys, function (subscriber) {
+          if (subscriber && itemChangeSubscribers[subscriber])
+            itemChangeSubscribers[subscriber](event);
+        });
+      },
+
+      removeItem: function (item) {
+        //var parentObj = { id: item.parentId };
+        //var newItem = { id: item.id, name: item.name, templateId: item.templateId };
+
+        //var parentItem = _.findWhere(items, { id: parentObj.id });
+        ////if (!parentItem || !parentItem.trElem)
+        ////  return;
+        //if (!parentItem)
+        //  return;
+
+        var removeItemFound = _.findWhere(items, { id: item.id });
+        if (!removeItemFound) // item exists
+          return;
+
+        //newItem.parentObj = parentItem;
+        items = _.without(items, _.findWhere(items, { id: removeItemFound.id }));
+        //var index = items.indexOf(removeItemFound);
+        //if (index > -1) {
+        //  items.splice(index, 1);
+        //}
+
+        // to call of the Events' subscribers
+        var event = {
+          action: "removeItem",
+          item: removeItemFound
         };
         var keys = _.keys(itemChangeSubscribers);
         _.each(keys, function (subscriber) {

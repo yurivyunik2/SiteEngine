@@ -29,10 +29,17 @@
 ++ !!!15_8) To structurize the database. 
 
 
-17_2) Monitoring of the programming news(features, tools), technologies
-17_3) Restyling(Crossbrowsing)
+-- 17_2) Monitoring of the programming news(features, tools), technologies
+-- 17_3) Restyling(Crossbrowsing)
 
---
+18) Developing demo WEB-site
+18_1) To make up first(main) page
+18_2) To link content items with html-elements on the page
+18_3) To create hosting with one-page site
+
+----------------------
+----------------------
+----------------------
 !!!16) To implement the beginning of the analytics - statistical information about page's visiting
 16_2) To implement the Localization
 17_4) Settings

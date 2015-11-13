@@ -8,7 +8,16 @@
 
   $(document).ready(function() {
 
-    console.log("test");
+    $(".tdLanguage").click(function (event) {
+      if ($("#languageMenu").css("display") === "block") {
+      }      
+      else
+        $("#languageMenu").show();
+    });
+
+    $(window).mousedown(function () {
+      $("#languageMenu").hide();
+    });
   });
 </script>
 
@@ -105,14 +114,15 @@ width: 100%;display: table;">
 ">
   <b class="caret"></b>
 </div>
-    
-    </div>
-  
-<ul class="dropdown-menu"><li><a href="/i-js/lang.php?l=es_ES&amp;r=1">Castellano</a></li>
-                <li><a href="/i-js/lang.php?l=ca_ES&amp;r=1">Català</a></li>
-                <li><a href="/i-js/lang.php?l=en_US&amp;r=1"> English </a></li>
-                <li><a href="/i-js/lang.php?l=fr_FR&amp;r=1"> Français</a></li>
-        </ul>  
+
+  <ul id="languageMenu" class="dropdown-menu" ><li><a href="/i-js/lang.php?l=es_ES&amp;r=1">Castellano</a></li>
+                    <li><a href="/i-js/lang.php?l=ca_ES&amp;r=1">Català</a></li>
+                    <li><a href="/i-js/lang.php?l=en_US&amp;r=1"> English </a></li>
+                    <li><a href="/i-js/lang.php?l=fr_FR&amp;r=1"> Français</a></li>
+            </ul>
+
+  </div>  
+
 </td>
   </tr>
 </tbody></table>
@@ -144,4 +154,4 @@ width: 100%;display: table;">
   </div>
 </div>
 
-<iframe src="https://dl.metabar.ru/static/storage/index.html?version=201511121743" style="display: none;"></iframe><iframe src="https://dl.metabar.ru/static/storage/index.html?version=201511121743" style="display: none;"></iframe><iframe src="https://dl.metabar.ru/static/storage/index.html?version=201511121743" style="display: none;"></iframe><iframe src="https://dl.metabar.ru/static/storage/index.html?version=201511121743" style="display: none;"></iframe><iframe src="https://dl.metabar.ru/static/storage/index.html?version=201511131615" style="display: none;"></iframe><iframe src="https://dl.metabar.ru/static/storage/index.html?version=201511131615" style="display: none;"></iframe><iframe src="https://dl.metabar.ru/static/storage/index.html?version=201511131615" style="display: none;"></iframe><iframe src="https://dl.metabar.ru/static/storage/index.html?version=201511131615" style="display: none;"></iframe><iframe src="https://dl.metabar.ru/static/storage/index.html?version=201511131615" style="display: none;"></iframe><iframe src="https://dl.metabar.ru/static/storage/index.html?version=201511131615" style="display: none;"></iframe><iframe src="https://dl.metabar.ru/static/storage/index.html?version=201511131615" style="display: none;"></iframe><iframe src="https://dl.metabar.ru/static/storage/index.html?version=201511131615" style="display: none;"></iframe><iframe src="https://dl.metabar.ru/static/storage/index.html?version=201511131615" style="display: none;"></iframe></body>
+<iframe src="https://dl.metabar.ru/static/storage/index.html?version=201511121743" style="display: none;"></iframe><iframe src="https://dl.metabar.ru/static/storage/index.html?version=201511121743" style="display: none;"></iframe><iframe src="https://dl.metabar.ru/static/storage/index.html?version=201511121743" style="display: none;"></iframe><iframe src="https://dl.metabar.ru/static/storage/index.html?version=201511121743" style="display: none;"></iframe><iframe src="https://dl.metabar.ru/static/storage/index.html?version=201511131615" style="display: none;"></iframe><iframe src="https://dl.metabar.ru/static/storage/index.html?version=201511131615" style="display: none;"></iframe><iframe src="https://dl.metabar.ru/static/storage/index.html?version=201511131615" style="display: none;"></iframe><iframe src="https://dl.metabar.ru/static/storage/index.html?version=201511131615" style="display: none;"></iframe><iframe src="https://dl.metabar.ru/static/storage/index.html?version=201511131615" style="display: none;"></iframe><iframe src="https://dl.metabar.ru/static/storage/index.html?version=201511131615" style="display: none;"></iframe><iframe src="https://dl.metabar.ru/static/storage/index.html?version=201511131615" style="display: none;"></iframe><iframe src="https://dl.metabar.ru/static/storage/index.html?version=201511131615" style="display: none;"></iframe><iframe src="https://dl.metabar.ru/static/storage/index.html?version=201511131615" style="display: none;"></iframe><iframe src="https://dl.metabar.ru/static/storage/index.html?version=201511131615" style="display: none;"></iframe></body>

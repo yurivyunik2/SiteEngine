@@ -45,6 +45,7 @@
 .dvTop .tbMiddle .dvLanguageMenu {
   padding: 0px 15px;
   display: table;  
+  position: relative;
 }
 
 .dvTop .tbMiddle .caret {

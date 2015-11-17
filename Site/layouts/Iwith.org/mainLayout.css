@@ -1,7 +1,13 @@
 ﻿.dvTop {
-  
+  width: 100%;
+  display: table;
+  letter-spacing: 2px;
 }
-
+  .dvTop .dvTopInternal {
+    display: table-cell;
+    text-align: center;
+    position: relative;
+  }
 .dvTop .tbMiddle {
   
 }
@@ -85,41 +91,60 @@
   padding-left: 100px;
 }
 
-.dvLinkSection .tbLinks {
+.dvInternal {
+  width: 70%;
+  margin: auto;
+}
+
+.dvMiddle {
+  margin: auto;
+}
+  .dvMiddle .dvSection {
+    border-bottom: 2px solid #DDDDDD;
+    padding-top: 60px;
+    padding-bottom: 60px;
+  }
+.dvMiddle .dvHeader {
+  font-size: 25px;
+  padding: 15px 0px;
+}
+  .dvMiddle .dvHeader a {
+    color: #006E75;
+  }
+
+.dvLinksSection {  
+}
+.dvMiddle .dvLinksSection.dvSection {
+  padding-top: 0px;
+}
+.dvLinksSection .tbLinks {
   width: 100%;
   /* margin: auto; */
-  border-bottom: 2px solid #DDDDDD;
   text-align:center;
 }
-  .dvLinkSection .tbLinks td {
+  .dvLinksSection .tbLinks td {
     vertical-align: top;
-    padding-bottom: 60px;
     max-width: 350px;
   }
-  .dvLinkSection .dvLinkImg img {
+  .dvLinksSection .dvLinkImg img {
     width: 180px;
     height:140px;
   }
-.dvLinkSection .dvLinkTitle {
+.dvLinksSection .dvLinkTitle {
   padding-top: 5px;
   padding-bottom: 15px;
 }
-  .dvLinkSection .dvLinkTitle a {
+  .dvLinksSection .dvLinkTitle a {
     color: #006E75;
     font-size: 25px;
   }
-  .dvLinkSection .dvLinkInfo {
+  .dvLinksSection .dvLinkInfo {
     color: #695C5C;
     font-size: 16px;
   }
 
 .dvNewsSection {
   padding-top: 80px;
-}
-.dvNewsSection .dvHeader {
-  color: #006E75;
-  font-size: 25px;
-  padding-bottom: 25px;
 }
 
 .dvNewsSection table {
@@ -158,4 +183,80 @@
 
   .dvNewsSection .tdEvent .dvEvent {
     padding-bottom: 20px;
+  }
+
+.dvSocialSection {
+}
+  .dvSocialSection td {
+    vertical-align: top;
+    width: 23%;
+    padding-right: 2%;
+  }
+
+.dvBlog {
+}
+  .dvBlog .dvArticle {    
+    padding: 5px 0px;
+    font-size: 17px;
+  }
+  .dvBlog .dvArticle a {
+    color: #EE8234;
+  }
+
+.dvFooter {
+  width: 100%;
+  background-color: #006E75;
+}
+  .dvFooter a {
+    color: #CCCCCC;
+  }
+
+.dvText {
+  color: #fff;
+}
+.dvLinksArea {
+  padding-top: 40px;
+  padding-bottom: 25px;
+  border-bottom: 1px solid #196364;
+}
+.dvLinksArea img {
+  width: 100px;
+}
+.dvLinksArea table {
+  width: 100%;
+  }
+  .dvLinksArea table td {
+    vertical-align:top;
+  }
+.dvLinksArea a {  
+}
+.dvLinksArea .tdCollaborate {
+  text-align:center;
+  font-size: 25px;
+  padding: 0px 50px;
+}
+.dvLinksArea .tdLinks {
+  font-size: 19px;
+}
+  .dvLinksArea .tdLinks div {
+    display: inline-block;
+    margin-right: 50px;
+    padding-bottom: 30px;
+  }
+.dvLinksArea .tdContact {
+  color: #fff;
+  width: 29%;  
+  vertical-align: middle;
+  padding-left: 1%;
+  border-left: 1px solid #196364;
+}
+
+.dvPrivacy {
+  padding-top: 60px;
+}
+  .dvPrivacy .dvPrivacyText {
+    text-align: right;
+  }
+  .dvPrivacy .dvFooterInfo {
+    margin-top: 20px;
   }

@@ -272,7 +272,8 @@ define(["application", "CONST", "Utils", "row", "headerRow", "css!TreeGridCss"],
           return;
 
         // if there are focused elements - then refuse action
-        var focusedElems = $parentElem.find("*:focus");
+        //var focusedElems = $parentElem.find("*:focus");
+        var focusedElems = $("*:focus");
         if (focusedElems.length > 0)
           return;
 

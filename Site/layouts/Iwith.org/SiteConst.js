@@ -6,10 +6,15 @@ define([], function () {
     var self;
 
     return {
-      HEADER_MENU_ITEM_ID: function () { return 135; },
-      FOOTER_ITEM_ID: function () { return 145; },
-      
-      ORGANIZATION_MENU_ITEM_ID: function () { return 136; },
+      HEADER_MENU_ITEM_ID: function () { return 5013; },
+      HEADER_TITLE_ITEM_ID: function () { return 5027; },
+      SEARCH_PLACEHOLDER_ITEM_ID: function () { return 5028; },
+
+      LAUNGUAGES_ITEM_ID: function () { return 5020; },
+
+
+      //FOOTER_ITEM_ID: function () { return 145; },      
+      //ORGANIZATION_MENU_ITEM_ID: function () { return 136; },
       
     };
   };

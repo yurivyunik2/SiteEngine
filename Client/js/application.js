@@ -337,6 +337,35 @@ define(["CONST", "Utils"], function (CONST, Utils) {
         });
       },
 
+      getItemGroupFields: function (items, callback) {
+        if (!items)
+          return;
+
+        var _items = [];
+        _.each(items, function (item) {
+          _items.push({id: item.id, name: item.name, templateId: item.templateId});
+        });
+        var data = { action: "getItemGroupFields", items: _items };
+
+        self.httpRequest(data, function (responseData) {
+          if (!responseData.error) {
+            self.isRequestProcess = false;
+            var itemsGroup;
+            if (responseData.data) {
+              itemsGroup = responseData.data;              
+            }
+            if (callback)
+              callback(itemsGroup);
+          } else {
+            if (callback)
+              callback();
+          }
+        }, function () {
+          if (callback)
+            callback();
+        });
+      },
+
       loadItems: function(callback) {
         var data = { action: "getItems" };
         self.isRequestProcess = true;

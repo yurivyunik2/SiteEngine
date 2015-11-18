@@ -196,6 +196,43 @@ exports.ItemMgr = function () {
       }
     },
 
+    getItemGroupFields: function (data, objResponse, callback) {
+      if (!data || !data.items || data.items.length <= 0) {
+        objResponse.error = "Error: data";
+        if (callback)
+          callback();
+        return;
+      }
+
+      var self = this;
+
+      var amountItems = data.items.length;
+      if (amountItems > 0) {
+        var indexItem = 0;
+        var itemsGroup = {};
+        _.each(data.items, function (item) {
+          var _objResp = {};
+          self.getItemFields(item, _objResp, function () {
+            if (!(_objResp.error && _objResp.error != "")) {
+              indexItem++;
+              item.fields = _objResp.data;
+              itemsGroup[item.id] = item;
+              if (indexItem === amountItems) {
+                objResponse.data = itemsGroup;
+                if (callback)
+                  callback();
+              }
+            } else {
+              objResponse.error = _objResp.error;
+              if (callback)
+                callback();
+            }
+          });
+        });
+      }
+
+    },
+
     getItemChilds: function (data, requestResponse, callback) {
       var query = "SELECT id, name, parentid as parent, templateId FROM items";
       query += " where parentID = " + data.id;

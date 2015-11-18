@@ -1,38 +1,12 @@
 ﻿
-<link href="/SiteEngine/Site/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-<link href="/SiteEngine/Site/lib/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
-<link href="/SiteEngine/Site/lib/jquery.bxslider/jquery.bxslider.css" rel="stylesheet">
+<!--<script data-main="configRequire" src="/SiteEngine/Client/js/lib/require.js"></script>-->
+<script src="/SiteEngine/Site/layouts/Iwith.org/mainLayout.js"></script>
 
 
-<script src="/SiteEngine/Client/js/lib/jquery-1.11.3.js"></script>
-<script src="/SiteEngine/Site/lib/jquery.bxslider/jquery.bxslider.js"></script>
+<!--<link href="/SiteEngine/Site/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="/SiteEngine/Site/lib/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">-->
+<!--<link href="/SiteEngine/Site/lib/jquery.bxslider/jquery.bxslider.css" rel="stylesheet">-->
 
-<script type="text/javascript">
-
-  $(document).ready(function() {
-
-    $(".tdLanguage").click(function (event) {
-      if ($("#languageMenu").css("display") === "block") {
-      }      
-      else
-        $("#languageMenu").show();
-    });
-
-    $(window).mousedown(function () {
-      $("#languageMenu").hide();
-    });
-
-    //$('.dvSlider').bxSlider({
-    //  slideWidth: screen.width,
-    //  minSlides: 1,
-    //  maxSlides: 1,
-    //  //slideMargin: 10
-    //});
-    //$('.bx-viewport').css("left", "0px");
-
-
-  });
-</script>
 
 <link href="/SiteEngine/Site/layouts/Iwith.org/mainLayout.css" rel="stylesheet">
 
@@ -40,187 +14,32 @@
   padding: 0;
   margin: 0;
 "><div>
-  <div class="dvTop">
 
-  <div class="dvTopInternal">
+  <div ng-include="'/SiteEngine/Site/layouts/Iwith.org/Header/Header.html'"></div>
 
-  <table style="
-  margin: auto;
-">
-    <tbody><tr>
-      <td>
-        <div class="dvLogo" style="
-            display: table-cell;
-          ">
-                <img src="/SiteEngine/Site/images/Logo_official.png" style="
-            width: 125px;
-            height: 155px;                                                            
-          ">
 
-              </div>      
-      </td>
-      <td style="
-  vertical-align: top;
-  height: 100%;
-  padding-left: 100px;
-">
-                <table class="tbMiddle" style="
-">
-  <tbody><tr>
-    <td>
-              <div class="dvTitle" style="
-              text-align: right;
-              color: #EE8234;
-              font-family: 'Titillium Web', sans-serif;
-              text-rendering: optimizelegibility;
-              font-size: 1.3em;
-        ">
-              <span>Internet for projects that improve the world *</span>
-            </div>
-    
-    </td>
-  </tr>
-  <tr>
-    <td>
-              <table style="
-  font-family: sans-serif;
-  font-size: 21px;
-  color: #006E75;
-">
-  <tbody><tr>
-    <td>
-      <div class="dvMenu"><ul>
-                  <li>Home</li>
-                  <li>Organisation</li>
-                  <li>Services</li>
-                  <li>News</li>
-                </ul>
-
-                </div>
-    </td>
-    <td style="
-  padding-left: 60px;
-">
-  <div>
-      <input class="inputSearch" type="text" placeholder="Search">
-
+  <div class="dvSlider" style="position: relative; transition-duration: 0s; transform: translate3d(-1831px, 0px, 0px);">
+    <div class="slide " style="float: left; list-style: none; position: relative; width: 1831px;">
+        <div class="item">
+	    <a href="/en/soluciones/comunidadesvirtuales.html"><img src="http://www.iwith.org/images_2013/slide/crowdfunding.jpg"></a>
+	    <div class="container">
+		    <div class="carousel-caption">
+			    <h1>
+				    Fundraising</h1>
+			    <p class="lead">
+				    We take your fundraising strategy online</p>
+		    </div>
+	    </div>
     </div>
-</td>
-<td class="tdLanguage">
-  <div class="dvLanguageMenu">
-    <div style="
-  display: table-cell;
-  padding-left: 15px;
-">
-  <span>language</span>
-</div>
-
-<div style="
-  display: table-cell;
-  vertical-align: middle;
-  padding-left: 2px;
-">
-  <b class="caret"></b>
-</div>
-
-  <ul id="languageMenu" class="dropdown-menu" style="display: none;"><li><a href="/i-js/lang.php?l=es_ES&amp;r=1">Castellano</a></li>
-                    <li><a href="/i-js/lang.php?l=ca_ES&amp;r=1">Català</a></li>
-                    <li><a href="/i-js/lang.php?l=en_US&amp;r=1"> English </a></li>
-                    <li><a href="/i-js/lang.php?l=fr_FR&amp;r=1"> Français</a></li>
-            </ul>
-
-  </div>  
-
-</td>
-  </tr>
-</tbody></table>
-
-
-            <div class="dvSearch"></div><div class="dvLanguage"></div>
-    
-    </td>
-
-  </tr>
-  
-</tbody></table>
-
-      
-      
-        
-      </td>
-    </tr>
-  </tbody></table>
-  
-
-  
-  
-  </div>
-  
-  
-
-
-  </div>
-
-
-
-  <div class="bx-wrapper" style="max-width: 1920px;"><div class="bx-viewport" style="width: 100%; overflow: hidden; position: relative; left: 0px; height: 260px;"><div class="dvSlider" style="width: 1415%; position: relative; transition-duration: 0s; transform: translate3d(-1831px, 0px, 0px);"><div class="slide bx-clone" style="float: left; list-style: none; position: relative; width: 1831px;"><img src="http://www.iwith.org/images_2013/slide/formacion.jpg"></div><div class="slide bx-clone" style="float: left; list-style: none; position: relative; width: 1831px;">
-      <div class="item">
-	  <a href="/en/soluciones/comunidadesvirtuales.html"><img src="http://www.iwith.org/images_2013/slide/crowdfunding.jpg"></a>
-	  <div class="container">
-		  <div class="carousel-caption">
-			  <h1>
-				  Fundraising</h1>
-			  <p class="lead">
-				  We take your fundraising strategy online</p>
-		  </div>
-	  </div>
-  </div>
-    </div><div class="slide bx-clone" style="float: left; list-style: none; position: relative; width: 1831px;"><img src="http://www.iwith.org/images_2013/slide/formacion.jpg"></div>
-    <div class="slide" style="float: left; list-style: none; position: relative; width: 1831px;">
-      <div class="item">
-	  <a href="/en/soluciones/comunidadesvirtuales.html"><img src="http://www.iwith.org/images_2013/slide/crowdfunding.jpg"></a>
-	  <div class="container">
-		  <div class="carousel-caption">
-			  <h1>
-				  Fundraising</h1>
-			  <p class="lead">
-				  We take your fundraising strategy online</p>
-		  </div>
-	  </div>
-  </div>
+      </div>
+      <div class="slide" style="float: left; list-style: none; position: relative; width: 1831px;"><img src="http://www.iwith.org/images_2013/slide/consultoriainternet.jpg"></div>
+      <div class="slide" style="float: left; list-style: none; position: relative; width: 1831px;"><img src="http://www.iwith.org/images_2013/slide/paginaswebresponsive.jpg"></div>
+      <div class="slide" style="float: left; list-style: none; position: relative; width: 1831px;"><img src="http://www.iwith.org/images_2013/slide/googlegrants.jpg"></div>
+      <div class="slide" style="float: left; list-style: none; position: relative; width: 1831px;"><img src="http://www.iwith.org/images_2013/slide/email.jpg"></div>
+      <div class="slide" style="float: left; list-style: none; position: relative; width: 1831px;"><img src="http://www.iwith.org/images_2013/slide/trabajoenred.jpg"></div>
+      <div class="slide" style="float: left; list-style: none; position: relative; width: 1831px;"><img src="http://www.iwith.org/images_2013/slide/redessociales.jpg"></div>
+      <div class="slide" style="float: left; list-style: none; position: relative; width: 1831px;"><img src="http://www.iwith.org/images_2013/slide/formacion.jpg"></div>
     </div>
-    <div class="slide" style="float: left; list-style: none; position: relative; width: 1831px;"><img src="http://www.iwith.org/images_2013/slide/consultoriainternet.jpg"></div>
-    <div class="slide" style="float: left; list-style: none; position: relative; width: 1831px;"><img src="http://www.iwith.org/images_2013/slide/paginaswebresponsive.jpg"></div>
-    <div class="slide" style="float: left; list-style: none; position: relative; width: 1831px;"><img src="http://www.iwith.org/images_2013/slide/googlegrants.jpg"></div>
-    <div class="slide" style="float: left; list-style: none; position: relative; width: 1831px;"><img src="http://www.iwith.org/images_2013/slide/email.jpg"></div>
-    <div class="slide" style="float: left; list-style: none; position: relative; width: 1831px;"><img src="http://www.iwith.org/images_2013/slide/trabajoenred.jpg"></div>
-    <div class="slide" style="float: left; list-style: none; position: relative; width: 1831px;"><img src="http://www.iwith.org/images_2013/slide/redessociales.jpg"></div>
-    <div class="slide" style="float: left; list-style: none; position: relative; width: 1831px;"><img src="http://www.iwith.org/images_2013/slide/formacion.jpg"></div>
-  <div class="slide bx-clone" style="float: left; list-style: none; position: relative; width: 1831px;">
-      <div class="item">
-	  <a href="/en/soluciones/comunidadesvirtuales.html"><img src="http://www.iwith.org/images_2013/slide/crowdfunding.jpg"></a>
-	  <div class="container">
-		  <div class="carousel-caption">
-			  <h1>
-				  Fundraising</h1>
-			  <p class="lead">
-				  We take your fundraising strategy online</p>
-		  </div>
-	  </div>
-  </div>
-    </div><div class="slide bx-clone" style="float: left; list-style: none; position: relative; width: 1831px;"><img src="http://www.iwith.org/images_2013/slide/formacion.jpg"></div><div class="slide bx-clone" style="float: left; list-style: none; position: relative; width: 1831px;">
-      <div class="item">
-	  <a href="/en/soluciones/comunidadesvirtuales.html"><img src="http://www.iwith.org/images_2013/slide/crowdfunding.jpg"></a>
-	  <div class="container">
-		  <div class="carousel-caption">
-			  <h1>
-				  Fundraising</h1>
-			  <p class="lead">
-				  We take your fundraising strategy online</p>
-		  </div>
-	  </div>
-  </div>
-    </div></div></div><div class="bx-controls bx-has-pager bx-has-controls-direction"><div class="bx-pager bx-default-pager"><div class="bx-pager-item"><a href="" data-slide-index="0" class="bx-pager-link active">1</a></div><div class="bx-pager-item"><a href="" data-slide-index="1" class="bx-pager-link">2</a></div><div class="bx-pager-item"><a href="" data-slide-index="2" class="bx-pager-link">3</a></div><div class="bx-pager-item"><a href="" data-slide-index="3" class="bx-pager-link">4</a></div><div class="bx-pager-item"><a href="" data-slide-index="4" class="bx-pager-link">5</a></div><div class="bx-pager-item"><a href="" data-slide-index="5" class="bx-pager-link">6</a></div><div class="bx-pager-item"><a href="" data-slide-index="6" class="bx-pager-link">7</a></div><div class="bx-pager-item"><a href="" data-slide-index="7" class="bx-pager-link">8</a></div><div class="bx-pager-item"><a href="" data-slide-index="8" class="bx-pager-link">9</a></div><div class="bx-pager-item"><a href="" data-slide-index="9" class="bx-pager-link">10</a></div><div class="bx-pager-item"><a href="" data-slide-index="10" class="bx-pager-link">11</a></div><div class="bx-pager-item"><a href="" data-slide-index="11" class="bx-pager-link">12</a></div></div><div class="bx-controls-direction"><a class="bx-prev" href="">Prev</a><a class="bx-next" href="">Next</a></div></div></div>
 
 
   <div class="dvMiddle dvInternal" style="
@@ -570,4 +389,4 @@ Catalonia - Spain</span></div>
 
 
 </div>
-<iframe src="https://dl.metabar.ru/static/storage/index.html?version=201511131635" style="display: none;"></iframe><iframe src="https://dl.metabar.ru/static/storage/index.html?version=201511131635" style="display: none;"></iframe><iframe src="https://dl.metabar.ru/static/storage/index.html?version=201511131635" style="display: none;"></iframe><iframe src="https://dl.metabar.ru/static/storage/index.html?version=201511131635" style="display: none;"></iframe><iframe src="https://dl.metabar.ru/static/storage/index.html?version=201511131635" style="display: none;"></iframe><iframe src="https://dl.metabar.ru/static/storage/index.html?version=201511171431" style="display: none;"></iframe><iframe src="https://dl.metabar.ru/static/storage/index.html?version=201511171431" style="display: none;"></iframe><iframe src="https://dl.metabar.ru/static/storage/index.html?version=201511171431" style="display: none;"></iframe><iframe src="https://dl.metabar.ru/static/storage/index.html?version=201511171431" style="display: none;"></iframe><iframe src="https://dl.metabar.ru/static/storage/index.html?version=201511171431" style="display: none;"></iframe><iframe src="https://dl.metabar.ru/static/storage/index.html?version=201511171431" style="display: none;"></iframe><iframe src="https://dl.metabar.ru/static/storage/index.html?version=201511171431" style="display: none;"></iframe><iframe src="https://dl.metabar.ru/static/storage/index.html?version=201511171431" style="display: none;"></iframe><iframe src="https://dl.metabar.ru/static/storage/index.html?version=201511171431" style="display: none;"></iframe><iframe src="https://dl.metabar.ru/static/storage/index.html?version=201511171431" style="display: none;"></iframe><iframe src="https://dl.metabar.ru/static/storage/index.html?version=201511171431" style="display: none;"></iframe><iframe src="https://dl.metabar.ru/static/storage/index.html?version=201511171647" style="display: none;"></iframe><iframe src="https://dl.metabar.ru/static/storage/index.html?version=201511171647" style="display: none;"></iframe><iframe src="https://dl.metabar.ru/static/storage/index.html?version=201511171647" style="display: none;"></iframe><iframe src="https://dl.metabar.ru/static/storage/index.html?version=201511171647" style="display: none;"></iframe><iframe src="https://dl.metabar.ru/static/storage/index.html?version=201511171647" style="display: none;"></iframe></body>
+</body>

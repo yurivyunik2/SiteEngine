@@ -129,6 +129,14 @@
                 });
                 break;
               }
+            case "getItemGroupFields":
+              {
+                itemMgr.getItemGroupFields(dataRequest, objResponse, function () {
+                  //response.end(JSON.stringify(objResponse));
+                  self.responseCallbackPOST(response, dataRequest, objResponse);
+                });
+                break;
+              }
             case "getTemplates":
               {
                 templateMgr.getTemplates(objResponse, function () {

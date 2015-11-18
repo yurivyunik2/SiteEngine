@@ -7,6 +7,31 @@ require(["application", "siteConst"], function (application, siteConst) {
 
     var obj = {
       constructor: function () {
+
+        $(document).ready(function () {
+
+          $(".tdLanguage").click(function (event) {
+            if ($("#languageMenu").css("display") === "block") {
+            }
+            else
+              $("#languageMenu").show();
+          });
+
+          $(window).mousedown(function () {
+            $("#languageMenu").hide();
+          });
+
+          $('.dvSlider').bxSlider({
+            slideWidth: screen.width,
+            minSlides: 1,
+            maxSlides: 1,
+            //slideMargin: 10
+          });
+          $('.bx-viewport').css("left", "0px");
+
+
+        });
+
         $(window).scroll(function () {
           var opacity = 0;
           if ($(window).scrollTop() > 0) {

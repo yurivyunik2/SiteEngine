@@ -43,6 +43,19 @@ define(["application", "CONST", "Utils"], function (application, CONST, Utils) {
         var tbStandardParamsElem = $parentElem.find(".tbStandardParams");
         var tbody = tbStandardParamsElem.find("tbody");
 
+        ///
+        /// MEDIA - show media manager
+        ///
+        if (itemData.id === CONST.MEDIA_ROOT_ID()) {
+          tbody.append('<button type="button" style="margin: 15px 0px;" class="btn btn-success">Open Media Manager</button>');
+          var $btnMediaManager = tbody.last();
+          $btnMediaManager.click(function () {
+            var modalFormCtrl = application.getModalFormCtrl();
+            modalFormCtrl.setType(modalFormCtrl.FORM_TYPE().IMAGE_GALLERY, {});
+          });
+        }
+        
+
         // Fields
         var fields = itemData.fields;
         var curLangguage = Utils.getLanguageCurrent();

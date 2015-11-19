@@ -502,6 +502,9 @@ define(["CONST", "Utils"], function (CONST, Utils) {
           return;
 
         newItem.parentObj = parentItem;
+        if (!parentItem.children)
+          parentItem.children = [];
+        parentItem.children.push(newItem);
         items.push(newItem);
 
         // to call of the Events' subscribers
@@ -532,6 +535,11 @@ define(["CONST", "Utils"], function (CONST, Utils) {
 
         //newItem.parentObj = parentItem;
         items = _.without(items, _.findWhere(items, { id: removeItemFound.id }));
+        if (removeItemFound.parentObj && removeItemFound.parentObj.children) {
+          var children = removeItemFound.parentObj.children;
+          removeItemFound.parentObj.children = _.without(children, _.findWhere(children, { id: removeItemFound.id }));
+        }
+
         //var index = items.indexOf(removeItemFound);
         //if (index > -1) {
         //  items.splice(index, 1);
@@ -586,18 +594,18 @@ define(["CONST", "Utils"], function (CONST, Utils) {
       },
 
       getMediaItems: function () {
-        var mediaItems = [];
+        var mediaItem;
         var items = self.getItems();
         if (items) {
-          mediaItems = _.where(items, { id: CONST.MEDIA_ROOT_ID() });
+          mediaItem = _.findWhere(items, { id: CONST.MEDIA_ROOT_ID() });
         }
 
         var allMediaItems = [];
-        _.each(mediaItems, function (item) {
+        if (mediaItem) {
           //allMediaItems.push(item);
-          Utils.findChildItems(allMediaItems, item);
-        });
-
+          Utils.findChildItems(allMediaItems, mediaItem);
+        }
+        
         return allMediaItems;
       },
 

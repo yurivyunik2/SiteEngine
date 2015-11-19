@@ -8,12 +8,42 @@
     text-align: center;
     position: relative;
   }
+  .dvTop .dvTopInternal table {
+    margin: auto;
+  }
+  .dvTop .dvTopInternal .dvLogo {
+    display: table-cell;
+  }
+  .dvTop .dvTopInternal .dvLogo img {
+    width: 125px;
+    height: 155px;
+  }
+
+  .dvTop .cellMiddle {
+    vertical-align: top;
+    height: 100%;
+    padding-left: 100px;
+  }
 .dvTop .tbMiddle {
   
 }
 .dvTop .tbMiddle td {
   padding: 16px 0;  
 }
+
+  .dvTop .tbMiddle .dvTitle {
+    text-align: right;
+    color: #EE8234;
+    font-family: 'Titillium Web', sans-serif;
+    text-rendering: optimizelegibility;
+    font-size: 1.3em;
+  }
+
+  .dvTop .tbMiddle .tbHeaderMenu {
+    font-family: sans-serif;
+    font-size: 21px;
+    color: #006E75;
+  }
 
 .dvTop .dvMenu a{
   font-family: sans-serif;
@@ -35,7 +65,10 @@
   border-left: none;
 }
 
-.dvTop .tbMiddle .inputSearch {
+  .dvTop .tbMiddle .tdSearch {
+    padding-left: 60px;
+  }
+.dvTop .tbMiddle .tdSearch .inputSearch {
   font-size: 14px;
   border: 1px solid #006E75;
   border-radius: 10px;
@@ -53,8 +86,17 @@
   display: table;  
   position: relative;
 }
+  .dvTop .tbMiddle .dvLanguageMenu > div {
+    display: table-cell;
+    padding-left: 15px;
+  }
+  .dvTop .tbMiddle .dvLanguageMenu .dvCaret {
+    display: table-cell;
+    vertical-align: middle;
+    padding-left: 2px;
+  }
 
-.dvTop .tbMiddle .caret {
+.dvTop .tbMiddle .dvLanguageMenu .dvCaret .caret {
   display: inline-block;
   width: 0;
   height: 0;

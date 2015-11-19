@@ -1,5 +1,4 @@
 ﻿
-
 <!--<div draggable id="topPart">
     <div id="topPartContent">
       <div id="topPartImg">
@@ -19,128 +18,77 @@
 
 <link href="/SiteEngine/Site/layouts/Iwith.org/Header/Header.css" rel="stylesheet">
 
-  <div class="dvTop">
-
+<div class="dvTop">
   <div class="dvTopInternal">
-
-  <table style="
-  margin: auto;
-">
-    <tbody><tr>
-      <td>
-        <div class="dvLogo" style="
-            display: table-cell;
-          ">
-                <img src="/SiteEngine/Site/images/Logo_official.png" style="
-            width: 125px;
-            height: 155px;                                                            
-          ">
-
-              </div>      
-      </td>
-      <td style="
-  vertical-align: top;
-  height: 100%;
-  padding-left: 100px;
-">
-                <table class="tbMiddle" style="
-">
-  <tbody><tr>
-    <td>
-              <div class="dvTitle" style="
-              text-align: right;
-              color: #EE8234;
-              font-family: 'Titillium Web', sans-serif;
-              text-rendering: optimizelegibility;
-              font-size: 1.3em;
-        ">
-              <span>Internet for projects that improve the world *</span>
+    <table>
+      <tbody>
+        <tr>
+          <td>
+            <div class="dvLogo">
+              <img src="/SiteEngine/Site/images/Logo_official.png">
             </div>
-    
-    </td>
-  </tr>
-  <tr>
-    <td>
-              <table style="
-  font-family: sans-serif;
-  font-size: 21px;
-  color: #006E75;
-">
-  <tbody><tr>
-    <td>
-      
-      <div class="dvMenu"><ul>
-                  <li>Home</li>
-                  <li>Organisation</li>
-                  <li>Services</li>
-                  <li>News</li>
-                </ul>
-
-                </div>
-
-    </td>
-    <td style="
-  padding-left: 60px;
-">
-  <div>
-      <input class="inputSearch" type="text" placeholder="Search">
-
-    </div>
-</td>
-<td class="tdLanguage">
-  <div class="dvLanguageMenu">
-    <div style="
-  display: table-cell;
-  padding-left: 15px;
-">
-  <span>language</span>
-</div>
-
-<div style="
-  display: table-cell;
-  vertical-align: middle;
-  padding-left: 2px;
-">
-  <b class="caret"></b>
-</div>
-
-  <ul id="languageMenu" class="dropdown-menu" style="display: none;">                    
-                    <li><a href="">English</a></li>
-                    <li><a href="">Русский</a></li>
-                    <li><a href="">Ukrainian</a></li>
-            </ul>
-
-  </div>  
-
-</td>
-  </tr>
-</tbody></table>
-
-
-            <div class="dvSearch"></div><div class="dvLanguage"></div>
-    
-    </td>
-
-  </tr>
-  
-</tbody></table>
-
-      
-      
-        
-      </td>
-    </tr>
-  </tbody></table>
-  
-
-  
-  
+          </td>
+          <td class="cellMiddle">
+            <table class="tbMiddle">
+              <tbody>
+                <tr>
+                  <td>
+                    <div class="dvTitle">
+                      <span>Internet for projects that improve the world *</span>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <table class="tbHeaderMenu">
+                      <tbody>
+                        <tr>
+                          <td>
+                            <div class="dvMenu">
+                              <ul>
+                                <li>Home</li>
+                                <li>Organisation</li>
+                                <li>Services</li>
+                                <li>News</li>
+                              </ul>
+                            </div>
+                          </td>
+                          <td class="tdSearch">
+                            <div>
+                              <input class="inputSearch" type="text" placeholder="Search">
+                            </div>
+                          </td>
+                          <td class="tdLanguage">
+                            <div class="dvLanguageMenu">
+                              <div>
+                                <span>language</span>
+                              </div>
+                              <div class="dvCaret">
+                                <b class="caret"></b>
+                              </div>
+                              <ul id="languageMenu" class="dropdown-menu" style="display: none;">
+                                <li><a href="">English</a></li>
+                                <li><a href="">Русский</a></li>
+                                <li><a href="">Ukrainian</a></li>
+                              </ul>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <div class="dvSearch"></div>
+                    <div class="dvLanguage"></div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
-  
-  
 
-
-  </div>
+</div>
 
 <script id="templMenuItem" type="text/template">
   <li itemId="<%= id %>" templateId="<%= templateId %>"><a href="<%= pathField %>"><span><%= name %></span></a></li>
@@ -149,4 +97,3 @@
 <script id="templLanguageItem" type="text/template">
   <li langCode="<%= code %>"><a href=""><span><%= displayName %></span></a></li>
 </script>
-

@@ -128,6 +128,11 @@ define(["application", "CONST", "Utils", "row", "headerRow", "css!TreeGridCss"],
           for (var i = 0; i < items.length; i++) {
             var curItem = items[i];
 
+            //
+            //yvy - fix temporary
+            //
+            this.hashParentItems[curItem.id] = curItem;
+
             //----fix----//
             if (typeof this.hashParentItems[curItem.id] != 'undefined') {
               this.hashParentItems[curItem.id].children = curItem.children;
@@ -175,6 +180,7 @@ define(["application", "CONST", "Utils", "row", "headerRow", "css!TreeGridCss"],
               this.treeItemsHash[curItem.id] = curItem;
             }
           }
+
         } catch (ex) {
 
         }

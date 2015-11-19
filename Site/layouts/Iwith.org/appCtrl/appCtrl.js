@@ -21,15 +21,6 @@ require(["application", "siteConst"], function (application, siteConst) {
             $("#languageMenu").hide();
           });
 
-          $('.dvSlider').bxSlider({
-            slideWidth: screen.width,
-            minSlides: 1,
-            maxSlides: 1,
-            //slideMargin: 10
-          });
-          $('.bx-viewport').css("left", "0px");
-
-
         });
 
         $(window).scroll(function () {

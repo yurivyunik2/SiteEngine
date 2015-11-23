@@ -15,11 +15,28 @@
 	  </div>
   </div>
     </div>
-    <div class="slide" style="float: left; list-style: none; position: relative; width: 1831px;"><img src="http://www.iwith.org/images_2013/slide/consultoriainternet.jpg"></div>
+<!--    <div class="slide" style="float: left; list-style: none; position: relative; width: 1831px;"><img src="http://www.iwith.org/images_2013/slide/consultoriainternet.jpg"></div>
     <div class="slide" style="float: left; list-style: none; position: relative; width: 1831px;"><img src="http://www.iwith.org/images_2013/slide/paginaswebresponsive.jpg"></div>
     <div class="slide" style="float: left; list-style: none; position: relative; width: 1831px;"><img src="http://www.iwith.org/images_2013/slide/googlegrants.jpg"></div>
     <div class="slide" style="float: left; list-style: none; position: relative; width: 1831px;"><img src="http://www.iwith.org/images_2013/slide/email.jpg"></div>
     <div class="slide" style="float: left; list-style: none; position: relative; width: 1831px;"><img src="http://www.iwith.org/images_2013/slide/trabajoenred.jpg"></div>
     <div class="slide" style="float: left; list-style: none; position: relative; width: 1831px;"><img src="http://www.iwith.org/images_2013/slide/redessociales.jpg"></div>
-    <div class="slide" style="float: left; list-style: none; position: relative; width: 1831px;"><img src="http://www.iwith.org/images_2013/slide/formacion.jpg"></div>
+    <div class="slide" style="float: left; list-style: none; position: relative; width: 1831px;"><img src="http://www.iwith.org/images_2013/slide/formacion.jpg"></div>-->
   </div>
+
+<script id="templCarouselItem" type="text/template">
+  <div itemId="<%= id %>"  class="slide " style="float: left; list-style: none; position: relative; width: 1831px;">
+      <div class="item">
+	  <a href=""><img src="<%= srcImage %>"></a>
+	  <div class="container">
+		  <div class="carousel-caption">
+			  <h1>
+				  <%= title %></h1>
+			  <p class="lead">
+				  <%= info %></p>
+		  </div>
+	  </div>
+  </div>
+    </div>
+
+</script>

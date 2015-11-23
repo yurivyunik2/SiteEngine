@@ -9,6 +9,8 @@ define([], function () {
       HEADER_MENU_ITEM_ID: function () { return 5013; },
       HEADER_TITLE_ITEM_ID: function () { return 5027; },
       SEARCH_PLACEHOLDER_ITEM_ID: function () { return 5028; },
+      CAROUSEL_ITEM_ID: function () { return 5052; },
+      SERVICES_ITEM_ID: function () { return 5070; },
 
       LAUNGUAGES_ITEM_ID: function () { return 5020; },
 

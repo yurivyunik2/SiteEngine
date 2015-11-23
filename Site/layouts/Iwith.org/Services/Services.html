@@ -1,0 +1,42 @@
+﻿
+<link href="/SiteEngine/Site/layouts/Iwith.org/Services/Services.css" rel="stylesheet">
+
+<div class="dvLinksSection dvSection">
+  <table class="tbLinks">
+    <tbody>
+      <tr id="linksContainer">
+<!--        <td>
+          <div class="dvLinkImg">
+            <img src="/SiteEngine/Site/images/service1.png">
+          </div>
+          <div class="dvLinkTitle dvInternetSecurity">
+            <a href="">
+              <span>Internet and Society</span>
+            </a>
+          </div>
+          <div class="dvLinkInfo">
+            <span>The Internet offers great opportunities for the improvement of society. In iWith.org we help to make the most of them connecting the two worlds with advice, training, technology and guidance.</span>
+          </div>
+        </td>-->
+        
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<script id="templServiceItem" type="text/template">
+  <td itemId="<%= id %>" >
+    <div class="dvLinkImg">
+      <img src="<%= srcImage %>">
+    </div>
+    <div class="dvLinkTitle dvInternetSecurity">
+      <a href="">
+        <span><%= title %></span>
+      </a>
+    </div>
+    <div class="dvLinkInfo">
+      <span><%= info %></span>
+    </div>
+  </td>
+
+</script>

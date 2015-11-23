@@ -4,6 +4,7 @@ require.config({
     contentArea: "/SiteEngine/Site/layouts/Iwith.org/ContentArea/ContentArea",
     header: "/SiteEngine/Site/layouts/Iwith.org/Header/Header",
     carousel: "/SiteEngine/Site/layouts/Iwith.org/Carousel/Carousel",
+    services: "/SiteEngine/Site/layouts/Iwith.org/Services/Services",
     headerMenu: "/SiteEngine/Site/layouts/Iwith.org/HeaderMenu/HeaderMenu",
     footer: "/SiteEngine/Site/layouts/Iwith.org/Footer/Footer",
 
@@ -17,6 +18,6 @@ require.config({
 
 //});
 
-require(["appCtrl", "header", "carousel"], function () {
+require(["appCtrl", "header", "carousel", "services"], function () {
 
   });

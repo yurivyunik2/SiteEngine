@@ -3,6 +3,8 @@
   var headerObj = {
     constructor: function () {
 
+      console.log("Header: ", new Date(Date.now()));
+
       var items = application.getItems();
 
       var ulMenuElem = $(".dvMenu").find("ul");

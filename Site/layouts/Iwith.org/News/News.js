@@ -3,6 +3,8 @@ require(["application", "siteConst"], function (application, siteConst) {
 
   var newsObj = {
     constructor: function () {
+      console.log("News: ", new Date(Date.now()));
+
       var items = application.getItems();
 
       var dvNewsListElem = $(".dvNewsList");

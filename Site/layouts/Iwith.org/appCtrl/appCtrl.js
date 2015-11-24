@@ -8,6 +8,8 @@ require(["application", "siteConst"], function (application, siteConst) {
     var obj = {
       constructor: function () {
 
+        console.log("appCtrl: ", new Date(Date.now()));
+
         $(document).ready(function () {
 
           $(".tdLanguage").click(function (event) {

@@ -11,6 +11,7 @@ define([], function () {
       SEARCH_PLACEHOLDER_ITEM_ID: function () { return 5028; },
       CAROUSEL_ITEM_ID: function () { return 5052; },
       SERVICES_ITEM_ID: function () { return 5070; },
+      NEWS_ITEM_ID: function () { return 5084; },
 
       LAUNGUAGES_ITEM_ID: function () { return 5020; },
 

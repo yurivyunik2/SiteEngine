@@ -1,5 +1,5 @@
 ﻿
-require(["application", "siteConst"], function (application, siteConst) {
+require(["application", "siteConst", "appCtrl"], function (application, siteConst, appCtrl) {
 
   var servicesObj = {
     constructor: function () {
@@ -35,6 +35,8 @@ require(["application", "siteConst"], function (application, siteConst) {
             });
           }
 
+          //
+          appCtrl.setLoadedComponent("services", true);
         });
 
 

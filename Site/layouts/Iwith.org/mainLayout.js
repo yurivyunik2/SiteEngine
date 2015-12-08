@@ -19,16 +19,12 @@ require.config({
 
 //});
 
-require(["Utils", "bxSlider", "header", "carousel", "services", "news"], function (Utils) {
+require(["Utils", "appCtrl", "bxSlider", "header", "carousel", "services", "news"], function (Utils, appCtrl) {
 
-  //setInterval(function () {
-  //  //if (appCtrl.isApplicationLoaded()) {
-  //  //  Utils.setLoadingApplication(false);
-  //  //}    
-  //}, 100);
-
-  setTimeout(function () {
-    Utils.setLoadingApplication(false);
-  }, 400);
+  setInterval(function () {
+    if (appCtrl.isApplicationLoaded()) {
+      Utils.setLoadingApplication(false);
+    }    
+  }, 10);
 
 });

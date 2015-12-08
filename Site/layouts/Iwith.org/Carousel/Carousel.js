@@ -10,8 +10,6 @@ require(["application", "siteConst", "appCtrl", "bxSlider", "css!bxSlider"], fun
   var carouselObj = {
     constructor: function () {
 
-      //var t = appCtrl.isApplicationLoaded();
-
       var items = application.getItems();
 
       var dvSliderElem = $(".dvSlider");
@@ -25,6 +23,9 @@ require(["application", "siteConst", "appCtrl", "bxSlider", "css!bxSlider"], fun
         }
 
         application.getItemGroupFields(carouselItems, function (itemsGroup) {
+          //
+          appCtrl.setLoadedComponent("carousel", true);
+
           if (itemsGroup) {
             dvSliderElem.html("");
             var templCarouselItem = _.template($("#templCarouselItem").html());

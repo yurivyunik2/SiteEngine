@@ -1,4 +1,4 @@
-﻿require(["application", "siteConst"], function (application, siteConst) {
+﻿require(["application", "siteConst", "appCtrl"], function (application, siteConst, appCtrl) {
 
   var headerObj = {
     constructor: function () {
@@ -74,6 +74,8 @@
 
           }
 
+          //
+          appCtrl.setLoadedComponent("header", true);
         });
 
         

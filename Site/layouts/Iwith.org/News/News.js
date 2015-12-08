@@ -1,5 +1,5 @@
 ﻿
-require(["application", "siteConst"], function (application, siteConst) {
+require(["application", "siteConst", "appCtrl"], function (application, siteConst, appCtrl) {
 
   var newsObj = {
     constructor: function () {
@@ -36,6 +36,9 @@ require(["application", "siteConst"], function (application, siteConst) {
               dvNewsListElem.append(templNewsItem(item));
             });
           }
+
+          //
+          appCtrl.setLoadedComponent("news", true);
         });
 
       }

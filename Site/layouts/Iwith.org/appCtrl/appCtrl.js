@@ -1,68 +1,63 @@
 ﻿
-require(["application", "siteConst"], function (application, siteConst) {
-  var appCtrlObj = function () {
-    var self;
+define(["application", "siteConst"], function (application, siteConst) {
+  var self;
+  var isAnimate = false;
+  var loadedComponents = {};
 
-    var isAnimate = false;
+  var obj = {
+    constructor: function () {
 
-    var loadedComponents = {};
+      console.log("appCtrl: ", new Date(Date.now()));
 
-    var obj = {
-      constructor: function () {
+      $(document).ready(function () {
 
-        console.log("appCtrl: ", new Date(Date.now()));
-
-        $(document).ready(function () {
-
-          $(".tdLanguage").click(function (event) {
-            if ($("#languageMenu").css("display") === "block") {
-            }
-            else
-              $("#languageMenu").show();
-          });
-
-          $(window).mousedown(function () {
-            $("#languageMenu").hide();
-          });
-
-        });
-
-        $(window).scroll(function () {
-          var opacity = 0;
-          if ($(window).scrollTop() > 0) {
-            opacity = 0.4;
+        $(".tdLanguage").click(function (event) {
+          if ($("#languageMenu").css("display") === "block") {
           }
+          else
+            $("#languageMenu").show();
+        });
 
-          $("#scrollToTop").stop();
-          $("#scrollToTop").animate({
-            //width: '150px',
-            opacity: opacity
-          }, 500, function () {
+        $(window).mousedown(function () {
+          $("#languageMenu").hide();
+        });
+
+      });
+
+      $(window).scroll(function () {
+        var opacity = 0;
+        if ($(window).scrollTop() > 0) {
+          opacity = 0.4;
+        }
+
+        $("#scrollToTop").stop();
+        $("#scrollToTop").animate({
+          //width: '150px',
+          opacity: opacity
+        }, 500, function () {
             
-          });
         });
+      });
 
-        $("#scrollToTop").click(function (event) {
-          $("html,body").animate({
-            scrollTop: 0
-          }, 400);
-        });
+      $("#scrollToTop").click(function (event) {
+        $("html,body").animate({
+          scrollTop: 0
+        }, 400);
+      });
         
-      },
+    },
 
-      setLoadedComponent: function (component, isLoaded) {
-        if (!component)
-          return;
-        loadedComponents[component] = isLoaded;
-      },
+    setLoadedComponent: function (component, isLoaded) {
+      if (!component)
+        return;
+      loadedComponents[component] = isLoaded;
+    },
 
-      isApplicationLoaded: function () {
-        return (loadedComponents["header"] && loadedComponents["carousel"] && loadedComponents["news"] && loadedComponents["services"]);
-      },
-    };
-    obj.constructor();
-    return obj;
+    isApplicationLoaded: function () {
+      return (loadedComponents["header"] && loadedComponents["carousel"] && loadedComponents["news"] && loadedComponents["services"]);
+    },
   };
-  
-  return appCtrlObj();
+
+  obj.constructor();
+  return obj;
 });

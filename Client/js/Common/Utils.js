@@ -55,12 +55,15 @@
       setLoadingApplication: function (isLoad) {
         var $loadingAppElem = $("#loadingApp");
         var $viewAppElem = $("#viewApp");
+        var $wrapperContent = $("#wrapperContent");
         if (isLoad) {
           $loadingAppElem.css("display", "block");
           $viewAppElem.css("display", "none");
+          $wrapperContent.css("opacity", 0);
         } else {
           $loadingAppElem.css("display", "none");
           $viewAppElem.css("display", "block");
+          $wrapperContent.css("opacity", 1);
         }
       },
 

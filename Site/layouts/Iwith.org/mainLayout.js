@@ -19,10 +19,16 @@ require.config({
 
 //});
 
-require(["Utils", "appCtrl", "bxSlider", "header", "carousel", "services", "news"], function (Utils) {
+require(["Utils", "bxSlider", "header", "carousel", "services", "news"], function (Utils) {
 
-  console.log("mainLayout: ", new Date(Date.now()));
+  //setInterval(function () {
+  //  //if (appCtrl.isApplicationLoaded()) {
+  //  //  Utils.setLoadingApplication(false);
+  //  //}    
+  //}, 100);
 
-  Utils.setLoadingApplication(true);
+  setTimeout(function () {
+    Utils.setLoadingApplication(false);
+  }, 400);
 
 });

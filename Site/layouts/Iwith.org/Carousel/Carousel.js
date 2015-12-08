@@ -5,10 +5,13 @@ require.config({
   },
 });
 
-require(["application", "siteConst", "bxSlider", "css!bxSlider"], function (application, siteConst) {
+require(["application", "siteConst", "appCtrl", "bxSlider", "css!bxSlider"], function (application, siteConst, appCtrl) {
 
   var carouselObj = {
     constructor: function () {
+
+      //var t = appCtrl.isApplicationLoaded();
+
       var items = application.getItems();
 
       var dvSliderElem = $(".dvSlider");

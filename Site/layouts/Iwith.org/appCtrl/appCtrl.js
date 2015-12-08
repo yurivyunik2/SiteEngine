@@ -5,6 +5,8 @@ require(["application", "siteConst"], function (application, siteConst) {
 
     var isAnimate = false;
 
+    var loadedComponents = {};
+
     var obj = {
       constructor: function () {
 
@@ -46,6 +48,16 @@ require(["application", "siteConst"], function (application, siteConst) {
           }, 400);
         });
         
+      },
+
+      setLoadedComponent: function (component, isLoaded) {
+        if (!component)
+          return;
+        loadedComponents[component] = isLoaded;
+      },
+
+      isApplicationLoaded: function () {
+        return (loadedComponents["header"] && loadedComponents["carousel"] && loadedComponents["news"] && loadedComponents["services"]);
       },
     };
     obj.constructor();

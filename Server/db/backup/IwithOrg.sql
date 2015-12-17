@@ -57,7 +57,7 @@ CREATE TABLE `fields` (
   `Created` datetime default NULL,
   `Updated` datetime default NULL,
   UNIQUE KEY `Id` (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2138 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2206 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `db_site_engine`.`fields`
@@ -377,7 +377,75 @@ INSERT INTO `fields` (`Id`,`ItemId`,`Language`,`Version`,`FieldId`,`Value`,`isPu
  (2134,5076,'en',1,5061,'If you are a NGO, Association, Social Entrepreneu or Socially Responsible Company and you are working for a better world, request a grant for assessment and we help you.',0,'2015-11-23 15:19:11','2015-11-23 15:19:11'),
  (2135,5076,'en',1,2011,'null',0,'2015-11-23 15:19:11','2015-11-23 15:19:11'),
  (2136,5076,'en',1,2012,'{\"name\":\"\"}',0,'2015-11-23 15:19:11','2015-11-23 15:19:11'),
- (2137,5076,'en',1,2009,'2007|2008|',0,'2015-11-23 15:19:11','2015-11-23 15:19:11');
+ (2137,5076,'en',1,2009,'2007|2008|',0,'2015-11-23 15:19:11','2015-11-23 15:19:11'),
+ (2141,5080,'en',1,2018,'4005',0,'2015-11-24 14:03:53','2015-11-24 14:03:53'),
+ (2142,5081,'en',1,2018,'4002',0,'2015-11-24 14:03:53','2015-11-24 14:03:53'),
+ (2143,5082,'en',1,2018,'4002',0,'2015-11-24 14:03:53','2015-11-24 14:03:53'),
+ (2147,5084,'en',1,2011,'5079|',0,'2015-11-24 14:04:27','2015-11-24 14:04:27'),
+ (2148,5084,'en',1,2012,'{\"name\":\"\"}',0,'2015-11-24 14:04:27','2015-11-24 14:04:27');
+INSERT INTO `fields` (`Id`,`ItemId`,`Language`,`Version`,`FieldId`,`Value`,`isPublish`,`Created`,`Updated`) VALUES 
+ (2149,5084,'en',1,2009,'2007|2008|',0,'2015-11-24 14:04:27','2015-11-24 14:04:27'),
+ (2150,5085,'en',1,5080,'/SiteEngine/Client/upload/5088_TransparencyGrants.png',0,'2015-11-24 14:04:57','2015-11-24 14:04:57'),
+ (2151,5085,'en',1,5081,'Calling for Transparency NGO Grants!',0,'2015-11-24 14:04:57','2015-11-24 14:04:57'),
+ (2152,5085,'en',1,5082,'iWith.org calls for Transparency NGO Grants so that the organisations can freely create and manage their Transparency Portal.',0,'2015-11-24 14:04:57','2015-11-24 14:04:57'),
+ (2153,5085,'en',1,2011,'null',0,'2015-11-24 14:04:57','2015-11-24 14:04:57'),
+ (2154,5085,'en',1,2012,'{\"name\":\"\"}',0,'2015-11-24 14:04:57','2015-11-24 14:04:57'),
+ (2155,5085,'en',1,2009,'2007|2008|',0,'2015-11-24 14:04:57','2015-11-24 14:04:57'),
+ (2156,5086,'en',1,2024,'/SiteEngine/Client/upload/5086_salut_mental.jpg',0,'2015-11-24 14:06:08','2015-11-24 14:06:08'),
+ (2157,5087,'en',1,2024,'/SiteEngine/Client/upload/5087_imatgePetita.jpg',0,'2015-11-24 14:06:08','2015-11-24 14:06:08');
+INSERT INTO `fields` (`Id`,`ItemId`,`Language`,`Version`,`FieldId`,`Value`,`isPublish`,`Created`,`Updated`) VALUES 
+ (2158,5088,'en',1,2024,'/SiteEngine/Client/upload/5088_TransparencyGrants.png',0,'2015-11-24 14:06:08','2015-11-24 14:06:08'),
+ (2159,5086,'en',1,2025,'null',0,'2015-11-24 14:06:08','2015-11-24 14:06:08'),
+ (2160,5087,'en',1,2025,'null',0,'2015-11-24 14:06:08','2015-11-24 14:06:08'),
+ (2161,5088,'en',1,2025,'null',0,'2015-11-24 14:06:08','2015-11-24 14:06:08'),
+ (2162,5086,'en',1,2026,'null',0,'2015-11-24 14:06:08','2015-11-24 14:06:08'),
+ (2163,5087,'en',1,2026,'null',0,'2015-11-24 14:06:08','2015-11-24 14:06:08'),
+ (2164,5088,'en',1,2026,'null',0,'2015-11-24 14:06:08','2015-11-24 14:06:08'),
+ (2165,5086,'en',1,2027,'null',0,'2015-11-24 14:06:08','2015-11-24 14:06:08'),
+ (2166,5087,'en',1,2027,'null',0,'2015-11-24 14:06:08','2015-11-24 14:06:08'),
+ (2167,5088,'en',1,2027,'null',0,'2015-11-24 14:06:08','2015-11-24 14:06:08'),
+ (2168,5086,'en',1,2028,'null',0,'2015-11-24 14:06:08','2015-11-24 14:06:08'),
+ (2169,5087,'en',1,2028,'null',0,'2015-11-24 14:06:08','2015-11-24 14:06:08');
+INSERT INTO `fields` (`Id`,`ItemId`,`Language`,`Version`,`FieldId`,`Value`,`isPublish`,`Created`,`Updated`) VALUES 
+ (2170,5088,'en',1,2028,'null',0,'2015-11-24 14:06:08','2015-11-24 14:06:08'),
+ (2171,5086,'en',1,2011,'null',0,'2015-11-24 14:06:08','2015-11-24 14:06:08'),
+ (2172,5087,'en',1,2011,'null',0,'2015-11-24 14:06:09','2015-11-24 14:06:09'),
+ (2173,5088,'en',1,2011,'null',0,'2015-11-24 14:06:09','2015-11-24 14:06:09'),
+ (2174,5086,'en',1,2012,'null',0,'2015-11-24 14:06:09','2015-11-24 14:06:09'),
+ (2175,5089,'en',1,2024,'/SiteEngine/Client/upload/5089_CapturaDePantalla.png',0,'2015-11-24 14:06:09','2015-11-24 14:06:09'),
+ (2176,5087,'en',1,2012,'{\"name\":\"\"}',0,'2015-11-24 14:06:09','2015-11-24 14:06:09'),
+ (2177,5088,'en',1,2012,'{\"name\":\"\"}',0,'2015-11-24 14:06:09','2015-11-24 14:06:09'),
+ (2178,5086,'en',1,2009,'2007|2008',0,'2015-11-24 14:06:09','2015-11-24 14:06:09'),
+ (2179,5089,'en',1,2025,'null',0,'2015-11-24 14:06:09','2015-11-24 14:06:09'),
+ (2180,5087,'en',1,2009,'2007|2008|',0,'2015-11-24 14:06:09','2015-11-24 14:06:09'),
+ (2181,5088,'en',1,2009,'2007|2008|',0,'2015-11-24 14:06:09','2015-11-24 14:06:09');
+INSERT INTO `fields` (`Id`,`ItemId`,`Language`,`Version`,`FieldId`,`Value`,`isPublish`,`Created`,`Updated`) VALUES 
+ (2182,5089,'en',1,2026,'null',0,'2015-11-24 14:06:09','2015-11-24 14:06:09'),
+ (2183,5089,'en',1,2027,'null',0,'2015-11-24 14:06:09','2015-11-24 14:06:09'),
+ (2184,5089,'en',1,2028,'null',0,'2015-11-24 14:06:09','2015-11-24 14:06:09'),
+ (2185,5089,'en',1,2011,'null',0,'2015-11-24 14:06:09','2015-11-24 14:06:09'),
+ (2186,5089,'en',1,2012,'{\"name\":\"\"}',0,'2015-11-24 14:06:09','2015-11-24 14:06:09'),
+ (2187,5089,'en',1,2009,'2007|2008|',0,'2015-11-24 14:06:09','2015-11-24 14:06:09'),
+ (2188,5090,'en',1,5080,'/SiteEngine/Client/upload/5087_imatgePetita.jpg',0,'2015-11-24 14:11:22','2015-11-24 14:11:22'),
+ (2189,5090,'en',1,5081,'iWith.org organizes and takes part in the II Social Innovation Forum',0,'2015-11-24 14:11:22','2015-11-24 14:11:22'),
+ (2190,5090,'en',1,5082,'Gallery and The Social Coin are two of the innovations that we introduced during the Speednetworking workshop. ',0,'2015-11-24 14:11:22','2015-11-24 14:11:22'),
+ (2191,5090,'en',1,2011,'null',0,'2015-11-24 14:11:22','2015-11-24 14:11:22');
+INSERT INTO `fields` (`Id`,`ItemId`,`Language`,`Version`,`FieldId`,`Value`,`isPublish`,`Created`,`Updated`) VALUES 
+ (2192,5090,'en',1,2012,'{\"name\":\"\"}',0,'2015-11-24 14:11:22','2015-11-24 14:11:22'),
+ (2193,5090,'en',1,2009,'2007|2008|',0,'2015-11-24 14:11:22','2015-11-24 14:11:22'),
+ (2194,5091,'en',1,5080,'/SiteEngine/Client/upload/5086_salut_mental.jpg',0,'2015-11-24 14:11:55','2015-11-24 14:11:55'),
+ (2195,5091,'en',1,5081,'The Obertament Case: Standing Up For Mental Health via Internet',0,'2015-11-24 14:11:55','2015-11-24 14:11:55'),
+ (2196,5091,'en',1,5082,'Obertament is fighting against the stigmas surrounding mental health issues by launching an awareness campaign.',0,'2015-11-24 14:11:55','2015-11-24 14:11:55'),
+ (2197,5091,'en',1,2011,'null',0,'2015-11-24 14:11:55','2015-11-24 14:11:55'),
+ (2198,5091,'en',1,2012,'{\"name\":\"\"}',0,'2015-11-24 14:11:55','2015-11-24 14:11:55'),
+ (2199,5091,'en',1,2009,'2007|2008|',0,'2015-11-24 14:11:55','2015-11-24 14:11:55'),
+ (2200,5092,'en',1,5080,'/SiteEngine/Client/upload/5089_CapturaDePantalla.png',0,'2015-11-24 14:12:48','2015-11-24 14:12:48'),
+ (2201,5092,'en',1,5081,'Would you like to take part in the Second Forum for Social Innovation, 2015?',0,'2015-11-24 14:12:48','2015-11-24 14:12:48');
+INSERT INTO `fields` (`Id`,`ItemId`,`Language`,`Version`,`FieldId`,`Value`,`isPublish`,`Created`,`Updated`) VALUES 
+ (2202,5092,'en',1,5082,'iWith.org, as a member of Red Creactiva, is co-organizing and participating in two days of discussion which will bring together over 300 people from the field of social innovation and entrepreneurship.',0,'2015-11-24 14:12:48','2015-11-24 14:12:48'),
+ (2203,5092,'en',1,2011,'null',0,'2015-11-24 14:12:48','2015-11-24 14:12:48'),
+ (2204,5092,'en',1,2012,'{\"name\":\"\"}',0,'2015-11-24 14:12:48','2015-11-24 14:12:48'),
+ (2205,5092,'en',1,2009,'2007|2008|',0,'2015-11-24 14:12:48','2015-11-24 14:12:48');
 /*!40000 ALTER TABLE `fields` ENABLE KEYS */;
 
 
@@ -393,7 +461,7 @@ CREATE TABLE `history` (
   `user` bigint(20) NOT NULL default '0',
   `datetime` datetime NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY  (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=280 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=305 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `db_site_engine`.`history`
@@ -707,7 +775,34 @@ INSERT INTO `history` (`ID`,`action`,`info`,`user`,`datetime`) VALUES
  (277,'saveItem','Data: {\"item\":{\"id\":5075}}, Results: {\"isOK\":true}',-1,'2015-11-23 15:18:51');
 INSERT INTO `history` (`ID`,`action`,`info`,`user`,`datetime`) VALUES 
  (278,'createItem','Data: {\"item\":{\"name\":\"Grant for Assessment\"}}, Results: {\"isOK\":true}',-1,'2015-11-23 15:19:11'),
- (279,'saveItem','Data: {\"item\":{\"id\":5076}}, Results: {\"isOK\":true}',-1,'2015-11-23 15:19:21');
+ (279,'saveItem','Data: {\"item\":{\"id\":5076}}, Results: {\"isOK\":true}',-1,'2015-11-23 15:19:21'),
+ (280,'createItem','Data: {\"item\":{\"name\":\"News\"}}, Results: {\"isOK\":true}',-1,'2015-11-24 13:47:08'),
+ (281,'addTemplate','Data: {\"item\":{\"id\":5078,\"name\":\"NewsItem\"}}, Results: {}',-1,'2015-11-24 14:02:57'),
+ (282,'deleteItem','Data: {\"item\":{\"id\":5078}}, Results: {\"isOK\":true}',-1,'2015-11-24 14:03:15'),
+ (283,'addTemplate','Data: {\"item\":{\"id\":5079,\"name\":\"NewsItem\"}}, Results: {}',-1,'2015-11-24 14:03:53'),
+ (284,'createItem','Data: {\"item\":{\"name\":\"News\"}}, Results: {\"isOK\":true}',-1,'2015-11-24 14:04:06'),
+ (285,'deleteItem','Data: {\"item\":{\"id\":5083}}, Results: {\"isOK\":true}',-1,'2015-11-24 14:04:10'),
+ (286,'deleteItem','Data: {\"item\":{\"id\":5077}}, Results: {\"isOK\":true}',-1,'2015-11-24 14:04:12'),
+ (287,'createItem','Data: {\"item\":{\"name\":\"News\"}}, Results: {\"isOK\":true}',-1,'2015-11-24 14:04:27');
+INSERT INTO `history` (`ID`,`action`,`info`,`user`,`datetime`) VALUES 
+ (288,'saveItem','Data: {\"item\":{\"id\":5084}}, Results: {\"isOK\":true}',-1,'2015-11-24 14:04:35'),
+ (289,'createItem','Data: {\"item\":{\"name\":\"CallingForTransparency\"}}, Results: {\"isOK\":true}',-1,'2015-11-24 14:04:57'),
+ (290,'createItem','Data: {\"item\":{\"name\":\"salut_mental.jpg\"}}, Results: {\"isOK\":true}',-1,'2015-11-24 14:06:09'),
+ (291,'createItem','Data: {\"item\":{\"name\":\"imatge petita.jpg\"}}, Results: {\"isOK\":true}',-1,'2015-11-24 14:06:09'),
+ (292,'createItem','Data: {\"item\":{\"name\":\"Transparency Grants.png\"}}, Results: {\"isOK\":true}',-1,'2015-11-24 14:06:09'),
+ (293,'createItem','Data: {\"item\":{\"name\":\"Captura de pantalla 2015-10-01 a les 11_57_29.png\"}}, Results: {\"isOK\":true}',-1,'2015-11-24 14:06:09'),
+ (294,'saveItem','Data: {\"item\":{\"id\":5089}}, Results: {\"isOK\":true}',-1,'2015-11-24 14:09:46'),
+ (295,'saveItem','Data: {\"item\":{\"id\":5088}}, Results: {\"isOK\":true}',-1,'2015-11-24 14:10:00'),
+ (296,'saveItem','Data: {\"item\":{\"id\":5087}}, Results: {\"isOK\":true}',-1,'2015-11-24 14:10:17');
+INSERT INTO `history` (`ID`,`action`,`info`,`user`,`datetime`) VALUES 
+ (297,'saveItem','Data: {\"item\":{\"id\":5085}}, Results: {\"isOK\":true}',-1,'2015-11-24 14:10:55'),
+ (298,'createItem','Data: {\"item\":{\"name\":\"II Social Innovation Forum\"}}, Results: {\"isOK\":true}',-1,'2015-11-24 14:11:22'),
+ (299,'saveItem','Data: {\"item\":{\"id\":5090}}, Results: {\"isOK\":true}',-1,'2015-11-24 14:11:40'),
+ (300,'createItem','Data: {\"item\":{\"name\":\"Obertament Case\"}}, Results: {\"isOK\":true}',-1,'2015-11-24 14:11:55'),
+ (301,'saveItem','Data: {\"item\":{\"id\":5091}}, Results: {\"isOK\":true}',-1,'2015-11-24 14:12:14'),
+ (302,'saveItem','Data: {\"item\":{\"id\":5091}}, Results: {\"isOK\":true}',-1,'2015-11-24 14:12:14'),
+ (303,'createItem','Data: {\"item\":{\"name\":\"Take part in Second Forum\"}}, Results: {\"isOK\":true}',-1,'2015-11-24 14:12:48'),
+ (304,'saveItem','Data: {\"item\":{\"id\":5092}}, Results: {\"isOK\":true}',-1,'2015-11-24 14:13:15');
 /*!40000 ALTER TABLE `history` ENABLE KEYS */;
 
 
@@ -726,7 +821,7 @@ CREATE TABLE `items` (
   `Created` datetime NOT NULL,
   `Updated` datetime NOT NULL,
   UNIQUE KEY `ID` (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=5077 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5093 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `db_site_engine`.`items`
@@ -826,7 +921,21 @@ INSERT INTO `items` (`ID`,`Name`,`TemplateID`,`MasterID`,`ParentID`,`isPublish`,
  (5073,'service2.png',2023,NULL,5000,0,'2015-11-23 15:18:11','2015-11-23 15:18:11'),
  (5074,'service3.png',2023,NULL,5000,0,'2015-11-23 15:18:11','2015-11-23 15:18:11'),
  (5075,'Web 2.0. Responsive',5058,NULL,5070,0,'2015-11-23 15:18:39','2015-11-23 15:18:39'),
- (5076,'Grant for Assessment',5058,NULL,5070,0,'2015-11-23 15:19:11','2015-11-23 15:19:11');
+ (5076,'Grant for Assessment',5058,NULL,5070,0,'2015-11-23 15:19:11','2015-11-23 15:19:11'),
+ (5079,'NewsItem',2006,NULL,5007,0,'2015-11-24 14:03:53','2015-11-24 14:03:53'),
+ (5080,'Image',2017,NULL,5079,0,'2015-11-24 14:03:53','2015-11-24 14:03:53');
+INSERT INTO `items` (`ID`,`Name`,`TemplateID`,`MasterID`,`ParentID`,`isPublish`,`Created`,`Updated`) VALUES 
+ (5081,'Title',2017,NULL,5079,0,'2015-11-24 14:03:53','2015-11-24 14:03:53'),
+ (5082,'Content',2017,NULL,5079,0,'2015-11-24 14:03:53','2015-11-24 14:03:53'),
+ (5084,'News',2003,NULL,2013,0,'2015-11-24 14:04:27','2015-11-24 14:04:27'),
+ (5085,'CallingForTransparency',5079,NULL,5084,0,'2015-11-24 14:04:57','2015-11-24 14:04:57'),
+ (5086,'salut_mental.jpg',2023,NULL,5000,0,'2015-11-24 14:06:08','2015-11-24 14:06:08'),
+ (5087,'imatge petita.jpg',2023,NULL,5000,0,'2015-11-24 14:06:08','2015-11-24 14:06:08'),
+ (5088,'Transparency Grants.png',2023,NULL,5000,0,'2015-11-24 14:06:08','2015-11-24 14:06:08'),
+ (5089,'Captura de pantalla 2015-10-01 a les 11_57_29.png',2023,NULL,5000,0,'2015-11-24 14:06:08','2015-11-24 14:06:08'),
+ (5090,'II Social Innovation Forum',5079,NULL,5084,0,'2015-11-24 14:11:22','2015-11-24 14:11:22'),
+ (5091,'Obertament Case',5079,NULL,5084,0,'2015-11-24 14:11:55','2015-11-24 14:11:55'),
+ (5092,'Take part in Second Forum',5079,NULL,5084,0,'2015-11-24 14:12:48','2015-11-24 14:12:48');
 /*!40000 ALTER TABLE `items` ENABLE KEYS */;
 
 

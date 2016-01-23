@@ -30,7 +30,7 @@
           _.each(languagesItem.children, function (child) {
             headerItems.push(child);
           });
-        }        
+        }
 
         application.getItemGroupFields(headerItems, function (itemsGroup) {
           if (itemsGroup) {

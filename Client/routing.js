@@ -28,7 +28,7 @@ define([
 	    templateUrl: "." + CONST.APPLICATION_START_VIEW() + ".html",
 	    controller: "StartCtrl"
 	    })
-	    .when("/login", {	      
+	    .when("/login", {
 	      templateUrl: "/SiteEngine/Client/js/controllers/login/login.html",
 	      controller: "LoginCtrl"
 	    })

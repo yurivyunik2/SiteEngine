@@ -57,7 +57,7 @@ CREATE TABLE `fields` (
   `Created` datetime default NULL,
   `Updated` datetime default NULL,
   UNIQUE KEY `Id` (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2206 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2219 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `db_site_engine`.`fields`
@@ -200,11 +200,11 @@ INSERT INTO `fields` (`Id`,`ItemId`,`Language`,`Version`,`FieldId`,`Value`,`isPu
  (1787,5013,'en',1,2012,'{\"name\":\"\"}',1,'2015-11-18 14:02:40','2015-11-18 14:02:40');
 INSERT INTO `fields` (`Id`,`ItemId`,`Language`,`Version`,`FieldId`,`Value`,`isPublish`,`Created`,`Updated`) VALUES 
  (1788,5013,'en',1,2009,'2007|2008|',1,'2015-11-18 14:02:40','2015-11-18 14:02:40'),
- (1789,5014,'en',1,5009,'Home',1,'2015-11-18 14:02:49','2015-11-18 14:02:49'),
- (1790,5014,'en',1,5010,'/main/HeaderMenu/Home',1,'2015-11-18 14:02:49','2015-11-18 14:02:49'),
- (1791,5014,'en',1,2011,'null',1,'2015-11-18 14:02:49','2015-11-18 14:02:49'),
- (1792,5014,'en',1,2012,'{\"name\":\"mainLayout\",\"id\":\"5006\"}',1,'2015-11-18 14:02:49','2015-11-18 14:02:49'),
- (1793,5014,'en',1,2009,'2007|2008|',1,'2015-11-18 14:02:49','2015-11-18 14:02:49'),
+ (1789,5014,'en',1,5009,'Home',0,'2015-11-18 14:02:49','2015-11-18 14:02:49'),
+ (1790,5014,'en',1,5010,'/main/HeaderMenu/Home',0,'2015-11-18 14:02:49','2015-11-18 14:02:49'),
+ (1791,5014,'en',1,2011,'null',0,'2015-11-18 14:02:49','2015-11-18 14:02:49'),
+ (1792,5014,'en',1,2012,'{\"name\":\"mainLayout\",\"id\":\"5006\"}',0,'2015-11-18 14:02:49','2015-11-18 14:02:49'),
+ (1793,5014,'en',1,2009,'2007|2008|',0,'2015-11-18 14:02:49','2015-11-18 14:02:49'),
  (1794,5015,'en',1,5009,'Organisation',1,'2015-11-18 14:03:35','2015-11-18 14:03:35'),
  (1795,5015,'en',1,5010,'/main/HeaderMenu/Organisation',1,'2015-11-18 14:03:35','2015-11-18 14:03:35'),
  (1796,5015,'en',1,2011,'null',1,'2015-11-18 14:03:35','2015-11-18 14:03:35'),
@@ -445,7 +445,16 @@ INSERT INTO `fields` (`Id`,`ItemId`,`Language`,`Version`,`FieldId`,`Value`,`isPu
  (2202,5092,'en',1,5082,'iWith.org, as a member of Red Creactiva, is co-organizing and participating in two days of discussion which will bring together over 300 people from the field of social innovation and entrepreneurship.',0,'2015-11-24 14:12:48','2015-11-24 14:12:48'),
  (2203,5092,'en',1,2011,'null',0,'2015-11-24 14:12:48','2015-11-24 14:12:48'),
  (2204,5092,'en',1,2012,'{\"name\":\"\"}',0,'2015-11-24 14:12:48','2015-11-24 14:12:48'),
- (2205,5092,'en',1,2009,'2007|2008|',0,'2015-11-24 14:12:48','2015-11-24 14:12:48');
+ (2205,5092,'en',1,2009,'2007|2008|',0,'2015-11-24 14:12:48','2015-11-24 14:12:48'),
+ (2206,2013,'en',2,2009,'2007|2008|',0,'2016-01-23 15:27:22','2016-01-23 15:27:22'),
+ (2207,2013,'en',2,2011,'2003|5008|',0,'2016-01-23 15:27:22','2016-01-23 15:27:22'),
+ (2208,2013,'en',2,2012,'{\"name\":\"mainLayout\",\"id\":\"5006\"}',0,'2016-01-23 15:27:22','2016-01-23 15:27:22'),
+ (2214,5014,'ru',1,5009,'Главная',1,'2016-01-23 16:25:10','2016-01-23 16:25:10'),
+ (2215,5014,'ru',1,5010,'/main/HeaderMenu/Home',1,'2016-01-23 16:25:10','2016-01-23 16:25:10');
+INSERT INTO `fields` (`Id`,`ItemId`,`Language`,`Version`,`FieldId`,`Value`,`isPublish`,`Created`,`Updated`) VALUES 
+ (2216,5014,'ru',1,2009,'2007|2008|',1,'2016-01-23 16:25:10','2016-01-23 16:25:10'),
+ (2217,5014,'ru',1,2011,'null',1,'2016-01-23 16:25:10','2016-01-23 16:25:10'),
+ (2218,5014,'ru',1,2012,'{\"name\":\"mainLayout\",\"id\":\"5006\"}',1,'2016-01-23 16:25:10','2016-01-23 16:25:10');
 /*!40000 ALTER TABLE `fields` ENABLE KEYS */;
 
 
@@ -461,7 +470,7 @@ CREATE TABLE `history` (
   `user` bigint(20) NOT NULL default '0',
   `datetime` datetime NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY  (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=305 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=311 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `db_site_engine`.`history`
@@ -802,7 +811,14 @@ INSERT INTO `history` (`ID`,`action`,`info`,`user`,`datetime`) VALUES
  (301,'saveItem','Data: {\"item\":{\"id\":5091}}, Results: {\"isOK\":true}',-1,'2015-11-24 14:12:14'),
  (302,'saveItem','Data: {\"item\":{\"id\":5091}}, Results: {\"isOK\":true}',-1,'2015-11-24 14:12:14'),
  (303,'createItem','Data: {\"item\":{\"name\":\"Take part in Second Forum\"}}, Results: {\"isOK\":true}',-1,'2015-11-24 14:12:48'),
- (304,'saveItem','Data: {\"item\":{\"id\":5092}}, Results: {\"isOK\":true}',-1,'2015-11-24 14:13:15');
+ (304,'saveItem','Data: {\"item\":{\"id\":5092}}, Results: {\"isOK\":true}',-1,'2015-11-24 14:13:15'),
+ (305,'newVersionCreate','Data: {\"item\":{\"id\":2013}}, Results: {\"isOK\":true}',-1,'2016-01-23 15:27:22'),
+ (306,'newVersionCreate','Data: {\"item\":{\"id\":5014}}, Results: {\"isOK\":true}',-1,'2016-01-23 16:24:56');
+INSERT INTO `history` (`ID`,`action`,`info`,`user`,`datetime`) VALUES 
+ (307,'deleteVersion','Data: {\"item\":{\"id\":5014}}, Results: {}',-1,'2016-01-23 16:25:06'),
+ (308,'newVersionCreate','Data: {\"item\":{\"id\":5014}}, Results: {\"isOK\":true}',-1,'2016-01-23 16:25:10'),
+ (309,'saveItem','Data: {\"item\":{\"id\":5014}}, Results: {\"isOK\":true}',-1,'2016-01-23 16:25:23'),
+ (310,'publishItem','Data: {\"item\":{\"id\":5014,\"name\":\"Home\"}}, Results: {\"isOK\":true}',-1,'2016-01-23 16:25:27');
 /*!40000 ALTER TABLE `history` ENABLE KEYS */;
 
 

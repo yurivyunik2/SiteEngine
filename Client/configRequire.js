@@ -30,7 +30,7 @@
     routing: ["jquery", "underscore"],
 
     contextMenu: ["jquery"],
-  },
+  },   
   map: {
     "*": {
       "css": "js/lib/require-css/css",      

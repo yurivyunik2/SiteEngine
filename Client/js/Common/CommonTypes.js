@@ -52,7 +52,7 @@
         return {
 
           createElement: function (callback) {
-            if (!$el && parentElem && field && $templateElem) {
+            if (!$el && parentElem && field && $templateElem && $templateElem.length > 0) {
               var $newElem = $templateElem.clone();
               $newElem.css("display", "block");
               $newElem[0].id = field.id;

@@ -68,6 +68,7 @@ var CONST = function (CommonTypes, AppConfig) {
     WIDTH_MEDIA_FIELDS_ID: function () { return 2025; },
     HEIGHT_MEDIA_FIELDS_ID: function () { return 2026; },
     ALTERNATIVE_TEXT_MEDIA_FIELDS_ID: function () { return 2027; },
+    LAYOUT_CONTENT_FIELD_ID: function () { return 5093; },
 
 
     // TYPES

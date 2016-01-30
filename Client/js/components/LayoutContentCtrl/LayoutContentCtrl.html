@@ -1,0 +1,36 @@
+﻿<link rel="stylesheet" type="text/css" href="/SiteEngine/Client/js/components/LayoutContentCtrl/LayoutContentCtrl.css">
+
+<div class="dvLayoutContent dvComponentForm" >
+
+</div>
+
+<script type="text/template" id='layoutContentTemplate'> 
+
+  <div><span class="spTitle"><%= item.name %></span></div>
+  <div style="padding: 0px 15px;">
+    <table class="tbOwnParameters">
+        <colgroup>
+          <col style="white-space:nowrap" valign="top">
+        </colgroup>
+        <tbody>
+          <tr>
+            <td class="tdFieldName"><span><b>User Agent: </b></span></td>
+          </tr>
+          <tr>
+            <td class="tdFieldCtrl"><input id="Text4" class="itemField" onclick="javascript: this.select(); return false" value="<%= item.userAgent %>"></td>
+          </tr>
+  
+          <tr>
+            <td class="tdFieldName"><span><b>Path: </b></span></td>
+          </tr>
+          <tr>
+            <td class="tdFieldCtrl"><input id="Text5" class="itemField" onclick="javascript: this.select(); return false" value="<%= item.path %>"></td>
+          </tr>
+
+        </tbody>
+      </table>
+
+  </div>
+
+        
+</script>

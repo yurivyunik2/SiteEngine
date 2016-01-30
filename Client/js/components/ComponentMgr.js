@@ -1,14 +1,16 @@
 ﻿require.config({
   paths: {
+    componentMgrCSS: "js/components/ComponentMgr",
     imageChangeCtrl: "js/components/ImageChangeCtrl/ImageChangeCtrl",
     richTextEditor: "js/components/RichTextEditor/RichTextEditor",
     selectItemTreeCtrl: "js/components/SelectItemTreeCtrl/SelectItemTreeCtrl",
     layoutRenderingCtrl: "js/components/LayoutRenderingCtrl/LayoutRenderingCtrl",
+    layoutContentCtrl: "js/components/LayoutContentCtrl/LayoutContentCtrl",
   },
 });
 
 
-define(["application", "CONST", "imageChangeCtrl", "richTextEditor", "selectItemTreeCtrl", "layoutRenderingCtrl"], function (application, CONST, ImageChangeCtrl, RichTextEditor, SelectItemTreeCtrl, LayoutRenderingCtrl) {
+define(["application", "CONST", "imageChangeCtrl", "richTextEditor", "selectItemTreeCtrl", "layoutRenderingCtrl", "layoutContentCtrl", "css!componentMgrCSS"], function (application, CONST, ImageChangeCtrl, RichTextEditor, SelectItemTreeCtrl, LayoutRenderingCtrl, LayoutContentCtrl) {
   //
   // RichTextEditor
   //
@@ -101,6 +103,13 @@ define(["application", "CONST", "imageChangeCtrl", "richTextEditor", "selectItem
 
           layoutRenderingCtrl.render();
           layoutRenderingCtrl.isEnabled(disabledAttr === "");
+        }
+        else if (field.fieldId === CONST.LAYOUT_CONTENT_FIELD_ID()) {
+          var layoutContentCtrl = new LayoutContentCtrl(parentTdElem, field);
+          actualComponents[field.id] = layoutContentCtrl;
+
+          layoutContentCtrl.render();
+          //layoutContentCtrl.isEnabled(disabledAttr === "");
         }
         else
           html += "<input " + disabledAttr + " id='" + field.fieldId + "' class='itemField' onclick='javascript:this.select();return false' value='" + field.value + "'>";

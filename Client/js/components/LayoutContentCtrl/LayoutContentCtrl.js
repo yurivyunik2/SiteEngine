@@ -57,7 +57,7 @@ define(["application", "CONST", "Utils", "CommonTypes"], function (application, 
         if (!$el)
           return;
 
-        $el.html("");
+        $dvCurrentFieldsElem = $el.find(".dvCurrentFields");        
         if (field.value) {
           try {
             var arUserAgents;
@@ -70,7 +70,7 @@ define(["application", "CONST", "Utils", "CommonTypes"], function (application, 
               _.each(arUserAgents, function (userAgent) {
                 var htmlUserAgent = $layoutContentTemplateObj({ item: userAgent });
 
-                $el.append(htmlUserAgent);
+                $dvCurrentFieldsElem.append(htmlUserAgent);
               });
 
             }

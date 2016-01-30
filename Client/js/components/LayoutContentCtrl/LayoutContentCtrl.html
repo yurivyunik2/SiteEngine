@@ -2,13 +2,37 @@
 
 <div class="dvLayoutContent dvComponentForm" >
 
+  <table class="dvCurrentFields">
+
+
+  </table>
+
 </div>
 
 <script type="text/template" id='layoutContentTemplate'> 
+      <tr class="dvArea">
+        <td>
+          <div class="dvRemove" ><img src="/SiteEngine/Client/images/remove.png" ng-click="clickRemoveField($event)"></div>
+        </td>
+        <td>
+          <span class="dvTitle">User Agent:</span>            
+        </td>
+        <td>
+          <span class="dvValue" onclick="javascript:this.select();return false"><%= item.userAgent %></span>
+        </td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>
+            <span class="dvTitle">Path:</span>
+        </td>
+        <td>
+          <span class="dvValue" onclick="javascript:this.select();return false"><%= item.path %></span>
+        </td>
 
-  <div><span class="spTitle"><%= item.name %></span></div>
-  <div style="padding: 0px 15px;">
-    <table class="tbOwnParameters">
+      </tr>
+
+<!--    <table class="tbOwnParameters">
         <colgroup>
           <col style="white-space:nowrap" valign="top">
         </colgroup>
@@ -28,9 +52,9 @@
           </tr>
 
         </tbody>
-      </table>
+      </table>-->
 
-  </div>
+  
 
         
 </script>

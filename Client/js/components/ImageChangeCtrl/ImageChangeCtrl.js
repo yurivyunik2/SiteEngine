@@ -20,14 +20,37 @@ define(["application", "CONST", "Utils"], function (application, CONST, Utils) {
 
     var imgValue;
     var $el;
-    
+
+    var isInputKeyDown = false;
+    var intervalKeyDown = 500;
+    var lastKeyDown = Date.now();
+
     var imageChangeCtrl = {
 
       constructor: function () {
         self = this;
 
-        if (field)
+        if (field) {
           imgValue = field.value;
+
+          application.addUIComponent("imageChangeCtrl_" + field.id, self);
+        }
+      },
+
+      dispose: function () {
+        if(field)
+          application.removeUIComponent("imageChangeCtrl_" + field.id, self);
+      },
+
+      intervalUI: function (uiData) {
+        if (isInputKeyDown && (lastKeyDown + intervalKeyDown) < Date.now()) {
+          isInputKeyDown = false;
+          lastKeyDown = Date.now();
+          if (imgValue != $el.find("input").val()) {
+            imgValue = $el.find("input").val();
+            self.render();
+          }
+        }
       },
 
       createElement: function () {
@@ -41,7 +64,7 @@ define(["application", "CONST", "Utils"], function (application, CONST, Utils) {
             parentElem.append(html);
             $el = parentElem.children().last();
             $el.find("img, a").click(self.chooseImage);
-            $el.find("input").change(self.changeSrc);
+            $el.find("input").keydown(self.inputKeyDown);
           }
         }
       },
@@ -85,9 +108,10 @@ define(["application", "CONST", "Utils"], function (application, CONST, Utils) {
         }
       },
 
-      changeSrc: function () {
-        imgValue = $el.find("input").val();
-        self.render();
+      inputKeyDown: function () {
+        isInputKeyDown = true;
+        //imgValue = $el.find("input").val();
+        //self.render();
       },
 
     };

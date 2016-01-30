@@ -1,2 +1,15 @@
-﻿body {
+﻿
+.dvLayoutContent .dvCurrentFields {
+
 }
+  .dvLayoutContent .dvCurrentFields .dvArea {
+    
+  }
+  .dvLayoutContent .dvCurrentFields .dvArea img {
+    width: 14px;
+  }
+  .dvLayoutContent .dvCurrentFields .dvArea span {
+    font-family: Arial;
+    font-size: 15px;
+    margin-left: 15px;
+  }

@@ -11,7 +11,7 @@ define(["application", "CONST", "Utils", "CommonTypes", "TreeGrid"], function (a
     $dvLayoutFormElem = $template.find(".dvLayoutForm");
   });
 
-  var LayoutRenderingCtr = function (parentElem, field) {
+  var LayoutRenderingCtrl = function (parentElem, field) {
     var self;
     var $el;
 
@@ -117,7 +117,6 @@ define(["application", "CONST", "Utils", "CommonTypes", "TreeGrid"], function (a
     return layoutRenderingCtr;
   };
 
-  LayoutRenderingCtr.isLoadTemplate = false;
-  return LayoutRenderingCtr;
+  LayoutRenderingCtrl.isLoadTemplate = false;
+  return LayoutRenderingCtrl;
 });
-

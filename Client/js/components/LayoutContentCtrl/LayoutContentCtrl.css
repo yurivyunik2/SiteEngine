@@ -4,10 +4,14 @@
 }
   .dvLayoutContent .dvUserAgentPath {
     padding: 5px;
-    border: 2px solid#887979;
+    border: 2px solid #887979;
     border-radius: 5px;
     margin: 10px;    
   }
+    .dvCurrentFields .dvUserAgentPath:hover {
+      border: 2px solid#ECE85D;
+      background-color: #CCC9C9;
+    }
     .dvLayoutContent .dvUserAgentPath .dvIcon {
         cursor: pointer;
     }  

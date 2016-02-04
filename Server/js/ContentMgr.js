@@ -103,10 +103,15 @@
           var getItemFieldsCallback = function(itemData) {
             if (!(objResponse.error && objResponse.error !== "")) {
               var pathLayout;
+              var arUserAgents;
               itemData.fields = objResponse.data;
               _.each(itemData.fields, function(field) {
-                if (field.name === "Path") {
-                  pathLayout = field.value;
+                if (field.fieldId === CONST.LAYOUT_CONTENT_FIELD_ID()) {
+                  stUserAgents = field.value;
+                  try {
+                    arUserAgents = JSON.parse(stUserAgents);
+                  }
+                  catch (ex) { }
                 }
               });
 

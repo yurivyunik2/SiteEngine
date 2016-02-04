@@ -47,9 +47,9 @@ require(["jquery",
           "bootstrap",
           "css!bootstrap"],
 function ($, angular, CONST) {
-  "use strict";
-  
+  "use strict";  
   angular.element().ready(function () {
+      
     //var test = CONST2.TEMPLATES_ROOT_ID();
     // bootstrap the app manually
     angular.bootstrap(document, [CONST.APPLICATION_NAME()]);

@@ -1,15 +1,41 @@
 ﻿
-.dvLayoutContent .dvCurrentFields {
+.dvLayoutContent {
 
 }
-  .dvLayoutContent .dvCurrentFields .dvArea {
-    
+  .dvLayoutContent .dvUserAgentPath {
+    padding: 5px;
+    border: 2px solid#887979;
+    border-radius: 5px;
+    margin: 10px;    
   }
-  .dvLayoutContent .dvCurrentFields .dvArea img {
+    .dvLayoutContent .dvUserAgentPath .dvIcon {
+        cursor: pointer;
+    }  
+  .dvLayoutContent .dvUserAgentPath img {
     width: 14px;
+    height: 14px;
   }
-  .dvLayoutContent .dvCurrentFields .dvArea span {
+    .dvLayoutContent .dvUserAgentPath input {
+      width: 100%;
+    }
+    .dvLayoutContent .dvUserAgentPath table {
+      width: 100%;
+    }
+    .dvLayoutContent .dvUserAgentPath td {
+      padding: 2px 0px;
+    }
+  .dvLayoutContent .dvUserAgentPath span {
     font-family: Arial;
     font-size: 15px;
     margin-left: 15px;
   }
+    .dvLayoutContent .dvUserAgentPath .spTitle {
+      font-weight:bold;
+    }
+    .dvLayoutContent .dvUserAgentPath .tdFirst {
+      width: 15px;
+    }
+    .dvLayoutContent .dvUserAgentPath .tdSecond {
+      width: 120px;
+    }
+

@@ -8,6 +8,9 @@ define(["application", "CONST", "Utils", "CommonTypes"], function (application, 
   var $layoutContentTemplateObj;
   var pathTemplate = "/SiteEngine/Client/js/components/LayoutContentCtrl/LayoutContentCtrl.html";
 
+  var dvRemoveButtonSelector = ".dvRemoveButton";
+
+  var arUserAgents = [];
 
   Utils.LoadTemplate(pathTemplate, function ($template) {
     $dvLayoutContentElem = $template.find(".dvLayoutContent");
@@ -37,47 +40,72 @@ define(["application", "CONST", "Utils", "CommonTypes"], function (application, 
         $el = self.get$el();
         //
         if ($el) {
-
+          $el.find(".dvAddButton").click(function () {
+            var $dvEnterFieldsElem = $el.find(".dvEnterFields");
+            var userAgent = {
+              userAgent: $dvEnterFieldsElem.find(".inUserAgent").val(),
+              path: $dvEnterFieldsElem.find(".inPath").val(),
+            };
+            self.addUserAgent(userAgent);
+          });
         }
       },
 
       getValue: function () {
-        if (!$el)
+        if (!$el && !arUserAgents)
           return "";
 
-        var $btnLayoutElem = $el.find(btnLayoutSelector);
-        var layout = {
-          name: $btnLayoutElem.find(spLayoutSelector).html(),
-          id: $btnLayoutElem.find(spLayoutSelector).attr("_id")
-        };
-        return JSON.stringify(layout);
+        return JSON.stringify(arUserAgents);
       },
 
       populate: function (layout) {
         if (!$el)
           return;
+        
+        arUserAgents = [];
 
-        $dvCurrentFieldsElem = $el.find(".dvCurrentFields");        
         if (field.value) {
           try {
-            var arUserAgents;
+            var userAgents;
             if (typeof field.value === "string")
-              arUserAgents = JSON.parse(field.value);
+              userAgents = JSON.parse(field.value);
             else
-              arUserAgents = layout;
-            if (arUserAgents && $layoutContentTemplateObj) {
+              userAgents = layout;
+            if (userAgents && $layoutContentTemplateObj) {
 
-              _.each(arUserAgents, function (userAgent) {
-                var htmlUserAgent = $layoutContentTemplateObj({ item: userAgent });
-
-                $dvCurrentFieldsElem.append(htmlUserAgent);
+              _.each(userAgents, function (userAgent) {
+                self.addUserAgent(userAgent);
               });
 
+              $el.find(dvRemoveButtonSelector).click(self.removeClick);
             }
           } catch (ex) {
           }
 
         }
+      },
+
+      addUserAgent: function (userAgent) {
+        if (!userAgent)
+          return;
+
+        arUserAgents.push(userAgent);
+
+        var htmlUserAgent = $layoutContentTemplateObj({ item: userAgent });
+
+        var $dvCurrentFieldsElem = $el.find(".dvCurrentFields");
+        $dvCurrentFieldsElem.prepend(htmlUserAgent);
+      },
+
+      removeClick: function (event) {
+        var $dvUserAgentPathElem = $(event.currentTarget).parents(".dvUserAgentPath");        
+
+        var $spUserAgentValueElem = $dvUserAgentPathElem.find(".spUserAgentValue");
+        var userAgentFound = _.find(arUserAgents, { userAgent: $spUserAgentValueElem.html() })
+        if (userAgentFound) {
+          arUserAgents = _.without(arUserAgents, userAgentFound);
+          $dvUserAgentPathElem.remove();
+        }        
       },
 
     });

@@ -70,7 +70,7 @@
       }
     },
 
-    getRenderingItem: function (item, objResponse, callback) {
+    getRenderingItem: function (request, item, objResponse, callback) {
       if (!item.fields)
         return null;
 
@@ -110,6 +110,25 @@
                   stUserAgents = field.value;
                   try {
                     arUserAgents = JSON.parse(stUserAgents);
+                    if (arUserAgents && request.headers["user-agent"]) {
+                      var userAgent;
+                      var reqUserAgent = request.headers["user-agent"];
+                      for (var i = 0; i < arUserAgents.length; i++) {
+                        if (arUserAgents[i].userAgent) {
+                          var index = reqUserAgent.toLowerCase().indexOf(arUserAgents[i].userAgent.toLowerCase());
+                          if (index >= 0) {
+                            userAgent = arUserAgents[i];
+                            break;
+                          }
+                        }
+                      } 
+                      if (!userAgent) {
+                        userAgent = _.find(arUserAgents, { userAgent: "" });
+                      }
+                      if (userAgent) {
+                        pathLayout = userAgent.path;
+                      }
+                    }
                   }
                   catch (ex) { }
                 }
@@ -147,10 +166,13 @@
             contentItem = objResponse.data.item;
           }
           if (contentItem && contentItem.fields) {
-            self.getRenderingItem(contentItem, objResponse, function() {
-              if (callback)
-                callback();
-            });
+            try {
+              self.getRenderingItem(request, contentItem, objResponse, function () {
+                if (callback)
+                  callback();
+              });
+            }
+            catch (ex) { }
             return;
           } else {
             objResponse.error = "Data for this page aren't found!";

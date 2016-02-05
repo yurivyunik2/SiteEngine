@@ -47,6 +47,8 @@ define(["application", "CONST", "Utils", "CommonTypes"], function (application, 
               path: $dvEnterFieldsElem.find(".inPath").val(),
             };
             self.addUserAgent(userAgent);
+            $dvEnterFieldsElem.find(".inUserAgent").val("");
+            $dvEnterFieldsElem.find(".inPath").val("");
           });
         }
       },

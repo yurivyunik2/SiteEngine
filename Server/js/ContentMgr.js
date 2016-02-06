@@ -74,88 +74,103 @@
       if (!item.fields)
         return null;
 
-      var renderingObj;
-      var renderingFields = [];
-      _.each(item.fields, function (field) {
-        if (field.fieldId === CONST.RENDERINGS_FIELD_ID())
-          renderingFields.push(field);
-      });
-      _.each(renderingFields, function (rendering) {
-        if (rendering.value && rendering.value !== "") {
-          try {
-            renderingObj = JSON.parse(rendering.value);
-          } catch (ex) {
+      try {
 
-          }
-        }
-      });
+        var renderingObj;
+        var renderingFields = [];
+        _.each(item.fields, function (field) {
+          if (field.fieldId === CONST.RENDERINGS_FIELD_ID())
+            renderingFields.push(field);
+        });
+        _.each(renderingFields, function (rendering) {
+          if (rendering.value && rendering.value !== "") {
+            try {
+              renderingObj = JSON.parse(rendering.value);
+            } catch (ex) {
 
-      if (renderingObj && renderingObj.id && parseInt(renderingObj.id) > 0) {
-        var renderingId = parseInt(renderingObj.id);
-        var items = ServerApplication.getItemsCash();
-        _.each(items, function(item) {
-          if (item.id === renderingId) {
-            renderingObj.layoutItem = item;
+            }
           }
         });
 
-        if (renderingObj.layoutItem) {
-          var getItemFieldsCallback = function(itemData) {
-            if (!(objResponse.error && objResponse.error !== "")) {
-              var pathLayout;
-              var arUserAgents;
-              itemData.fields = objResponse.data;
-              _.each(itemData.fields, function(field) {
-                if (field.fieldId === CONST.LAYOUT_CONTENT_FIELD_ID()) {
-                  stUserAgents = field.value;
-                  try {
-                    arUserAgents = JSON.parse(stUserAgents);
-                    if (arUserAgents && request.headers["user-agent"]) {
-                      var userAgent;
-                      var reqUserAgent = request.headers["user-agent"];
-                      for (var i = 0; i < arUserAgents.length; i++) {
-                        if (arUserAgents[i].userAgent) {
-                          var index = reqUserAgent.toLowerCase().indexOf(arUserAgents[i].userAgent.toLowerCase());
-                          if (index >= 0) {
-                            userAgent = arUserAgents[i];
-                            break;
+        if (renderingObj && renderingObj.id && parseInt(renderingObj.id) > 0) {
+          var renderingId = parseInt(renderingObj.id);
+          var items = ServerApplication.getItemsCash();
+          _.each(items, function (item) {
+            if (item.id === renderingId) {
+              renderingObj.layoutItem = item;
+            }
+          });
+
+          if (renderingObj.layoutItem) {
+
+            var getItemFieldsCallback = function (itemData) {
+              try{
+                if (!(objResponse.error && objResponse.error !== "")) {
+                  var pathLayout;
+                  var arUserAgents;
+                  itemData.fields = objResponse.data;
+                  _.each(itemData.fields, function (field) {
+                    if (field.fieldId === CONST.LAYOUT_CONTENT_FIELD_ID()) {
+                      stUserAgents = field.value;
+                      try {
+                        arUserAgents = JSON.parse(stUserAgents);
+                        if (arUserAgents && request.headers["user-agent"]) {
+                          var userAgent;
+                          var reqUserAgent = request.headers["user-agent"];
+                          for (var i = 0; i < arUserAgents.length; i++) {
+                            if (arUserAgents[i].userAgent) {
+                              var index = reqUserAgent.toLowerCase().indexOf(arUserAgents[i].userAgent.toLowerCase());
+                              if (index >= 0) {
+                                userAgent = arUserAgents[i];
+                                break;
+                              }
+                            }
+                          }
+                          if (!userAgent) {
+                            userAgent = _.find(arUserAgents, { userAgent: "" });
+                          }
+                          if (userAgent) {
+                            pathLayout = userAgent.path;
                           }
                         }
-                      } 
-                      if (!userAgent) {
-                        userAgent = _.find(arUserAgents, { userAgent: "" });
                       }
-                      if (userAgent) {
-                        pathLayout = userAgent.path;
-                      }
+                      catch (ex) { }
                     }
+                  });
+
+                  if (pathLayout && fs.existsSync(pathLayout)) {
+                    var content = fs.readFileSync(pathLayout).toString();
+                    itemData.layoutContent = content;
+
+                    objResponse.data = renderingObj;
+                  } else {
+                    objResponse.error = "PATH field isn't found in layout item!";
                   }
-                  catch (ex) { }
                 }
-              });
-
-              if (pathLayout) {
-                var content = fs.readFileSync(pathLayout).toString();
-                itemData.layoutContent = content;
-
-                objResponse.data = renderingObj;
-              } else {
+                if (callback)
+                  callback();
+              } catch (ex) {
                 objResponse.error = "PATH field isn't found in layout item!";
+                if (callback)
+                  callback();
               }
-            }
-            if (callback)
-              callback();
-          };
-          itemMgr.getItemFields(renderingObj.layoutItem, objResponse, getItemFieldsCallback);
+            };
+            itemMgr.getItemFields(renderingObj.layoutItem, objResponse, getItemFieldsCallback);
+          } else {
+            objResponse.error = "RENDERING layout-item isn't found!";
+          }
         } else {
-          objResponse.error = "RENDERING layout-item isn't found!";
+          objResponse.error = "RENDERING layout isn't found!";
         }
-      } else {
+
+        if (objResponse.error && callback)
+          callback();        
+      } catch (ex) {
         objResponse.error = "RENDERING layout isn't found!";
+        if (callback)
+          callback();
       }
 
-      if(objResponse.error && callback)
-        callback();
     },
 
     getContent: function (request, objResponse, callback) {

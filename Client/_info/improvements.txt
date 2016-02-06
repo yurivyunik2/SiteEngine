@@ -43,7 +43,7 @@
 //16) To implement the beginning of the analytics - statistical information about page's visiting
 16_2) To implement the Localization
 //17_4) Settings
-!!!18) To implement the using of the devices
+++ 18) To implement the using of the devices
 19) Unit-testing
 !!!20) To implement the editing on the web-pages(editing mode)
 21) Drupal web-site - comparing

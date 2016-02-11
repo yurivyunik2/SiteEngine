@@ -185,8 +185,6 @@
         return newObj;
       },
 
-
-
     };
     utilsObj.constructor();
     return utilsObj;

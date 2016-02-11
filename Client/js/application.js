@@ -557,6 +557,17 @@ define(["CONST", "Utils"], function (CONST, Utils) {
         });
       },
 
+      getSelectedItemTree: function () {
+        var treeGrid;
+        if (engineTree && engineTree.getTreeGrid()) {
+          treeGrid = engineTree.getTreeGrid();
+          if (!treeGrid)
+            return null;
+          return treeGrid.selectedItem;
+        }
+        return null;
+      },
+
       ///
       /// End Items
       ///

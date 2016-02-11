@@ -128,33 +128,12 @@ function (application, Utils, CONST, Notification, PanelFormCtrl, PanelTypes) {
           }
           case "previewItem":
             {
-              if (selectedItem && selectedItem.fields) {
-                var fieldRendering = _.find(selectedItem.fields, { fieldId: CONST.RENDERINGS_FIELD_ID() });
-                if (fieldRendering && !Utils.isValueNull(fieldRendering.value)) {
-                  try {
-                    var rendering = JSON.parse(fieldRendering.value);
-                    if (!Utils.isValueNull(rendering.id)) {
-
-                      // finding of the Content Parent item and forming relatieve path
-                      var maxCountParent = 15;
-                      var index = 0;
-                      var isContentParentFound = false;
-                      var curItem = selectedItem;
-                      var relativePath = "";
-                      while (!isContentParentFound && curItem.parentObj && index < maxCountParent) {
-                        if (curItem.parentObj.id === CONST.CONTENT_ROOT_ID()) {
-                          isContentParentFound = true;
-                        }
-                        relativePath += "/" + curItem.name + relativePath;
-                        index++;
-                      }
-                      if (isContentParentFound) {
-                        window.open(relativePath);
-                      }
-                    }                      
-                  } catch (ex) { }                  
-                }
-              }              
+              self.previewItem(false);                           
+              break;
+            }
+          case "previewEditItem":
+            {
+              self.previewItem(true);
               break;
             }
           case "assignItem": {
@@ -360,7 +339,37 @@ function (application, Utils, CONST, Notification, PanelFormCtrl, PanelTypes) {
 
       },
 
+      previewItem: function (isEdit) {
+        var selectedItem = application.getSelectedItemTree();
+        if (selectedItem && selectedItem.fields) {
+          var fieldRendering = _.find(selectedItem.fields, { fieldId: CONST.RENDERINGS_FIELD_ID() });
+          if (fieldRendering && !Utils.isValueNull(fieldRendering.value)) {
+            try {
+              var rendering = JSON.parse(fieldRendering.value);
+              if (!Utils.isValueNull(rendering.id)) {
 
+                // finding of the Content Parent item and forming relatieve path
+                var maxCountParent = 15;
+                var index = 0;
+                var isContentParentFound = false;
+                var curItem = selectedItem;
+                var relativePath = "";
+                while (!isContentParentFound && curItem.parentObj && index < maxCountParent) {
+                  if (curItem.parentObj.id === CONST.CONTENT_ROOT_ID()) {
+                    isContentParentFound = true;
+                  }
+                  relativePath = "/" + curItem.name + relativePath;
+                  curItem = curItem.parentObj;
+                  index++;
+                }
+                if (isContentParentFound) {
+                  window.open(relativePath + "?isEdit=true");
+                }
+              }
+            } catch (ex) { }
+          }
+        }
+      },
     };
     actionCtrl.constructor();
     return actionCtrl;

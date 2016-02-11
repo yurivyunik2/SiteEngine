@@ -7,6 +7,7 @@
     <script src="/SiteEngine/Client/js/lib/angular/angular.js"></script>
 
     <link rel="stylesheet" type="text/css" href="/SiteEngine/Client/layouts/LayoutWrapper.css">
+    <link rel="stylesheet" type="text/css" href="/SiteEngine/Client/js/components/ComponentMgr.css">
 
   </head>
     
@@ -18,10 +19,21 @@
           <img src="/SiteEngine/Client/images/loading.gif">
         </div>
       </div>
-    </div>
+  </div>
 
   <div ng-app="app" ng-controller="ctrlApp" style="height: 100%;">
-
+    <div class="dvEditPanel">
+      <table>
+        <tr>
+          <td class="tdInfo"><span>Edit mode</span></td>
+          <td>
+            <div class="dvActions">
+              <a href="" id="btn_save" action="saveItem" class="button-ribbon" onclick="function(){alert('test')};">Save</a>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
     <div id="wrapperContent" style="display: block; margin: 0 auto;height: 100%;" >
 
       <!--<div id="loadingElem" style="display: table-cell;vertical-align: middle;">      
@@ -97,12 +109,19 @@
 
     //Utils.setLoadingApplication(true);
 
-    var serverAddress = CONST.SERVER.PATH() + window.location.pathname;
+    var serverAddress = CONST.SERVER.PATH() + (window.location.pathname + window.location.search);
 
     
     application.initialize(_$scope, _$http);
     application.loadItems(function () {
       
+    });
+
+    $(".button-ribbon").click(function (event) {
+      var $curTarget = $(event.currentTarget);
+      var action = $curTarget.attr("action");
+      //if (action && action != "")
+        //$(self).trigger(EVENT_CLICK_BUTTON, action);
     });
 
     var data = { action: "getContentSite" };
@@ -131,7 +150,7 @@
               
               var contentFn = _$compile(contentSource);
               var content = contentFn(_$scope);
-              try {                
+              try {
                 $("#wrapperContent").html(content);
               } catch(ex) {
               }

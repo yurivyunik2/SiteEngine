@@ -1,5 +1,6 @@
 ﻿exports.ContentMgr = function (itemMgr) {
   var _ = require('underscore');
+  var url = require('url');
   var fs = require('fs');
 
   var Modules = require('./Modules.js');
@@ -18,13 +19,18 @@
 
     // finding of the Defined Content item - Last part of the URLpath
     getContentItem: function (request, objResponse, callback) {
-      var url = request.url;
-      var arPath = url.split("/");
+      var urlParts = url.parse(request.url, true);
+      var pathname = urlParts.pathname;
+      var arPath = pathname.split("/");
       if (arPath.length <= 1) {
-        arPath = url.split("\\");        
+        arPath = pathname.split("\\");
       }
       arPath = _.without(arPath, "");
       
+      var isEditMode;
+      if (urlParts.query && urlParts.query.isEdit)
+        isEditMode = true;
+
       var finishContentItem;
       var contentParentItems = ServerApplication.getContentParentItems();
       if (contentParentItems && contentParentItems.length > 0) {

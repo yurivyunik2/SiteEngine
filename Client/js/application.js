@@ -9,6 +9,7 @@ define(["CONST", "Utils"], function (CONST, Utils) {
 
     // Data
     var items = [];
+    var itemsHash = {};
     var userList = [];
     var userRoleList = [];
 
@@ -352,10 +353,22 @@ define(["CONST", "Utils"], function (CONST, Utils) {
             self.isRequestProcess = false;
             var itemsGroup;
             if (responseData.data) {
-              itemsGroup = responseData.data;              
+              itemsGroup = responseData.data;
+              _.each(itemsGroup, function (item) {
+                if (item.id) {
+                  var itemHash = itemsHash[item.id];
+                  if (itemHash) {
+                    itemHash.fields = item.fields;
+                    _.each(itemHash.fields, function (field) {
+                      if (field.name)
+                        itemHash[field.name] = field.value;
+                    });
+                  }
+                }
+              });
+              if (callback)
+                callback(itemsGroup);
             }
-            if (callback)
-              callback(itemsGroup);
           } else {
             if (callback)
               callback();
@@ -390,25 +403,32 @@ define(["CONST", "Utils"], function (CONST, Utils) {
       getItems: function() {
         return items;
       },
+      getItemsHash: function () {
+        return itemsHash;
+      },
 
       ///
       /// --------- Initialize items ---------
       ///
       hashParentItems: {},
-      hashItems: {},
 
       treeItems: [],
       treeItemsHash: {},
 
       initializeItems: function (_items) {
         items = _items;
-        this.treeItems = [];
-        this.treeItemsHash = {};
+        itemsHash = {};
+        _.each(items, function (item) {
+          if (item.id)
+            itemsHash[item.id] = item;
+        });
 
-        this.hashParentItems = {};
-        this.hashItems = {};
+        self.treeItems = [];
+        self.treeItemsHash = {};
 
-        this.populateItems(items);
+        self.hashParentItems = {};
+
+        self.populateItems(items);
       },
 
       // populate

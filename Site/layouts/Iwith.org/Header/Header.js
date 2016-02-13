@@ -4,6 +4,8 @@
     constructor: function () {
 
       console.log("Header: ", new Date(Date.now()));
+      appCtrl.setLoadedComponent("header", true);
+      return;
 
       var items = application.getItems();
 

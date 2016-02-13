@@ -18,7 +18,7 @@ require(["Utils", "appCtrl", "bxSlider", "header", "carousel", "services", "news
     if (appCtrl.isApplicationLoaded()) {
       clearInterval(idInterval);
       Utils.setLoadingApplication(false);
-    }    
+    }
   }, 10);
 
 });

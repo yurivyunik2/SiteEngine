@@ -79,6 +79,8 @@
       notification: "/SiteEngine/Client/Views/forms/notificationForm/notification",
       CommonTypes: "/SiteEngine/Client/js/Common/CommonTypes",
       Utils: "/SiteEngine/Client/js/Common/Utils",
+
+      SiteInitialization: "/SiteEngine/Site/js/siteInitialization",
     },
 
     "shim": {
@@ -101,7 +103,7 @@
     
   });
 
-  require(["jquery", "underscore", "application", "CONST", "Utils", "bootstrap", "css!bootstrap"], function ($, _, application, CONST, Utils) {
+  require(["jquery", "underscore", "application", "CONST", "Utils", "SiteInitialization", "bootstrap", "css!bootstrap"], function ($, _, application, CONST, Utils, SiteInitialization) {
 
     //var path = "main/test2";
     //var path = "main";
@@ -111,11 +113,10 @@
 
     var serverAddress = CONST.SERVER.PATH() + (window.location.pathname + window.location.search);
 
-    _$scope.obj = {};
-    _$scope.obj["name"] = "/SiteEngine/Site/images/Logo_official.png";
     application.initialize(_$scope, _$http);
     application.loadItems(function () {
-      
+      var itemsHash = application.getItemsHash();
+      SiteInitialization.bindItems(_$scope, itemsHash);
     });
 
     $(".button-ribbon").click(function (event) {
@@ -155,7 +156,7 @@
                 $("#wrapperContent").html(content);
               } catch(ex) {
               }
-              _$scope.$apply();              
+              _$scope.$apply();
             }
           }
         } else {

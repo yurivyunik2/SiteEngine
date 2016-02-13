@@ -107,11 +107,12 @@
     //var path = "main";
     //var serverAddress = "http://localhost:8082/" + path;
 
-    //Utils.setLoadingApplication(true);
+    Utils.setLoadingApplication(true);
 
     var serverAddress = CONST.SERVER.PATH() + (window.location.pathname + window.location.search);
 
-    
+    _$scope.obj = {};
+    _$scope.obj["name"] = "/SiteEngine/Site/images/Logo_official.png";
     application.initialize(_$scope, _$http);
     application.loadItems(function () {
       

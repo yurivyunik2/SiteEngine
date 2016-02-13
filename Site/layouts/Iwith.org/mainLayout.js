@@ -14,8 +14,9 @@ require.config({
 
 require(["Utils", "appCtrl", "bxSlider", "header", "carousel", "services", "news"], function (Utils, appCtrl) {
 
-  setInterval(function () {
+  var idInterval = setInterval(function () {
     if (appCtrl.isApplicationLoaded()) {
+      clearInterval(idInterval);
       Utils.setLoadingApplication(false);
     }    
   }, 10);

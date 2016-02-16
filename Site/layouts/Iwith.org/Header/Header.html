@@ -1,23 +1,4 @@
 ﻿
-<!--<div draggable id="topPart">
-    <div id="topPartContent">
-      <div id="topPartImg">
-        <img alt="iWith.org logo" src="http://www.iwith.org//mm/image/2015/03/Logo_iWith_oficial.png">
-      </div>
-
-        <div id="titleHeader">
-          Internet para proyectos que mejoran el mundo* 
-        </div>
-          
-      <div ng-include="'/SiteEngine/Site/layouts/Iwith.org/HeaderMenu/HeaderMenu.html'"></div>
-
-    </div>
-
-
-</div>-->
-
-
-
 <div class="dvTop">
   <div class="dvTopInternal">
     <table>
@@ -47,16 +28,16 @@
                           <td>
                             <div class="dvMenu">
                               <ul>
-                                <li>Home</li>
-                                <li>Organisation</li>
-                                <li>Services</li>
-                                <li>News</li>
+                                <li ng-repeat="menuItem in headerMenu.children">
+                                  <a href="{{menuItem.Path}}"><span>{{menuItem.Name}}</span></a>
+                                </li>
+                                <!--<li>Home</li>-->
                               </ul>
                             </div>
                           </td>
                           <td class="tdSearch">
                             <div>
-                              <input class="inputSearch" type="text" placeholder="Search">
+                              <input class="inputSearch" type="text" placeholder="{{searchPlaceHolder.Text}}">
                             </div>
                           </td>
                           <td class="tdLanguage">
@@ -68,17 +49,20 @@
                                 <b class="caret"></b>
                               </div>
                               <ul id="languageMenu" class="dropdown-menu" style="display: none;">
-                                <li><a href="">English</a></li>
+                                <li langcode="{{languageItem.Code}}" ng-repeat="languageItem in languages.children">
+                                  <a href=""><span>{{languageItem.Name}}</span></a>
+                                </li>                                
+                                <!--<li><a href="">English</a></li>
                                 <li><a href="">Русский</a></li>
-                                <li><a href="">Ukrainian</a></li>
+                                <li><a href="">Ukrainian</a></li>-->
                               </ul>
                             </div>
                           </td>
                         </tr>
                       </tbody>
                     </table>
-                    <div class="dvSearch"></div>
-                    <div class="dvLanguage"></div>
+                    <!--<div class="dvSearch"></div>
+                    <div class="dvLanguage"></div>-->
                   </td>
                 </tr>
               </tbody>
@@ -90,11 +74,3 @@
   </div>
 
 </div>
-
-<script id="templMenuItem" type="text/template">
-  <li itemId="<%= id %>" templateId="<%= templateId %>"><a href="<%= pathField %>"><span><%= name %></span></a></li>
-</script>
-
-<script id="templLanguageItem" type="text/template">
-  <li langCode="<%= code %>"><a href=""><span><%= displayName %></span></a></li>
-</script>

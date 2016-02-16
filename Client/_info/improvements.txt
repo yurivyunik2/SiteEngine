@@ -47,4 +47,5 @@
 19) Unit-testing
 !!!20) To implement the editing on the web-pages(editing mode)
 21) Drupal web-site - comparing
-22) 
+!!!22) Style theme for admin-panel
+23) 

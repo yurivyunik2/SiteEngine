@@ -1,7 +1,7 @@
 ﻿
 require.config({
   paths: {
-    header: "/SiteEngine/Site/layouts/Iwith.org/Header/Header",
+    //header: "/SiteEngine/Site/layouts/Iwith.org/Header/Header",
     carousel: "/SiteEngine/Site/layouts/Iwith.org/Carousel/Carousel",
     services: "/SiteEngine/Site/layouts/Iwith.org/Services/Services",
     news: "/SiteEngine/Site/layouts/Iwith.org/News/News",
@@ -12,13 +12,13 @@ require.config({
   },
 });
 
-require(["Utils", "appCtrl", "bxSlider", "header", "carousel", "services", "news"], function (Utils, appCtrl) {
+require(["Utils", "appCtrl", "bxSlider", "carousel", "services", "news"], function (Utils, appCtrl) {
 
-  var idInterval = setInterval(function () {
-    if (appCtrl.isApplicationLoaded()) {
-      clearInterval(idInterval);
-      Utils.setLoadingApplication(false);
-    }
-  }, 10);
+  //var idInterval = setInterval(function () {
+  //  if (appCtrl.isApplicationLoaded()) {
+  //    clearInterval(idInterval);
+  //    Utils.setLoadingApplication(false);
+  //  }
+  //}, 10);
 
 });

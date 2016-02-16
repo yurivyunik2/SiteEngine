@@ -8,11 +8,12 @@
   },
 });
 
-define(["application", "SiteConst"], function (application, SiteConst) {
+define(["application", "Utils", "SiteConst"], function (application, Utils, SiteConst) {
 
   var SiteInitialization = function () {
 
     var self;
+    var isItemsBound = false;
 
     return {
       constructor: function(){},
@@ -27,12 +28,20 @@ define(["application", "SiteConst"], function (application, SiteConst) {
             var item = items[id];
             $scope[name] = item;
             itemsRequest.push(item);
+            if (item.children && item.children.length > 0) {
+              var allChildren = [];
+              Utils.findChildItems(itemsRequest, item);
+            }
           }
         });
 
         application.getItemGroupFields(itemsRequest, function (itemsGroup) {
-
+          isItemsBound = true;
         });
+      },
+
+      isItemsBound: function () {
+        return isItemsBound;
       },
 
     };

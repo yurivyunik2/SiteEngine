@@ -126,8 +126,27 @@
         //$(self).trigger(EVENT_CLICK_BUTTON, action);
     });
 
-    var data = { action: "getContentSite" };
+    function renderSite(contentSource){
+      var intervalWait = setInterval(function(){
+        if(SiteInitialization.isItemsBound()) {
+          clearInterval(intervalWait);
 
+          var contentFn = _$compile(contentSource);
+          var content = contentFn(_$scope);
+          try {
+            $("#wrapperContent").html(content);
+
+            _$scope.$apply();
+
+            Utils.setLoadingApplication(false);
+          } catch(ex) {
+          }
+        }
+      }, 100);
+    };
+
+    // get content of the site
+    var data = { action: "getContentSite" };
     $.post(serverAddress, data, function (responseData, textStatus, jqXHR) {
       if (jqXHR && jqXHR.status === 200) {
         responseData = JSON.parse(responseData);
@@ -136,27 +155,10 @@
             var layoutItem = responseData.data.layoutItem;
             if (layoutItem.layoutContent) {
 
-              var contentSource = layoutItem.layoutContent;
-
-              //var arIncludes = $(contentSource).find("[ng-include]");
-              //_.each(arIncludes, function (includeElem) {
-              //  var includeValue = $(includeElem).attr("ng-include");
-              //  includeValue = includeValue.replace("'", "").replace("'", "");
-              //  var jsFile = includeValue.replace(".html", ".js");
-
-              //  var scriptElem = document.createElement('script');
-              //  scriptElem.setAttribute("type", "text/javascript");
-              //  scriptElem.setAttribute("src", jsFile);
-              //  $("head")[0].appendChild(scriptElem);
-              //});
+              var contentSource = layoutItem.layoutContent;              
               
-              var contentFn = _$compile(contentSource);
-              var content = contentFn(_$scope);
-              try {
-                $("#wrapperContent").html(content);
-              } catch(ex) {
-              }
-              _$scope.$apply();
+              //
+              renderSite(contentSource);
             }
           }
         } else {

@@ -3,19 +3,19 @@
   <table class="tbLinks">
     <tbody>
       <tr id="linksContainer">
-<!--        <td>
+        <td ng-repeat="service in services.children" >
           <div class="dvLinkImg">
-            <img src="/SiteEngine/Site/images/service1.png">
+            <img src="{{service.Image}}">
           </div>
           <div class="dvLinkTitle dvInternetSecurity">
             <a href="">
-              <span>Internet and Society</span>
+              <span>{{service.Title}}</span>
             </a>
           </div>
           <div class="dvLinkInfo">
-            <span>The Internet offers great opportunities for the improvement of society. In iWith.org we help to make the most of them connecting the two worlds with advice, training, technology and guidance.</span>
+            <span>{{service.Info}}</span>
           </div>
-        </td>-->
+        </td>
         
       </tr>
     </tbody>

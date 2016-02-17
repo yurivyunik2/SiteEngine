@@ -8,25 +8,25 @@
             <a href=""><span>Our News</span></a>
           </div>
           <div class="dvNewsList scrollCustom">
-<!--            <div class="dvNews">
+            <div ng-repeat="newsItem in news.children" class="dvNews">
               <table>
                 <tbody>
                   <tr>
                     <td>
                       <div class="dvImg">
-                        <img src="/SiteEngine/Site/images/news2.jpeg">
+                        <img src="{{newsItem.Image}}">
                       </div>
                     </td>
                     <td>
                       <div class="dvNewsContent">
                         <div class="dvTitle">
                           <a href="">
-                            <span class="spTitle">iWith.org organizes and takes part in the II Social Innovation Forum</span>
+                            <span class="spTitle">{{newsItem.Title}}</span>
                           </a>
                         </div>
                         <br>
                         <div class="dvContent">
-                          <span class="spContent">Gallery and The Social Coin are two of the innovations that we introduced during the Speednetworking workshop. </span>
+                          <span class="spContent">{{newsItem.Content}}</span>
                         </div>
                       </div>
                     </td>
@@ -34,8 +34,7 @@
                 </tbody>
               </table>
 
-            </div>-->
-
+            </div>
           </div>
         </td>
         <td class="tdEvent">
@@ -82,33 +81,3 @@
   </table>
 </div>
 
-<script id="templNewsItem" type="text/template">
-  <div class="dvNews">
-    <table>
-      <tbody>
-        <tr>
-          <td>
-            <div class="dvImg">
-              <img src="<%= srcImage %>">
-            </div>
-          </td>
-          <td>
-            <div class="dvNewsContent">
-              <div class="dvTitle">
-                <a href="">
-                  <span class="spTitle"><%= title %></span>
-                </a>
-              </div>
-              <br>
-              <div class="dvContent">
-                <span class="spContent"><%= content %></span>
-              </div>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-
-  </div>
-
-</script>

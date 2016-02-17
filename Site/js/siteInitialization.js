@@ -1,10 +1,6 @@
 ﻿require.config({
   paths: {
     SiteConst: "/SiteEngine/Site/js/siteConst",
-
-    //bxSlider: "/SiteEngine/Site/lib/jquery.bxslider/jquery.bxslider",
-    //siteConst: "/SiteEngine/Site/layouts/Iwith.org/SiteConst",
-    //appCtrl: "/SiteEngine/Site/layouts/Iwith.org/appCtrl/appCtrl",
   },
 });
 

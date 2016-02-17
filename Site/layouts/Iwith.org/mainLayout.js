@@ -1,24 +1,74 @@
 ﻿
 require.config({
   paths: {
-    //header: "/SiteEngine/Site/layouts/Iwith.org/Header/Header",
-    carousel: "/SiteEngine/Site/layouts/Iwith.org/Carousel/Carousel",
-    services: "/SiteEngine/Site/layouts/Iwith.org/Services/Services",
-    news: "/SiteEngine/Site/layouts/Iwith.org/News/News",
-
     bxSlider: "/SiteEngine/Site/lib/jquery.bxslider/jquery.bxslider",
-    siteConst: "/SiteEngine/Site/layouts/Iwith.org/SiteConst",
-    appCtrl: "/SiteEngine/Site/layouts/Iwith.org/appCtrl/appCtrl",
   },
 });
 
-require(["Utils", "appCtrl", "bxSlider", "carousel", "services", "news"], function (Utils, appCtrl) {
+require(["Utils", "bxSlider", "css!bxSlider"], function (Utils) {
 
-  //var idInterval = setInterval(function () {
-  //  if (appCtrl.isApplicationLoaded()) {
-  //    clearInterval(idInterval);
-  //    Utils.setLoadingApplication(false);
-  //  }
-  //}, 10);
+  var mainLayout = {
+    constructor: function () {
+      console.log("mainLayout");
 
+      this.init();
+    },
+
+    init: function () {
+      //
+      $('.dvSlider').bxSlider({
+        slideWidth: screen.width,
+        minSlides: 1,
+        maxSlides: 1,
+        //slideMargin: 10
+      });
+      $('.bx-viewport').css("left", "0px");
+
+      $(document).ready(function () {
+
+        $(".tdLanguage").click(function (event) {
+          if ($("#languageMenu").css("display") === "block") {
+          }
+          else
+            $("#languageMenu").show();
+        });
+
+        $(window).mousedown(function () {
+          $("#languageMenu").hide();
+        });
+
+      });
+
+      $(window).scroll(function () {
+        var opacity = 0;
+        if ($(window).scrollTop() > 0) {
+          opacity = 0.4;
+        }
+
+        $("#scrollToTop").stop();
+        $("#scrollToTop").animate({
+          //width: '150px',
+          opacity: opacity
+        }, 500, function () {
+
+        });
+      });
+
+      $("#scrollToTop").click(function (event) {
+        $("html,body").animate({
+          scrollTop: 0
+        }, 400);
+      });
+
+      //
+      this.initCallback();
+    },
+
+    initCallback: function () {
+      Utils.setLoadingApplication(false);
+    },
+  };
+
+  mainLayout.constructor();
+  return mainLayout;
 });

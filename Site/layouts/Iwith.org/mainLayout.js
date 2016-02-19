@@ -12,6 +12,8 @@ require(["Utils", "bxSlider", "css!bxSlider"], function (Utils) {
       console.log("mainLayout");
 
       this.init();
+
+      Utils.setLoadingApplication(false);
     },
 
     init: function () {
@@ -59,13 +61,6 @@ require(["Utils", "bxSlider", "css!bxSlider"], function (Utils) {
           scrollTop: 0
         }, 400);
       });
-
-      //
-      this.initCallback();
-    },
-
-    initCallback: function () {
-      Utils.setLoadingApplication(false);
     },
   };
 

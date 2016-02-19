@@ -61,3 +61,24 @@
     color: #EE8234;
   }
 
+div > span.ng-binding {
+  /*transition: border 1s ease;*/
+}
+div > span.ng-binding:hover {
+  /*padding:0px 1px;
+  border: 1px solid #ff0000;
+  -webkit-transition: all 0.1s ease-in-out;*/
+
+  /*transition: all 1s ease-in-out;*/  
+  /*-moz-transition: all 1s ease;
+  -o-transition: all 1s ease;
+  -ms-transition: all 1s ease;
+  transition: all 1s ease;*/
+}
+
+.ngBindingHover:hover {
+  padding:0px 1px;
+  border: 1px solid #ff0000;
+  -webkit-transition: all 0.1s ease-in-out;
+}
+

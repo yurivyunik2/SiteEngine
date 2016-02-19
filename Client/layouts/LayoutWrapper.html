@@ -52,14 +52,15 @@
   var _$compile;
   var _$http;
   var app = angular.module("app", []);
-  app.controller("ctrlApp", ["$scope", "$compile", "$http", function ($scope, $compile, $http) {
+  app.controller("ctrlApp", ["$scope", "$compile", "$http", "$rootScope", function ($scope, $compile, $http, $rootScope) {
     _$scope = $scope;
     _$compile = $compile;
     _$http = $http;
 
     _$scope.wrapperReady = function () {
-      
+
     };
+
   }]);
 
 
@@ -136,12 +137,44 @@
           try {
             $("#wrapperContent").html(content);
 
-            _$scope.$apply();
+            _$scope.$apply(applyCallback);
+
+
+
+            var isIncludeContentLoaded = false;
+            setInterval(function(){
+              if(isIncludeContentLoaded){
+                isIncludeContentLoaded = false;
+                var arBindingElems = $(".ng-binding");
+                _.each(arBindingElems, function(elem){
+                  var nodeName = elem.nodeName.toLowerCase();
+                  if(nodeName == "span"){
+                    var parent = $(elem).parent();
+                    if(parent.length > 0 && parent[0].nodeName.toLowerCase() == "div"){
+                      parent.addClass("ngBindingHover");
+                    } else
+                      $(elem).addClass("ngBindingHover");                    
+                  } else {
+                    $(elem).addClass("ngBindingHover");
+                  }                    
+                });
+
+              }
+            }, 400);
+
+            //$rootScope.$on('$includeContentLoaded', function(event) {
+            _$scope.$on('$includeContentLoaded', function(event) {
+              //$('#output').append('<p>' + event.targetScope.name + ' include\'s content was loaded.</p>');
+              isIncludeContentLoaded = true;
+            });
 
           } catch(ex) {
           }
         }
-      }, 100);
+      }, 10);
+    };
+
+    function applyCallback(){
     };
 
     // get content of the site

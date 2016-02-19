@@ -44,8 +44,8 @@
       <file leaf-file-name="ContentMgr.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Server/js/ContentMgr.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.53496504">
-              <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.65384614">
+              <caret line="22" column="39" selection-start-line="22" selection-start-column="39" selection-end-line="22" selection-end-column="39" />
               <folding>
                 <element signature="e#2500#6242#0" expanded="false" />
                 <element signature="e#2558#6109#0" expanded="false" />
@@ -350,7 +350,7 @@
     <frame x="0" y="0" width="724" height="983" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2638484" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14577259" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.35957697" sideWeight="0.50584793" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -394,6 +394,118 @@
     <entry file="file://$PROJECT_DIR$/Server/server.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
+          <caret line="11" column="34" selection-start-line="11" selection-start-column="34" selection-end-line="11" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Server/js/ServerMgr.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="336" column="8" selection-start-line="336" selection-start-column="8" selection-end-line="336" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Server/js/ContentMgr.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#2500#6242#0" expanded="false" />
+            <element signature="e#2558#6109#0" expanded="false" />
+            <element signature="e#2666#2779#0" expanded="false" />
+            <element signature="e#2835#3035#0" expanded="false" />
+            <element signature="e#2894#3025#0" expanded="false" />
+            <element signature="e#2912#2985#0" expanded="false" />
+            <element signature="e#2997#3013#0" expanded="false" />
+            <element signature="e#3117#5947#0" expanded="false" />
+            <element signature="e#3270#3386#0" expanded="false" />
+            <element signature="e#3313#3374#0" expanded="false" />
+            <element signature="e#3429#5848#0" expanded="false" />
+            <element signature="e#3492#5739#0" expanded="false" />
+            <element signature="e#3511#5558#0" expanded="false" />
+            <element signature="e#3583#5482#0" expanded="false" />
+            <element signature="e#3768#5085#0" expanded="false" />
+            <element signature="e#3845#5065#0" expanded="false" />
+            <element signature="e#3923#5006#0" expanded="false" />
+            <element signature="e#4065#4982#0" expanded="false" />
+            <element signature="e#4256#4675#0" expanded="false" />
+            <element signature="e#4317#4647#0" expanded="false" />
+            <element signature="e#4484#4617#0" expanded="false" />
+            <element signature="e#4718#4828#0" expanded="false" />
+            <element signature="e#4870#4956#0" expanded="false" />
+            <element signature="e#5152#5355#0" expanded="false" />
+            <element signature="e#5361#5464#0" expanded="false" />
+            <element signature="e#5570#5725#0" expanded="false" />
+            <element signature="e#5854#5937#0" expanded="false" />
+            <element signature="e#5953#6027#0" expanded="false" />
+            <element signature="e#6121#6235#0" expanded="false" />
+            <element signature="e#6705#6782#0" expanded="false" />
+            <element signature="e#6863#6944#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Server/server.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="11" column="34" selection-start-line="11" selection-start-column="34" selection-end-line="11" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Server/js/ServerMgr.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="336" column="8" selection-start-line="336" selection-start-column="8" selection-end-line="336" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Server/js/ContentMgr.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#2500#6242#0" expanded="false" />
+            <element signature="e#2558#6109#0" expanded="false" />
+            <element signature="e#2666#2779#0" expanded="false" />
+            <element signature="e#2835#3035#0" expanded="false" />
+            <element signature="e#2894#3025#0" expanded="false" />
+            <element signature="e#2912#2985#0" expanded="false" />
+            <element signature="e#2997#3013#0" expanded="false" />
+            <element signature="e#3117#5947#0" expanded="false" />
+            <element signature="e#3270#3386#0" expanded="false" />
+            <element signature="e#3313#3374#0" expanded="false" />
+            <element signature="e#3429#5848#0" expanded="false" />
+            <element signature="e#3492#5739#0" expanded="false" />
+            <element signature="e#3511#5558#0" expanded="false" />
+            <element signature="e#3583#5482#0" expanded="false" />
+            <element signature="e#3768#5085#0" expanded="false" />
+            <element signature="e#3845#5065#0" expanded="false" />
+            <element signature="e#3923#5006#0" expanded="false" />
+            <element signature="e#4065#4982#0" expanded="false" />
+            <element signature="e#4256#4675#0" expanded="false" />
+            <element signature="e#4317#4647#0" expanded="false" />
+            <element signature="e#4484#4617#0" expanded="false" />
+            <element signature="e#4718#4828#0" expanded="false" />
+            <element signature="e#4870#4956#0" expanded="false" />
+            <element signature="e#5152#5355#0" expanded="false" />
+            <element signature="e#5361#5464#0" expanded="false" />
+            <element signature="e#5570#5725#0" expanded="false" />
+            <element signature="e#5854#5937#0" expanded="false" />
+            <element signature="e#5953#6027#0" expanded="false" />
+            <element signature="e#6121#6235#0" expanded="false" />
+            <element signature="e#6705#6782#0" expanded="false" />
+            <element signature="e#6863#6944#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Server/server.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
@@ -609,8 +721,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Server/js/ContentMgr.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.53496504">
-          <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.65384614">
+          <caret line="22" column="39" selection-start-line="22" selection-start-column="39" selection-end-line="22" selection-end-column="39" />
           <folding>
             <element signature="e#2500#6242#0" expanded="false" />
             <element signature="e#2558#6109#0" expanded="false" />

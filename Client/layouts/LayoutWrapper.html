@@ -59,9 +59,69 @@
 
     _$scope.wrapperReady = function () {
 
-    };
+    };    
+
+    //_$scope.$watch('headerTitle.Text', function (v1, v2, v3, v4, v5) {  
+    //  //if (scope.htmlElement !== undefined) {
+    //  //  //$timeout(eval(callback), 1);  
+    //  //}  
+
+    //  var i =0;
+    //});
+
 
   }]);
+
+  //app.directive('myDirective', function() {
+  //  return function(scope, element) {
+  //    element.bind('change', function() {
+  //      alert('change on ' + element);
+  //    });
+  //  };
+  //});
+
+  app.directive('myDirective', function ($timeout) {  
+    return function (scope, element, attrs) {  
+      scope.$watch(attrs.myDirective, function (callback) {  
+  
+        if (scope.$last === undefined) {  
+          scope.$watch('htmlElement', function () {  
+            if (scope.htmlElement !== undefined) {  
+              $timeout(eval(callback), 1);  
+            }  
+          });  
+        }  
+  
+        if (scope.$last) {  
+          eval(callback)();  
+        }  
+      });  
+    }  
+  });  
+
+
+  //app.directive('myDirective', function () {
+  //  return function (scope, element, attrs) {
+  //    scope.$watch(attrs.myDirective, function (callback) {
+        
+  //      if (scope.$last === undefined) {  
+  //        scope.$watch('htmlElement', function () {  
+  //          if (scope.htmlElement !== undefined) {
+  //            //$timeout(eval(callback), 1);  
+  //          }  
+  //        });
+  //      }  
+  //      if (scope.$last) {  
+  //        //eval(callback)();  
+  //      }  
+
+  //    });
+
+
+  //  }
+  //});
+
+  
 
 
   require.config({
@@ -110,7 +170,7 @@
     //var path = "main";
     //var serverAddress = "http://localhost:8082/" + path;
 
-    Utils.setLoadingApplication(true);
+    //Utils.setLoadingApplication(true);
 
     var serverAddress = CONST.SERVER.PATH() + (window.location.pathname + window.location.search);
 
@@ -150,20 +210,21 @@
                   var nodeName = elem.nodeName.toLowerCase();
                   if(nodeName == "span"){
                     var parent = $(elem).parent();
-                    if(parent.length > 0 && parent[0].nodeName.toLowerCase() == "div"){
+                    if(parent.length > 0 && 
+                      (parent[0].nodeName.toLowerCase() == "div" || parent[0].nodeName.toLowerCase() == "a")){
                       parent.addClass("ngBindingHover");
                     } else
                       $(elem).addClass("ngBindingHover");                    
                   } else {
                     $(elem).addClass("ngBindingHover");
-                  }                    
+                  }
                 });
 
               }
             }, 400);
 
             //$rootScope.$on('$includeContentLoaded', function(event) {
-            _$scope.$on('$includeContentLoaded', function(event) {
+            _$scope.$on('$includeContentLoaded', function(event, a, b, c) {
               //$('#output').append('<p>' + event.targetScope.name + ' include\'s content was loaded.</p>');
               isIncludeContentLoaded = true;
             });
@@ -174,7 +235,8 @@
       }, 10);
     };
 
-    function applyCallback(){
+    function applyCallback(a, b, c){
+      var i = 0;
     };
 
     // get content of the site

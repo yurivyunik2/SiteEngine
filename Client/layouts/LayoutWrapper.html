@@ -222,39 +222,66 @@
           var contentElems = contentFn(_$scope);
 
           try {
-            parseBindingElems(contentElems);
 
             $("#wrapperContent").html(contentElems);
+            _.each(contentElems, function (elem) {
+              if (elem.nodeName === "#comment" && elem.textContent.indexOf("ngInclude") >= 0) {
+                var includePath = elem.textContent.trim();
+                var index = includePath.indexOf(":");
+                includePath = includePath.substring(index + 1, includePath.length);
+
+
+                var newElem = angular.element("<ng-include src=\"" + includePath + "\"></ng-include>");
+                angular.element($(document)[0].body).append(newElem);
+                var newHtml = _$compile(newElem)(_$scope);
+                //var newHtml = _$compile("<ng-include src=\"" + includePath + "\"></ng-include>")(_$scope);
+
+              }
+            });
 
             _$scope.$apply();
 
             var isIncludeContentLoaded = false;
-            setInterval(function(){
-              if(isIncludeContentLoaded){
-                isIncludeContentLoaded = false;
-                var arBindingElems = $(".ng-binding");
-                _.each(arBindingElems, function(elem){
-                  var nodeName = elem.nodeName.toLowerCase();
-                  if(nodeName == "span"){
-                    var parent = $(elem).parent();
-                    if(parent.length > 0 && 
-                      (parent[0].nodeName.toLowerCase() == "div" || parent[0].nodeName.toLowerCase() == "a")){
-                      parent.addClass("ngBindingHover");
-                    } else
-                      $(elem).addClass("ngBindingHover");                    
-                  } else {
-                    $(elem).addClass("ngBindingHover");
-                  }
-                });
-
-              }
-            }, 400);
-
+            var lastDateTimeIncludeContent = Date.now();
             //$rootScope.$on('$includeContentLoaded', function(event) {
-            _$scope.$on('$includeContentLoaded', function(event, a, b, c) {
+            _$scope.$on('$includeContentLoaded', function (event, a, b, c) {
               //$('#output').append('<p>' + event.targetScope.name + ' include\'s content was loaded.</p>');
               isIncludeContentLoaded = true;
+              lastDateTimeIncludeContent = Date.now();
             });
+
+            var maxIncludeWait = 1000;
+            var intervalIncludeWait = setInterval(function () {
+              var dtNow = Date.now();
+              console.log("diff=" + (dtNow - lastDateTimeIncludeContent));
+              if ((dtNow - lastDateTimeIncludeContent) > maxIncludeWait) {
+                clearInterval(intervalIncludeWait);
+                parseBindingElems(contentElems);
+
+                //_$scope.$apply();
+              }
+            }, 100);
+
+            //setInterval(function(){
+            //  if(isIncludeContentLoaded){
+            //    isIncludeContentLoaded = false;
+            //    var arBindingElems = $(".ng-binding");
+            //    _.each(arBindingElems, function(elem){
+            //      var nodeName = elem.nodeName.toLowerCase();
+            //      if(nodeName == "span"){
+            //        var parent = $(elem).parent();
+            //        if(parent.length > 0 && 
+            //          (parent[0].nodeName.toLowerCase() == "div" || parent[0].nodeName.toLowerCase() == "a")){
+            //          parent.addClass("ngBindingHover");
+            //        } else
+            //          $(elem).addClass("ngBindingHover");                    
+            //      } else {
+            //        $(elem).addClass("ngBindingHover");
+            //      }
+            //    });
+
+            //  }
+            //}, 400);
 
           } catch(ex) {
           }

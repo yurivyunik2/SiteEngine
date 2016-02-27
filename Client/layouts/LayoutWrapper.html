@@ -28,7 +28,7 @@
           <td class="tdInfo"><span>Edit mode</span></td>
           <td>
             <div class="dvActions">
-              <a href="" id="btn_save" action="saveItem" class="button-ribbon" onclick="function(){alert('test')};">Save</a>
+              <a href="" id="btn_save" action="saveItem" class="button-ribbon" onclick="" >Save</a>
             </div>
           </td>
         </tr>
@@ -51,78 +51,62 @@
   var _$scope;
   var _$compile;
   var _$http;
-  var app = angular.module("app", []);
-  app.controller("ctrlApp", ["$scope", "$compile", "$http", "$rootScope", function ($scope, $compile, $http, $rootScope) {
+  var _$parse;
+  var app = angular.module("app", [], function ($compileProvider) {
+    // configure new 'compile' directive by passing a directive
+    // factory function. The factory function injects the '$compile'
+    $compileProvider.directive('compile', function ($compile) {
+      // directive factory creates a link function
+      return function (scope, element, attrs) {
+        scope.$watch(
+          function (scope) {
+            // watch the 'compile' expression for changes
+            return scope.$eval(attrs.compile);
+          },
+          function (value) {
+            // when the 'compile' expression changes
+            // assign it into the current DOM
+            element.html(value);
+
+            // compile the new DOM and link it to the current
+            // scope.
+            // NOTE: we only compile .childNodes so that
+            // we don't get into infinite loop compiling ourselves
+            $compile(element.contents())(scope);
+          }
+        );
+      };
+    });
+  });
+
+
+  app.controller("ctrlApp", ["$scope", "$compile", "$http", "$rootScope", "$parse", function ($scope, $compile, $http, $rootScope, $parse) {
     _$scope = $scope;
     _$compile = $compile;
     _$http = $http;
+    _$parse = $parse;
+
+    $scope.name = 'Angular';
+    $scope.html = 'Hello {{name}}';
 
     _$scope.wrapperReady = function () {
 
     };    
 
-    //_$scope.$watch('headerTitle.Text', function (v1, v2, v3, v4, v5) {  
-    //  //if (scope.htmlElement !== undefined) {
-    //  //  //$timeout(eval(callback), 1);  
-    //  //}  
-
-    //  var i =0;
-    //});
-
-
   }]);
 
-  //app.directive('myDirective', function() {
-  //  return function(scope, element) {
-  //    element.bind('change', function() {
-  //      alert('change on ' + element);
-  //    });
-  //  };
-  //});
 
   app.directive('myDirective', function ($timeout) {  
-    return function (scope, element, attrs) {  
-      scope.$watch(attrs.myDirective, function (callback) {  
-  
-        if (scope.$last === undefined) {  
-          scope.$watch('htmlElement', function () {  
-            if (scope.htmlElement !== undefined) {  
-              $timeout(eval(callback), 1);  
-            }  
-          });  
-        }  
-  
-        if (scope.$last) {  
-          eval(callback)();  
-        }  
-      });  
+    return function (scope, element, attrs) {
+      _$scope.$watch('headerTitle', function (newValue, oldValue) {
+        console.log(scope);
+        console.log(element);
+        console.log(attrs);
+        //scope.counter = scope.counter + 1;
+        var i = 0;
+      });
     }  
   });  
-
-
-  //app.directive('myDirective', function () {
-  //  return function (scope, element, attrs) {
-  //    scope.$watch(attrs.myDirective, function (callback) {
-        
-  //      if (scope.$last === undefined) {  
-  //        scope.$watch('htmlElement', function () {  
-  //          if (scope.htmlElement !== undefined) {
-  //            //$timeout(eval(callback), 1);  
-  //          }  
-  //        });
-  //      }  
-  //      if (scope.$last) {  
-  //        //eval(callback)();  
-  //      }  
-
-  //    });
-
-
-  //  }
-  //});
-
-  
-
 
   require.config({
     paths: {
@@ -187,19 +171,62 @@
         //$(self).trigger(EVENT_CLICK_BUTTON, action);
     });
 
+    function parseBindingElems(contentElems) {
+      if (!contentElems)
+        return;
+
+      try {
+        for (var i = 0; i < contentElems.length; i++) {
+          var elem = contentElems[i];
+          var className = elem.className;
+          if (className &&
+             (className.indexOf("ng-binding") >= 0 || className.indexOf("ng-pristine") >= 0)) {
+            var $el = $(elem);
+            var bindingValue;
+            if ($el.val().indexOf("{{") >= 0 && $el.val().indexOf("}}") >= 0) {
+              bindingValue = $el.val();
+            } else if ($el.html().indexOf("{{") >= 0 && $el.html().indexOf("}}") >= 0) {
+              bindingValue = $el.html();
+            } else if ($el.attr("ng-bind")) {
+              bindingValue = $el.attr("ng-bind");
+            } else if ($el.attr("ng-model")) {
+              bindingValue = $el.attr("ng-model");
+            }
+
+            if (bindingValue) {
+              var val = bindingValue;
+              val = val.replace("{{", "").replace("}}", "");
+              val = val.trim('');
+              if (val) {
+                var arPart = val.split('.');
+                if (arPart.length > 0)
+                  $el.attr("bindObj", arPart[0]);
+                if (arPart.length > 1)
+                  $el.attr("bindField", arPart[1]);
+                if (arPart.length > 2)
+                  $el.attr("bindSubField", arPart[2]);
+              }
+            }
+          }
+        }
+      }
+      catch (ex) { }
+    }
+
     function renderSite(contentSource){
       var intervalWait = setInterval(function(){
         if(SiteInitialization.isItemsBound()) {
           clearInterval(intervalWait);
 
           var contentFn = _$compile(contentSource);
-          var content = contentFn(_$scope);
+          var contentElems = contentFn(_$scope);
+
           try {
-            $("#wrapperContent").html(content);
+            parseBindingElems(contentElems);
 
-            _$scope.$apply(applyCallback);
+            $("#wrapperContent").html(contentElems);
 
-
+            _$scope.$apply();
 
             var isIncludeContentLoaded = false;
             setInterval(function(){
@@ -233,10 +260,6 @@
           }
         }
       }, 10);
-    };
-
-    function applyCallback(a, b, c){
-      var i = 0;
     };
 
     // get content of the site

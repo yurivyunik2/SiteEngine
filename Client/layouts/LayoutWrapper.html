@@ -218,27 +218,68 @@
         if(SiteInitialization.isItemsBound()) {
           clearInterval(intervalWait);
 
-          var contentFn = _$compile(contentSource);
-          var contentElems = contentFn(_$scope);
-
           try {
 
-            $("#wrapperContent").html(contentElems);
-            _.each(contentElems, function (elem) {
-              if (elem.nodeName === "#comment" && elem.textContent.indexOf("ngInclude") >= 0) {
-                var includePath = elem.textContent.trim();
-                var index = includePath.indexOf(":");
-                includePath = includePath.substring(index + 1, includePath.length);
+            var $contentSource = $("<html></html").html(contentSource)
+            var $arInclude = $contentSource.find("[ng-include]");
+            var hashFile = {};
+            var indexLoad = 0;
+            var countLoad = $arInclude.length;
+            _.each($arInclude, function (include) {
+              var includePath = $(include).attr("ng-include");
+              includePath = includePath.replace("'", "").replace("'", "");
+              hashFile[includePath] = include;
+              $(include).removeAttr("ng-include");
+              $.get(includePath).success(function (data, status, headers, config) {
+                //$scope.guitarVariable = data;
+                var i = 0;
+                //if (hashFile[config.url]) {
+                //  $(hashFile[config.url]).html(data);
+                //  indexLoad++;
+                //}
+                $(include).html(data);
+                indexLoad++;
+                if (indexLoad == countLoad) {
+                  //var contentFn = _$compile(contentSource);
+                  var contentFn = _$compile($contentSource.html());
+                  var contentElems = contentFn(_$scope);
 
+                  $("#wrapperContent").html(contentElems);
+                  _$scope.$apply();
+                }
+              });
 
-                var newElem = angular.element("<ng-include src=\"" + includePath + "\"></ng-include>");
-                angular.element($(document)[0].body).append(newElem);
-                var newHtml = _$compile(newElem)(_$scope);
-                //var newHtml = _$compile("<ng-include src=\"" + includePath + "\"></ng-include>")(_$scope);
-
-              }
             });
 
+            ////var contentFn = _$compile(contentSource);
+            //var contentFn = _$compile($contentSource.html());
+            //var contentElems = contentFn(_$scope);
+
+
+            //$("#wrapperContent").html(contentElems);
+
+
+
+       //     $http.get('todos.json')
+       //.then(function (res) {
+       //  $scope.todos = res.data;
+       //});
+
+            //_.each(contentElems, function (elem) {
+            //  if (elem.nodeName === "#comment" && elem.textContent.indexOf("ngInclude") >= 0) {
+            //    var includePath = elem.textContent.trim();
+            //    var index = includePath.indexOf(":");
+            //    includePath = includePath.substring(index + 1, includePath.length);
+
+
+            //    var newElem = angular.element("<ng-include src=\"" + includePath + "\"></ng-include>");
+            //    angular.element($(document)[0].body).append(newElem);
+            //    var newHtml = _$compile(newElem)(_$scope);
+            //    //var newHtml = _$compile("<ng-include src=\"" + includePath + "\"></ng-include>")(_$scope);
+
+            //  }
+            //});
+            return;
             _$scope.$apply();
 
             var isIncludeContentLoaded = false;

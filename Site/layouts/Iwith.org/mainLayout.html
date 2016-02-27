@@ -10,11 +10,11 @@
 <link href="/SiteEngine/Site/layouts/Iwith.org/Footer/Footer.css" rel="stylesheet">
 
 <body>
-
+  <span>{{headerTitle.Text}}</span>
     <!---------->
     <!--Header-->
     <!---------->
-    <div ng-include="'/SiteEngine/Site/layouts/Iwith.org/Header/Header.html'"></div>
+  <div ng-include="'/SiteEngine/Site/layouts/Iwith.org/Header/Header.html'" onload="includeLoad()"></div>
 
 
     <!---------->

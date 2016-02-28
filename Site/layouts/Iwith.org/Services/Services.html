@@ -2,7 +2,7 @@
 <div class="dvLinksSection dvSection">
   <table class="tbLinks">
     <tbody>
-      <tr id="linksContainer">
+      <tr editing id="linksContainer">
         <td ng-repeat="service in services.children" >
           <div class="dvLinkImg">
             <img src="{{service.Image}}">
@@ -22,19 +22,3 @@
   </table>
 </div>
 
-<script id="templServiceItem" type="text/template">
-  <td itemId="<%= id %>" >
-    <div class="dvLinkImg">
-      <img src="<%= srcImage %>">
-    </div>
-    <div class="dvLinkTitle dvInternetSecurity">
-      <a href="">
-        <span><%= title %></span>
-      </a>
-    </div>
-    <div class="dvLinkInfo">
-      <span><%= info %></span>
-    </div>
-  </td>
-
-</script>

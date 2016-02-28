@@ -52,32 +52,7 @@
   var _$compile;
   var _$http;
   var _$parse;
-  var app = angular.module("app", [], function ($compileProvider) {
-    // configure new 'compile' directive by passing a directive
-    // factory function. The factory function injects the '$compile'
-    $compileProvider.directive('compile', function ($compile) {
-      // directive factory creates a link function
-      return function (scope, element, attrs) {
-        scope.$watch(
-          function (scope) {
-            // watch the 'compile' expression for changes
-            return scope.$eval(attrs.compile);
-          },
-          function (value) {
-            // when the 'compile' expression changes
-            // assign it into the current DOM
-            element.html(value);
-
-            // compile the new DOM and link it to the current
-            // scope.
-            // NOTE: we only compile .childNodes so that
-            // we don't get into infinite loop compiling ourselves
-            $compile(element.contents())(scope);
-          }
-        );
-      };
-    });
-  });
+  var app = angular.module("app", []);
 
 
   app.controller("ctrlApp", ["$scope", "$compile", "$http", "$rootScope", "$parse", function ($scope, $compile, $http, $rootScope, $parse) {
@@ -86,27 +61,64 @@
     _$http = $http;
     _$parse = $parse;
 
-    $scope.name = 'Angular';
-    $scope.html = 'Hello {{name}}';
-
     _$scope.wrapperReady = function () {
 
     };    
 
   }]);
 
+  function parseBindingElem(elem) {
+    if (!elem)
+      return;
 
-  app.directive('myDirective', function ($timeout) {  
+    try {
+      var className = elem.className;
+      if (className &&
+          (className.indexOf("ng-binding") >= 0 || className.indexOf("ng-pristine") >= 0)) {
+        var $el = $(elem);
+        var bindingValue;
+        if ($el.val().indexOf("{{") >= 0 && $el.val().indexOf("}}") >= 0) {
+          bindingValue = $el.val();
+        } else if ($el.html().indexOf("{{") >= 0 && $el.html().indexOf("}}") >= 0) {
+          bindingValue = $el.html();
+        } else if ($el.attr("ng-bind")) {
+          bindingValue = $el.attr("ng-bind");
+        } else if ($el.attr("ng-model")) {
+          bindingValue = $el.attr("ng-model");
+        }
+
+        if (bindingValue) {
+          var val = bindingValue;
+          val = val.replace("{{", "").replace("}}", "");
+          val = val.trim('');
+          if (val) {
+            var arPart = val.split('.');
+            if (arPart.length > 0)
+              $el.attr("bindObj", arPart[0]);
+            if (arPart.length > 1)
+              $el.attr("bindField", arPart[1]);
+            if (arPart.length > 2)
+              $el.attr("bindSubField", arPart[2]);
+          }
+        }
+      }
+      if (elem.childNodes) {
+        for (var i = 0; i < elem.childNodes.length; i++) {
+          parseBindingElem(elem.childNodes[i]);
+        }
+      }
+    }
+    catch (ex) { }
+
+  };
+
+
+  app.directive('editing', function () {
     return function (scope, element, attrs) {
-      _$scope.$watch('headerTitle', function (newValue, oldValue) {
-        console.log(scope);
-        console.log(element);
-        console.log(attrs);
-        //scope.counter = scope.counter + 1;
-        var i = 0;
-      });
-    }  
-  });  
+      if (element && element.length > 0)
+        parseBindingElem(element[0]);
+    }
+  });
 
   require.config({
     paths: {
@@ -171,47 +183,13 @@
         //$(self).trigger(EVENT_CLICK_BUTTON, action);
     });
 
-    function parseBindingElems(contentElems) {
-      if (!contentElems)
-        return;
+    function loadIncludeFile(includePath, callback) {
+      $.get(includePath).success(function (data, status, headers) {
+        if (callback)
+          callback(includePath, data);
+      });
 
-      try {
-        for (var i = 0; i < contentElems.length; i++) {
-          var elem = contentElems[i];
-          var className = elem.className;
-          if (className &&
-             (className.indexOf("ng-binding") >= 0 || className.indexOf("ng-pristine") >= 0)) {
-            var $el = $(elem);
-            var bindingValue;
-            if ($el.val().indexOf("{{") >= 0 && $el.val().indexOf("}}") >= 0) {
-              bindingValue = $el.val();
-            } else if ($el.html().indexOf("{{") >= 0 && $el.html().indexOf("}}") >= 0) {
-              bindingValue = $el.html();
-            } else if ($el.attr("ng-bind")) {
-              bindingValue = $el.attr("ng-bind");
-            } else if ($el.attr("ng-model")) {
-              bindingValue = $el.attr("ng-model");
-            }
-
-            if (bindingValue) {
-              var val = bindingValue;
-              val = val.replace("{{", "").replace("}}", "");
-              val = val.trim('');
-              if (val) {
-                var arPart = val.split('.');
-                if (arPart.length > 0)
-                  $el.attr("bindObj", arPart[0]);
-                if (arPart.length > 1)
-                  $el.attr("bindField", arPart[1]);
-                if (arPart.length > 2)
-                  $el.attr("bindSubField", arPart[2]);
-              }
-            }
-          }
-        }
-      }
-      catch (ex) { }
-    }
+    };
 
     function renderSite(contentSource){
       var intervalWait = setInterval(function(){
@@ -220,66 +198,43 @@
 
           try {
 
-            var $contentSource = $("<html></html").html(contentSource)
-            var $arInclude = $contentSource.find("[ng-include]");
-            var hashFile = {};
-            var indexLoad = 0;
-            var countLoad = $arInclude.length;
-            _.each($arInclude, function (include) {
-              var includePath = $(include).attr("ng-include");
-              includePath = includePath.replace("'", "").replace("'", "");
-              hashFile[includePath] = include;
-              $(include).removeAttr("ng-include");
-              $.get(includePath).success(function (data, status, headers, config) {
-                //$scope.guitarVariable = data;
-                var i = 0;
-                //if (hashFile[config.url]) {
-                //  $(hashFile[config.url]).html(data);
-                //  indexLoad++;
-                //}
-                $(include).html(data);
-                indexLoad++;
-                if (indexLoad == countLoad) {
-                  //var contentFn = _$compile(contentSource);
-                  var contentFn = _$compile($contentSource.html());
-                  var contentElems = contentFn(_$scope);
+            //var $contentSource = $("<html></html").html(contentSource)
+            //var $arInclude = $contentSource.find("[ng-include]");
+            //var hashFile = {};
+            //var indexLoad = 0;
+            //var countLoad = $arInclude.length;
+            //_.each($arInclude, function (include) {
+            //  var includePath = $(include).attr("ng-include");
+            //  includePath = includePath.replace("'", "").replace("'", "");
+            //  hashFile[includePath] = include;
+            //  $(include).removeAttr("ng-include");
 
-                  $("#wrapperContent").html(contentElems);
-                  _$scope.$apply();
-                }
-              });
+            //  loadIncludeFile(includePath, function (path, data) { 
+            //    if (hashFile[path]) {
+            //      $(hashFile[path]).html(data);
+            //      indexLoad++;
+            //    }
+            //    if (indexLoad == countLoad) {
+            //      //var contentFn = _$compile(contentSource);
+            //      var contentFn = _$compile($contentSource.html());
+            //      var contentElems = contentFn(_$scope);
 
-            });
-
-            ////var contentFn = _$compile(contentSource);
-            //var contentFn = _$compile($contentSource.html());
-            //var contentElems = contentFn(_$scope);
-
-
-            //$("#wrapperContent").html(contentElems);
-
-
-
-       //     $http.get('todos.json')
-       //.then(function (res) {
-       //  $scope.todos = res.data;
-       //});
-
-            //_.each(contentElems, function (elem) {
-            //  if (elem.nodeName === "#comment" && elem.textContent.indexOf("ngInclude") >= 0) {
-            //    var includePath = elem.textContent.trim();
-            //    var index = includePath.indexOf(":");
-            //    includePath = includePath.substring(index + 1, includePath.length);
-
-
-            //    var newElem = angular.element("<ng-include src=\"" + includePath + "\"></ng-include>");
-            //    angular.element($(document)[0].body).append(newElem);
-            //    var newHtml = _$compile(newElem)(_$scope);
-            //    //var newHtml = _$compile("<ng-include src=\"" + includePath + "\"></ng-include>")(_$scope);
-
-            //  }
+            //      $("#wrapperContent").html(contentElems);
+            //      _$scope.$apply();
+            //    }              
+            //  });
             //});
-            return;
+
+            //return;
+
+            var contentFn = _$compile(contentSource);
+            //var contentFn = _$compile($contentSource.html());
+            var contentElems = contentFn(_$scope);
+
+
+            $("#wrapperContent").html(contentElems);
+
+            //return;
             _$scope.$apply();
 
             var isIncludeContentLoaded = false;
@@ -291,17 +246,17 @@
               lastDateTimeIncludeContent = Date.now();
             });
 
-            var maxIncludeWait = 1000;
-            var intervalIncludeWait = setInterval(function () {
-              var dtNow = Date.now();
-              console.log("diff=" + (dtNow - lastDateTimeIncludeContent));
-              if ((dtNow - lastDateTimeIncludeContent) > maxIncludeWait) {
-                clearInterval(intervalIncludeWait);
-                parseBindingElems(contentElems);
+            //var maxIncludeWait = 1000;
+            //var intervalIncludeWait = setInterval(function () {
+            //  var dtNow = Date.now();
+            //  console.log("diff=" + (dtNow - lastDateTimeIncludeContent));
+            //  if ((dtNow - lastDateTimeIncludeContent) > maxIncludeWait) {
+            //    clearInterval(intervalIncludeWait);
+            //    parseBindingElems(contentElems);
 
-                //_$scope.$apply();
-              }
-            }, 100);
+            //    //_$scope.$apply();
+            //  }
+            //}, 100);
 
             //setInterval(function(){
             //  if(isIncludeContentLoaded){

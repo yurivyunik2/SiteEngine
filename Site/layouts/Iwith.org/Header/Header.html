@@ -17,7 +17,7 @@
                     <div class="dvTitle">
                       <!--<span>Internet for projects that improve the world *</span>-->
                       
-                      <span my-directive>{{ headerTitle.Text }}</span>                      
+                      <span editing>{{ headerTitle.Text }}</span>
                     </div>
                   </td>
                 </tr>
@@ -30,7 +30,7 @@
                             <div class="dvMenu">
                               <ul>
                                 <li ng-repeat="menuItem in headerMenu.children">
-                                  <a href="{{menuItem.Path}}"><span>{{menuItem.Name}}</span></a>
+                                  <a editing href="{{menuItem.Path}}"><span>{{menuItem.Name}}</span></a>
                                 </li>
                                 <!--<li>Home</li>-->
                               </ul>
@@ -50,7 +50,7 @@
                                 <b class="caret"></b>
                               </div>
                               <ul id="languageMenu" class="dropdown-menu" style="display: none;">
-                                <li langcode="{{languageItem.Code}}" ng-repeat="languageItem in languages.children">
+                                <li editing langcode="{{languageItem.Code}}" ng-repeat="languageItem in languages.children">
                                   <a href=""><span>{{languageItem.Name}}</span></a>
                                 </li>                                
                                 <!--<li><a href="">English</a></li>

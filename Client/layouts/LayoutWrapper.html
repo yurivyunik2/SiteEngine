@@ -191,72 +191,63 @@
 
     };
 
+    function loadContent() {
+      var $contentSource = $("<html></html").html(contentSource)
+      var $arInclude = $contentSource.find("[ng-include]");
+      var hashFile = {};
+      var indexLoad = 0;
+      var countLoad = $arInclude.length;
+      _.each($arInclude, function (include) {
+        var includePath = $(include).attr("ng-include");
+        includePath = includePath.replace("'", "").replace("'", "");
+        hashFile[includePath] = include;
+        $(include).removeAttr("ng-include");
+
+        loadIncludeFile(includePath, function (path, data) { 
+          if (hashFile[path]) {
+            $(hashFile[path]).html(data);
+            indexLoad++;
+          }
+          if (indexLoad == countLoad) {
+            //var contentFn = _$compile(contentSource);
+            var contentFn = _$compile($contentSource.html());
+            var contentElems = contentFn(_$scope);
+
+            $("#wrapperContent").html(contentElems);
+            _$scope.$apply();
+          }              
+        });
+      });
+    };
+
     function renderSite(contentSource){
       var intervalWait = setInterval(function(){
         if(SiteInitialization.isItemsBound()) {
           clearInterval(intervalWait);
 
           try {
-
-            //var $contentSource = $("<html></html").html(contentSource)
-            //var $arInclude = $contentSource.find("[ng-include]");
-            //var hashFile = {};
-            //var indexLoad = 0;
-            //var countLoad = $arInclude.length;
-            //_.each($arInclude, function (include) {
-            //  var includePath = $(include).attr("ng-include");
-            //  includePath = includePath.replace("'", "").replace("'", "");
-            //  hashFile[includePath] = include;
-            //  $(include).removeAttr("ng-include");
-
-            //  loadIncludeFile(includePath, function (path, data) { 
-            //    if (hashFile[path]) {
-            //      $(hashFile[path]).html(data);
-            //      indexLoad++;
-            //    }
-            //    if (indexLoad == countLoad) {
-            //      //var contentFn = _$compile(contentSource);
-            //      var contentFn = _$compile($contentSource.html());
-            //      var contentElems = contentFn(_$scope);
-
-            //      $("#wrapperContent").html(contentElems);
-            //      _$scope.$apply();
-            //    }              
-            //  });
-            //});
-
-            //return;
-
             var contentFn = _$compile(contentSource);
-            //var contentFn = _$compile($contentSource.html());
             var contentElems = contentFn(_$scope);
 
-
             $("#wrapperContent").html(contentElems);
-
-            //return;
             _$scope.$apply();
 
             var isIncludeContentLoaded = false;
             var lastDateTimeIncludeContent = Date.now();
-            //$rootScope.$on('$includeContentLoaded', function(event) {
             _$scope.$on('$includeContentLoaded', function (event, a, b, c) {
-              //$('#output').append('<p>' + event.targetScope.name + ' include\'s content was loaded.</p>');
               isIncludeContentLoaded = true;
               lastDateTimeIncludeContent = Date.now();
             });
 
-            //var maxIncludeWait = 1000;
-            //var intervalIncludeWait = setInterval(function () {
-            //  var dtNow = Date.now();
-            //  console.log("diff=" + (dtNow - lastDateTimeIncludeContent));
-            //  if ((dtNow - lastDateTimeIncludeContent) > maxIncludeWait) {
-            //    clearInterval(intervalIncludeWait);
-            //    parseBindingElems(contentElems);
-
-            //    //_$scope.$apply();
-            //  }
-            //}, 100);
+            setInterval(function () {
+              if (isIncludeContentLoaded) {
+                isIncludeContentLoaded = false;
+                $("[bindobj]").unbind("mouseover");
+                $("[bindobj]").mouseover(function (ev) {
+                  
+                });
+              }
+            }, 1);
 
             //setInterval(function(){
             //  if(isIncludeContentLoaded){
@@ -279,7 +270,9 @@
             //  }
             //}, 400);
 
-          } catch(ex) {
+
+          }
+          catch (ex) {
           }
         }
       }, 10);

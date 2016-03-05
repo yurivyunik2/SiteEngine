@@ -21,6 +21,8 @@
       </div>
   </div>
 
+  <div id="editCtrl" style=""><textarea name="Text1"></textarea></div>
+
   <div ng-app="app" ng-controller="ctrlApp" style="height: 100%;">
     <div class="dvEditPanel">
       <table>
@@ -235,6 +237,21 @@
       });
     };
 
+    function getOffsetElem(param, elem) {
+      if (!elem)
+        return 0;
+      var offset = 0;
+      if (elem['offset' + param])
+        offset = elem['offset' + param];
+      if (elem.offsetParent)
+        offset += getOffsetElem(param, elem.offsetParent);
+      return offset;
+    };
+
+    function getStyle(elem) {
+      return window.getComputedStyle ? getComputedStyle(elem, "") : elem.currentStyle;
+    }
+
     function renderSite(contentSource){
       var intervalWait = setInterval(function(){
         if(SiteInitialization.isItemsBound()) {
@@ -259,8 +276,28 @@
                 isIncludeContentLoaded = false;
                 $("[bindobj]").unbind("mouseover");
                 $("[bindobj]").mouseover(function (ev) {
-                  $(".editingElem").removeClass("editingElem");
-                  $(ev.currentTarget).addClass("editingElem");
+                  //$(".editingElem").removeClass("editingElem");
+                  //$(ev.currentTarget).addClass("editingElem");
+                  var offsetLeft = getOffsetElem('Left', ev.currentTarget);
+                  var offsetTop = getOffsetElem('Top', ev.currentTarget);
+                  //$("#editCtrl")[0].offsetLeft = offsetLeft;
+                  //$("#editCtrl")[0].offsetTop = offsetTop;
+
+                  //$("#editCtrl")[0].clientLeft = offsetLeft;
+                  //$("#editCtrl")[0].clientTop = offsetTop;
+                  var padding = 15;
+                  $("#editCtrl").css("display", "inline-block");
+                  $("#editCtrl").css("left", (offsetLeft - padding/2) + 'px');
+                  $("#editCtrl").css("top", (offsetTop - padding/2) + 'px');
+                  $("#editCtrl").css("width", (ev.currentTarget.offsetWidth + padding) + 'px');
+                  $("#editCtrl").css("height", (ev.currentTarget.offsetHeight + padding) + 'px');
+                  $("#editCtrl").find("textarea").css("width", (ev.currentTarget.offsetWidth + padding) + 'px');
+                  $("#editCtrl").find("textarea").css("height", (ev.currentTarget.offsetHeight + padding) + 'px');
+                  $("#editCtrl").find("textarea").html($(ev.currentTarget).html());
+                  var style = getStyle(ev.currentTarget);
+                  $("#editCtrl").find("textarea").css("font-size", style.getPropertyValue("font-size"));
+                  $("#editCtrl").find("textarea").css("color", style.getPropertyValue("color"));
+
                 });
               }
             }, 500);

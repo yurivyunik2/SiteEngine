@@ -57,14 +57,23 @@
 #editCtrl {
   z-index: 1000;
   display:none; 
+  min-width: 145px;
   position: absolute; 
-  border: 1px solid red;
+  border: 1px solid #444148;
   /*padding: 5px;*/  
 }
   #editCtrl textarea {
     z-index: 1000;
     resize: none;
+    display: block;
+    width:100%;
     /*font-size: 18px;*/
     /*width: 100%;
     height: 100%;*/
+  }
+  #editCtrl .dvButtons {
+    display: block;
+    background-color: #ABA6A6;
+    margin: 0;
+    padding: 3px 0px;
   }

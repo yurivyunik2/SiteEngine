@@ -6,7 +6,7 @@
     <script src="/SiteEngine/Client/js/lib/require.js"></script>    
     <script src="/SiteEngine/Client/js/lib/angular/angular.js"></script>
 
-    <link rel="stylesheet" type="text/css" href="/SiteEngine/Client/layouts/LayoutWrapper.css">
+    <link rel="stylesheet" type="text/css" href="/SiteEngine/Client/siteRendering/SiteRenderingLayout.css">
     <link rel="stylesheet" type="text/css" href="/SiteEngine/Client/js/components/ComponentMgr.css">
 
   </head>
@@ -21,9 +21,16 @@
       </div>
   </div>
 
-  <div id="editCtrl" style=""><textarea name="Text1"></textarea></div>
+      <div id="editCtrl" style=""><textarea name="Text1"></textarea>
+      <div class="dvButtons" >
+        <a href="#" id="A1" action="saveItem" class="button-ribbon" onclick="">OK</a>
+        <a href="#" id="A2" action="saveItem" class="button-ribbon" onclick="">CANCEL</a>
+      </div>
+    </div>
+
 
   <div ng-app="app" ng-controller="ctrlApp" style="height: 100%;">
+
     <div class="dvEditPanel">
       <table>
         <tr>
@@ -69,16 +76,6 @@
 
   }]);
 
-  //// create an injector
-  //var $injector = angular.injector(['ng']);
-
-  //// use the injector to kick off your application
-  //// use the type inference to auto inject arguments, or use implicit injection
-  //$injector.invoke(function ($rootScope, $compile, $document) {
-  //  $compile($document)($rootScope);
-  //  $rootScope.$digest();
-  //});
-
   function parseBindingElem(elem) {
     if (!elem)
       return;
@@ -121,7 +118,6 @@
       }
     }
     catch (ex) { }
-
   };
   
   function editingParse() {
@@ -147,8 +143,8 @@
       angularRoute: "/SiteEngine/Client/js/lib/angular-route/angular-route",
 
       AppConfig: "/SiteEngine/Common/appConfig",
-      //CONST: "/SiteEngine/Client/js/const",
       CONST: "/SiteEngine/Common/Const",
+      siteRendering: "/SiteEngine/Client/siteRendering/siteRendering",
       application: "/SiteEngine/Client/js/application",
       notification: "/SiteEngine/Client/Views/forms/notificationForm/notification",
       CommonTypes: "/SiteEngine/Client/js/Common/CommonTypes",
@@ -177,7 +173,7 @@
     
   });
 
-  require(["jquery", "underscore", "application", "CONST", "Utils", "SiteInitialization", "bootstrap", "css!bootstrap"], function ($, _, application, CONST, Utils, SiteInitialization) {
+  require(["jquery", "underscore", "application", "siteRendering", "CONST", "Utils", "SiteInitialization", "bootstrap", "css!bootstrap"], function ($, _, application, siteRendering, CONST, Utils, SiteInitialization) {
 
     //var path = "main/test2";
     //var path = "main";
@@ -200,137 +196,6 @@
         //$(self).trigger(EVENT_CLICK_BUTTON, action);
     });
 
-    function loadIncludeFile(includePath, callback) {
-      $.get(includePath).success(function (data, status, headers) {
-        if (callback)
-          callback(includePath, data);
-      });
-
-    };
-
-    function loadContent() {
-      var $contentSource = $("<html></html").html(contentSource)
-      var $arInclude = $contentSource.find("[ng-include]");
-      var hashFile = {};
-      var indexLoad = 0;
-      var countLoad = $arInclude.length;
-      _.each($arInclude, function (include) {
-        var includePath = $(include).attr("ng-include");
-        includePath = includePath.replace("'", "").replace("'", "");
-        hashFile[includePath] = include;
-        $(include).removeAttr("ng-include");
-
-        loadIncludeFile(includePath, function (path, data) { 
-          if (hashFile[path]) {
-            $(hashFile[path]).html(data);
-            indexLoad++;
-          }
-          if (indexLoad == countLoad) {
-            //var contentFn = _$compile(contentSource);
-            var contentFn = _$compile($contentSource.html());
-            var contentElems = contentFn(_$scope);
-
-            $("#wrapperContent").html(contentElems);
-            _$scope.$apply();
-          }              
-        });
-      });
-    };
-
-    function getOffsetElem(param, elem) {
-      if (!elem)
-        return 0;
-      var offset = 0;
-      if (elem['offset' + param])
-        offset = elem['offset' + param];
-      if (elem.offsetParent)
-        offset += getOffsetElem(param, elem.offsetParent);
-      return offset;
-    };
-
-    function getStyle(elem) {
-      return window.getComputedStyle ? getComputedStyle(elem, "") : elem.currentStyle;
-    }
-
-    function renderSite(contentSource){
-      var intervalWait = setInterval(function(){
-        if(SiteInitialization.isItemsBound()) {
-          clearInterval(intervalWait);
-
-          try {
-            var contentFn = _$compile(contentSource);
-            var contentElems = contentFn(_$scope);
-
-            $("#wrapperContent").html(contentElems);
-            _$scope.$apply();
-
-            var isIncludeContentLoaded = false;
-            var lastDateTimeIncludeContent = Date.now();
-            _$scope.$on('$includeContentLoaded', function (event, a, b, c) {
-              isIncludeContentLoaded = true;
-              lastDateTimeIncludeContent = Date.now();
-            });
-
-            setInterval(function () {
-              if (isIncludeContentLoaded) {
-                isIncludeContentLoaded = false;
-                $("[bindobj]").unbind("mouseover");
-                $("[bindobj]").mouseover(function (ev) {
-                  //$(".editingElem").removeClass("editingElem");
-                  //$(ev.currentTarget).addClass("editingElem");
-                  var offsetLeft = getOffsetElem('Left', ev.currentTarget);
-                  var offsetTop = getOffsetElem('Top', ev.currentTarget);
-                  //$("#editCtrl")[0].offsetLeft = offsetLeft;
-                  //$("#editCtrl")[0].offsetTop = offsetTop;
-
-                  //$("#editCtrl")[0].clientLeft = offsetLeft;
-                  //$("#editCtrl")[0].clientTop = offsetTop;
-                  var padding = 15;
-                  $("#editCtrl").css("display", "inline-block");
-                  $("#editCtrl").css("left", (offsetLeft - padding/2) + 'px');
-                  $("#editCtrl").css("top", (offsetTop - padding/2) + 'px');
-                  $("#editCtrl").css("width", (ev.currentTarget.offsetWidth + padding) + 'px');
-                  $("#editCtrl").css("height", (ev.currentTarget.offsetHeight + padding) + 'px');
-                  $("#editCtrl").find("textarea").css("width", (ev.currentTarget.offsetWidth + padding) + 'px');
-                  $("#editCtrl").find("textarea").css("height", (ev.currentTarget.offsetHeight + padding) + 'px');
-                  $("#editCtrl").find("textarea").html($(ev.currentTarget).html());
-                  var style = getStyle(ev.currentTarget);
-                  $("#editCtrl").find("textarea").css("font-size", style.getPropertyValue("font-size"));
-                  $("#editCtrl").find("textarea").css("color", style.getPropertyValue("color"));
-
-                });
-              }
-            }, 500);
-
-            //setInterval(function(){
-            //  if(isIncludeContentLoaded){
-            //    isIncludeContentLoaded = false;
-            //    var arBindingElems = $(".ng-binding");
-            //    _.each(arBindingElems, function(elem){
-            //      var nodeName = elem.nodeName.toLowerCase();
-            //      if(nodeName == "span"){
-            //        var parent = $(elem).parent();
-            //        if(parent.length > 0 && 
-            //          (parent[0].nodeName.toLowerCase() == "div" || parent[0].nodeName.toLowerCase() == "a")){
-            //          parent.addClass("ngBindingHover");
-            //        } else
-            //          $(elem).addClass("ngBindingHover");                    
-            //      } else {
-            //        $(elem).addClass("ngBindingHover");
-            //      }
-            //    });
-
-            //  }
-            //}, 400);
-
-
-          }
-          catch (ex) {
-          }
-        }
-      }, 10);
-    };
-
     // get content of the site
     var data = { action: "getContentSite" };
     $.post(serverAddress, data, function (responseData, textStatus, jqXHR) {
@@ -344,7 +209,7 @@
               var contentSource = layoutItem.layoutContent;              
               
               //
-              renderSite(contentSource);
+              siteRendering.render(contentSource);
             }
           }
         } else {

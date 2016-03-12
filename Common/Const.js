@@ -31,7 +31,7 @@ var CONST = function (CommonTypes, AppConfig) {
       //PATH: function () { return "http://localhost:80/"; },
 
       //UPLOAD_PATH: function () { return "./SiteEngine/Client/upload/" },
-      LAYOUT_WRAPPER_PATH: "/SiteEngine/Client/layouts/LayoutWrapper.html",
+      SITE_RENDERING_LAYOUT_PATH: "/SiteEngine/Client/siteRendering/SiteRenderingLayout.html",
       SESSION_TIME: 200 * 60 * 1000, // 20 minutes
       //SESSION_TIME: 5 * 1000, // 5 seconds
     },

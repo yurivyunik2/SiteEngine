@@ -330,7 +330,7 @@
           if (requestPage.indexOf(".") >= 0 && fs.existsSync(fileName)) {
             response.sendfile(fileName);
           } else {
-            response.sendfile("." + CONST.SERVER.LAYOUT_WRAPPER_PATH);
+            response.sendfile("." + CONST.SERVER.SITE_RENDERING_LAYOUT_PATH);
           }          
         }
       } catch (ex) {

@@ -1,4 +1,4 @@
-﻿define(["CONST", "Utils", "SiteInitialization"], function (CONST, Utils, SiteInitialization) {
+﻿define(["CONST", "Utils", "application", "SiteInitialization"], function (CONST, Utils, application, SiteInitialization) {
 
   var SiteRendering = function () {
     var siteRendering = {
@@ -7,6 +7,7 @@
       },
       render: function (contentSource) {
         var v_this = this;
+        var _$scope = application.get$scope();
         var intervalWait = setInterval(function () {
           if (SiteInitialization.isItemsBound()) {
             clearInterval(intervalWait);
@@ -17,6 +18,9 @@
 
               $("#wrapperContent").html(contentElems);
               _$scope.$apply();
+
+              //
+              v_this.afterRender();
 
               var isIncludeContentLoaded = false;
               var lastDateTimeIncludeContent = Date.now();
@@ -64,6 +68,18 @@
             }
           }
         }, 10);
+
+      },
+      afterRender: function () {
+        var _$scope = application.get$scope();
+        _$scope.cancelEdit = this.cancelEdit;
+        _$scope.editItem = this.editItem;
+      },
+      cancelEdit: function () {
+        $("#editCtrl").hide();
+      },
+      editItem: function (ev) {
+        ev = ev || window.event;
 
       },
 

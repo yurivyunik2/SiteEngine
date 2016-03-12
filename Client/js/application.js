@@ -57,6 +57,9 @@ define(["CONST", "Utils"], function (CONST, Utils) {
         $http = _$http;
         $window = _$window;
       },
+      get$scope: function () {
+        return $scope;
+      },
 
       intervalUI: function () {
 

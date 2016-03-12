@@ -21,15 +21,15 @@
       </div>
   </div>
 
-      <div id="editCtrl" style=""><textarea name="Text1"></textarea>
-      <div class="dvButtons" >
-        <a href="#" id="A1" action="saveItem" class="button-ribbon" onclick="">OK</a>
-        <a href="#" id="A2" action="saveItem" class="button-ribbon" onclick="">CANCEL</a>
-      </div>
-    </div>
-
 
   <div ng-app="app" ng-controller="ctrlApp" style="height: 100%;">
+
+    <div id="editCtrl" style=""><textarea name="Text1"></textarea>
+      <div class="dvButtons" >
+        <a href="#" id="A1" class="button-ribbon" ng-click="editItem($event)">OK</a>
+        <a href="#" id="A2" class="button-ribbon" ng-click="cancelEdit()">CANCEL</a>
+      </div>
+    </div>
 
     <div class="dvEditPanel">
       <table>
@@ -69,11 +69,6 @@
     _$compile = $compile;
     _$http = $http;
     _$parse = $parse;
-
-    _$scope.wrapperReady = function () {
-
-    };    
-
   }]);
 
   function parseBindingElem(elem) {
@@ -187,13 +182,6 @@
     application.loadItems(function () {
       var itemsHash = application.getItemsHash();
       SiteInitialization.bindItems(_$scope, itemsHash);
-    });
-
-    $(".button-ribbon").click(function (event) {
-      var $curTarget = $(event.currentTarget);
-      var action = $curTarget.attr("action");
-      //if (action && action != "")
-        //$(self).trigger(EVENT_CLICK_BUTTON, action);
     });
 
     // get content of the site

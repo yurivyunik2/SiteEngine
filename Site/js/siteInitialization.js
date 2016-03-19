@@ -15,8 +15,20 @@ define(["application", "Utils", "SiteConst"], function (application, Utils, Site
       constructor: function(){},
 
       bindItems: function ($scope, items) {
-        var itemNamesId = SiteConst.getItemNamesId();
+        var contentItems = application.getContentItems();
         var itemsRequest = [];
+        _.each(contentItems, function (item) {
+          if (item.name) {
+            $scope[item.name] = item;
+            itemsRequest.push(item);
+            if (item.children && item.children.length > 0) {
+              Utils.findChildItems(itemsRequest, item);
+            }
+          }
+        });
+
+        // additional items
+        var itemNamesId = SiteConst.getItemNamesId();
         var itemNames = _.keys(itemNamesId);
         _.each(itemNames, function (name) {
           var id = itemNamesId[name];
@@ -30,6 +42,7 @@ define(["application", "Utils", "SiteConst"], function (application, Utils, Site
             }
           }
         });
+
 
         application.getItemGroupFields(itemsRequest, function (itemsGroup) {
           isItemsBound = true;

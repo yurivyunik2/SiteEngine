@@ -612,6 +612,21 @@ define(["CONST", "Utils"], function (CONST, Utils) {
         return allTemplates;
       },
 
+      getContentItems: function () {
+        var contentItems = [];
+        if (items) {
+          contentItems = _.where(items, { id: CONST.CONTENT_ROOT_ID() });
+        }
+
+        var allContentItems = [];
+        _.each(contentItems, function (item) {
+          allContentItems.push(item);
+          Utils.findChildItems(allContentItems, item);
+        });
+
+        return allContentItems;
+      },
+
       getLayoutItems: function () {
         var layoutItems = [];
         if (items) {

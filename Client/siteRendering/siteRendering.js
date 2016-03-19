@@ -1,6 +1,9 @@
-﻿define(["CONST", "Utils", "application", "SiteInitialization"], function (CONST, Utils, application, SiteInitialization) {
+﻿define(["CONST", "Utils", "application", "actionCtrl", "SiteInitialization"], function (CONST, Utils, application, actionCtrl, SiteInitialization) {
 
   var SiteRendering = function () {
+
+    var curEditItem = {};
+
     var siteRendering = {
       constructor: function () {
 
@@ -34,6 +37,9 @@
                   isIncludeContentLoaded = false;
                   $("[bindobj]").unbind("mouseover");
                   $("[bindobj]").mouseover(function (ev) {
+
+                    curEditItem.bindObj = $(ev.currentTarget).attr("bindobj");
+                    curEditItem.bindField = $(ev.currentTarget).attr("bindfield");
 
                     var bodyRect = document.body.getBoundingClientRect();
                     var elemRect = ev.currentTarget.getBoundingClientRect();
@@ -79,8 +85,34 @@
         $("#editCtrl").hide();
       },
       editItem: function (ev) {
-        ev = ev || window.event;
+        if (curEditItem && curEditItem.bindObj && curEditItem.bindField) {
+          ev = ev || window.event;
+          if (_$scope[curEditItem.bindObj]) {
+            var item = _$scope[curEditItem.bindObj];
+            if (item[curEditItem.bindField] && item.fields) {
+              var field = _.findWhere(item.fields, { name: curEditItem.bindField });
+              if (field) {
+                field.val = $("#editCtrl").find("textarea").val;
+              }
+            }
+          }
 
+          //var itemNamesId = SiteConst.getItemNamesId();
+          //var itemId = itemNamesId[curEditItem.bindObj];
+          //if (itemId) {
+          //  var items = application.getItems();
+          //  if (items[itemId]) {
+          //    var data = {};
+          //    data.item = items[itemId];
+          //    actionCtrl.saveItem(data);
+          //  }
+          //}
+        }
+        
+
+        //var $curTarget = $(ev.currentTarget);
+        //var action = $curTarget.attr("action");
+        //if (action && action != "")        
       },
 
       getStyle: function (elem) {

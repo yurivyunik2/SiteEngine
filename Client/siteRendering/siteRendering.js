@@ -112,7 +112,8 @@
                 field.value = $("#editCtrl").find("textarea").val();
                 _$scope[curEditItem.bindObj][curEditItem.bindField] = field.value;
 
-                itemsChanged.push(item);
+                if(!_.find(itemsChanged, {id: item.id}))
+                  itemsChanged.push(item);
               }
             }
           }

@@ -75,11 +75,15 @@
     if (!elem)
       return;
 
+    var $el = $(elem);
+    if ($el.attr("bindObj"))
+      return;
+
     try {
       var className = elem.className;
       if (className &&
           (className.indexOf("ng-binding") >= 0 || className.indexOf("ng-pristine") >= 0)) {
-        var $el = $(elem);
+        
         var bindingValue;
         if ($el.val().indexOf("{{") >= 0 && $el.val().indexOf("}}") >= 0) {
           bindingValue = $el.val();

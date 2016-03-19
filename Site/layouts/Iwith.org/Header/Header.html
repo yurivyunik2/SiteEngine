@@ -30,7 +30,7 @@
                             <div class="dvMenu">
                               <ul>
                                 <li ng-repeat="menuItem in HeaderMenu.children">
-                                  <a editing href="{{menuItem.Path}}"><span>{{menuItem.Name}}</span></a>
+                                  <a href="{{menuItem.Path}}" ><span bindObj="HeaderMenu_{{menuItem.name}}" bindField="Name">{{menuItem.Name}}</span></a>
                                 </li>
                                 <!--<li>Home</li>-->
                               </ul>

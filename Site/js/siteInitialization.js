@@ -19,9 +19,6 @@ define(["application", "Utils", "SiteConst"], function (application, Utils, Site
         var itemsRequest = [];
         _.each(contentItems, function (item) {
           if (item.name) {
-            $scope[item.name] = item;
-            if (item.parentObj)
-              $scope[item.parentObj.name + "_" + item.name] = item;
             itemsRequest.push(item);
             if (item.children && item.children.length > 0) {
               Utils.findChildItems(itemsRequest, item);
@@ -44,7 +41,14 @@ define(["application", "Utils", "SiteConst"], function (application, Utils, Site
             }
           }
         });
-
+        //binding items to "$scope"
+        _.each(itemsRequest, function(item) {
+          if (item.name) {
+            $scope[item.name] = item;
+            if (item.parentObj)
+              $scope[item.parentObj.name + "_" + item.name] = item;
+          }
+        });
 
         application.getItemGroupFields(itemsRequest, function (itemsGroup) {
           isItemsBound = true;

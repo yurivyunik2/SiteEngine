@@ -37,7 +37,7 @@
           <td class="tdInfo"><span>Edit mode</span></td>
           <td>
             <div class="dvActions">
-              <a href="" id="btn_save" action="saveItem" class="button-ribbon" onclick="" >Save</a>
+              <a href="" id="btn_save" action="saveItem" class="button-ribbon" ng-click="saveItem()">Save</a>
             </div>
           </td>
         </tr>
@@ -83,8 +83,12 @@
         var bindingValue;
         if ($el.val().indexOf("{{") >= 0 && $el.val().indexOf("}}") >= 0) {
           bindingValue = $el.val();
+          $el.attr("ng-model", bindingValue.trim());
+          $el.attr("ng-bind", bindingValue.trim());
         } else if ($el.html().indexOf("{{") >= 0 && $el.html().indexOf("}}") >= 0) {
           bindingValue = $el.html();
+          $el.attr("ng-model", bindingValue.trim());
+          $el.attr("ng-bind", bindingValue.trim());
         } else if ($el.attr("ng-bind")) {
           bindingValue = $el.attr("ng-bind");
         } else if ($el.attr("ng-model")) {

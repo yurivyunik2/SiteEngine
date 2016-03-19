@@ -183,7 +183,7 @@ function (application, Utils, CONST, Notification, PanelFormCtrl, PanelTypes) {
         }
       },
 
-      saveItem: function (data) {
+      saveItem: function (data, callback) {
         if (!data || !data.item)
           return;
 
@@ -207,11 +207,11 @@ function (application, Utils, CONST, Notification, PanelFormCtrl, PanelTypes) {
               //selItem.fields = response.data.item.fields;
             }
           }
-          if (data.callback)
-            data.callback();
+          if (callback)
+            callback(data);
         }, function (response) {
-          if (data.callback)
-            data.callback();
+          if (callback)
+            callback(data);
         });          
         
       },

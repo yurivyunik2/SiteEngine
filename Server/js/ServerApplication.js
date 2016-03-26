@@ -46,7 +46,7 @@
           }
           // finding SubItems for ContentParentItems
           for (var i = 0; i < contentParentItems.length; i++) {
-            Utils.findChildItems(itemsCash, { parentItem: contentParentItems[i] });
+            Utils.setChildItems(itemsCash, { parentItem: contentParentItems[i] });
           }
         }
         if (callback)

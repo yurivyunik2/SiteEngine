@@ -124,7 +124,7 @@
       var items = ServerApplication.getItemsCash();      
       if (items) {
         var publishItemTreeData = {parentItem: data.item, isPublish: data.item.isPublish, countChilds: 0};
-        Utils.findChildItems(items, publishItemTreeData);
+        Utils.setChildItems(items, publishItemTreeData);
         publishItemTreeData.countItems = publishItemTreeData.countChilds + 1; // plus Parent item
 
         publishItemTreeData.publishItemNumber = 0;

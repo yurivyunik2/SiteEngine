@@ -5,7 +5,8 @@ module.exports.AppConfig = new appConfigModule.AppConfig();
 var constModule = require('../../Common/Const.js');
 module.exports.CONST = new constModule.CONST();
 
-var utilsModule = require('./Utils.js');
+//var utilsModule = require('./Utils.js');
+var utilsModule = require('../../Common/Utils.js');
 module.exports.Utils = new utilsModule.Utils();
 
 var serverApplicationModule = require('./ServerApplication.js');

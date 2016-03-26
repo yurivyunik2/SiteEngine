@@ -8,15 +8,16 @@ require.config({
 require(["Utils", "bxSlider", "css!bxSlider"], function (Utils) {
 
   var mainLayout = {
-    constructor: function () {
-      console.log("mainLayout");
-
+    constructor: function () {      
       this.init();
 
       Utils.setLoadingApplication(false);
     },
 
     init: function () {
+      console.log("slider=" + $('.dvSlider'));
+
+
       //
       $('.dvSlider').bxSlider({
         slideWidth: screen.width,

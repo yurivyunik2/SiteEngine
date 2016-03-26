@@ -1,6 +1,6 @@
 ﻿require.config({
   paths: {
-    panelFormCtrl: "Views/panels/panelForm/panelFormCtrl",
+    panelFormCtrl: "/SiteEngine/Client/Views/panels/panelForm/panelFormCtrl",
     panelTypes: "/SiteEngine/Client/Views/panels/panelTypes",
   },
 });

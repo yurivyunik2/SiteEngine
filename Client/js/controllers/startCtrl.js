@@ -2,9 +2,9 @@
   paths: {
     EngineTree: "js/components/EngineTree/EngineTree",
     actionCtrl: "js/controllers/actionCtrl",
-    modalFormCtrl: "Views/forms/modalForm/modalFormCtrl",    
+    modalFormCtrl: "/SiteEngine/Client/Views/forms/modalForm/modalFormCtrl",
     tabPanel: "js/components/TabPanel/tabPanel",
-    panelFormCtrl: "Views/panels/panelForm/panelFormCtrl",
+    panelFormCtrl: "/SiteEngine/Client/Views/panels/panelForm/panelFormCtrl",
     panelTypes: "/SiteEngine/Client/Views/panels/panelTypes",
 
     componentMgr: "js/components/ComponentMgr",

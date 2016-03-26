@@ -16,9 +16,10 @@ define(["application",
         "menuItem",
         "infoPanel",
         "tooltipCustom",
+        "Utils",
         "css!EngineTreeCss"
       ],
-function (application, CONST, TreeGrid, MenuItem, InfoPanel, TooltipCustom) {
+function (application, CONST, TreeGrid, MenuItem, InfoPanel, TooltipCustom, Utils) {
 
   // view
   return function (_$parentElem) {
@@ -31,7 +32,8 @@ function (application, CONST, TreeGrid, MenuItem, InfoPanel, TooltipCustom) {
     var $dvTableElem;
     var $dvInfoPanelElem;
 
-    var resizeCursorInverval = 6;
+    //var resizeCursorInverval = 6;
+    var resizeCursorInverval = 5;
 
     var isWidthCorrect = false;
 
@@ -42,7 +44,6 @@ function (application, CONST, TreeGrid, MenuItem, InfoPanel, TooltipCustom) {
 
       isInfoPanelResize: false,
 
-      prevInfoPanelResizeX: -1,
       infoPanel: undefined,
 
       $dvInfoPanelElem: null,
@@ -185,7 +186,8 @@ function (application, CONST, TreeGrid, MenuItem, InfoPanel, TooltipCustom) {
         // window - mouseup
         $(window).mouseup(self.mouseUpWindow);
 
-        $(window).mousemove(self.mouseMoveWindow);
+        //$(window).mousemove(self.mouseMoveWindow);
+        window.onmousemove = self.mouseMoveWindow;
 
         $(window).resize(function(event) {
           self.resizePanels(1);
@@ -223,11 +225,11 @@ function (application, CONST, TreeGrid, MenuItem, InfoPanel, TooltipCustom) {
         self.isInfoPanelResize = false;
       },
 
-      mouseMoveWindow: function(event) {
+      mouseMoveWindow: function (event) {
         if (!self.isAvailableElements())
           return;
 
-        var leftEdge = ($dvTableElem[0].offsetLeft + $dvTableElem[0].clientWidth - resizeCursorInverval);
+        var leftEdge = ($dvTableElem[0].offsetLeft + $dvTableElem[0].offsetWidth - resizeCursorInverval);
         var rightEdge = ($dvInfoPanelElem[0].offsetLeft + resizeCursorInverval);
         if (event.pageX >= leftEdge && event.pageX <= rightEdge) {
           $dvTableElem.css("cursor", "w-resize");
@@ -238,51 +240,31 @@ function (application, CONST, TreeGrid, MenuItem, InfoPanel, TooltipCustom) {
           $dvTableElem.css("cursor", "default");
           $dvTableElem.css("cursor", "default");
           $dvInfoPanelElem.css("cursor", "default");
-        }
+        } 
         
-        var isResize = true;
-        if (event.pageX >= ($dvInfoPanelElem[0].offsetLeft - resizeCursorInverval) && event.pageX <= ($dvInfoPanelElem[0].offsetLeft + resizeCursorInverval)) {
-          
-        } else {
-          if ($dvTableElem.width() <= parseInt($dvTableElem.css("minWidth")))
-            isResize = false;
+        if (self.isInfoPanelResize && treeGrid) {
+          self.resizePanels(event.pageX);
         }
-
-        if (isResize && self.isInfoPanelResize && self.prevInfoPanelResizeX >= 0 && treeGrid
-            && $dvTableElem.width() >= parseInt($dvTableElem.css("minWidth"))) {
-
-          var diff = event.pageX - self.prevInfoPanelResizeX;
-          //treeGrid.resize(diff);
-
-          self.resizePanels(diff);
-
-          //self.infoPanel.resizeInfoPanel();
-        }
-        self.prevInfoPanelResizeX = event.pageX;
 
         // for preventing of the handling of the events on other elements
-        event.preventDefault();
+        Utils.cancelEvent(event);
       },
 
-      resizePanels: function (diff) {
+      resizePanels: function (newTableWidth) {
         if (!self.isAvailableElements())
           return;
 
-        var newTableWidth = $dvTableElem[0].offsetWidth + diff;
-        var newInfoPanelWidth = $(window).width() - newTableWidth - 1;
-
-        var minWidthInfoPanel = parseInt($dvInfoPanelElem.css("min-width"));
         var minWidthTable = parseInt($dvTableElem.css("min-width"));
+        var minWidthInfoPanel = parseInt($dvInfoPanelElem.css("min-width"));
 
-        if (newTableWidth < minWidthTable) {
-          var i = 0;
-        }
+        if (newTableWidth <= 1)
+          newTableWidth = minWidthTable + 1;
 
-        if (newInfoPanelWidth >= minWidthInfoPanel) {
+        var newInfoPanelWidth = window.innerWidth - newTableWidth;
+
+
+        if (minWidthTable < newTableWidth && newInfoPanelWidth > minWidthInfoPanel) {
           $dvTableElem.css("width", newTableWidth + "px");
-
-          newInfoPanelWidth = $(window).width() - $dvTableElem[0].offsetWidth - 1;
-          $dvInfoPanelElem.css("max-width", newInfoPanelWidth + "px");
           $dvInfoPanelElem.css("width", newInfoPanelWidth + "px");
         }
       },

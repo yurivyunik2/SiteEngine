@@ -185,6 +185,12 @@
         return newObj;
       },
 
+      cancelEvent: function(event) {
+        event = event || window.event;
+        event.preventDefault();
+        event.stopPropagation();
+      },
+
     };
     utilsObj.constructor();
     return utilsObj;

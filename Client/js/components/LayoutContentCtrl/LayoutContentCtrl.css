@@ -1,6 +1,6 @@
 ﻿
 .dvLayoutContent {
-
+  display:none;
 }
   .dvLayoutContent .dvUserAgentPath {
     padding: 5px;

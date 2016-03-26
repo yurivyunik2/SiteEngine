@@ -98,7 +98,7 @@ define(["application", "Utils", "css!menuItemCss"], function (application, Utils
         $('body').append(html);
         $firstMenu = $("#" + this.id);
         $firstMenu.focusout(function (event) {
-          this.hide();
+          self.hide();
         });
 
         this.createMenu(this.menuItems, $firstMenu);
@@ -180,8 +180,13 @@ define(["application", "Utils", "css!menuItemCss"], function (application, Utils
 
         if ($menuElem) {
           $menuElem.html($ulElem);
-          $menuElem.find("li").click(self.clickItemEvent);
-          $menuElem.find("li").mouseenter(self.hoverMenuItem);
+          var arLi = $menuElem.find("li");
+          _.each(arLi, function(li) {
+            li.onclick = self.clickItemEvent;
+            li.onmouseenter = self.hoverMenuItem;
+          });
+          //$menuElem.find("li").click(self.clickItemEvent);
+          //$menuElem.find("li").mouseenter(self.hoverMenuItem);
         }
 
         return $ulElem;

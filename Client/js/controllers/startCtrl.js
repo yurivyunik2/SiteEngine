@@ -71,10 +71,10 @@ function (application, CONST, Utils, EngineTree, ActionCtrl, ModalFormCtrl, TabP
       initializeComponents: function () {
         var engineTree = new EngineTree($("#engineTreeArea"));
         application.setEngineTree(engineTree);
-
+        
         var actionCtrl = ActionCtrl($scope, $http);
         application.setActionCtrl(actionCtrl);
-
+        
         var modalFormCtrl = new ModalFormCtrl($scope);
         application.setModalFormCtrl(modalFormCtrl);
         //setTimeout(function() {

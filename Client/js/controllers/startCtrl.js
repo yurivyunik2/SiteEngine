@@ -68,7 +68,7 @@ function (application, CONST, Utils, EngineTree, ActionCtrl, ModalFormCtrl, TabP
 
       },
       
-      initializeComponents: function () {
+      initializeComponents: function () {        
         var engineTree = new EngineTree($("#engineTreeArea"));
         application.setEngineTree(engineTree);
         

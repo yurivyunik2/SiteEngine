@@ -134,7 +134,8 @@ define(["application", "CONST", "Utils", "row", "headerRow", "css!TreeGridCss"],
             this.hashParentItems[curItem.id] = curItem;
 
             //----fix----//
-            if (typeof this.hashParentItems[curItem.id] != 'undefined') {
+            //if (typeof this.hashParentItems[curItem.id] != 'undefined') {
+            if (curItem && curItem.id) {
               this.hashParentItems[curItem.id].children = curItem.children;
               curItem = this.hashParentItems[curItem.id];
             }
@@ -148,7 +149,7 @@ define(["application", "CONST", "Utils", "row", "headerRow", "css!TreeGridCss"],
             if (curItem.parent && curItem.parent !== '') {
               parentItem = this.hashParentItems[curItem.parent];
 
-              if (typeof parentItem === 'undefined') {
+              if (!parentItem) {
                 for (var j = 0; j < items.length; j++) {
                   if (curItem.parent === items[j].id) {
                     parentItem = items[j];

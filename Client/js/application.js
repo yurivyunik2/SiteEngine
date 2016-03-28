@@ -99,9 +99,13 @@ define(["CONST", "Utils"], function (CONST, Utils) {
           isLoadItems = true;
         });
       },
-      loadApplicationCallback: function() {
+      loadApplicationCallback: function () {
         if (!items || !engineTree)
           return;
+
+        // loading - turn off
+        Utils.setLoadingApplication(false);
+
         var treeGrid = engineTree.getTreeGrid();
         if (treeGrid) {
           treeGrid.populate(items);
@@ -112,9 +116,6 @@ define(["CONST", "Utils"], function (CONST, Utils) {
 
         if (modalFormCtrl)
           modalFormCtrl.loadFormControls();
-
-        // loading - turn off
-        Utils.setLoadingApplication(false);
       },
 
       getSession: function () {
@@ -382,7 +383,7 @@ define(["CONST", "Utils"], function (CONST, Utils) {
         });
       },
 
-      loadItems: function(callback) {
+      loadItems: function (callback) {
         var data = { action: "getItems" };
         self.isRequestProcess = true;
 

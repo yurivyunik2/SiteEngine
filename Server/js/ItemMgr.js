@@ -77,7 +77,21 @@ exports.ItemMgr = function () {
               var existedField = _.findWhere(objResponse.data, { fieldId: field.fieldId, lang: field.lang, version: field.version });
               if (existedField) {
                 //if (existedField.itemId != data.id || !existedField.value) { // if there isn't item's(owned) field then remove field and add fresh(next) field
-                if (existedField.itemId != data.id) { // if there isn't item's(owned) field then remove field and add fresh(next) field
+                if (existedField.fieldId === CONST.BASE_TEMPLATE_FIELD_ID() && !objResponse.amountBaseTemplate) {
+                  var arExistBaseTemplate = existedField.value.split("|");
+                  var arFieldBaseTemplate = field.value.split("|");
+                  _.each(arFieldBaseTemplate, function(baseTemplate) {
+                    if (baseTemplate && arExistBaseTemplate.indexOf(baseTemplate) < 0) {
+                      arExistBaseTemplate.push(baseTemplate);
+                    }
+                  });
+                  existedField.value = "";
+                  for (var i = 0; i < arExistBaseTemplate.length; i++) {
+                    existedField.value += arExistBaseTemplate[i];
+                    if (i !== (arExistBaseTemplate.length - 1)) existedField.value += "|";
+                  }
+                  
+                } else if (existedField.itemId !== data.id) { // if there isn't item's(owned) field then remove field and add fresh(next) field
                   objResponse.data = _.without(objResponse.data, existedField);
                   objResponse.data.push(field);
 
@@ -95,7 +109,7 @@ exports.ItemMgr = function () {
           var baseTemplateField;
           _.each(objResponse.data, function (field) {
             if (CONST.BASE_TEMPLATE_FIELD_ID() === field.fieldId) {
-              if (!baseTemplateField || field.itemId === data.id)
+              //if (!baseTemplateField || field.itemId === data.id)
                 baseTemplateField = field;
             }
           });
@@ -114,7 +128,7 @@ exports.ItemMgr = function () {
             //else              
             for (var i = 0; i < arTemplates.length; i++) {
               var template = arTemplates[i];              
-              self.getItemFields({ templateId: template, id: data.id, baseId: data.templateId }, objResponse, callback);              
+              self.getItemFields({ templateId: template, id: data.id, baseId: data.templateId }, objResponse, callback);
             }
           }
 
@@ -137,7 +151,7 @@ exports.ItemMgr = function () {
               var existedField = _.findWhere(objResponse.data, { fieldId: field.fieldId, lang: field.lang, version: field.version });
               if (existedField) {
                 //if (existedField.itemId != data.id || !existedField.value) { // if there isn't item's(owned) field then remove field and add fresh(next) field
-                if (existedField.itemId != data.id) { // if there isn't item's(owned) field then remove field and add fresh(next) field
+                if (existedField.itemId !== data.id) { // if there isn't item's(owned) field then remove field and add fresh(next) field
                   objResponse.data = _.without(objResponse.data, existedField);
                   objResponse.data.push(field);
                 }
@@ -152,20 +166,22 @@ exports.ItemMgr = function () {
                 objResponse.data = [];
 
               _.each(fields, function (field) {
-                if (parseInt(field.type) === CONST.BLOB_TYPE()) {
-                  query = 'SELECT CONVERT(Data USING utf8) as Data FROM blobs b where id=' + field.value;
-                  if (database) {
-                    database.query(query, function(err, rows) {
-                      if (!err) {
-                        if (rows && rows.length > 0)
-                          field.value = rows[0].Data;
-                        addField(field); 
-                      }
-                    });
-                  }
-                } else {
-                  addField(field);
-                }
+                //if (parseInt(field.type) === CONST.BLOB_TYPE()) {
+                //  query = 'SELECT CONVERT(Data USING utf8) as Data FROM blobs b where id=' + field.value;
+                //  if (database) {
+                //    database.query(query, function(err, rows) {
+                //      if (!err) {
+                //        if (rows && rows.length > 0)
+                //          field.value = rows[0].Data;
+                //        addField(field); 
+                //      }
+                //    });
+                //  }
+                //} else {
+                //  addField(field);
+                //}
+
+                addField(field);
 
                 //objResponse.data.push(field);                
               });

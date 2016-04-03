@@ -14,12 +14,11 @@ exports.ItemMgr = function () {
   var currentRequest;
 
   return {
-
-    setRequest: function (request) {
+    setRequest: function(request) {
       currentRequest = request;
     },
 
-    getItems: function (data, objResponse, callback) {
+    getItems: function(data, objResponse, callback) {
       var query = "SELECT id, name, parentid as parent, templateId, isPublish FROM items";
       if (data && (data.parent || (data.item && data.item.id))) {
         objResponse.notAllItems = true;
@@ -34,7 +33,7 @@ exports.ItemMgr = function () {
           query += " id = " + data.item.id;
         }
       }
-      var getItemsCallback = function (err, rows) {
+      var getItemsCallback = function(err, rows) {
         if (!err) {
           if (rows && rows.length > 0)
             objResponse.data = rows;
@@ -49,7 +48,7 @@ exports.ItemMgr = function () {
       }
     },
 
-    getItemFields: function (data, objResponse, callback) {
+    getTemplateItemFields: function (data, objResponse, callback) {
       if (!data || !data.id || !data.templateId) {
         objResponse.error = "Error: data";
         if (callback)
@@ -73,14 +72,14 @@ exports.ItemMgr = function () {
             if (!objResponse.data || !(objResponse.data.length >= 0))
               objResponse.data = [];
 
-            _.each(fields, function (field) { 
+            _.each(fields, function (field) {
               var existedField = _.findWhere(objResponse.data, { fieldId: field.fieldId, lang: field.lang, version: field.version });
               if (existedField) {
                 //if (existedField.itemId != data.id || !existedField.value) { // if there isn't item's(owned) field then remove field and add fresh(next) field
                 if (existedField.fieldId === CONST.BASE_TEMPLATE_FIELD_ID() && !objResponse.amountBaseTemplate) {
                   var arExistBaseTemplate = existedField.value.split("|");
                   var arFieldBaseTemplate = field.value.split("|");
-                  _.each(arFieldBaseTemplate, function(baseTemplate) {
+                  _.each(arFieldBaseTemplate, function (baseTemplate) {
                     if (baseTemplate && arExistBaseTemplate.indexOf(baseTemplate) < 0) {
                       arExistBaseTemplate.push(baseTemplate);
                     }
@@ -90,7 +89,7 @@ exports.ItemMgr = function () {
                     existedField.value += arExistBaseTemplate[i];
                     if (i !== (arExistBaseTemplate.length - 1)) existedField.value += "|";
                   }
-                  
+
                 } else if (existedField.itemId !== data.id) { // if there isn't item's(owned) field then remove field and add fresh(next) field
                   objResponse.data = _.without(objResponse.data, existedField);
                   objResponse.data.push(field);
@@ -103,14 +102,14 @@ exports.ItemMgr = function () {
                 //filteredFields.push(field);
               }
             });
-            
+
           }
-          
+
           var baseTemplateField;
           _.each(objResponse.data, function (field) {
             if (CONST.BASE_TEMPLATE_FIELD_ID() === field.fieldId) {
               //if (!baseTemplateField || field.itemId === data.id)
-                baseTemplateField = field;
+              baseTemplateField = field;
             }
           });
 
@@ -127,8 +126,8 @@ exports.ItemMgr = function () {
             //  objResponse.amountBaseTemplate += arTemplates.length;
             //else              
             for (var i = 0; i < arTemplates.length; i++) {
-              var template = arTemplates[i];              
-              self.getItemFields({ templateId: template, id: data.id, baseId: data.templateId }, objResponse, callback);
+              var template = arTemplates[i];
+              self.getTemplateItemFields({ templateId: template, id: data.id, baseId: data.templateId }, objResponse, callback);
             }
           }
 
@@ -136,9 +135,9 @@ exports.ItemMgr = function () {
             if (callback)
               callback(data);
           }
-          
+
         } else {
-          
+
         }
 
       };
@@ -209,6 +208,45 @@ exports.ItemMgr = function () {
 
       if (database) {
         database.query(query, getTemplateFieldsForItemCallback);
+      }
+    },
+
+    getItemFields: function (data, objResponse, callback) {
+      if (!data || !data.id || !data.templateId) {
+        objResponse.error = "Error: data";
+        if (callback)
+          callback();
+        return;
+      }
+
+      //var query = 'SELECT f.id, items.id as fieldId, items.name, (select distinct f2.value from fields f2 where f2.itemId = items.id and f2.fieldId = ' + CONST.TYPE_FIELD_ID() + ') as type, items.templateId, items.masterId, items.parentId, items.created, items.updated, f.itemId, f.value, f.language as lang, f.version, f.isPublish FROM items\
+      //             LEFT JOIN fields f ON items.id=f.fieldId and (f.itemId=items.parentId || f.itemId=' + data.id + ' || f.itemId=' + data.baseId + ' || f.itemId=' + data.templateId + ')\
+      //             where items.parentId=' + data.templateId;
+
+      var query = 'SELECT f.id, items.id as fieldId, items.name, (select distinct f2.value from fields f2 where f2.itemId = items.id and f2.fieldId = ' + CONST.TYPE_FIELD_ID() + ') as type, items.templateId, items.masterId, items.parentId, items.created, items.updated, f.itemId, f.value, f.language as lang, f.version, f.isPublish FROM items\
+                   RIGHT JOIN fields f ON items.id=f.fieldId and f.itemId=' + data.id;
+                   //where items.parentId=' + data.templateId;
+
+      var getItemFieldsCallback = function (err, rows) {
+        try {
+          if (!err) {
+            objResponse.data = rows;
+            if (callback)
+              callback(data);
+          } else {
+            objResponse.error = "Error: " + err;
+            if (callback)
+              callback(data);
+          }
+        } catch (ex) {
+          objResponse.error = "Exception: " + ex;
+          if (callback)
+            callback(data);
+        }
+      };
+
+      if (database) {
+        database.query(query, getItemFieldsCallback);
       }
     },
 
@@ -287,7 +325,7 @@ exports.ItemMgr = function () {
 
           objResponse.item = dataResponse;
           objResponse.data = null;
-          self.getItemFields({ id: dataResponse.id, templateId: dataResponse.templateId }, objResponse, function () {
+          self.getTemplateItemFields({ id: dataResponse.id, templateId: dataResponse.templateId }, objResponse, function () {
             if (objResponse.data && objResponse.item) {
               var versionFirst = 1;
               var fields = objResponse.data;

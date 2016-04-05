@@ -1,7 +1,7 @@
 ﻿require.config({
   paths: {
     jquery: "js/lib/jquery-1.11.3",
-    //jqueryUi: "js/lib/jquery-ui/jquery-ui",
+    jqueryUi: "js/lib/jquery-ui/jquery-ui",
     underscore: "js/lib/underscore",
     bootstrap: "js/lib/bootstrap/bootstrap",
     angular: "js/lib/angular/angular",
@@ -28,7 +28,7 @@
       exports: "jQuery"
     },
     
-    //jqueryUi: ["jquery"],
+    jqueryUi: ["jquery"],
     routing: ["jquery", "underscore"],
 
     contextMenu: ["jquery"],
@@ -43,8 +43,8 @@
 require(["jquery",          
           "angular",
           "CONST",
-          //"jqueryUi",
-          //"css!jqueryUi",
+          "jqueryUi",
+          "css!jqueryUi",
           "routing",
           "bootstrap",
           "css!bootstrap"],

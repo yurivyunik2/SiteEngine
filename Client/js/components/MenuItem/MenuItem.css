@@ -27,8 +27,13 @@
   background-color: #4FB5FF;
   color: white;
 }
-.menuItem .imgArrow {
-  margin-left: 12px;
+.menuItem .dvTitle {
+  display: inline-block;
+}
+.menuItem .dvImg {
+  display: inline-block;
+  float: right;
+  margin-left: 5px;
 }
 .menuSeparator {
   border-bottom: 1px solid #B5AFDC;

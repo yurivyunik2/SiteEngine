@@ -10,32 +10,32 @@
 define(["application", "Utils", "css!menuItemCss"], function (application, Utils) {
 
   var menuTestItems = [{
-    id: 'menu_insert',
-    img: 'images/insert.png',
-    title: 'Insert',
+    id: 'menu_addNew',
+    img: 'images/addNew.png',
+    title: 'Add',
     actionFunc: function () {
       //alert('i am add button');
     },
     subMenu: [
       {
-        id: 'menu_insert_template',
-        title: 'Insert from template',
+        id: 'menu_addNew_template',
+        title: 'Add from template',
         img: 'images/merge.png',
         actionFunc: function () {
           //alert('It will merge row');
         },
-        subMenu: [
-          //{
-          //  id: 'sub1',
-          //  title: 'sub1',
-          //  img: 'images/merge.png',
-          //},
-          //{
-          //  id: 'sub2',
-          //  title: 'sub2',
-          //  img: 'images/merge.png',
-          //},
-        ],
+        //subMenu: [
+        //  {
+        //    id: 'sub1',
+        //    title: 'sub1',
+        //    img: 'images/merge.png',
+        //  },
+        //  {
+        //    id: 'sub2',
+        //    title: 'sub2',
+        //    img: 'images/merge.png',
+        //  },
+        //],
       }
     ],
   }, {
@@ -50,16 +50,41 @@ define(["application", "Utils", "css!menuItemCss"], function (application, Utils
     },
   }, {
     id: 'menu_copy',
-    img: 'images/update.png',
+    img: 'images/copy.png',
     title: 'Copy',
+    subMenu: [
+        {
+          id: 'menu_copy',
+          title: 'Copy',
+          img: 'images/copy.png',
+          actionFunc: function () {
+            //alert('It will merge row');
+          },
+        }, {
+          id: 'menu_copy_to',
+          title: 'Copy to',
+          img: 'images/copy_to.png',
+          actionFunc: function () {
+            //alert('It will merge row');
+          },
+        }
+    ],
   }, {
-    id: 'menu_paste',
-    img: 'images/paste.png',
-    title: 'Paste',
+    id: 'moveToItem',
+    img: 'images/moveTo.png',
+    title: 'Move to',
   }, {
     id: 'deleteItem',
     img: 'images/delete.png',
     title: 'Delete',
+  }, {
+    id: 'renameItem',
+    img: 'images/rename.png',
+    title: 'Rename',
+  }, {
+    id: 'refreshItem',
+    img: 'images/refresh.png',
+    title: 'Refresh',
   }];
 
   MenuItem.index = 0;
@@ -79,7 +104,7 @@ define(["application", "Utils", "css!menuItemCss"], function (application, Utils
 
       menuItems: null,
 
-      insertTemplates: null,
+      arTemplatesNew: null,
 
       EVENT_CLICK_ITEM: function () { return "CLICK_ITEM"; },
 
@@ -119,26 +144,26 @@ define(["application", "Utils", "css!menuItemCss"], function (application, Utils
         return isHas;
       },
 
-      updateInsertOptions: function (insertTemplates) {
-        if (!insertTemplates)
+      updateTemplatesNewItems: function (arTemplatesNew) {
+        if (!arTemplatesNew)
           return;
 
         this.menuItems = Utils.clone(menuTestItems);
 
-        this.insertTemplates = insertTemplates;
+        this.arTemplatesNew = arTemplatesNew;
 
-        var arInsertMenuItem = _.where(this.menuItems, { id: "menu_insert" });
-        if (arInsertMenuItem && arInsertMenuItem.length > 0) {
-          var insertMenuItem = arInsertMenuItem[0];
+        var arTemlatesNewMenuItem = _.where(this.menuItems, { id: "menu_addNew" });
+        if (arTemlatesNewMenuItem && arTemlatesNewMenuItem.length > 0) {
+          var templatesNewMenuItem = arTemlatesNewMenuItem[0];
           var subMenu = [];
-          if(insertMenuItem.subMenu)
-            _.extend(subMenu, insertMenuItem.subMenu);
-          for (var i = 0; i < insertTemplates.length; i++) {
-            var item = insertTemplates[i];
+          if (templatesNewMenuItem.subMenu)
+            _.extend(subMenu, templatesNewMenuItem.subMenu);
+          for (var i = 0; i < arTemplatesNew.length; i++) {
+            var item = arTemplatesNew[i];
             
             subMenu.splice(0, 0, { id: "menu_template", title: item.name, item: item });
           }
-          insertMenuItem.subMenu = subMenu;
+          templatesNewMenuItem.subMenu = subMenu;
         }
       },
 
@@ -166,9 +191,9 @@ define(["application", "Utils", "css!menuItemCss"], function (application, Utils
             return;
           }
 
-          var htmlElem = "<li id='" + menuItem.id + "'>" + menuItem.title;
+          var htmlElem = "<li id='" + menuItem.id + "'><div class='dvTitle'>" + menuItem.title + "</div>";
           if (menuItem.subMenu) {
-            htmlElem += "<img class='imgArrow' src='./images/node-collapsed.png'>";
+            htmlElem += "<div class='dvImg'><img class='imgArrow' src='./images/node-collapsed.png'></div>";
           }
           htmlElem += "</li>";
           var $liElem = $(htmlElem);
@@ -197,15 +222,16 @@ define(["application", "Utils", "css!menuItemCss"], function (application, Utils
           return;
 
         var menuFound;
+        var arFound = [];
         _.each(hashMenuElems, function (menu) {
-          if ($(menu).attr("parentId") && $(menu).attr("parentId") == $parentMenu.attr("id")) {
-            menuFound = $(menu);
+          if ($(menu).attr("parentId") && $(menu).attr("parentId") === $parentMenu.attr("id")) {
+            arFound.push($(menu));
           }
         });
-        if (menuFound) {
+        _.each(arFound, function (menuFound) {
           childMenus.push(menuFound);
           self.findChildMenu(menuFound, childMenus);
-        }
+        });        
       },
 
       hoverMenuItem: function (event) {
@@ -217,8 +243,7 @@ define(["application", "Utils", "css!menuItemCss"], function (application, Utils
 
           _.each(childMenus, function (menu) {
             $(menu).css("display", "none");
-          });
-          var i = 0;
+          });          
         }
 
         var itemFound = self.getItem(self.menuItems, event.target.id);
@@ -227,7 +252,7 @@ define(["application", "Utils", "css!menuItemCss"], function (application, Utils
 
         var stIdElem = self.id + "_" + itemFound.id;
         var $idSubElem = $("#" + stIdElem);
-        if ($idSubElem.length == 0 && itemFound.subMenu && itemFound.subMenu.length > 0) { // create elem
+        if ($idSubElem.length === 0 && itemFound.subMenu && itemFound.subMenu.length > 0) { // create elem
 
           var stParentMenuId = "";
           var $parentMenu = $(event.target).parents("div.menuItem");
@@ -246,17 +271,20 @@ define(["application", "Utils", "css!menuItemCss"], function (application, Utils
         if (itemFound.subMenu) {
           self.createMenu(itemFound.subMenu, $idSubElem);
 
-          var parentPosition = $(event.target).parents("div").position();
-          var liPosition = $(event.target).position();
+          var $parentDiv = $(event.target).parents("div");
+          if ($parentDiv.length > 0) {
+            var parentPosition = $parentDiv.position();
+            var liPosition = $(event.target).position();
 
-          var liWidth = event.target.clientWidth;
-          //var liHeight = event.target.clientHeight;
-          var left = parentPosition.left + liWidth;
-          var top = parentPosition.top + liPosition.top;
+            var liWidth = event.target.clientWidth;
+            //var liHeight = event.target.clientHeight;
+            var left = parentPosition.left + liWidth;
+            var top = parentPosition.top + liPosition.top;
 
-          $idSubElem.css("left", left);
-          $idSubElem.css("top", top);
-          $idSubElem.show();
+            $idSubElem.css("left", left);
+            $idSubElem.css("top", top);
+            $idSubElem.show();
+          }
         } else {
           $idSubElem.hide();
         }
@@ -270,17 +298,17 @@ define(["application", "Utils", "css!menuItemCss"], function (application, Utils
           isNotification: true,
         };
         switch (liElem.id) {
-          case "menu_insert_template":
+          case "menu_addNew_template":
             {
-              dataEvent.actionType = "insertFromTemplate";
+              dataEvent.actionType = "addNewFromTemplate";
               break;
             }
           case "menu_template":
             {
-              dataEvent.actionType = "insertItem";
+              dataEvent.actionType = "addNewItem";
               if ($(liElem).attr("itemId")) {
                 var itemId = $(liElem).attr("itemId");
-                var arItems = _.where(self.insertTemplates, { id: parseInt(itemId) });
+                var arItems = _.where(self.arTemplatesNew, { id: parseInt(itemId) });
                 if (arItems && arItems.length > 0)
                   dataEvent.item = arItems[0];
               }

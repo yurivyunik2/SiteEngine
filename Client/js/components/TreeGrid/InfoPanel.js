@@ -17,7 +17,7 @@ define(["application", "CONST", "Utils"], function (application, CONST, Utils) {
       populateInfoPanel: function (itemData) {
         //
         if (engineTree)
-          engineTree.addInsertOptions(itemData);
+          engineTree.addTemplatesNew(itemData);
 
         if (!$dvInfoPanelElem || $dvInfoPanelElem.length === 0)
           $dvInfoPanelElem = $parentElem.find(".dvInfoPanel");

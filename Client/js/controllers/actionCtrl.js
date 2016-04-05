@@ -65,7 +65,7 @@ function (application, Utils, CONST, Notification, PanelFormCtrl, PanelTypes) {
         var isTemplateDataItem;
 
         switch (data.actionType) {
-          case "insertItem": {
+          case "addNewItem": {
             if (data.item) {
               if (selectedItem) {
                 treeGrid.selectedTemplate = data.item;

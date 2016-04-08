@@ -2,7 +2,7 @@
   width: 500px; 
   height: 400px;
   background-color: white;
-  display: none;
+  /*display: none;*/
 }
 #layoutForm #formContent {
   padding: 10px 10px;

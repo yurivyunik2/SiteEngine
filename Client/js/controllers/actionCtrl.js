@@ -86,6 +86,22 @@ function (application, Utils, CONST, Notification, PanelFormCtrl, PanelTypes) {
             }
             break;
           }
+          case "addNewFromTemplate": {
+            if (data.item) {
+              if (selectedItem) {
+                treeGrid.selectedTemplate = data.item;
+                isItemUnderTemplates = application.isItemUnderTemplates(selectedItem);
+                isTemplateDataItem = application.isTemplateItem(data.item);
+
+                dataRequest = {
+                  selectedItem: treeGrid.selectedItem,
+                  selectedTemplate: treeGrid.selectedTemplate
+                };
+                modalFormCtrl.setType(modalFormCtrl.FORM_TYPE().SELECT_TEMPLATE, dataRequest);
+              }
+            }
+            break;
+          }
           case "editItem": {
             if (selectedItem) {
               treeGrid.selectedTemplate = data.item;
@@ -146,7 +162,6 @@ function (application, Utils, CONST, Notification, PanelFormCtrl, PanelTypes) {
 
             break;
           }
-
           case "detailsItem":
             {
               if (selectedItem) {

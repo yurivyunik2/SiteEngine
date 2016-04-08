@@ -211,7 +211,7 @@ function (application, CONST, TreeGrid, MenuItem, InfoPanel, TooltipCustom, Util
       //},
 
       mouseDownWindow: function (event) {
-        console.log("mouseDownWindow");
+        //console.log("mouseDownWindow");
         if (event.which !== CONST.RIGHT_MOUSE_KEY()) { // if it's not right click
           if (event.target && menuItem.hasElem(event.target)) {
             event.target.click(event);
@@ -235,7 +235,7 @@ function (application, CONST, TreeGrid, MenuItem, InfoPanel, TooltipCustom, Util
       },
 
       mouseMoveWindow: function (event) {
-        console.log("mouseMoveWindow");
+        //console.log("mouseMoveWindow");
         if (!self.isAvailableElements())
           return;        
 

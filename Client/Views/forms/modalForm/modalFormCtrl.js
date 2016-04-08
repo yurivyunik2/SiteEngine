@@ -3,6 +3,7 @@
     createTemplateFormCtrl: "Views/forms/createTemplateForm/createTemplateFormCtrl",
     createItemFormCtrl: "Views/forms/createItemForm/createItemFormCtrl",
     insertOptionsForm: "Views/forms/insertOptionsForm/insertOptionsForm",
+    selectTemplateForm: "Views/forms/selectTemplateForm/selectTemplateForm",
     layoutFormCtrl: "Views/forms/layoutForm/layoutFormCtrl",
     userManagerFormCtrl: "Views/forms/userManagerForm/userManagerFormCtrl",
     newUserFormCtrl: "Views/forms/newUserForm/newUserFormCtrl",
@@ -16,13 +17,14 @@ define(["application", "CONST",
         "createTemplateFormCtrl",
         "createItemFormCtrl",
         "insertOptionsForm",
+        "selectTemplateForm",
         "layoutFormCtrl",
         "userManagerFormCtrl",
         "newUserFormCtrl",
         "imageGalleryFormCtrl",
         "notificationModalFormCtrl"
         ],
-function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, InsertOptionsForm, LayoutFormCtrl, UserManagerFormCtrl, NewUserFormCtrl, ImageGalleryFormCtrl, NotificationModalFormCtrl) {
+function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, InsertOptionsForm, SelectTemplateForm, LayoutFormCtrl, UserManagerFormCtrl, NewUserFormCtrl, ImageGalleryFormCtrl, NotificationModalFormCtrl) {
 
   return function ($scope) {
 
@@ -33,6 +35,7 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
     var createTemplateFormCtrl;
     var createItemFormCtrl;
     var insertOptionsForm;
+    var selectTemplateForm;
     var layoutFormCtrl;
     var userManagerFormCtrl;
     var newUserFormCtrl;
@@ -48,6 +51,9 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
       },
       ASSIGN_TEMPLATE: {
         getControl: function () { return insertOptionsForm; }
+      },
+      SELECT_TEMPLATE: {
+        getControl: function () { return selectTemplateForm; }
       },
       LAYOUT: {
         getControl: function() { return layoutFormCtrl; }      
@@ -99,6 +105,7 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
         createTemplateFormCtrl = new CreateTemplateFormCtrl($scope);
         createItemFormCtrl = new CreateItemFormCtrl($scope);
         insertOptionsForm = new InsertOptionsForm($scope);
+        selectTemplateForm = new SelectTemplateForm($scope);
         layoutFormCtrl = new LayoutFormCtrl($scope);
         userManagerFormCtrl = new UserManagerFormCtrl($scope);
         newUserFormCtrl = new NewUserFormCtrl($scope, self);

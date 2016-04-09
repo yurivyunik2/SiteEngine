@@ -48,6 +48,7 @@
   overflow-y: auto;
   overflow-x: visible;
   position: relative;
+  background-color: #FFFFFF;
 }
   .dvTableMain table {
     border-bottom: 1px solid #D4D4D4;

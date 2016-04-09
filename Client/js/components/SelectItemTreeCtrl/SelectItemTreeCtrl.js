@@ -61,7 +61,7 @@ define(["application", "CONST", "Utils", "CommonTypes", "TreeGrid"], function (a
           treeGrid.populate(application.getTemplateItems());
         }
 
-        if (field.value) {
+        if (field && field.value) {
           var arSelectItems = field.value.split("|");
           var items = application.getItems();
           for (var i = 0; i < arSelectItems.length; i++) {

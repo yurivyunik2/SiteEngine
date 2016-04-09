@@ -1,11 +1,5 @@
-﻿require.config({
-  paths: {
-    selectItemTreeCtrl: "js/components/selectTemplateForm/selectTemplateForm",
-  },
-});
-
-
-define(["application", "CONST", "selectItemTreeCtrl", "CommonTypes"], function (application, CONST, SelectItemTreeCtrl, CommonTypes) {
+﻿
+define(["application", "CONST", "TreeGrid", "CommonTypes", "Utils"], function (application, CONST, TreeGrid, CommonTypes, Utils) {
 
   var selectItemTreeCtrl;
 
@@ -13,63 +7,84 @@ define(["application", "CONST", "selectItemTreeCtrl", "CommonTypes"], function (
 
     var self;
 
+    var treeGrid;
+
     var selectTemplateForm = new CommonTypes.BaseFormElement();
     _.extend(selectTemplateForm, {
       constructor: function () {
-        self = this;
+        self = this;        
+      },
+
+      dispose: function () {
+        if (treeGrid) {
+          treeGrid.dispose();
+          treeGrid = null;
+        }
       },
 
       show: function (data) {
         if (!data || !data.item)
           return;
 
-        var insertOptionsField;
-        if (data.item.fields) {
-          _.each(data.item.fields, function (field) {
-            if (field.fieldId === CONST.INSERT_OPTIONS_FIELD_ID()) {
-              insertOptionsField = field;
-            }
-          });
-        }
+        var $parentElem = $(".dvIncludePart");
+        $parentElem.append("<div class='dvMainPanel' style='min-height: 100px;max-height: 350px;background-color: #EEEEEE;border: 2px solid #C2A9A9;overflow: auto;'></div>");
+        var $dvMainPanel = $parentElem.find(".dvMainPanel");
 
-        var parentElem = $(".dvIncludePart");
-        if (!selectItemTreeCtrl) {
-          selectItemTreeCtrl = new SelectItemTreeCtrl(parentElem, insertOptionsField);
-        }
-        //actualComponents[field.id] = selectItemTreeCtrl;
-        selectItemTreeCtrl.render();
+        $dvMainPanel.append('<input type="text" class="form-control inName" id="Text1" value="" style="width: 400px;">');
+        var $inName = $dvMainPanel.find(".inName");
+        $inName.val("");
+        $inName.focus();
+
+        $dvMainPanel.append("<div class='dvTreePanel' style='height: 100%;'></div>");
+        var $dvTreePanel = $parentElem.find(".dvTreePanel");
+        treeGrid = new TreeGrid($dvTreePanel);
+        treeGrid.setIsCheckBoxElem(false);
+        treeGrid.populate(application.getTemplateItems());
       },
 
       clickOK: function (callback) {
-        if (!selectItemTreeCtrl)
+        var dataCtrl = self.getDataCtrl();
+        if (!dataCtrl || !treeGrid)
           return;
 
-        var selectedItems = selectItemTreeCtrl.getValue();
-        var insertOptions = "";
-        _.each(selectedItems, function (item) {
-          insertOptions += item.id + "|";
+        var selTemplateId = '';
+        if (treeGrid && treeGrid.selectedItem) {
+          selTemplateId = treeGrid.selectedItem.id;
+        }
+
+        var curlang = Utils.getLanguageCurrent();
+        var langCode = "";
+        if (curlang)
+          langCode = curlang.code;
+
+        //$scope.itemName = $("#dvItemName").find(".inName").val();
+
+        var action = "createItem";
+        var data = {
+          action: action,
+          item: {
+            name: 'test',// $scope.itemName,
+            parentId: dataCtrl.item.id,
+            templateId: selTemplateId
+          },
+          lang: langCode
+          //fields: $scope.selTemplate.fields
+        };
+
+        application.httpRequest(data, function (response) {
+          if (!response.error) {
+            if (response.data && response.data.item) {
+              application.addItem(response.data.item);
+            }
+          }
+          if (callback)
+            callback();
+        }, function (response, status, headers, config) {
+          if (callback)
+            callback();
         });
 
-        var dataCtrl = self.getDataCtrl();
-        if (dataCtrl) {
-          if (dataCtrl.item && dataCtrl.item.fields) {
-            _.each(dataCtrl.item.fields, function (field) {
-              if (field.id === CONST.INSERT_OPTIONS_FIELD_ID()) {
-                field.value = insertOptions;
-              }
-            });
-          }
-
-          var actionCtrl = application.getActionCtrl();
-          if (actionCtrl) {
-            var data = {
-              actionType: "saveItem",
-              item: dataCtrl.item,
-              callback: callback,
-            };
-            actionCtrl.process(data);
-          }
-        }
+      
       },
 
     });

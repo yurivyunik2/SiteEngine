@@ -603,14 +603,23 @@ define(["CONST", "Utils"], function (CONST, Utils) {
           templateItems = _.where(items, { id: CONST.TEMPLATES_ROOT_ID() });
         }
 
-        var allTemplates = [];
+        var allChildItems = [];
         _.each(templateItems, function (item) {
           var newItem = _.clone(item);
-          allTemplates.push(_.clone(newItem));
+          allChildItems.push(_.clone(newItem));
           item.parentObj = null;
-          Utils.findChildItems(allTemplates, newItem, true);
+          Utils.findChildItems(allChildItems, newItem, true);
         });
 
+        var allTemplates = [];
+        _.each(allChildItems, function (item) {
+          var templateId = parseInt(item.templateId);
+          if (templateId > 0 && templateId !== CONST.TEMPLATE_FIELD_ID())
+            allTemplates.push(item);
+          else {
+            var i = 0;
+          }
+        });
         return allTemplates;
       },
 

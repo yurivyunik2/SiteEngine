@@ -30,7 +30,8 @@
         if (curlang)
           langCode = curlang.code;
 
-        $scope.itemName = $("#dvItemName").find(".inName").val();
+        var $el = $("#" + this.getFormId());
+        $scope.itemName = $el.find(".inName").val();
 
         var action = "createItem";
         var data = {

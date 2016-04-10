@@ -3,7 +3,7 @@
     createTemplateFormCtrl: "Views/forms/createTemplateForm/createTemplateFormCtrl",
     createItemFormCtrl: "Views/forms/createItemForm/createItemFormCtrl",
     insertOptionsForm: "Views/forms/insertOptionsForm/insertOptionsForm",
-    selectTemplateForm: "Views/forms/selectTemplateForm/selectTemplateForm",
+    selectTemplateFormCtrl: "Views/forms/selectTemplateForm/selectTemplateFormCtrl",
     layoutFormCtrl: "Views/forms/layoutForm/layoutFormCtrl",
     userManagerFormCtrl: "Views/forms/userManagerForm/userManagerFormCtrl",
     newUserFormCtrl: "Views/forms/newUserForm/newUserFormCtrl",
@@ -17,14 +17,14 @@ define(["application", "CONST",
         "createTemplateFormCtrl",
         "createItemFormCtrl",
         "insertOptionsForm",
-        "selectTemplateForm",
+        "selectTemplateFormCtrl",
         "layoutFormCtrl",
         "userManagerFormCtrl",
         "newUserFormCtrl",
         "imageGalleryFormCtrl",
         "notificationModalFormCtrl"
         ],
-function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, InsertOptionsForm, SelectTemplateForm, LayoutFormCtrl, UserManagerFormCtrl, NewUserFormCtrl, ImageGalleryFormCtrl, NotificationModalFormCtrl) {
+function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, InsertOptionsForm, SelectTemplateFormCtrl, LayoutFormCtrl, UserManagerFormCtrl, NewUserFormCtrl, ImageGalleryFormCtrl, NotificationModalFormCtrl) {
 
   return function ($scope) {
 
@@ -35,7 +35,7 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
     var createTemplateFormCtrl;
     var createItemFormCtrl;
     var insertOptionsForm;
-    var selectTemplateForm;
+    var selectTemplateFormCtrl;
     var layoutFormCtrl;
     var userManagerFormCtrl;
     var newUserFormCtrl;
@@ -53,7 +53,7 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
         getControl: function () { return insertOptionsForm; }
       },
       SELECT_TEMPLATE: {
-        getControl: function () { return selectTemplateForm; }
+        getControl: function () { return selectTemplateFormCtrl; }
       },
       LAYOUT: {
         getControl: function() { return layoutFormCtrl; }      
@@ -105,7 +105,7 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
         createTemplateFormCtrl = new CreateTemplateFormCtrl($scope);
         createItemFormCtrl = new CreateItemFormCtrl($scope);
         insertOptionsForm = new InsertOptionsForm($scope);
-        selectTemplateForm = new SelectTemplateForm($scope);
+        selectTemplateFormCtrl = new SelectTemplateFormCtrl($scope);
         layoutFormCtrl = new LayoutFormCtrl($scope);
         userManagerFormCtrl = new UserManagerFormCtrl($scope);
         newUserFormCtrl = new NewUserFormCtrl($scope, self);

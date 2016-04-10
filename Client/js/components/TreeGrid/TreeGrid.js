@@ -20,6 +20,9 @@ define(["application", "CONST", "Utils", "row", "headerRow", "css!TreeGridCss"],
     var isCheckBoxElem = true;
     var isHeaderShow = false;
 
+    var treeItems = [];
+    var treeItemsHash = {};
+
     // 
     var marginLeftInterval = 10;
     var maxAmountRenderedItems = 1000;
@@ -48,9 +51,6 @@ define(["application", "CONST", "Utils", "row", "headerRow", "css!TreeGridCss"],
       hashParentItems: {},
       hashItems: {},
 
-      treeItems: [],
-      treeItemsHash: {},
-
       counterRenderedItems: 0,
 
       constructor: function() {
@@ -65,7 +65,7 @@ define(["application", "CONST", "Utils", "row", "headerRow", "css!TreeGridCss"],
         application.addUIComponent(identifier, self);
       },
 
-      dispose: function () {
+      dispose: function() {
         application.removeItemChangeSubscribers(identifier);
 
         application.removeUIComponent(identifier);
@@ -87,16 +87,20 @@ define(["application", "CONST", "Utils", "row", "headerRow", "css!TreeGridCss"],
       getIsCheckBoxElem: function() { return isCheckBoxElem; },
       setIsCheckBoxElem: function(_isCheckBoxElem) { isCheckBoxElem = _isCheckBoxElem; },
 
-      getIsApplicationEvents: function () { return isApplicationEvents; },
+      getIsApplicationEvents: function() { return isApplicationEvents; },
 
       initializeItems: function(items) {
-        this.treeItems = [];
+        treeItems = [];
         this.treeItemsHash = {};
 
         this.hashParentItems = {};
         this.hashItems = {};
 
         this.populateItems(items);
+      },
+
+      getTreeItems: function() {
+        return treeItems;
       },
 
       // populate
@@ -176,7 +180,7 @@ define(["application", "CONST", "Utils", "row", "headerRow", "css!TreeGridCss"],
               this.hashParentItems[parentItem.id] = parentItem;
             } else {
               if (typeof this.treeItemsHash[curItem.id] == 'undefined') {
-                this.treeItems.push(curItem);
+                treeItems.push(curItem);
               }
               this.treeItemsHash[curItem.id] = curItem;
             }
@@ -235,8 +239,8 @@ define(["application", "CONST", "Utils", "row", "headerRow", "css!TreeGridCss"],
         //
         var tableMain = $parentElem.find("#tbMain").find("tbody");
         this.counterRenderedItems = 0;
-        for (var i = 0; i < this.treeItems.length; i++) {
-          this.renderItem(tableMain, this.treeItems[i], isFiltered);
+        for (var i = 0; i < treeItems.length; i++) {
+          this.renderItem(tableMain, treeItems[i], isFiltered);
         }
       },
 
@@ -615,7 +619,7 @@ define(["application", "CONST", "Utils", "row", "headerRow", "css!TreeGridCss"],
           //this.populate(itemsFiltered, true);
           this.isFiltered = true;
           this.renderTree(this.isFiltered);
-          this.updateOpenNodes(this.treeItems);
+          this.updateOpenNodes(treeItems);
         } else {
           this.isFiltered = false;
           this.renderTree(this.isFiltered);
@@ -668,12 +672,12 @@ define(["application", "CONST", "Utils", "row", "headerRow", "css!TreeGridCss"],
 
         $(this).attr("src", imgSortSrc);
 
-        self.sortTree(self.treeItems);        
+        self.sortTree(treeItems);        
 
         self.renderTree();
 
         //
-        self.updateOpenNodes(self.treeItems);
+        self.updateOpenNodes(treeItems);
       },
 
       // sorting of tree

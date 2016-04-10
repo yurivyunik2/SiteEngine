@@ -109,8 +109,9 @@ define(["CONST", "Utils"], function (CONST, Utils) {
         var treeGrid = engineTree.getTreeGrid();
         if (treeGrid) {
           treeGrid.populate(items);
-          if (treeGrid.treeItems && treeGrid.treeItems.length > 0) {
-            treeGrid.selectItem(treeGrid.treeItems[0]);
+          var treeItems = treeGrid.getTreeItems();
+          if (treeItems && treeItems.length > 0) {
+            treeGrid.selectItem(treeItems[0]);
           }
         }
 

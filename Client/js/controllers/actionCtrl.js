@@ -95,6 +95,32 @@ function (application, Utils, CONST, Notification, PanelFormCtrl, PanelTypes) {
             }
             break;
           }
+          case "copyItem": {
+            if (selectedItem) {
+              var action = "copyItem";
+              var data = {
+                action: action,
+                item: {
+                  id: selectedItem.id,
+                  //templateId: dataCtrl.selectedTemplate.id
+                },
+              };
+
+              application.httpRequest(data, function (response) {
+                if (!response.error) {
+                  //if (response.data && response.data.item) {
+                  //  application.addItem(response.data.item);
+                  //}
+                }
+                if (callback)
+                  callback();
+              }, function (response, status, headers, config) {
+                if (callback)
+                  callback();
+              });
+            }
+            break;
+          }
           case "editItem": {
             if (selectedItem) {
               treeGrid.selectedTemplate = data.item;

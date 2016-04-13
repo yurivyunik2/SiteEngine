@@ -11,6 +11,8 @@ exports.ItemMgr = function () {
 
   var DatabaseMgr = Modules.DatabaseMgr;
 
+  var Utils = Modules.Utils;
+
   var currentRequest;
 
   return {
@@ -223,9 +225,10 @@ exports.ItemMgr = function () {
       //             LEFT JOIN fields f ON items.id=f.fieldId and (f.itemId=items.parentId || f.itemId=' + data.id + ' || f.itemId=' + data.baseId + ' || f.itemId=' + data.templateId + ')\
       //             where items.parentId=' + data.templateId;
 
-      var query = 'SELECT f.id, items.id as fieldId, items.name, (select distinct f2.value from fields f2 where f2.itemId = items.id and f2.fieldId = ' + CONST.TYPE_FIELD_ID() + ') as type, items.templateId, items.masterId, items.parentId, items.created, items.updated, f.itemId, f.value, f.language as lang, f.version, f.isPublish FROM items\
-                   RIGHT JOIN fields f ON items.id=f.fieldId and f.itemId=' + data.id;
-                   //where items.parentId=' + data.templateId;
+      var query = 'SELECT f.id, items.id as fieldId, items.name, (select distinct f2.value from fields f2 where f2.itemId = items.id and f2.fieldId = ' + CONST.TYPE_FIELD_ID() + ') as type, ' +
+                  'items.templateId, items.masterId, items.parentId, f.created, f.updated, f.itemId, f.value, f.language as lang, f.version, f.isPublish ' +
+                  'FROM fields f LEFT JOIN items ON items.id=f.fieldId ' + 
+                  'where f.ItemId = ' + data.id;
 
       var getItemFieldsCallback = function (err, rows) {
         try {
@@ -322,35 +325,43 @@ exports.ItemMgr = function () {
           ////objResponse.requestData = data;
           //if (callback)
           //  callback();
-
           objResponse.item = dataResponse;
           objResponse.data = null;
-          self.getTemplateItemFields({ id: dataResponse.id, templateId: dataResponse.templateId }, objResponse, function () {
-            if (objResponse.data && objResponse.item) {
-              var versionFirst = 1;
-              var fields = objResponse.data;
-              objResponse.item.fields = fields;
-              if (data.item.fields) {
-                _.each(data.item.fields, function (fieldData) {
-                  var fieldChange = _.findWhere(fields, { fieldId: fieldData.fieldId });
-                  if (fieldChange) {
-                    fieldChange.value = fieldData.value;
-                  }
+          if (!data.item.fields) {
+            self.getTemplateItemFields({ id: dataResponse.id, templateId: dataResponse.templateId }, objResponse, function() {
+              if (objResponse.data && objResponse.item) {
+                var versionFirst = 1;
+                var fields = objResponse.data;
+                objResponse.item.fields = fields;
+                if (data.item.fields) {
+                  _.each(data.item.fields, function(fieldData) {
+                    var fieldChange = _.findWhere(fields, { fieldId: fieldData.fieldId });
+                    if (fieldChange) {
+                      fieldChange.value = fieldData.value;
+                    }
+                  });
+                }
+                _.each(fields, function(field) {
+                  field.lang = data.lang;
+                  field.version = versionFirst;
                 });
-              }
-              _.each(fields, function (field) {
-                field.lang = data.lang;
-                field.version = versionFirst;
-              });
-              self.saveItem({ isNewVersion: true, item: objResponse.item, lang: data.lang, version: versionFirst }, objResponse, function () {
+                self.saveItem({ isNewVersion: true, item: objResponse.item, lang: data.lang, version: versionFirst }, objResponse, function() {
+                  if (callback)
+                    callback();
+                });
+              } else {
                 if (callback)
                   callback();
-              });
-            } else {
+              }
+            });
+          } else {
+            objResponse.item.fields = data.item.fields;
+            //self.saveItem({ item: objResponse.item, lang: data.lang, version: versionFirst }, objResponse, function () {
+            self.saveItem({ item: objResponse.item, lang: 'en', version: 1 }, objResponse, function () {
               if (callback)
                 callback();
-            }
-          });
+            });
+          }
         } else {
           if (callback)
             callback();
@@ -440,6 +451,134 @@ exports.ItemMgr = function () {
             callback();
         }
       }); 
+    },
+
+    copyItem: function (data, objResponse, callback) {
+      if (!data || !data.item || !data.item.id) {
+        objResponse.error = "Error: data";
+        if (callback)
+          callback();
+        return;
+      }
+
+      var self = this;      
+      var objResponseItem = {};
+      self.getItems({}, objResponseItem, function () {
+        if (!(objResponseItem.error && objResponseItem.error != "")) {
+          var items = objResponseItem.data;
+          // finding SubItems for ContentParentItems
+          var itemSource;
+          for (var i = 0; i < items.length; i++) {
+            if (items[i].id == data.item.id) {
+              itemSource = items[i];
+              break;
+            }
+          }
+          if (itemSource) {
+            Utils.setChildItems(items, { parentItem: itemSource });
+            objResponseItem = {};
+            self.getItemFields(itemSource, objResponseItem, function () {
+              if (!(objResponseItem.error && objResponseItem.error !== "")) {
+                itemSource.fields = objResponseItem.data;
+                //objResponse.data = { item: finishContentItem };
+                objResponseItem = {};
+                itemSource.name = itemSource.name + "_1";
+                self.createItem({item: itemSource, lang: 'en'}, objResponseItem, function() {
+
+                });
+              } 
+              if (callback)
+                callback();
+            });
+          }
+        } else {
+          objResponse.error = objResponseItem.error;
+          if (callback)
+            callback();
+        }
+
+        //for (var i = 0; i < contentParentItems.length; i++) {
+        //  Utils.setChildItems(itemsCash, { parentItem: contentParentItems[i] });
+        //}
+
+        //if (!objResponse.notAllItems) {
+        //  if (objResponse && objResponse.data) {
+        //    itemsCash = objResponse.data;
+        //  } else {
+        //    itemsCash = [];
+        //  }
+        //  // content ParentItems
+        //  var contentItemID = CONST.CONTENT_ROOT_ID();
+        //  contentParentItems = [];
+        //  for (var i = 0; i < itemsCash.length; i++) {
+        //    var item = itemsCash[i];
+        //    if (item.parent === contentItemID) {
+        //      contentParentItems.push(item);
+        //    }
+        //  }
+        //  // finding SubItems for ContentParentItems
+        //  for (var i = 0; i < contentParentItems.length; i++) {
+        //    Utils.setChildItems(itemsCash, { parentItem: contentParentItems[i] });
+        //  }
+        //}
+        if (callback)
+          callback();
+      });
+
+      //var updateFieldValueCallback = function (field) {
+      //  if (!(objResponse.error && objResponse.error != "")
+      //      && field && field.indexField >= 0) {
+      //    if (data.item.fields && data.item.fields.length > 0 && field.indexField < (data.item.fields.length - 1)) {
+      //      var indexField = field.indexField;
+      //      indexField++;
+      //      var fieldNext = data.item.fields[indexField];
+      //      fieldNext.indexField = indexField;
+      //      if (data.isNewVersion) {
+      //        //if (fieldNext.itemId == data.item.id && fieldNext.lang == data.lang && fieldNext.version == data.version)
+      //        //  DatabaseMgr.updateFields(fieldNext, objResponse, updateFieldValueCallback);
+      //        //else {
+      //        //  fieldNext.itemId = data.item.id;
+      //        //  DatabaseMgr.insertIntoFields(fieldNext, objResponse, updateFieldValueCallback);
+      //        //}
+      //        fieldNext.itemId = data.item.id;
+      //        fieldNext.itemName = data.item.name;
+      //        DatabaseMgr.insertIntoFields(fieldNext, objResponse, updateFieldValueCallback);
+      //      } else {
+      //        DatabaseMgr.updateFields(fieldNext, objResponse, updateFieldValueCallback);
+      //      }
+      //    } else {
+      //      objResponse.data = {
+      //        item: data.item
+      //      };
+      //      if (callback)
+      //        callback();
+      //    }
+      //  } else {
+      //    if (callback)
+      //      callback();
+      //  }
+      //};
+
+      //if (data.item.fields && data.item.fields.length > 0) {
+      //  var field = data.item.fields[0];
+      //  field.indexField = 0;
+      //  if (data.isNewVersion) {
+      //    //if (field.itemId == data.item.id && field.lang == data.lang && field.version == data.version)
+      //    //  DatabaseMgr.updateFields(field, objResponse, updateFieldValueCallback);
+      //    //else {
+      //    //  field.itemId = data.item.id;
+      //    //  DatabaseMgr.insertIntoFields(field, objResponse, updateFieldValueCallback);
+      //    //}
+      //    field.itemId = data.item.id;
+      //    field.itemName = data.item.name;
+      //    DatabaseMgr.insertIntoFields(field, objResponse, updateFieldValueCallback);
+      //  } else {
+      //    DatabaseMgr.updateFields(field, objResponse, updateFieldValueCallback);
+      //  }
+      //} else {
+      //  if (callback)
+      //    callback();
+      //}
     },
 
     saveItem: function (data, objResponse, callback) {

@@ -456,12 +456,12 @@ define(["CONST", "Utils"], function (CONST, Utils) {
 
             var parentItem;
 
-            if (curItem.parent && curItem.parent !== '') {
-              parentItem = this.hashParentItems[curItem.parent];
+            if (curItem.parentId && curItem.parentId !== '') {
+              parentItem = this.hashParentItems[curItem.parentId];
 
               if (typeof parentItem === 'undefined') {
                 for (var j = 0; j < items.length; j++) {
-                  if (curItem.parent === items[j].id) {
+                  if (curItem.parentId === items[j].id) {
                     parentItem = items[j];
                     break;
                   }
@@ -469,7 +469,7 @@ define(["CONST", "Utils"], function (CONST, Utils) {
               }
             }
 
-            if (parentItem && curItem.parent && curItem.parent !== "") {
+            if (parentItem && curItem.parentId && curItem.parentId !== "") {
               if (!parentItem.children) {
                 parentItem.children = [];
                 parentItem.childrenHash = {};

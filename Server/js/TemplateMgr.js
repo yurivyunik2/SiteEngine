@@ -12,7 +12,7 @@ exports.TemplateMgr = function() {
 
     //  var getTemplateFieldsCallback = function (dataResponse) {
     //    if (!(objResponse.error && objResponse.error != "")
-    //        && dataResponse.parent && dataResponse.templates && dataResponse.indexTemplate >= 0) {
+    //        && dataResponse.parentId && dataResponse.templates && dataResponse.indexTemplate >= 0) {
 
     //      if (dataResponse.indexTemplate < dataResponse.templates.length) {
     //        dataResponse.templates[dataResponse.indexTemplate].fields = objResponse.data;
@@ -24,7 +24,7 @@ exports.TemplateMgr = function() {
     //        var templateNext = dataResponse.templates[indexTemplate];
     //        if (templateNext) {
     //          dataResponse.indexTemplate = indexTemplate;
-    //          dataResponse.parent = templateNext.id;
+    //          dataResponse.parentId = templateNext.id;
     //          self.getItems(dataResponse, objResponse, getTemplateFieldsCallback);
     //        }
     //      } else {

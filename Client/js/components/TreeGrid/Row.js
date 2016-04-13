@@ -45,8 +45,8 @@
 
         // parentId
         var parentIdStr = "";
-        if (data.parent && data.parent.id && data.parent.id !== '') {
-          parentIdStr += 'parentId="' + data.parent.id + '"';
+        if (data.parentId && data.parentId.id && data.parentId.id !== '') {
+          parentIdStr += 'parentId="' + data.parentId.id + '"';
         }
 
         // margin-left

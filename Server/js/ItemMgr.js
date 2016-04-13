@@ -21,13 +21,13 @@ exports.ItemMgr = function () {
     },
 
     getItems: function(data, objResponse, callback) {
-      var query = "SELECT id, name, parentid as parent, templateId, isPublish FROM items";
-      if (data && (data.parent || (data.item && data.item.id))) {
+      var query = "SELECT id, name, parentId, templateId, isPublish FROM items";
+      if (data && (data.parentId || (data.item && data.item.id))) {
         objResponse.notAllItems = true;
-        //query += " where parentID = " + data.parent;
+        //query += " where parentID = " + data.parentId;
         query += " where ";
-        if (data.parent) {
-          query += " parentID = " + data.parent;
+        if (data.parentId) {
+          query += " parentID = " + data.parentId;
           if (data.item && data.item.id) {
             query += " and id = " + data.id;
           }
@@ -291,7 +291,7 @@ exports.ItemMgr = function () {
     },
 
     getItemChilds: function (data, requestResponse, callback) {
-      var query = "SELECT id, name, parentid as parent, templateId FROM items";
+      var query = "SELECT id, name, parentId, templateId FROM items";
       query += " where parentID = " + data.id;
       
       var getItemChildsCallback = function (err, rows) {
@@ -512,7 +512,7 @@ exports.ItemMgr = function () {
         //  contentParentItems = [];
         //  for (var i = 0; i < itemsCash.length; i++) {
         //    var item = itemsCash[i];
-        //    if (item.parent === contentItemID) {
+        //    if (item.parentId === contentItemID) {
         //      contentParentItems.push(item);
         //    }
         //  }

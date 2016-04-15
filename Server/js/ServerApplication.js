@@ -40,7 +40,7 @@
           contentParentItems = [];
           for (var i = 0; i < itemsCash.length; i++) {
             var item = itemsCash[i];
-            if (item.parent === contentItemID) {
+            if (item.parentId === contentItemID) {
               contentParentItems.push(item);
             }
           }

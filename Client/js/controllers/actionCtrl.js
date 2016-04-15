@@ -104,6 +104,8 @@ function (application, Utils, CONST, Notification, PanelFormCtrl, PanelTypes) {
                   id: selectedItem.id,
                   //templateId: dataCtrl.selectedTemplate.id
                 },
+                isNotified: true,
+                actionName: "Copying",
               };
 
               application.httpRequest(data, function (response) {
@@ -229,7 +231,7 @@ function (application, Utils, CONST, Notification, PanelFormCtrl, PanelTypes) {
             id: item.id,
             templateId: item.templateId,
             fields: item.fields,
-            parent: item.parent,
+            parent: item.parentId,
           },
           isNotified: true,
           actionName: "Saving",

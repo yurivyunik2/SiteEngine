@@ -50,7 +50,7 @@ exports.ItemMgr = function () {
       }
     },
 
-    getTemplateItemFields: function (data, objResponse, callback) {
+    getTemplateItemFields: function(data, objResponse, callback) {
       if (!data || !data.id || !data.templateId) {
         objResponse.error = "Error: data";
         if (callback)
@@ -66,7 +66,7 @@ exports.ItemMgr = function () {
                    LEFT JOIN fields f ON items.id=f.fieldId and (f.itemId=items.parentId || f.itemId=' + data.id + ' || f.itemId=' + data.baseId + ' || f.itemId=' + data.templateId + ')\
                    where items.parentId=' + data.templateId;
 
-      var getTemplateFieldsForTemplateCallback = function (err, rows) {
+      var getTemplateFieldsForTemplateCallback = function(err, rows) {
         if (!err) {
           var fields = rows;
           var filteredFields = [];
@@ -74,14 +74,14 @@ exports.ItemMgr = function () {
             if (!objResponse.data || !(objResponse.data.length >= 0))
               objResponse.data = [];
 
-            _.each(fields, function (field) {
+            _.each(fields, function(field) {
               var existedField = _.findWhere(objResponse.data, { fieldId: field.fieldId, lang: field.lang, version: field.version });
               if (existedField) {
                 //if (existedField.itemId != data.id || !existedField.value) { // if there isn't item's(owned) field then remove field and add fresh(next) field
                 if (existedField.fieldId === CONST.BASE_TEMPLATE_FIELD_ID() && !objResponse.amountBaseTemplate) {
                   var arExistBaseTemplate = existedField.value.split("|");
                   var arFieldBaseTemplate = field.value.split("|");
-                  _.each(arFieldBaseTemplate, function (baseTemplate) {
+                  _.each(arFieldBaseTemplate, function(baseTemplate) {
                     if (baseTemplate && arExistBaseTemplate.indexOf(baseTemplate) < 0) {
                       arExistBaseTemplate.push(baseTemplate);
                     }
@@ -108,7 +108,7 @@ exports.ItemMgr = function () {
           }
 
           var baseTemplateField;
-          _.each(objResponse.data, function (field) {
+          _.each(objResponse.data, function(field) {
             if (CONST.BASE_TEMPLATE_FIELD_ID() === field.fieldId) {
               //if (!baseTemplateField || field.itemId === data.id)
               baseTemplateField = field;
@@ -144,11 +144,11 @@ exports.ItemMgr = function () {
 
       };
 
-      var getTemplateFieldsForItemCallback = function (err, rows) {
+      var getTemplateFieldsForItemCallback = function(err, rows) {
         try {
           if (!err) {
 
-            var addField = function (field) {
+            var addField = function(field) {
               var existedField = _.findWhere(objResponse.data, { fieldId: field.fieldId, lang: field.lang, version: field.version });
               if (existedField) {
                 //if (existedField.itemId != data.id || !existedField.value) { // if there isn't item's(owned) field then remove field and add fresh(next) field
@@ -166,7 +166,7 @@ exports.ItemMgr = function () {
               if (!objResponse.data || !(objResponse.data.length >= 0))
                 objResponse.data = [];
 
-              _.each(fields, function (field) {
+              _.each(fields, function(field) {
                 //if (parseInt(field.type) === CONST.BLOB_TYPE()) {
                 //  query = 'SELECT CONVERT(Data USING utf8) as Data FROM blobs b where id=' + field.value;
                 //  if (database) {
@@ -213,7 +213,7 @@ exports.ItemMgr = function () {
       }
     },
 
-    getItemFields: function (data, objResponse, callback) {
+    getItemFields: function(data, objResponse, callback) {
       if (!data || !data.id || !data.templateId) {
         objResponse.error = "Error: data";
         if (callback)
@@ -226,11 +226,11 @@ exports.ItemMgr = function () {
       //             where items.parentId=' + data.templateId;
 
       var query = 'SELECT f.id, items.id as fieldId, items.name, (select distinct f2.value from fields f2 where f2.itemId = items.id and f2.fieldId = ' + CONST.TYPE_FIELD_ID() + ') as type, ' +
-                  'items.templateId, items.masterId, items.parentId, f.created, f.updated, f.itemId, f.value, f.language as lang, f.version, f.isPublish ' +
-                  'FROM fields f LEFT JOIN items ON items.id=f.fieldId ' + 
-                  'where f.ItemId = ' + data.id;
+        'items.templateId, items.masterId, items.parentId, f.created, f.updated, f.itemId, f.value, f.language as lang, f.version, f.isPublish ' +
+        'FROM fields f LEFT JOIN items ON items.id=f.fieldId ' +
+        'where f.ItemId = ' + data.id;
 
-      var getItemFieldsCallback = function (err, rows) {
+      var getItemFieldsCallback = function(err, rows) {
         try {
           if (!err) {
             objResponse.data = rows;
@@ -253,32 +253,32 @@ exports.ItemMgr = function () {
       }
     },
 
-    getItemGroupFields: function (data, objResponse, callback) {
+    getItemGroupFields: function(data, objResponse, callback) {
       if (!data || !data.items || data.items.length <= 0) {
-              objResponse.error = "Error: data";
-              if (callback)
-                callback();
-              return;
-            }
+        objResponse.error = "Error: data";
+        if (callback)
+          callback();
+        return;
+      }
 
-                var self = this;
+      var self = this;
 
-                var amountItems = data.items.length;
-                if (amountItems > 0) {
-                  var indexItem = 0;
-                  var itemsGroup = {};
-                  _.each(data.items, function (item) {
-                    var _objResp = {};
-                    self.getItemFields(item, _objResp, function () {
-                      if (!(_objResp.error && _objResp.error != "")) {
-                        indexItem++;
-                        item.fields = _objResp.data;
-                        itemsGroup[item.id] = item;
-                        if (indexItem === amountItems) {
-                          objResponse.data = itemsGroup;
-                          if (callback)
-                            callback();
-                        }
+      var amountItems = data.items.length;
+      if (amountItems > 0) {
+        var indexItem = 0;
+        var itemsGroup = {};
+        _.each(data.items, function(item) {
+          var _objResp = {};
+          self.getItemFields(item, _objResp, function() {
+            if (!(_objResp.error && _objResp.error != "")) {
+              indexItem++;
+              item.fields = _objResp.data;
+              itemsGroup[item.id] = item;
+              if (indexItem === amountItems) {
+                objResponse.data = itemsGroup;
+                if (callback)
+                  callback();
+              }
             } else {
               objResponse.error = _objResp.error;
               if (callback)
@@ -290,12 +290,12 @@ exports.ItemMgr = function () {
 
     },
 
-    getItemChilds: function (data, requestResponse, callback) {
+    getItemChilds: function(data, requestResponse, callback) {
       var query = "SELECT id, name, parentId, templateId FROM items";
       query += " where parentID = " + data.id;
-      
-      var getItemChildsCallback = function (err, rows) {
-        var dataResponse = { rows: []};
+
+      var getItemChildsCallback = function(err, rows) {
+        var dataResponse = { rows: [] };
         if (!err) {
           dataResponse.rows = rows;
         } else {
@@ -309,7 +309,7 @@ exports.ItemMgr = function () {
       }
     },
 
-    createItem: function (data, objResponse, callback) {
+    createItem: function(data, objResponse, callback) {
       if (!data || !data.item || !data.lang) {
         objResponse.error = "Error: data";
         if (callback)
@@ -319,7 +319,7 @@ exports.ItemMgr = function () {
 
       var self = this;
 
-      var createItemCallback = function (dataResponse) {
+      var createItemCallback = function(dataResponse) {
         if (!(objResponse.error && objResponse.error != "") && dataResponse.id) {
           //objResponse.data = dataResponse;
           ////objResponse.requestData = data;
@@ -356,8 +356,7 @@ exports.ItemMgr = function () {
             });
           } else {
             objResponse.item.fields = data.item.fields;
-            //self.saveItem({ item: objResponse.item, lang: data.lang, version: versionFirst }, objResponse, function () {
-            self.saveItem({ item: objResponse.item, lang: 'en', version: 1 }, objResponse, function () {
+            self.saveItem({ isNewVersion: true, item: objResponse.item }, objResponse, function() {
               if (callback)
                 callback();
             });
@@ -370,7 +369,7 @@ exports.ItemMgr = function () {
       DatabaseMgr.insertIntoItems({ name: data.item.name, parentId: data.item.parentId, templateId: data.item.templateId }, objResponse, createItemCallback);
     },
 
-    newVersionCreate: function (data, objResponse, callback) {
+    newVersionCreate: function(data, objResponse, callback) {
       if (!data || !data.item || !data.lang) {
         objResponse.error = "Error: data";
         if (callback)
@@ -379,15 +378,15 @@ exports.ItemMgr = function () {
       }
 
       var self = this;
-        
+
       objResponse.item = data.item;
-      self.getItemFields({ id: data.item.id, templateId: data.item.templateId }, objResponse, function () {
+      self.getItemFields({ id: data.item.id, templateId: data.item.templateId }, objResponse, function() {
         if (objResponse.data && objResponse.item) {
 
           var fields = objResponse.data;
 
           var newVersion = -1;
-          
+
           var fieldsUnique = _.where(fields, { itemId: data.item.id, lang: data.lang });
           if (!fieldsUnique || fieldsUnique.length == 0) {
             var hashFields = {};
@@ -409,7 +408,7 @@ exports.ItemMgr = function () {
             }
             newVersion = 1;
           } else {
-            var maxVersionField = _.max(fieldsUnique, function (field) {
+            var maxVersionField = _.max(fieldsUnique, function(field) {
               if (field.version)
                 return field.version;
               else
@@ -429,7 +428,7 @@ exports.ItemMgr = function () {
           if (fieldsUnique && fieldsUnique.length > 0) {
             var newFields = [];
             var hashVersion = {};
-            _.each(fieldsUnique, function (field) {
+            _.each(fieldsUnique, function(field) {
               var newField = _.clone(field);
               newField.lang = data.lang;
               newField.version = newVersion;
@@ -438,7 +437,7 @@ exports.ItemMgr = function () {
 
             //objResponse.item.fields = fields;
             objResponse.newVersion = newVersion;
-            self.saveItem({ isNewVersion: true, item: { id: data.item.id, fields: newFields }, lang: data.lang, version: newVersion }, objResponse, function () {
+            self.saveItem({ isNewVersion: true, item: { id: data.item.id, fields: newFields }, lang: data.lang, version: newVersion }, objResponse, function() {
               if (callback)
                 callback();
             });
@@ -450,10 +449,10 @@ exports.ItemMgr = function () {
           if (callback)
             callback();
         }
-      }); 
+      });
     },
 
-    copyItem: function (data, objResponse, callback) {
+    copyItem: function(data, objResponse, callback) {
       if (!data || !data.item || !data.item.id) {
         objResponse.error = "Error: data";
         if (callback)
@@ -461,128 +460,106 @@ exports.ItemMgr = function () {
         return;
       }
 
-      var self = this;      
+      var self = this;
       var objResponseItem = {};
-      self.getItems({}, objResponseItem, function () {
-        if (!(objResponseItem.error && objResponseItem.error != "")) {
+      self.getItems({}, objResponseItem, function() {
+        if (!(objResponseItem.error && objResponseItem.error !== "")) {
           var items = objResponseItem.data;
           // finding SubItems for ContentParentItems
           var itemSource;
           for (var i = 0; i < items.length; i++) {
-            if (items[i].id == data.item.id) {
+            if (items[i].id === data.item.id) {
               itemSource = items[i];
               break;
             }
           }
           if (itemSource) {
             Utils.setChildItems(items, { parentItem: itemSource });
-            objResponseItem = {};
-            self.getItemFields(itemSource, objResponseItem, function () {
-              if (!(objResponseItem.error && objResponseItem.error !== "")) {
-                itemSource.fields = objResponseItem.data;
-                //objResponse.data = { item: finishContentItem };
-                objResponseItem = {};
-                itemSource.name = itemSource.name + "_1";
-                self.createItem({item: itemSource, lang: 'en'}, objResponseItem, function() {
 
-                });
-              } 
-              if (callback)
-                callback();
-            });
+            var allItems = [];
+            allItems.push(itemSource);
+            Utils.findChildItems(allItems, itemSource);
+
+            itemSource.name = itemSource.name + "_1";
+            data.item = itemSource;
+            self.copyChilds({ item: itemSource, counterObj: { indexItem: 0, countItems: allItems.length } }, objResponse, callback);            
           }
         } else {
           objResponse.error = objResponseItem.error;
           if (callback)
             callback();
         }
-
-        //for (var i = 0; i < contentParentItems.length; i++) {
-        //  Utils.setChildItems(itemsCash, { parentItem: contentParentItems[i] });
-        //}
-
-        //if (!objResponse.notAllItems) {
-        //  if (objResponse && objResponse.data) {
-        //    itemsCash = objResponse.data;
-        //  } else {
-        //    itemsCash = [];
-        //  }
-        //  // content ParentItems
-        //  var contentItemID = CONST.CONTENT_ROOT_ID();
-        //  contentParentItems = [];
-        //  for (var i = 0; i < itemsCash.length; i++) {
-        //    var item = itemsCash[i];
-        //    if (item.parentId === contentItemID) {
-        //      contentParentItems.push(item);
-        //    }
-        //  }
-        //  // finding SubItems for ContentParentItems
-        //  for (var i = 0; i < contentParentItems.length; i++) {
-        //    Utils.setChildItems(itemsCash, { parentItem: contentParentItems[i] });
-        //  }
-        //}
+      });
+    },
+    copyChilds: function (data, objResponse, callback) {
+      if (!data || !data.item || !data.item.id || !data.counterObj) {
+        if (!objResponse.errors)
+          objResponse.errors = [];
+        objResponse.errors.push("Error: data");
         if (callback)
           callback();
+        return;
+      }
+
+      var self = this;
+
+      var item = data.item;
+      self.copyItemAndFields({ item: item, counterObj: data.counterObj }, objResponse, function (dataResponse) {
+        data.counterObj.indexItem++;
+        if (dataResponse && dataResponse.item && item.childs && item.childs.length > 0) {
+          for (var i = 0; i < item.childs.length; i++) {
+            item.childs[i].parentId = dataResponse.item.id;
+            self.copyChilds({ item: item.childs[i], counterObj: data.counterObj }, objResponse, callback);
+          }
+        }
+        else {
+          if (data.counterObj.indexItem >= data.counterObj.countItems && callback)
+            callback();
+        }
+      });
+    },
+    copyItemAndFields: function (data, objResponse, callback) {
+      if (!data || !data.item || !data.item.id) {
+        if (!objResponse.errors)
+          objResponse.errors = [];
+        objResponse.errors.push("Error: data");
+        if (callback)
+          callback();
+        return;
+      }
+
+      var self = this;
+
+      var item = data.item;
+      var objResponseItem = {};
+      self.getItemFields(item, objResponseItem, function () {
+        if (!(objResponseItem.error && objResponseItem.error !== "")) {
+          item.fields = objResponseItem.data;
+          objResponseItem = {};
+          self.createItem({ item: item, lang: 'en' }, objResponseItem, function () {
+            if (!(objResponseItem.error && objResponseItem.error !== "")) {
+
+            } else {
+              if (!objResponse.errors)
+                objResponse.errors = [];
+              objResponse.errors.push("itemId: " + data.item.id + ", Error: " + objResponseItem.error);
+            }
+            if (callback)
+              callback(objResponseItem.data);
+          });
+        } else {
+          if (!objResponse.errors)
+            objResponse.errors = [];
+          objResponse.errors.push("itemId: " + data.item.id + ", Error: " + objResponseItem.error);
+          if (callback)
+            callback();
+        }
       });
 
-      //var updateFieldValueCallback = function (field) {
-      //  if (!(objResponse.error && objResponse.error != "")
-      //      && field && field.indexField >= 0) {
-      //    if (data.item.fields && data.item.fields.length > 0 && field.indexField < (data.item.fields.length - 1)) {
-      //      var indexField = field.indexField;
-      //      indexField++;
-      //      var fieldNext = data.item.fields[indexField];
-      //      fieldNext.indexField = indexField;
-      //      if (data.isNewVersion) {
-      //        //if (fieldNext.itemId == data.item.id && fieldNext.lang == data.lang && fieldNext.version == data.version)
-      //        //  DatabaseMgr.updateFields(fieldNext, objResponse, updateFieldValueCallback);
-      //        //else {
-      //        //  fieldNext.itemId = data.item.id;
-      //        //  DatabaseMgr.insertIntoFields(fieldNext, objResponse, updateFieldValueCallback);
-      //        //}
-      //        fieldNext.itemId = data.item.id;
-      //        fieldNext.itemName = data.item.name;
-      //        DatabaseMgr.insertIntoFields(fieldNext, objResponse, updateFieldValueCallback);
-      //      } else {
-      //        DatabaseMgr.updateFields(fieldNext, objResponse, updateFieldValueCallback);
-      //      }
-      //    } else {
-      //      objResponse.data = {
-      //        item: data.item
-      //      };
-      //      if (callback)
-      //        callback();
-      //    }
-      //  } else {
-      //    if (callback)
-      //      callback();
-      //  }
-      //};
-
-      //if (data.item.fields && data.item.fields.length > 0) {
-      //  var field = data.item.fields[0];
-      //  field.indexField = 0;
-      //  if (data.isNewVersion) {
-      //    //if (field.itemId == data.item.id && field.lang == data.lang && field.version == data.version)
-      //    //  DatabaseMgr.updateFields(field, objResponse, updateFieldValueCallback);
-      //    //else {
-      //    //  field.itemId = data.item.id;
-      //    //  DatabaseMgr.insertIntoFields(field, objResponse, updateFieldValueCallback);
-      //    //}
-      //    field.itemId = data.item.id;
-      //    field.itemName = data.item.name;
-      //    DatabaseMgr.insertIntoFields(field, objResponse, updateFieldValueCallback);
-      //  } else {
-      //    DatabaseMgr.updateFields(field, objResponse, updateFieldValueCallback);
-      //  }
-      //} else {
-      //  if (callback)
-      //    callback();
-      //}
     },
-
     saveItem: function (data, objResponse, callback) {
-      if (!data || !data.item || (data.isNewVersion && (!data.lang || !data.version))) {
+      //if (!data || !data.item || (data.isNewVersion && (!data.lang || !data.version))) {
+      if (!data || !data.item) {
         objResponse.error = "Error: data";
         if (callback)
           callback();

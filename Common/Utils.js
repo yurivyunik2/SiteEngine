@@ -130,7 +130,7 @@ var Utils = function (CONST, Notification) {
       else if (data.action)
         actionName = data.action;
       if (actionName) {
-        if (response && !response.error)
+        if (response && !response.error && !response.errors)
           Notification.show(Notification.INFO(), actionName + " was successfully!");
         else {
           if (response)
@@ -145,8 +145,8 @@ var Utils = function (CONST, Notification) {
       if (!allItems || !parentItem)
         return;
 
-      if (parentItem && parentItem.children) {
-        _.each(parentItem.children, function (item) {
+      if (parentItem && (parentItem.children || parentItem.childs)) {
+        _.each((parentItem.children || parentItem.childs), function (item) {
           if (isClone)
             allItems.push(_.clone(item));
           else

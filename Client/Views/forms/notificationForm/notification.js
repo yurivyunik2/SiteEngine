@@ -50,19 +50,29 @@ define([], function () {
         $dvNotificationFormElem.css({ display: "block", opacity: 0 });
         $(".dvNotificationForm").animate({
           opacity: 1,
-        }, "slow");
+        }, 300);
+
+        $dvNotificationFormElem.mousedown(function (ev) {
+          ev = ev || window.event;
+          if (ev.which === 3) {
+            self.hide();
+          }
+        });
 
         setTimeout(function() {
-          self.hide();
-        }, 1500);
+          self.hide(true);
+        }, 2500);
       },
 
-      hide: function() {
-
+      hide: function(isAnimate) {
         var $dvNotificationFormElem = $(".dvNotificationForm");
-        $(".dvNotificationForm").animate({
-          opacity: 0,
-        }, "slow");
+        if (isAnimate) {
+          $(".dvNotificationForm").animate({
+            opacity: 0,
+          }, "slow");
+        } else {
+          $(".dvNotificationForm").css("opacity", 0);
+        }
       },
     };
     notification.constructor();

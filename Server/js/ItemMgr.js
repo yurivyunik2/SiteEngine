@@ -452,9 +452,10 @@ exports.ItemMgr = function () {
       });
     },
 
-    copyItem: function(data, objResponse, callback) {
+    copyItem: function (data, objResponse, callback) {
+      objResponse.errors = [];
       if (!data || !data.item || !data.item.id) {
-        objResponse.error = "Error: data";
+        objResponse.errors.push("Error: data");
         if (callback)
           callback();
         return;
@@ -480,10 +481,16 @@ exports.ItemMgr = function () {
             allItems.push(itemSource);
             Utils.findChildItems(allItems, itemSource);
 
+            //var 
+            if (itemSource.parentItem && itemSource.parentItem.childs) {
+
+            }
+
             itemSource.name = itemSource.name + "_1";
             data.item = itemSource;
-            self.copyChilds({ item: itemSource, counterObj: { indexItem: 0, countItems: allItems.length } }, objResponse, callback);            
+            self.copyChilds({ item: itemSource, counterObj: { indexItem: 0, countItems: allItems.length } }, objResponse, callback);
           }
+
         } else {
           objResponse.error = objResponseItem.error;
           if (callback)
@@ -493,8 +500,6 @@ exports.ItemMgr = function () {
     },
     copyChilds: function (data, objResponse, callback) {
       if (!data || !data.item || !data.item.id || !data.counterObj) {
-        if (!objResponse.errors)
-          objResponse.errors = [];
         objResponse.errors.push("Error: data");
         if (callback)
           callback();
@@ -502,26 +507,31 @@ exports.ItemMgr = function () {
       }
 
       var self = this;
-
       var item = data.item;
-      self.copyItemAndFields({ item: item, counterObj: data.counterObj }, objResponse, function (dataResponse) {
+      self.copyItemAndFields(data, objResponse, function (dataResponse) {
         data.counterObj.indexItem++;
-        if (dataResponse && dataResponse.item && item.childs && item.childs.length > 0) {
-          for (var i = 0; i < item.childs.length; i++) {
-            item.childs[i].parentId = dataResponse.item.id;
-            self.copyChilds({ item: item.childs[i], counterObj: data.counterObj }, objResponse, callback);
+        if (dataResponse && dataResponse.item) {
+          if (!objResponse.items)
+            objResponse.items = [];
+          objResponse.items.push(dataResponse.item);
+        }
+        
+        if (data.counterObj.indexItem >= data.counterObj.countItems && callback) {
+          callback();
+        } else if(dataResponse.item) {
+          if (item.childs && item.childs.length > 0) {
+            for (var i = 0; i < item.childs.length; i++) {
+              item.childs[i].parentId = dataResponse.item.id;
+              data.item = item.childs[i];
+              self.copyChilds(data, objResponse, callback);
+            }
           }
         }
-        else {
-          if (data.counterObj.indexItem >= data.counterObj.countItems && callback)
-            callback();
-        }
+        
       });
     },
     copyItemAndFields: function (data, objResponse, callback) {
       if (!data || !data.item || !data.item.id) {
-        if (!objResponse.errors)
-          objResponse.errors = [];
         objResponse.errors.push("Error: data");
         if (callback)
           callback();
@@ -540,16 +550,12 @@ exports.ItemMgr = function () {
             if (!(objResponseItem.error && objResponseItem.error !== "")) {
 
             } else {
-              if (!objResponse.errors)
-                objResponse.errors = [];
               objResponse.errors.push("itemId: " + data.item.id + ", Error: " + objResponseItem.error);
             }
             if (callback)
               callback(objResponseItem.data);
           });
         } else {
-          if (!objResponse.errors)
-            objResponse.errors = [];
           objResponse.errors.push("itemId: " + data.item.id + ", Error: " + objResponseItem.error);
           if (callback)
             callback();

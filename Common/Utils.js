@@ -130,13 +130,18 @@ var Utils = function (CONST, Notification) {
       else if (data.action)
         actionName = data.action;
       if (actionName) {
-        if (response && !response.error && !response.errors)
+        if (response && !response.error && !(response.errors && response.errors.length > 0))
           Notification.show(Notification.INFO(), actionName + " was successfully!");
-        else {
-          if (response)
-            Notification.show(Notification.ERROR(), actionName + " was finished with error: " + response);
-          else
-            Notification.show(Notification.ERROR(), actionName + " was finished with error!");
+        else if(response) {
+          if (response.error)
+            Notification.show(Notification.ERROR(), actionName + " was finished with error: " + response.error);
+          else if (response.errors && response.errors.length > 0) {
+            var msgError = "";
+            _.each(response.errors, function(error) {
+              msgError += "<br>" + error;
+            });
+            Notification.show(Notification.ERROR(), actionName + " was finished with error: " + msgError);
+          }
         }
       }
     },

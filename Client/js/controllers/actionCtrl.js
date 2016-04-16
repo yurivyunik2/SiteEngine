@@ -109,16 +109,15 @@ function (application, Utils, CONST, Notification, PanelFormCtrl, PanelTypes) {
               };
 
               application.httpRequest(data, function (response) {
-                if (!response.error) {
-                  //if (response.data && response.data.item) {
-                  //  application.addItem(response.data.item);
-                  //}
+                if (!(response.errors && response.errors.length > 0)) {
+                  if (response.items) {
+                    _.each(response.items, function(item) {
+                      application.addItem(item);
+                    });
+                  }
                 }
-                if (callback)
-                  callback();
               }, function (response, status, headers, config) {
-                if (callback)
-                  callback();
+
               });
             }
             break;

@@ -425,8 +425,8 @@ define(["application", "CONST", "Utils", "row", "headerRow", "css!TreeGridCss"],
         
         var self = this;
 
-        var imgArrowElem = $(trElem).find(".imgArrow")[0];
-        var imgFolderElem = $(trElem).find(".imgFolder")[0];
+        var $imgArrowElem = $(trElem).find(".imgArrow");
+        var $imgFolderElem = $(trElem).find(".imgFolder");
 
         var itemObj = self.hashParentItems[trElem.id];
         if (itemObj) {
@@ -440,20 +440,24 @@ define(["application", "CONST", "Utils", "row", "headerRow", "css!TreeGridCss"],
 
           // hidding of the "arrow" for opening of the node
           if (!itemObj.children || itemObj.children.length === 0) {
-            $parentElem.find(imgArrowElem).css("visibility", "hidden");
+            //$parentElem.find(".imgArrow").css("visibility", "hidden");
+            $imgArrowElem.css("visibility", "hidden");
+          } else {
+            $imgArrowElem.css("visibility", "visible");
+            $imgFolderElem.css("display", "inline-block");
           }
 
           var display = "none";
           if (itemObj.isOpened) { // is node is opened
-            imgArrowElem.src = srcArrowDown;
+            $imgArrowElem[0].src = srcArrowDown;
             if (!itemObj.iconCustom || itemObj.iconCustom === '') {
-              imgFolderElem.src = srcFolderOpen;
+              $imgFolderElem[0].src = srcFolderOpen;
             }
             display = "table-row";
           } else { // is node is closed
-            imgArrowElem.src = srcArrowRight;
+            $imgArrowElem[0].src = srcArrowRight;
             if (!itemObj.iconCustom || itemObj.iconCustom === '') {
-              imgFolderElem.src = srcFolderClose;
+              $imgFolderElem[0].src = srcFolderClose;
             }
           }
 

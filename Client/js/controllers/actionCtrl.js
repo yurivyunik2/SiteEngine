@@ -97,9 +97,8 @@ function (application, Utils, CONST, Notification, PanelFormCtrl, PanelTypes) {
           }
           case "copyItem": {
             if (selectedItem) {
-              var action = "copyItem";
-              var data = {
-                action: action,
+              dataRequest = {
+                action: "copyItem",
                 item: {
                   id: selectedItem.id,
                   //templateId: dataCtrl.selectedTemplate.id
@@ -108,7 +107,7 @@ function (application, Utils, CONST, Notification, PanelFormCtrl, PanelTypes) {
                 actionName: "Copying",
               };
 
-              application.httpRequest(data, function (response) {
+              application.httpRequest(dataRequest, function (response) {
                 if (!(response.errors && response.errors.length > 0)) {
                   if (response.items) {
                     _.each(response.items, function(item) {
@@ -119,6 +118,17 @@ function (application, Utils, CONST, Notification, PanelFormCtrl, PanelTypes) {
               }, function (response, status, headers, config) {
 
               });
+            }
+            break;
+          }
+          case "copyItemTo": {
+            if (selectedItem) {
+              dataRequest = {
+                selectedItem: treeGrid.selectedItem,
+                availableItems: application.getContentItems(),
+                title: "Select the parent item:"
+              };
+              modalFormCtrl.setType(modalFormCtrl.FORM_TYPE().SELECT_TREE_ITEM, dataRequest);
             }
             break;
           }

@@ -318,6 +318,10 @@ define(["application", "Utils", "css!menuItemCss"], function (application, Utils
             dataEvent.actionType = "copyItem";
             break;
           }
+          case "menu_copy_to": {
+            dataEvent.actionType = "copyItemTo";
+            break;
+          }            
           case "editItem":
             {
               dataEvent.actionType = "editItem";

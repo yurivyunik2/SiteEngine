@@ -112,7 +112,7 @@
           switch (dataRequest.action) {
             case "getItems":
               {
-                ServerApplication.updateItemsCash(dataRequest, objResponse, function () {
+                ServerApplication.updateItems(dataRequest, objResponse, function () {
                   //response.end(JSON.stringify(objResponse));
                   self.responseCallbackPOST(response, dataRequest, objResponse);
                 });

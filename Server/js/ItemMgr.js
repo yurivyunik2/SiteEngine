@@ -5,6 +5,8 @@ exports.ItemMgr = function () {
   
   var Modules = require('./Modules.js');
 
+  var ServerApplication = Modules.ServerApplication;
+
   var CONST = Modules.CONST;
 
   var database = Modules.Database;
@@ -463,40 +465,38 @@ exports.ItemMgr = function () {
 
       var self = this;
       var objResponseItem = {};
-      self.getItems({}, objResponseItem, function() {
-        if (!(objResponseItem.error && objResponseItem.error !== "")) {
-          var items = objResponseItem.data;
-          // finding SubItems for ContentParentItems
-          var itemSource;
-          for (var i = 0; i < items.length; i++) {
-            if (items[i].id === data.item.id) {
-              itemSource = items[i];
-              break;
+      //var items = ServerApplication.getItems();
+      var itemsHash = ServerApplication.getItemsHash();
+      var itemSource = itemsHash[data.item.id];
+      if (itemSource) {
+        //Utils.setChildItems(items, { parentItem: itemSource });
+        var allItems = [];
+        allItems.push(itemSource);
+        Utils.findChildItems(allItems, itemSource);
+
+        //finding items with same name as "itemSource"(previous copying) to define maxIndex of copied item
+        var maxNameIndex = 0;
+        var parentItemSource = itemsHash[itemSource.parentId];
+        if (parentItemSource && parentItemSource.childs) {
+          _.each(parentItemSource.childs, function (item) {
+            if (item.name && item.name.indexOf(itemSource.name) >= 0 && item.name.indexOf("_") >= 0) {
+              var lastIndexSymbol = item.name.lastIndexOf("_");
+              var stNameIndex = item.name.substring(lastIndexSymbol + 1, item.name.length);
+              var iNameIndex = parseInt(stNameIndex);
+              if (!isNaN(iNameIndex) && iNameIndex > maxNameIndex)
+                maxNameIndex = iNameIndex;
             }
-          }
-          if (itemSource) {
-            Utils.setChildItems(items, { parentItem: itemSource });
-
-            var allItems = [];
-            allItems.push(itemSource);
-            Utils.findChildItems(allItems, itemSource);
-
-            //var 
-            if (itemSource.parentItem && itemSource.parentItem.childs) {
-
-            }
-
-            itemSource.name = itemSource.name + "_1";
-            data.item = itemSource;
-            self.copyChilds({ item: itemSource, counterObj: { indexItem: 0, countItems: allItems.length } }, objResponse, callback);
-          }
-
-        } else {
-          objResponse.error = objResponseItem.error;
-          if (callback)
-            callback();
+          });
         }
-      });
+        maxNameIndex++;
+        itemSource.name = itemSource.name + "_" + maxNameIndex;
+        data.item = itemSource;
+        self.copyChilds({ item: itemSource, counterObj: { indexItem: 0, countItems: allItems.length } }, objResponse, function() {
+          if(callback)
+            callback();
+        });
+      }
+
     },
     copyChilds: function (data, objResponse, callback) {
       if (!data || !data.item || !data.item.id || !data.counterObj) {

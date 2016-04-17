@@ -3,27 +3,41 @@
   var self;
 
   var itemMgr;
-  var itemsCash;
+  var items;
+  var itemsHash;
 
   var contentParentItems;
 
-  var lastUpdateItemsCash = Date.now();
-  var intervalUpdateItemsCash= 60 * 1000; // 60 sec
+  var isNeedUpdateItems = false;
+  var lastUpdateItems = Date.now();
+
+  var intervalUpdateFunc = 1000; // 1 sec
+  var intervalUpdateItems = 60 * 1000; // 60 sec
 
   var serverApplicationObj = {
     constructor: function() {
       self = this;
+
+      setInterval(function() {
+        self.update();
+      }, intervalUpdateFunc);
+    },
+
+    setIsNeedUpdateItems: function() {
+      isNeedUpdateItems = true;
     },
 
     update: function () {
-      // updating of itemsCash
-      if (!itemsCash || (Date.now() - lastUpdateItemsCash) > intervalUpdateItemsCash) {
-        self.updateItemsCash();
+      // updating of items
+      //if (!items || isNeedUpdateItems || (Date.now() - lastUpdateItems) > intervalUpdateItems) {
+      if (!items || isNeedUpdateItems) {
+        isNeedUpdateItems = false;
+        self.updateItems();
       }
     },
 
-    updateItemsCash: function (data, objResponse, callback) {
-      lastUpdateItemsCash = Date.now();
+    updateItems: function (data, objResponse, callback) {
+      lastUpdateItems = Date.now();
       if (!data)
         data = {};
       if(!objResponse)
@@ -31,22 +45,25 @@
       itemMgr.getItems(data, objResponse, function () {
         if (!objResponse.notAllItems) {
           if (objResponse && objResponse.data) {
-            itemsCash = objResponse.data;
+            items = objResponse.data;
           } else {
-            itemsCash = [];
+            items = [];
           }
+          itemsHash = {};
           // content ParentItems
           var contentItemID = CONST.CONTENT_ROOT_ID();
           contentParentItems = [];
-          for (var i = 0; i < itemsCash.length; i++) {
-            var item = itemsCash[i];
+          for (var i = 0; i < items.length; i++) {
+            var item = items[i];
+            itemsHash[item.id] = item;
+
             if (item.parentId === contentItemID) {
               contentParentItems.push(item);
             }
           }
           // finding SubItems for ContentParentItems
           for (var i = 0; i < contentParentItems.length; i++) {
-            Utils.setChildItems(itemsCash, { parentItem: contentParentItems[i] });
+            Utils.setChildItems(items, { parentItem: contentParentItems[i] });
           }
         }
         if (callback)
@@ -59,8 +76,11 @@
         itemMgr = _itemMgr;
     },
 
-    getItemsCash: function() {
-      return itemsCash;
+    getItems: function() {
+      return items;
+    },
+    getItemsHash: function () {
+      return itemsHash;
     },
 
     getContentParentItems: function() {

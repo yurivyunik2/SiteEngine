@@ -4,6 +4,8 @@
 
   var Modules = require('../Modules.js');
 
+  var ServerApplication = Modules.ServerApplication;
+
   var CONST = Modules.CONST;
 
   var database = Modules.Database;
@@ -25,6 +27,7 @@
       var insertIntoItemsCallback = function (err, rows) {
         if (!err && rows && rows.insertId) {
           data.id = rows.insertId;
+          ServerApplication.setIsNeedUpdateItems();
         } else {
           objResponse.error = "Error: " + err;
         }
@@ -141,6 +144,7 @@
 
       var updateItemsCallback = function (err, rows) {
         if (!err && rows) {
+          ServerApplication.setIsNeedUpdateItems();
           //data.id = rows.insertId;
         } else {
           objResponse.error = "Error: " + err;
@@ -246,6 +250,8 @@
           //    }
           //  }
           //}
+
+          ServerApplication.setIsNeedUpdateItems();
 
           var path = require('path');
           var currentDirPath = "." + CONST.UPLOAD_MEDIA_PATH();

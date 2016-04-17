@@ -121,7 +121,7 @@
 
       var self = this;      
 
-      var items = ServerApplication.getItemsCash();      
+      var items = ServerApplication.getItems();
       if (items) {
         var publishItemTreeData = {parentItem: data.item, isPublish: data.item.isPublish, countChilds: 0};
         Utils.setChildItems(items, publishItemTreeData);

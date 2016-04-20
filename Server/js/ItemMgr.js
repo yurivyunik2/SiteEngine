@@ -463,39 +463,55 @@ exports.ItemMgr = function () {
         return;
       }
 
+      var itemsHash = ServerApplication.getItemsHash();
+      var itemSource = itemsHash[data.item.id];
+
+      var parentItemSource;
+      if (data.parentItem) {
+        parentItemSource = itemsHash[data.parentItem.id];
+      }
+      else {
+        parentItemSource = itemsHash[itemSource.parentId];
+      }
+
+      if (!itemSource || !parentItemSource) {
+        objResponse.errors.push("Error: source item or its parent item isn't found!");
+        if (callback)
+          callback();
+        return;
+      }
+
       var self = this;
       var objResponseItem = {};
       //var items = ServerApplication.getItems();
-      var itemsHash = ServerApplication.getItemsHash();
-      var itemSource = itemsHash[data.item.id];
-      if (itemSource) {
-        //Utils.setChildItems(items, { parentItem: itemSource });
-        var allItems = [];
-        allItems.push(itemSource);
-        Utils.findChildItems(allItems, itemSource);
+      
+      //Utils.setChildItems(items, { parentItem: itemSource });
+      var allItems = [];
+      allItems.push(itemSource);
+      Utils.findChildItems(allItems, itemSource);
 
-        //finding items with same name as "itemSource"(previous copying) to define maxIndex of copied item
-        var maxNameIndex = 0;
-        var parentItemSource = itemsHash[itemSource.parentId];
-        if (parentItemSource && parentItemSource.childs) {
-          _.each(parentItemSource.childs, function (item) {
-            if (item.name && item.name.indexOf(itemSource.name) >= 0 && item.name.indexOf("_") >= 0) {
-              var lastIndexSymbol = item.name.lastIndexOf("_");
-              var stNameIndex = item.name.substring(lastIndexSymbol + 1, item.name.length);
-              var iNameIndex = parseInt(stNameIndex);
-              if (!isNaN(iNameIndex) && iNameIndex > maxNameIndex)
-                maxNameIndex = iNameIndex;
-            }
-          });
-        }
-        maxNameIndex++;
-        itemSource.name = itemSource.name + "_" + maxNameIndex;
-        data.item = itemSource;
-        self.copyChilds({ item: itemSource, counterObj: { indexItem: 0, countItems: allItems.length } }, objResponse, function() {
-          if(callback)
-            callback();
+      //finding items with same name as "itemSource"(previous copying) to define maxIndex of copied item
+      var maxNameIndex = 0;        
+      if (parentItemSource.childs) {
+        _.each(parentItemSource.childs, function (item) {
+          if (item.name && item.name.indexOf(itemSource.name) >= 0 && item.name.indexOf("_") >= 0) {
+            var lastIndexSymbol = item.name.lastIndexOf("_");
+            var stNameIndex = item.name.substring(lastIndexSymbol + 1, item.name.length);
+            var iNameIndex = parseInt(stNameIndex);
+            if (!isNaN(iNameIndex) && iNameIndex > maxNameIndex)
+              maxNameIndex = iNameIndex;
+          }
         });
       }
+      maxNameIndex++;
+      itemSource.name = itemSource.name + "_" + maxNameIndex;
+      data.item = itemSource;
+      data.item.parentId = parentItemSource.id;
+      self.copyChilds({ item: itemSource, counterObj: { indexItem: 0, countItems: allItems.length } }, objResponse, function() {
+        if(callback)
+          callback();
+      });
+      
 
     },
     copyChilds: function (data, objResponse, callback) {

@@ -237,7 +237,9 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
         }
       },
 
-      clickOkCallback: function () {
+      clickOkCallback: function (dataResponse) {
+        if (dataCtrl && dataCtrl.callback)
+          dataCtrl.callback(dataResponse);
         self.hide();
       },
 

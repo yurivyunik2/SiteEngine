@@ -98,37 +98,32 @@ function (application, Utils, CONST, Notification, PanelFormCtrl, PanelTypes) {
           case "copyItem": {
             if (selectedItem) {
               dataRequest = {
-                action: "copyItem",
                 item: {
                   id: selectedItem.id,
-                  //templateId: dataCtrl.selectedTemplate.id
+                  parentId: selectedItem.parentId,
                 },
-                isNotified: true,
-                actionName: "Copying",
               };
 
-              application.httpRequest(dataRequest, function (response) {
-                if (!(response.errors && response.errors.length > 0)) {
-                  if (response.items) {
-                    _.each(response.items, function(item) {
-                      application.addItem(item);
-                    });
-                  }
-                }
-              }, function (response, status, headers, config) {
-
-              });
+              self.copyItem(dataRequest);
             }
             break;
           }
           case "copyItemTo": {
             if (selectedItem) {
-              dataRequest = {
-                selectedItem: treeGrid.selectedItem,
+              var dataForm = {
                 availableItems: application.getContentItems(),
-                title: "Select the parent item:"
+                title: "Select the parent item:",
+                callback : function(dataResponse) {
+                  dataRequest = {
+                    item: {
+                      id: selectedItem.id,
+                    },
+                    parentItem: dataResponse.selectedItem
+                  };
+                  self.copyItem(dataRequest);
+                }
               };
-              modalFormCtrl.setType(modalFormCtrl.FORM_TYPE().SELECT_TREE_ITEM, dataRequest);
+              modalFormCtrl.setType(modalFormCtrl.FORM_TYPE().SELECT_TREE_ITEM, dataForm);
             }
             break;
           }
@@ -259,6 +254,35 @@ function (application, Utils, CONST, Notification, PanelFormCtrl, PanelTypes) {
             callback(data);
         });          
         
+      },
+
+      copyItem: function (data) {
+        if (!data || !data.item)
+          return;
+
+        var requestData = {
+          action: "copyItem",
+          item: {
+            id: data.item.id,
+          },
+          parentItem: {
+            id: (data.parentItem ? data.parentItem.id : data.item.parentId)
+          },
+          isNotified: true,
+          actionName: "Copying",
+        };
+
+        application.httpRequest(requestData, function (response) {
+          if (!(response.errors && response.errors.length > 0)) {
+            if (response.items) {
+              _.each(response.items, function (item) {
+                application.addItem(item);
+              });
+            }
+          }
+        }, function (response, status, headers, config) {
+
+        });
       },
 
       deleteItem: function (data) {

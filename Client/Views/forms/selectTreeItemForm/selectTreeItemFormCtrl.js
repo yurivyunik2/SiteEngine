@@ -50,56 +50,19 @@ define(["application", "CONST", "TreeGrid", "CommonTypes", "Utils", "notificatio
         if (!error)
           return true;
 
-        var $el = $("#" + this.getFormId());
-
-        //if (!treeGrid.selectedItem || !application.isTemplateItem(treeGrid.selectedItem)) {
-        //  error.message = "Selected item isn't template!";
-        //  return false;
-        //}
+        if (!treeGrid.selectedItem) {
+          error.message = "You need to select the item!";
+          return false;
+        }
 
         return true;
       },
 
       clickOK: function (callback) {
-        var dataCtrl = self.getDataCtrl();
-        if (!dataCtrl || !dataCtrl.selectedItem)
-          return;
+        var selectedItem = treeGrid.selectedItem;
 
-        var curlang = Utils.getLanguageCurrent();
-        var langCode = "";
-        if (curlang)
-          langCode = curlang.code;
-
-        var $el = $("#" + this.getFormId());
-
-        var newItemName = $el.find(".inName").val();
-
-        var action = "createItem";
-        var data = {
-          action: action,
-          item: {
-            name: newItemName,
-            parentId: dataCtrl.selectedItem.id,
-            templateId: treeGrid.selectedItem.id
-          },
-          lang: langCode
-          //fields: $scope.selTemplate.fields
-        };
-
-        application.httpRequest(data, function (response) {
-          if (!response.error) {
-            if (response.data && response.data.item) {
-              application.addItem(response.data.item);
-            }
-          }
-          if (callback)
-            callback();
-        }, function (response, status, headers, config) {
-          if (callback)
-            callback();
-        });
-
-      
+        if (callback)
+          callback({ selectedItem: selectedItem });
       },
 
     });

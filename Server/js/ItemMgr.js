@@ -454,8 +454,39 @@ exports.ItemMgr = function () {
       });
     },
 
-    copyItem: function (data, objResponse, callback) {
+    moveItem: function(data, objResponse, callback) {
       objResponse.errors = [];
+      if (!data || !data.item || !data.item.id) {
+        objResponse.errors.push("Error: data");
+        if (callback)
+          callback();
+        return;
+      }
+
+      var self = this;
+      self.copyItem(data, objResponse, function () {
+        if (!(objResponse.errors && objResponse.errors.length > 0)) {
+          if (objResponse.items)
+            objResponse.addItems = objResponse.items;
+          self.deleteItem(data, objResponse, function () {
+            if (!(objResponse.errors && objResponse.errors.length > 0)) {
+              objResponse.removeItems = [];
+              objResponse.removeItems.push(data.item);
+            }
+            if (callback)
+              callback();
+          });
+        } else {
+          if (callback)
+            callback();
+        }
+      });
+
+    },
+
+    copyItem: function (data, objResponse, callback) {
+      if (!objResponse.errors)
+        objResponse.errors = [];
       if (!data || !data.item || !data.item.id) {
         objResponse.errors.push("Error: data");
         if (callback)
@@ -490,28 +521,37 @@ exports.ItemMgr = function () {
       allItems.push(itemSource);
       Utils.findChildItems(allItems, itemSource);
 
-      //finding items with same name as "itemSource"(previous copying) to define maxIndex of copied item
-      var maxNameIndex = 0;        
-      if (parentItemSource.childs) {
-        _.each(parentItemSource.childs, function (item) {
-          if (item.name && item.name.indexOf(itemSource.name) >= 0 && item.name.indexOf("_") >= 0) {
-            var lastIndexSymbol = item.name.lastIndexOf("_");
-            var stNameIndex = item.name.substring(lastIndexSymbol + 1, item.name.length);
-            var iNameIndex = parseInt(stNameIndex);
-            if (!isNaN(iNameIndex) && iNameIndex > maxNameIndex)
-              maxNameIndex = iNameIndex;
-          }
-        });
+      var itemName = "";
+      if (!data.isSameName) {
+        //finding items with same name as "itemSource"(previous copying) to define maxIndex of copied item
+        var maxNameIndex = 0;
+        if (parentItemSource.childs) {
+          _.each(parentItemSource.childs, function(item) {
+            if (item.name && item.name.indexOf(itemSource.name) >= 0 && item.name.indexOf("_") >= 0) {
+              var lastIndexSymbol = item.name.lastIndexOf("_");
+              var stNameIndex = item.name.substring(lastIndexSymbol + 1, item.name.length);
+              var iNameIndex = parseInt(stNameIndex);
+              if (!isNaN(iNameIndex) && iNameIndex > maxNameIndex)
+                maxNameIndex = iNameIndex;
+            }
+          });
+        }
+        maxNameIndex++;
+        itemName = itemSource.name + "_" + maxNameIndex;
+      } else {
+        itemName = itemSource.name;
       }
-      maxNameIndex++;
-      itemSource.name = itemSource.name + "_" + maxNameIndex;
-      data.item = itemSource;
+      data.item = {
+        id: itemSource.id,
+        name: itemName,
+        templateId: itemSource.templateId,
+        childs: itemSource.childs,
+      };
       data.item.parentId = parentItemSource.id;
-      self.copyChilds({ item: itemSource, counterObj: { indexItem: 0, countItems: allItems.length } }, objResponse, function() {
+      self.copyChilds({ item: data.item, counterObj: { indexItem: 0, countItems: allItems.length } }, objResponse, function () {
         if(callback)
           callback();
-      });
-      
+      });      
 
     },
     copyChilds: function (data, objResponse, callback) {
@@ -579,7 +619,42 @@ exports.ItemMgr = function () {
       });
 
     },
-    saveItem: function (data, objResponse, callback) {
+
+    saveItem: function(data, objResponse, callback) {
+      if (!data || !data.item || !data.item.id) {
+        objResponse.error = "Error: data";
+        if (callback)
+          callback();
+        return;
+      }
+
+      var itemsHash = ServerApplication.getItemsHash();
+      var itemSource = itemsHash[data.item.id];
+      if (!itemSource) {
+        objResponse.error = "Error: item isn't found!";
+        if (callback)
+          callback();
+        return;
+      }
+
+      var self = this;
+
+      if (data.item.name && data.item.name !== itemSource.name) {
+        var updateItemCallback = function () {
+          if (!(objResponse.error && objResponse.error !== "")) {
+            self.saveItemFields(data, objResponse, callback);
+          } else {
+            if (callback)
+              callback();
+          }
+        };
+        DatabaseMgr.updateItem({ id: data.item.id, name: data.item.name }, objResponse, updateItemCallback);
+      } else {
+        self.saveItemFields(data, objResponse, callback);
+      }      
+    },
+
+    saveItemFields: function (data, objResponse, callback) {
       //if (!data || !data.item || (data.isNewVersion && (!data.lang || !data.version))) {
       if (!data || !data.item) {
         objResponse.error = "Error: data";
@@ -587,7 +662,7 @@ exports.ItemMgr = function () {
           callback();
         return;
       }
-
+      
       var self = this;
 
       var updateFieldValueCallback = function (field) {

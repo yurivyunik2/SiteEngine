@@ -18,7 +18,7 @@ define(["application", "Utils", "css!menuItemCss"], function (application, Utils
     },
     subMenu: [
       {
-        id: 'menu_addNew_template',
+        id: 'addNewFromTemplate',
         title: 'Add from template',
         img: 'images/merge.png',
         actionFunc: function () {
@@ -54,14 +54,14 @@ define(["application", "Utils", "css!menuItemCss"], function (application, Utils
     title: 'Copy',
     subMenu: [
         {
-          id: 'menu_copy',
+          id: 'copyItem',
           title: 'Copy',
           img: 'images/copy.png',
           actionFunc: function () {
             //alert('It will merge row');
           },
         }, {
-          id: 'menu_copy_to',
+          id: 'copyItemTo',
           title: 'Copy to',
           img: 'images/copy_to.png',
           actionFunc: function () {
@@ -70,7 +70,7 @@ define(["application", "Utils", "css!menuItemCss"], function (application, Utils
         }
     ],
   }, {
-    id: 'moveToItem',
+    id: 'moveItemTo',
     img: 'images/moveTo.png',
     title: 'Move to',
   }, {
@@ -161,7 +161,7 @@ define(["application", "Utils", "css!menuItemCss"], function (application, Utils
           for (var i = 0; i < arTemplatesNew.length; i++) {
             var item = arTemplatesNew[i];
             
-            subMenu.splice(0, 0, { id: "menu_template", title: item.name, item: item });
+            subMenu.splice(0, 0, { id: "addNewItem", title: item.name, item: item });
           }
           templatesNewMenuItem.subMenu = subMenu;
         }
@@ -298,33 +298,20 @@ define(["application", "Utils", "css!menuItemCss"], function (application, Utils
           isNotification: true,
         };
         switch (liElem.id) {
-          case "menu_addNew_template":
+          //case "menu_addNew_template":
+          //  {
+          //    dataEvent.actionType = "addNewFromTemplate";
+          //    break;
+          //  }
+          case "addNewItem":
             {
-              dataEvent.actionType = "addNewFromTemplate";
-              break;
-            }
-          case "menu_template":
-            {
-              dataEvent.actionType = "addNewItem";
+              //dataEvent.actionType = "addNewItem";
               if ($(liElem).attr("itemId")) {
                 var itemId = $(liElem).attr("itemId");
                 var arItems = _.where(self.arTemplatesNew, { id: parseInt(itemId) });
                 if (arItems && arItems.length > 0)
                   dataEvent.item = arItems[0];
               }
-              break;
-            }
-          case "menu_copy": {
-            dataEvent.actionType = "copyItem";
-            break;
-          }
-          case "menu_copy_to": {
-            dataEvent.actionType = "copyItemTo";
-            break;
-          }            
-          case "editItem":
-            {
-              dataEvent.actionType = "editItem";
               break;
             }
           default:

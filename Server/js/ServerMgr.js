@@ -177,6 +177,14 @@
                 });
                 break;
               }
+            case "moveItem":
+              {
+                itemMgr.moveItem(dataRequest, objResponse, function () {
+                  //response.end(JSON.stringify(objResponse));
+                  self.responseCallbackPOST(response, dataRequest, objResponse);
+                });
+                break;
+              }
             case "addItem":
               {
                 itemMgr.addItem(dataRequest, objResponse, function () {

@@ -88,12 +88,6 @@ function (application, CONST, TreeGrid, MenuItem, InfoPanel, TooltipCustom, Util
 
       getTreeGrid: function() { return treeGrid; },
 
-      selectCurrentItem: function() {
-        if (treeGrid) {
-          treeGrid.selectCurrentItem();
-        }
-      },
-
       isAvailableElements: function () {
         // dvTable
         if (!$dvTableElem || $dvTableElem.length === 0) {

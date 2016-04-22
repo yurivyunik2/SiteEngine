@@ -190,15 +190,20 @@
               treeGrid.addChildNode(item, field);
             });
 
-            // "openCloseNode" for parent item(re-rendering: arrows for node of the new created template)
-            if (item.parentObj && item.parentObj.trElem)
-              treeGrid.openCloseNode(item.parentObj.trElem, true);
+            // "openCloseNode" for parent item(re-rendering: arrows for node of the new created template)            
+            if (item.parentObj) {
+              var parentItemRow = treeGrid.getHashItemRow()[item.parentObj.id];
+              if (parentItemRow)
+                treeGrid.openCloseNode(parentItemRow.trElem, true);
+            }
+            
 
             // open the node of the new created template
-            if (item.trElem) {
+            var itemRow = treeGrid.getHashItemRow()[item.id];
+            if (itemRow) {
               item.isOpened = true;
               treeGrid.openCloseNode(item.trElem, true);
-              $(item.trElem).mousedown();
+              $(itemRow.trElem).mousedown();
             }
           }
           if (callback)

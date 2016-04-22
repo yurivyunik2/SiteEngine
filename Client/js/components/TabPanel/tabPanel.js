@@ -316,7 +316,8 @@
               //$scope.isShowModalForm = false;
               if (!response.error) {                
                 if (treeGrid && treeGrid.selectedItem) {
-                  $(treeGrid.selectedItem.trElem).mousedown();
+                  var itemRow = treeGrid.getHashItemRow()[treeGrid.selectedItem.id];
+                  $(itemRow.trElem).mousedown();
                 }                
               }
             }, function (response, status, headers, config) {
@@ -356,7 +357,8 @@
               if (!response.error) {
                 if (response.data) {
                   if (treeGrid && treeGrid.selectedItem) {
-                    $(treeGrid.selectedItem.trElem).mousedown();
+                    var itemRow = treeGrid.getHashItemRow()[treeGrid.selectedItem.id];
+                    $(itemRow.trElem).mousedown();
                   }
                 }
               }

@@ -122,11 +122,24 @@
     },
 
     updateItem: function (data, objResponse, callback) {
-      if (!data || !data.id || !data.name) {
+      if (!data || !data.id) {
         objResponse.error = "Error: data";
         if (callback)
           callback();
         return;
+      }
+
+      var itemsHash = ServerApplication.getItemsHash();
+      var itemSource = itemsHash[data.id];
+      if (!itemSource) {
+        objResponse.error = "Error: item isn't found!";
+        if (callback)
+          callback();
+        return;
+      }
+
+      if (!data.name) {
+        data.name = itemSource.name;
       }
 
       //if (!data.templateId)

@@ -7,13 +7,27 @@
     var srcEditImg = "./images/edit16_16.png";
     var srcRefreshImg = "./images/refresh.png";
 
+    var renderParent;
+    var renderMarginLeft;
+    var renderIsFiltered;
+
+    var hashItemRow = treeGrid.getHashItemRow();
+
     var row = {
+      trElem: null,
+      $trElem: null,
+
       constructor: function () {
         self = this;
+        
+        hashItemRow[item.id] = self;
       },
 
       // rendering of the item
       render: function (parent, marginLeft, isFiltered) {
+        renderParent = parent;
+        renderMarginLeft = marginLeft;
+        renderIsFiltered = isFiltered;
 
         var html = this.getRowHTML({
           item: item,
@@ -23,20 +37,22 @@
         });
 
         // appending of the elem
-        var $trElem;
         if ($(parent.elem)[0].nodeName === "TBODY") {
           parent.elem.append(html);
-          $trElem = parent.elem.children().last();
+          this.$trElem = parent.elem.children().last();
         } else if ($(parent.elem)[0].nodeName === "TR") {
-          $trElem = $(html).insertAfter(parent.elem);
+          this.$trElem = $(html).insertAfter(parent.elem);
         }
 
         // set "tr" for item
-        if ($trElem && $trElem.length > 0)
-          item.trElem = $trElem[0];
+        if (this.$trElem && this.$trElem.length > 0) {
+          item.trElem = this.$trElem[0];
+          self.trElem = this.$trElem[0];
 
-        // event-definition        
-        this.rowEventDefine();
+          // event-definition        
+          self.rowEventDefine();
+        }        
+
       },
 
       getRowHTML: function (data) {
@@ -99,11 +115,28 @@
         return html;
       },
 
+      update: function () {
+        if (!renderParent)
+          return;
+
+        var html = this.getRowHTML({
+          item: item,
+          parent: renderParent,
+          marginLeft: renderMarginLeft,
+          isFiltered: renderIsFiltered
+        });
+
+        var $trElemUpdated = $(html);
+        if (self.$trElem) {
+          self.$trElem.html($trElemUpdated.html());
+        }        
+      },
+
       rowEventDefine: function () {
-        var $trElem = $(item.trElem);
+        //var $trElem = $(item.trElem);
 
         // mousedown - select item
-        $trElem.mousedown(function (event) {
+        self.$trElem.mousedown(function (event) {
           //
           application.setTreeGridFocused(treeGrid);
 
@@ -149,7 +182,7 @@
           });
         });
 
-        $trElem.mousemove(function (event) {
+        self.$trElem.mousemove(function (event) {
           treeGrid.$trDrag = $(event.currentTarget);
           event.preventDefault();
         });
@@ -184,10 +217,10 @@
         });
 
         //
-        $trElem.dblclick([$trElem], treeGrid.clickNode);
+        self.$trElem.dblclick([self.$trElem], treeGrid.clickNode);
 
         // menu for first column
-        var tdFirstElem = $trElem.find(".tdFirst");
+        var tdFirstElem = self.$trElem.find(".tdFirst");
         tdFirstElem.mousedown(function (event) {
           if (treeGrid.getIsApplicationEvents() && event.which === CONST.RIGHT_MOUSE_KEY()) {  // right click
             var menuItem = application.getMenuItemEngineTree();
@@ -197,19 +230,19 @@
         });
 
         // mouse down on item-elem(imgArrow)
-        var dvArrowElem = $trElem.find(".dvArrow");
-        dvArrowElem.mousedown([$trElem], function () {          
-          treeGrid.clickNode({ data: [$trElem] });
+        var dvArrowElem = self.$trElem.find(".dvArrow");
+        dvArrowElem.mousedown([self.$trElem], function () {
+          treeGrid.clickNode({ data: [self.$trElem] });
           event.stopPropagation();
         });
 
         // checkbox-mousedown
-        var inputCheckboxElem = $trElem.find(".inputCheckbox");
-        inputCheckboxElem.mousedown([treeGrid, $trElem], function (event) {
-          var self = event.data[0];
+        var inputCheckboxElem = self.$trElem.find(".inputCheckbox");
+        inputCheckboxElem.mousedown([treeGrid, self.$trElem], function (event) {
+          var treeGridData = event.data[0];
           var trElem = event.data[1][0];
 
-          var item = self.hashItems[trElem.id];
+          var item = treeGridData.hashItems[trElem.id];
           self.checkNode(item);
           event.stopPropagation();
         });        

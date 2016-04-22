@@ -61,6 +61,7 @@ function (application, Utils, CONST, Notification, PanelFormCtrl, PanelTypes) {
 
         var modalFormCtrl = application.getModalFormCtrl();
         var dataRequest;
+        var dataForm;
         var isItemUnderTemplates;
         var isTemplateDataItem;
 
@@ -110,7 +111,7 @@ function (application, Utils, CONST, Notification, PanelFormCtrl, PanelTypes) {
           }
           case "copyItemTo": {
             if (selectedItem) {
-              var dataForm = {
+              dataForm = {
                 availableItems: application.getContentItems(),
                 title: "Select the parent item:",
                 callback : function(dataResponse) {
@@ -118,9 +119,28 @@ function (application, Utils, CONST, Notification, PanelFormCtrl, PanelTypes) {
                     item: {
                       id: selectedItem.id,
                     },
-                    parentItem: dataResponse.selectedItem
+                    parentItem: dataResponse.selectedItem,                    
                   };
                   self.copyItem(dataRequest);
+                }
+              };
+              modalFormCtrl.setType(modalFormCtrl.FORM_TYPE().SELECT_TREE_ITEM, dataForm);
+            }
+            break;
+          }
+          case "moveItemTo": {
+            if (selectedItem) {
+              dataForm = {
+                availableItems: application.getContentItems(),
+                title: "Select the parent item:",
+                callback: function (dataResponse) {
+                  dataRequest = {
+                    item: {
+                      id: selectedItem.id,
+                    },
+                    parentItem: dataResponse.selectedItem,
+                  };
+                  self.moveItem(dataRequest);
                 }
               };
               modalFormCtrl.setType(modalFormCtrl.FORM_TYPE().SELECT_TREE_ITEM, dataForm);
@@ -233,6 +253,7 @@ function (application, Utils, CONST, Notification, PanelFormCtrl, PanelTypes) {
           action: action,
           item: {
             id: item.id,
+            name: item.name + "_1",
             templateId: item.templateId,
             fields: item.fields,
             parent: item.parentId,
@@ -245,6 +266,16 @@ function (application, Utils, CONST, Notification, PanelFormCtrl, PanelTypes) {
           if (!response.error) {
             if (response.data && response.data.item) {
               //selItem.fields = response.data.item.fields;
+              var responseItem = response.data.item;
+              var itemsHash = application.getItemsHash();
+              var itemSource = itemsHash[responseItem.id];
+              if (itemSource) {
+                itemSource.name = responseItem.name;
+                itemSource.templateId = responseItem.templateId;
+                responseItem.fields = responseItem.fields;
+                var treeGrid = application.getEngineTree().getTreeGrid();
+                treeGrid.refreshItem(itemSource);
+              }
             }
           }
           if (callback)
@@ -277,6 +308,41 @@ function (application, Utils, CONST, Notification, PanelFormCtrl, PanelTypes) {
             if (response.items) {
               _.each(response.items, function (item) {
                 application.addItem(item);
+              });
+            }
+          }
+        }, function (response, status, headers, config) {
+
+        });
+      },
+
+      moveItem: function (data) {
+        if (!data || !data.item || !data.parentItem)
+          return;
+
+        var requestData = {
+          action: "moveItem",
+          item: {
+            id: data.item.id,
+          },
+          parentItem: {
+            id: data.parentItem.id
+          },
+          isSameName: true,
+          isNotified: true,
+          actionName: "Moving",
+        };
+
+        application.httpRequest(requestData, function (response) {
+          if (!(response.errors && response.errors.length > 0)) {
+            if (response.addItems) {
+              _.each(response.addItems, function (item) {
+                application.addItem(item);
+              });
+            }
+            if (response.removeItems) {
+              _.each(response.removeItems, function (item) {
+                application.removeItem(item);
               });
             }
           }
@@ -349,7 +415,8 @@ function (application, Utils, CONST, Notification, PanelFormCtrl, PanelTypes) {
           application.httpRequest(requestData, function (response) {
             if (!response.error) {
               if (response.data && response.data.item) {
-                application.getEngineTree().selectCurrentItem();
+                var treeGrid = application.getEngineTree().getTreeGrid();
+                treeGrid.refreshItem(treeGrid.selectedItem);
               }
             }
             if (data.callback)
@@ -395,7 +462,8 @@ function (application, Utils, CONST, Notification, PanelFormCtrl, PanelTypes) {
           application.httpRequest(requestData, function (response) {
             if (!response.error) {
               if (response.data && response.data.item) {
-                application.getEngineTree().selectCurrentItem();
+                var treeGrid = application.getEngineTree().getTreeGrid();
+                treeGrid.refreshItem(treeGrid.selectedItem);
               }
             }
             if (data.callback)

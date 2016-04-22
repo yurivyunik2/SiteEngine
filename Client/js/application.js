@@ -531,6 +531,7 @@ define(["CONST", "Utils"], function (CONST, Utils) {
           parentItem.children = [];
         parentItem.children.push(newItem);
         items.push(newItem);
+        itemsHash[newItem.id] = newItem;
 
         // to call of the Events' subscribers
         var event = {
@@ -560,6 +561,7 @@ define(["CONST", "Utils"], function (CONST, Utils) {
 
         //newItem.parentObj = parentItem;
         items = _.without(items, _.findWhere(items, { id: removeItemFound.id }));
+        delete itemsHash[removeItemFound.id];
         if (removeItemFound.parentObj && removeItemFound.parentObj.children) {
           var children = removeItemFound.parentObj.children;
           removeItemFound.parentObj.children = _.without(children, _.findWhere(children, { id: removeItemFound.id }));

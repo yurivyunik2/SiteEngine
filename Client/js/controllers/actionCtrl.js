@@ -90,7 +90,7 @@ function (application, Utils, CONST, Notification, PanelFormCtrl, PanelTypes) {
           case "addNewFromTemplate": {
             if (selectedItem) {
               dataRequest = {
-                selectedItem: treeGrid.selectedItem,
+                selectedItem: selectedItem,
               };
               modalFormCtrl.setType(modalFormCtrl.FORM_TYPE().SELECT_TEMPLATE, dataRequest);
             }
@@ -187,6 +187,12 @@ function (application, Utils, CONST, Notification, PanelFormCtrl, PanelTypes) {
             }
             break;
           }
+          case "renameItem": {
+            if (selectedItem) {
+              treeGrid.renameItem(selectedItem);
+            }
+            break;
+          }
           case "previewItem":
             {
               self.previewItem(false);                           
@@ -253,13 +259,13 @@ function (application, Utils, CONST, Notification, PanelFormCtrl, PanelTypes) {
           action: action,
           item: {
             id: item.id,
-            name: item.name + "_1",
+            name: item.name,
             templateId: item.templateId,
             fields: item.fields,
             parent: item.parentId,
           },
           isNotified: true,
-          actionName: "Saving",
+          actionName: (data.actionName ? data.actionName : "Saving"),
         };
 
         application.httpRequest(requestData, function (response) {
@@ -279,10 +285,10 @@ function (application, Utils, CONST, Notification, PanelFormCtrl, PanelTypes) {
             }
           }
           if (callback)
-            callback(data);
+            callback(response.data);
         }, function (response) {
           if (callback)
-            callback(data);
+            callback(response.data);
         });          
         
       },

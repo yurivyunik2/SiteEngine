@@ -336,21 +336,28 @@
   z-index: 1;
   display:none;
 }
-  .dvEditControl input[type="text"] {
-    width: 79%;
-    height: 18px;
+.dvEditControl input {
+  height: 18px;
+}
+  .dvEditControl .inputEdit {
+    width: 100%;
     padding: 0;
-    /*padding: 1px 0 1px 6px;*/
     padding-right: 6px;
     margin: 0;
-    font: inherit;
+  }
+  .dvEditControl .dvEditButtons {
+    min-width: 50px; 
   }
   .dvEditControl input[type="button"] {
-    width: 15%;
-    height: 18px;
-    margin: 0;
+    display: inline-block;
+    margin-left: 1px;
     font-size: 10px;
-    text-indent: -2px;
-    text-transform: capitalize;
   }
-
+  .dvEditControl .dvCancelEdit {
+    display: inline-block;
+    margin-left: 3px;
+    cursor: pointer;
+  }
+  .dvEditControl .dvCancelEdit img {
+     height: 13px; 
+  }      

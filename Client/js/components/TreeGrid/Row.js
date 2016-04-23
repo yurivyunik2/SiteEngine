@@ -46,7 +46,7 @@
 
         // set "tr" for item
         if (this.$trElem && this.$trElem.length > 0) {
-          item.trElem = this.$trElem[0];
+          //item.trElem = this.$trElem[0];
           self.trElem = this.$trElem[0];
 
           // event-definition        
@@ -129,6 +129,9 @@
         var $trElemUpdated = $(html);
         if (self.$trElem) {
           self.$trElem.html($trElemUpdated.html());
+
+          // event-definition        
+          self.rowEventDefine();
         }        
       },
 

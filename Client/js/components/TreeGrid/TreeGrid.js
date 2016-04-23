@@ -13,6 +13,7 @@ define(["application", "CONST", "Utils", "row", "headerRow", "css!TreeGridCss"],
   return function TreeGrid(_$parentElem, _isApplicationEvents) {
 
     var self;
+    var $el;
     var $parentElem;
     var isApplicationEvents;
     var identifier = "treeGrid_" + treeGridCounter++;
@@ -24,6 +25,9 @@ define(["application", "CONST", "Utils", "row", "headerRow", "css!TreeGridCss"],
     var treeItemsHash = {};
 
     var hashItemRow = {};
+
+    var curEditItem;
+    var $editCtlrElem;
 
     // 
     var marginLeftInterval = 10;
@@ -38,9 +42,12 @@ define(["application", "CONST", "Utils", "row", "headerRow", "css!TreeGridCss"],
     var srcFolderClose = "./images/folderClose2.png";
     var srcEditImg = "./images/edit16_16.png";
     var srcRefreshImg = "./images/refresh.png";
+    var srcRemoveImg = "./images/remove.png";
+    
 
     var objTreeGrid = {
-      selectedItem: null,
+      _selectedItem: null,
+
       selectedTemplate: null,
 
       // Drag and Drop
@@ -59,6 +66,18 @@ define(["application", "CONST", "Utils", "row", "headerRow", "css!TreeGridCss"],
         self = this;
         $parentElem = _$parentElem;
         isApplicationEvents = _isApplicationEvents;
+
+        Object.defineProperty(self, 'selectedItem', {
+          get: function () { return self._selectedItem; },
+          set: function(newValue) {
+            self._selectedItem = newValue;
+            if (self._selectedItem !== curEditItem)
+              $editCtlrElem.hide();
+          },
+          enumerable: true,
+          configurable: true
+        });
+
 
         //
         application.addItemChangeSubscribers(identifier, self.itemChangeEvent);
@@ -214,13 +233,15 @@ define(["application", "CONST", "Utils", "row", "headerRow", "css!TreeGridCss"],
 
         html +=
           // TableMain 
-          '<div class="dvTableMain scrollCustom" >' +
+          '<div id="' + identifier + '" class="dvTableMain scrollCustom" >' +
           // Img for editing 
           '<div class="dvEditImg"><img src="' + srcEditImg + '" ></div>' +
           // div for editing 
           '<div class="dvEditControl" >' +
-          '<input type="text">' +
-          '<input type="button" value="OK">' +
+            '<table><tbody><tr>' + 
+              '<td><input class="inputEdit" type="text" ></td>' + 
+              '<td><div class="dvEditButtons"><input class="inputOK" type="button" value="OK"><div class="dvCancelEdit"><img src="' + srcRemoveImg + '"></div></div></td>' +
+            '</tr></tbody></table>' + 
           '</div>' +
           // table 
           '<table id="tbMain" border="0" cellspacing="0" cellpadding="0">' +
@@ -232,7 +253,14 @@ define(["application", "CONST", "Utils", "row", "headerRow", "css!TreeGridCss"],
 
         //
         $parentElem.html(html);
+        $el = $parentElem.find("#" + identifier);
 
+        $editCtlrElem = $el.find(".dvEditControl");
+        var $inputOk = $editCtlrElem.find(".inputOK");
+        $inputOk.click(self.clickOK_editCtrl);
+        var $dvCancelEdit = $editCtlrElem.find(".dvCancelEdit");
+        $dvCancelEdit.click(self.clickCancel_editCtrl);
+          
         // $dragLine
         self.$dragLine = $parentElem.find("#dragLine");
 
@@ -289,6 +317,31 @@ define(["application", "CONST", "Utils", "row", "headerRow", "css!TreeGridCss"],
         }
       },
 
+      renameItem: function(item) {
+        if (!item)
+          return;
+
+        curEditItem = item;
+
+        var itemRow = hashItemRow[item.id];
+        if (itemRow && itemRow.trElem) {
+          var trElem = itemRow.trElem;          
+          var rectItemRowElem = trElem.getBoundingClientRect();
+          var $dvNameElem = $(trElem).find(".dvName");
+          var rectItemNameElem = $dvNameElem[0].getBoundingClientRect();
+
+          var rectTreeGridElem = $el[0].getBoundingClientRect();
+
+          $editCtlrElem[0].style.left = (rectItemNameElem.left - rectTreeGridElem.left) + "px";
+          $editCtlrElem[0].style.top = (rectItemRowElem.top - rectTreeGridElem.top) + "px";
+          //$editCtrl[0].style.width = (rectItemRowElem.width - rectItemNameElem.left) + "px";
+          var $inputEdit = $editCtlrElem.find(".inputEdit");
+          $inputEdit.val(item.name);          
+          $editCtlrElem.show();
+          $inputEdit.focus();
+        }
+      },
+
       //
       // EVENTS
       //
@@ -320,18 +373,23 @@ define(["application", "CONST", "Utils", "row", "headerRow", "css!TreeGridCss"],
               }
             case CONST.RIGHT_KEY():
               {
-                if (self.selectedItem.isOpened)
+                if (self.selectedItem.isOpened) {
                   self.downNodeClick();
+                  if (self.selectedItem)
+                    itemRow = hashItemRow[self.selectedItem.id];
+                }
                 if (self.selectedItem)
                   self.clickNode({ data: [$(itemRow.trElem)] });
                 break;
               }
             case CONST.LEFT_KEY():
               {
-                var selectedItem = self.selectedItem;
+                var selItem = self.selectedItem;
                 if (event.which === CONST.LEFT_KEY()) {
-                  if (!selectedItem.isOpened && selectedItem.parentObj) {
-                    self.clickNode({ data: [$(itemRow.trElem)] });
+                  if (selItem.parentObj && (!selItem.isOpened || !selItem.childs || selItem.childs.length === 0)) {
+                    var parentItemRow = hashItemRow[selItem.parentObj.id];
+                    if (parentItemRow)
+                      self.clickNode({ data: [$(parentItemRow.trElem)] });
                   } else {
                     self.clickNode({ data: [$(itemRow.trElem)] });
                   }
@@ -353,6 +411,33 @@ define(["application", "CONST", "Utils", "row", "headerRow", "css!TreeGridCss"],
 
         }
       },
+
+      clickOK_editCtrl: function (event) {
+        if (!curEditItem)
+          return;
+        
+        var $inputEdit = $editCtlrElem.find(".inputEdit");
+        if (!$inputEdit.val())
+          return;
+
+        curEditItem.name = $inputEdit.val();
+
+        var data = {
+          item: curEditItem,
+          actionName: "Renaming",
+        };
+        var actionCtrl = application.getActionCtrl();
+        actionCtrl.saveItem(data, function (data) {
+          if (data && data.item) {
+            $editCtlrElem.hide();
+          }          
+        });
+      },
+
+      clickCancel_editCtrl: function(event) {
+        $editCtlrElem.hide();
+      },
+
       //
       // END EVENTS
       //

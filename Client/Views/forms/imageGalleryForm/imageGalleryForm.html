@@ -3,24 +3,28 @@
 <div id="imageGalleryForm" class="ng-scope">
   <div>
     <div id="buttonsArea">
+      <div class="dvSearchCtrl" >
+        <img src="/SiteEngine/Client/images/32_32/search.png" >
+        <input class="inputSearchCtrl" placeholder="Search" >
+      </div>
       <div class="dvUploadInformation">
         <div id="uploadInfo">
           <img src="/SiteEngine/Client/images/loading16_16.gif">
           <span id="uploadInfoMessage">Uploading:</span>  
         </div>
         <div id="slider" style="
-        ">
-           <div id="sliderInner" style="
-        "></div>
+                                                                                                  ">
+          <div id="sliderInner" style="
+                                            "></div>
 
         </div>
       </div>
       <div id="uploadButton">
         <form action="/api" method="post" enctype="multipart/form-data">
-        <input id="inputFileDlg" type="file" multiple="multiple" style="
+          <input id="inputFileDlg" type="file" multiple="multiple" style="
                                               display: none;
                                             "/>
-          </form>
+        </form>
         <div id="btnUploadFiles">
           <span>Upload Files</span>
         </div>
@@ -28,10 +32,17 @@
     </div>
     <div id="imgArea">
       <div id="leftArea">
-        <div id="allMediaSelector">
-          <span>All Media</span>
+        <div class="dvFolders">
+          <div id="allMediaSelector">
+            <span>All Media</span>
+          </div>
+        </div>
+        <div class="dvAddFolder" >
+          <img src="/SiteEngine/Client/images/32_32/plus.png" >
+          <span >Add New Folder</span>
         </div>
       </div>
+
       <div id="rightArea">
         <div id="imgContainer">
           <table>

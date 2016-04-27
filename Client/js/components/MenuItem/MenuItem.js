@@ -81,11 +81,13 @@ define(["application", "Utils", "css!menuItemCss"], function (application, Utils
     id: 'renameItem',
     img: 'images/rename.png',
     title: 'Rename',
-  }, {
-    id: 'refreshItem',
-    img: 'images/refresh.png',
-    title: 'Refresh',
-  }];
+  },
+  //{
+  //  id: 'refreshItem',
+  //  img: 'images/refresh.png',
+  //  title: 'Refresh',
+  //},
+  ];
 
   MenuItem.index = 0;
   function MenuItem(menuItems) {

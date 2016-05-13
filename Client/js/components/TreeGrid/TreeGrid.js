@@ -617,12 +617,13 @@ define(["application", "CONST", "Utils", "row", "headerRow", "css!TreeGridCss"],
           //if (marginLeft)
           //  marginLeftVar += parseInt(marginLeft);
 
-          if (!parentItem.childrenHash)
-            parentItem.childrenHash = {};
-          if (!parentItem.children)
-            parentItem.children = [];
-          parentItem.childrenHash[newItem.id] = newItem;
-          parentItem.children.push(newItem);
+          //if (!parentItem.childrenHash)
+          //  parentItem.childrenHash = {};
+          //if (!parentItem.children)
+          //  parentItem.children = [];
+          //parentItem.childrenHash[newItem.id] = newItem;
+          //parentItem.children.push(newItem);
+
           //self.renderItem($trElem, newItem, parentItem.id, marginLeftVar, self.isFiltered);
           //self.openCloseNode(parentItem.trElem, !isNodeUpdate);
           

@@ -87,6 +87,7 @@ var CONST = function (CommonTypes, AppConfig) {
     LEFT_KEY: function () { return 37; },
     RIGHT_KEY: function () { return 39; },
     ENTER_KEY: function () { return 13; },
+    ESCAPE_KEY: function () { return 27; },
 
     IS_CTRL_S_KEY: function (event) { return ((event.ctrlKey && event.which === 83) ? true : false); },
 

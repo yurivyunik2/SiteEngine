@@ -1,5 +1,5 @@
 ﻿#imageGalleryForm {
-  
+  cursor: default;
 }
 #imageGalleryForm > div {
   height: 450px;
@@ -18,8 +18,9 @@
   vertical-align: middle;  
 }
 #imageGalleryForm #buttonsArea .dvSearchCtrl {
+  max-width: 130px;
   position: relative;
-  padding-left: 10px;
+  padding: 0 10px;
 }
 #imageGalleryForm #buttonsArea .dvSearchCtrl img {
   position: absolute;
@@ -87,21 +88,37 @@
   height: 350px;
   overflow: auto;
 }
-#imageGalleryForm #imgArea .dvFolders #allMediaSelector {
-  height: 40px;
-  width: 100%;
-  background-color: #1491DA;
-  text-align: center;
-  display: table;
-  font-family: sans-serif;
-  font-weight: bold;
-  color: white;  
-}
+  #imageGalleryForm #imgArea .dvFolders .dvFolder {
+    height: 40px;
+    width: 100%;
+    background-color: transparent;
+    color: black;    
+    text-align: center;
+    display: table;
+    font-family: sans-serif;
+    font-weight: bold;    
+  }
+    #imageGalleryForm #imgArea .dvFolders .dvFolder.selected {
+      background-color: #1491DA;
+      color: white;
+    }
+  #imageGalleryForm #imgArea .dvFolders .dvNewFolder {
+    display:none;
+    padding: 10px;
+  }
+    #imageGalleryForm #imgArea .dvFolders .dvNewFolder input {
+      width: 100%;
+      border-radius: 5px;
+      border: 1px solid #579FC1;
+      padding: 0 10px;
+    }
 #imageGalleryForm #imgArea #allMediaSelector span {
   display: table-cell;
   vertical-align: middle;  
 }
 #imageGalleryForm #imgArea .dvAddFolder {
+  width: 100%;
+  cursor: pointer;
   padding: 8px;
   padding-left: 20px;
   position: absolute;

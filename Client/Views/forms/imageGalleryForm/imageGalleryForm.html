@@ -7,16 +7,14 @@
         <img src="/SiteEngine/Client/images/32_32/search.png" >
         <input class="inputSearchCtrl" placeholder="Search" >
       </div>
+      <div title="Click Upload Files. Files size are up to 50MB.">Click Upload Files. Files size are up to 50MB.</div>
       <div class="dvUploadInformation">
         <div id="uploadInfo">
           <img src="/SiteEngine/Client/images/loading16_16.gif">
           <span id="uploadInfoMessage">Uploading:</span>  
         </div>
-        <div id="slider" style="
-                                                                                                  ">
-          <div id="sliderInner" style="
-                                            "></div>
-
+        <div id="slider">
+          <div id="sliderInner"></div>
         </div>
       </div>
       <div id="uploadButton">
@@ -33,11 +31,16 @@
     <div id="imgArea">
       <div id="leftArea">
         <div class="dvFolders">
-          <div id="allMediaSelector">
-            <span>All Media</span>
+          <div class="dvListFolders">
+            <div id="allMediaSelector" class="dvFolder selected">
+              <span>All Media</span>
+            </div>
+          </div>
+          <div class="dvNewFolder" >
+            <input >
           </div>
         </div>
-        <div class="dvAddFolder" >
+        <div id="btnAddFolder" class="dvAddFolder" >
           <img src="/SiteEngine/Client/images/32_32/plus.png" >
           <span >Add New Folder</span>
         </div>

@@ -205,6 +205,9 @@ function (application, CONST, TreeGrid, MenuItem, InfoPanel, TooltipCustom, Util
       //},
 
       mouseDownWindow: function (event) {
+        if (!$dvInfoPanelElem)
+          return;
+
         //console.log("mouseDownWindow");
         if (event.which !== CONST.RIGHT_MOUSE_KEY()) { // if it's not right click
           if (event.target && menuItem.hasElem(event.target)) {

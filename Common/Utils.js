@@ -10,6 +10,7 @@ var Utils = function (CONST, Notification) {
   var utilsObj = {
 
     keyDownEventLast: null,
+    mouseDownEventLast: null,
 
     constructor: function () {
       self = this;
@@ -17,6 +18,7 @@ var Utils = function (CONST, Notification) {
       if (typeof window != "undefined") {
         $(window).resize(self.windowResize);
         $(window).keydown(self.windowKeyDown);
+        $(window).mousedown(self.windowMouseDown);
         _ = window._;
       }
 
@@ -90,6 +92,15 @@ var Utils = function (CONST, Notification) {
       }
       return true;
     },
+    windowMouseDown: function (event) {
+      self.mouseDownEventLast = event;
+      if (self.isFunctionalKey(event)) {
+        event.preventDefault();
+        return false;
+      }
+      return true;
+    },
+
     isFunctionalKey: function (event) {
       return CONST.IS_CTRL_S_KEY(event);
     },
@@ -144,6 +155,14 @@ var Utils = function (CONST, Notification) {
           }
         }
       }
+    },
+
+    showNotificationModal: function (message, callback) {
+      var modalFormCtrl = application.getModalFormCtrl();
+      modalFormCtrl.setType(modalFormCtrl.FORM_TYPE().NOTIFICATION_MODAL, {
+        message: message,
+        callback: callback,
+      });
     },
 
     findChildItems: function (allItems, parentItem, isClone) {

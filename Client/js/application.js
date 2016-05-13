@@ -75,7 +75,9 @@ define(["CONST", "Utils"], function (CONST, Utils) {
 
         var uiData = {};
         uiData.keyDownEventLast = Utils.keyDownEventLast;
+        uiData.mouseDownEventLast = Utils.mouseDownEventLast;
         Utils.keyDownEventLast = null;
+        Utils.mouseDownEventLast = null;
 
         var keysComponent = _.keys(uiComponents);
         _.each(keysComponent, function (key) {
@@ -530,6 +532,10 @@ define(["CONST", "Utils"], function (CONST, Utils) {
         if (!parentItem.children)
           parentItem.children = [];
         parentItem.children.push(newItem);
+        if (!parentItem.childrenHash)
+          parentItem.childrenHash = {};
+        parentItem.childrenHash[newItem.id] = newItem;
+
         items.push(newItem);
         itemsHash[newItem.id] = newItem;
 

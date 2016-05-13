@@ -75,13 +75,14 @@
         var imgSrcArrowVisible = "hidden;";
         var imgSrcFolderVisible = "none;";
 
+        var imgFolderSrc = srcFolderClose;
         var hashItem = treeGrid.hashParentItems[item.id];
-        if (hashItem && hashItem.children) {
-          imgSrcArrowVisible = "visible;";
+        if (hashItem && (hashItem.children || hashItem.templateId == CONST.FOLDER_TEMPLATE_ID())) {
+          if(hashItem.children)
+            imgSrcArrowVisible = "visible;";
           imgSrcFolderVisible = "inline-block;";
         }
 
-        var imgFolderSrc = srcFolderClose;
         if (item.iconCustom && item.iconCustom !== '') {
           imgSrcFolderVisible = "inline-block;";
           imgFolderSrc = item.iconCustom;

@@ -347,7 +347,7 @@ exports.ItemMgr = function () {
                   field.lang = data.lang;
                   field.version = versionFirst;
                 });
-                self.saveItem({ isNewVersion: true, item: objResponse.item, lang: data.lang, version: versionFirst }, objResponse, function() {
+                self.saveItem({ isCreateNewItem: true, isNewVersion: true, item: objResponse.item, lang: data.lang, version: versionFirst }, objResponse, function() {
                   if (callback)
                     callback();
                 });
@@ -358,7 +358,7 @@ exports.ItemMgr = function () {
             });
           } else {
             objResponse.item.fields = data.item.fields;
-            self.saveItem({ isNewVersion: true, item: objResponse.item }, objResponse, function() {
+            self.saveItem({ isCreateNewItem: true, isNewVersion: true, item: objResponse.item }, objResponse, function () {
               if (callback)
                 callback();
             });
@@ -629,7 +629,14 @@ exports.ItemMgr = function () {
       }
 
       var itemsHash = ServerApplication.getItemsHash();
-      var itemSource = itemsHash[data.item.id];
+      var itemSource;
+      if (data.isCreateNewItem) {
+        itemsHash[data.item.id] = data.item;
+        itemSource = data.item;
+      } else {
+        itemSource = itemsHash[data.item.id];
+      }
+
       if (!itemSource) {
         objResponse.error = "Error: item isn't found!";
         if (callback)

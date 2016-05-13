@@ -10,6 +10,8 @@
 
     var mediaClientImagesPath = "/SiteEngine/Client/images/media/";
 
+    var isShowNewFolder = false;
+
     var imageGalleryFormSelector = "#imageGalleryForm";
     var imgWrapperTemplateSelector = "#imgWrapperTemplate";
     var loadingTemplateSelector = "#loadingTemplate";
@@ -17,8 +19,11 @@
     
 
     var dvUploadInformationSelector = ".dvUploadInformation";
+    var dvNewFolderSelector = ".dvNewFolder";
+    
     var inputFileDlgSelector = "#inputFileDlg";
     var btnUploadFilesSelector = "#btnUploadFiles";
+    var btnAddFolderSelector = "#btnAddFolder";
     var uploadInfoSelector = "#uploadInfo";
     var uploadInfoMessageSelector = "#uploadInfoMessage";    
     var uploadSliderInnerSelector = "#sliderInner";
@@ -31,6 +36,11 @@
     var indexFileUpload = 0;
     var uploadErrors = [];
 
+    var $imageGalleryFormElem;
+    var $btnUploadFilesElem;
+    var $btnAddFolderElem;
+    var $inputNewFolderElem;
+
     var imgGalleryObj = new CommonTypes.BaseFormElement();
     _.extend(imgGalleryObj, {
       constructor: function () {
@@ -39,19 +49,57 @@
           formPath: "/SiteEngine/Client/Views/forms/imageGalleryForm/imageGalleryForm.html",
         });
 
+        // add to UI components
+        application.addUIComponent("loginCtrl", self);
+      },
+
+      intervalUI: function (uiData) {
+        if (!uiData)
+          return;
+
+        if (uiData.keyDownEventLast && uiData.keyDownEventLast.which === CONST.ESCAPE_KEY()) {
+          self.showHideNewFolderElem(false);
+        }
+        if (uiData.mouseDownEventLast) {
+          if (isShowNewFolder) {
+            var $dvNewFolderElem = $(dvNewFolderSelector);
+            var rectBound = $dvNewFolderElem[0].getBoundingClientRect();
+            var eventX = uiData.mouseDownEventLast.clientX;
+            var eventY = uiData.mouseDownEventLast.clientY;
+            if (eventX < rectBound.left || eventX > (rectBound.left + rectBound.width) ||
+               eventY < rectBound.top || eventY > (rectBound.top + rectBound.height)) {
+              self.showHideNewFolderElem(false);
+            }            
+          }
+        }
+
       },
 
       initializeEventsSubscribe: function() {
-        var $imageGalleryFormElem = $(imageGalleryFormSelector);
+        $imageGalleryFormElem = $(imageGalleryFormSelector);
         if ($imageGalleryFormElem.length > 0) {
           $(inputFileDlgSelector).change(self.uploadFilesSelected);
 
-          $(btnUploadFilesSelector).click(function () {
+          $btnUploadFilesElem = $(btnUploadFilesSelector);
+          $btnUploadFilesElem.click(function () {
             var $inputFileDlgElem = $(inputFileDlgSelector);
             $inputFileDlgElem[0].files = [];
             $inputFileDlgElem[0].value = "";
             $inputFileDlgElem.click();
           });
+          $btnAddFolderElem = $(btnAddFolderSelector);
+          $btnAddFolderElem.click(function () {
+            self.showHideNewFolderElem(true);
+          });
+          
+          $inputNewFolderElem = $(dvNewFolderSelector).find("input");
+          $inputNewFolderElem.keydown(function (event) {
+            event = event || window.event;
+            if (event.which === CONST.ENTER_KEY()) {
+              self.createNewFolder();
+            }
+          });
+
         }
       },
 
@@ -154,6 +202,54 @@
         $tableElem.html($noDataTemplateElem.html());
       },
 
+      showHideNewFolderElem: function (isShow) {
+        isShowNewFolder = isShow;
+        var $dvNewFolderElem = $(dvNewFolderSelector);
+        if (isShow) {
+          $dvNewFolderElem.css("display", "block");
+          $dvNewFolderElem.find("input").focus();
+        } else
+          $dvNewFolderElem.css("display", "none");
+      },
+
+      createNewFolder: function () {
+        var $inputNewFolderElem = $(dvNewFolderSelector).find("input");
+        var newFolderName = $inputNewFolderElem.val();
+        if (!newFolderName)
+          return;
+
+        var curlang = Utils.getLanguageCurrent();
+        var langCode = "";
+        if (curlang)
+          langCode = curlang.code;
+
+        var action = "createItem";
+        var data = {
+          action: action,
+          item: {
+            name: newFolderName,
+            parentId: CONST.MEDIA_ROOT_ID(),
+            templateId: CONST.FOLDER_TEMPLATE_ID(),
+          },
+          lang: langCode
+        };
+
+        application.httpRequest(data, function (response) {
+          if (response) {
+            if (!response.error) {
+              if (response.data && response.data.item) {
+                application.addItem(response.data.item);
+              }
+            } else {
+              Utils.showNotificationModal(response.error);
+            }            
+          }
+        }, function (response, status, headers, config) {
+          //self.uploadFileCallback(null, "Error unknown!");
+        });
+
+      },
+
       defineTypeItem: function (item) {
         if (!item)
           return;
@@ -223,7 +319,7 @@
         if (!isInitializedEventsSubscribe) {
           isInitializedEventsSubscribe = true;
           self.initializeEventsSubscribe();
-        }
+        }        
       },
 
       showHideUploadInfo: function (isShow) {

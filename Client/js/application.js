@@ -750,6 +750,13 @@ define(["CONST", "Utils"], function (CONST, Utils) {
         }
       },
 
+      showNotificationModal: function (message, callback) {
+        modalFormCtrl.setType(modalFormCtrl.FORM_TYPE().NOTIFICATION_MODAL, {
+          message: message,
+          callback: callback,
+        });
+      },
+
     };
     application.constructor();
     return application;

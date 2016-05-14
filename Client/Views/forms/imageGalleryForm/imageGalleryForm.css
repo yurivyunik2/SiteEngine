@@ -76,7 +76,7 @@
   height: 400px;
 }
 #imageGalleryForm #imgArea #leftArea {
-  width: 25%;
+  width: 15%;
   height: 100%;
   position: relative;
   background-color: white;
@@ -85,44 +85,65 @@
 }
 
 #imageGalleryForm #imgArea .dvFolders {
-  height: 350px;
+  max-height: 335px;
+  margin-bottom: 7px;
   overflow: auto;
 }
   #imageGalleryForm #imgArea .dvFolders .dvFolder {
     height: 40px;
     width: 100%;
+    padding: 8px 10px 0px 10px;
     background-color: transparent;
     color: black;    
-    text-align: center;
+    /*text-align: center;*/
     display: table;
     font-family: sans-serif;
-    font-weight: bold;    
+    cursor: pointer;
   }
+  #imageGalleryForm #imgArea .dvFolders .dvFolder:last-child {
+    height: 20px;
+  }
+    #imageGalleryForm #imgArea .dvFolders .dvFolder:hover {
+      height: 40px;
+      background-color: #CAF4FB;
+    }
     #imageGalleryForm #imgArea .dvFolders .dvFolder.selected {
+      height: 40px;
       background-color: #1491DA;
       color: white;
+      font-weight: bold;
     }
-  #imageGalleryForm #imgArea .dvFolders .dvNewFolder {
+    #imageGalleryForm #imgArea .dvFolders .dvFolder img {
+      width: 10px;
+      float: right;
+      margin-top: 6px;
+      display: none;
+    }
+    #imageGalleryForm #imgArea .dvFolders .dvFolder:hover img {
+      display: block;
+    }
+        
+  #imageGalleryForm #imgArea .dvNewFolder {
     display:none;
-    padding: 10px;
+    padding: 0 5px;
   }
-    #imageGalleryForm #imgArea .dvFolders .dvNewFolder input {
+    #imageGalleryForm #imgArea .dvNewFolder input {
       width: 100%;
       border-radius: 5px;
       border: 1px solid #579FC1;
-      padding: 0 10px;
+      padding: 0 5px;
     }
 #imageGalleryForm #imgArea #allMediaSelector span {
-  display: table-cell;
-  vertical-align: middle;  
+  /*display: table-cell;
+  vertical-align: middle;*/  
 }
 #imageGalleryForm #imgArea .dvAddFolder {
   width: 100%;
   cursor: pointer;
-  padding: 8px;
-  padding-left: 20px;
+  padding: 5px 0px;
   position: absolute;
-  bottom: 1px;  
+  bottom: 1px;
+  text-align: center;
 }
 #imageGalleryForm #imgArea .dvAddFolder img {
   width: 19px;
@@ -136,7 +157,7 @@
 }
 
 #imageGalleryForm #imgArea #rightArea {
-  width: 75%;
+  width: 85%;
   height: 100%;
   background-color: white;
   float: right;

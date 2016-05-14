@@ -299,6 +299,7 @@ define(["application", "Utils", "css!menuItemCss"], function (application, Utils
         var dataEvent = {
           isNotification: true,
         };
+        dataEvent.actionType = liElem.id;
         switch (liElem.id) {
           //case "menu_addNew_template":
           //  {
@@ -307,7 +308,7 @@ define(["application", "Utils", "css!menuItemCss"], function (application, Utils
           //  }
           case "addNewItem":
             {
-              //dataEvent.actionType = "addNewItem";
+              
               if ($(liElem).attr("itemId")) {
                 var itemId = $(liElem).attr("itemId");
                 var arItems = _.where(self.arTemplatesNew, { id: parseInt(itemId) });
@@ -318,7 +319,6 @@ define(["application", "Utils", "css!menuItemCss"], function (application, Utils
             }
           default:
             {
-              dataEvent.actionType = liElem.id;
               break;
             }
         }

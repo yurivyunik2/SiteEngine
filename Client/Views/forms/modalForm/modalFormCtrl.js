@@ -121,8 +121,12 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
       },
 
       intervalUI: function (uiData) {
-        if ($scope.isShowModalForm && uiData && uiData.keyDownEventLast) {
-          var event = uiData.keyDownEventLast;
+        if (!uiData || !$scope.isShowModalForm)
+          return;
+
+        var event;
+        if (uiData.keyDownEventLast) {
+          event = uiData.keyDownEventLast;
           var isProcessed = false;
           if (currentCtrl && currentCtrl.keyDownEventFunc) {
             isProcessed = currentCtrl.keyDownEventFunc(event);
@@ -131,6 +135,13 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
             if (event && event.which === CONST.ENTER_KEY()) {
               self.clickOk();
             }
+          }
+        }
+
+        if (uiData.mouseDownEventLast) {
+          event = uiData.mouseDownEventLast;
+          if (currentCtrl && currentCtrl.keyDownEventFunc) {
+            currentCtrl.mouseDownEventFunc(event);
           }
         }
       },

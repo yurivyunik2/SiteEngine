@@ -374,14 +374,16 @@ function (application, Utils, CONST, Notification, PanelFormCtrl, PanelTypes) {
         };
 
         application.httpRequest(requestData, function (response) {
+          var responseItem = null;
           if (!response.error) {
             if (response.data && response.data.item) {
               //selItem.fields = response.data.item.fields;
-              application.removeItem(response.data.item);
+              responseItem = response.data.item;
+              application.removeItem(responseItem);
             }
           }
           if (data.callback)
-            data.callback();
+            data.callback(responseItem);
         }, function (response) {
           if (data.callback)
             data.callback();

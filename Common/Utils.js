@@ -157,14 +157,6 @@ var Utils = function (CONST, Notification) {
       }
     },
 
-    showNotificationModal: function (message, callback) {
-      var modalFormCtrl = application.getModalFormCtrl();
-      modalFormCtrl.setType(modalFormCtrl.FORM_TYPE().NOTIFICATION_MODAL, {
-        message: message,
-        callback: callback,
-      });
-    },
-
     findChildItems: function (allItems, parentItem, isClone) {
       if (!allItems || !parentItem)
         return;

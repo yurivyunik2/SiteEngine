@@ -8,6 +8,10 @@
     var countImgInRow = 4;
     var mediaItems;
 
+    var allMediaItems = [];
+    var allFolderItemsHash = {};
+    var selectedFolderItem;
+
     var mediaClientImagesPath = "/SiteEngine/Client/images/media/";
 
     var isShowNewFolder = false;
@@ -23,7 +27,6 @@
     
     var inputFileDlgSelector = "#inputFileDlg";
     var btnUploadFilesSelector = "#btnUploadFiles";
-    var btnAddFolderSelector = "#btnAddFolder";
     var uploadInfoSelector = "#uploadInfo";
     var uploadInfoMessageSelector = "#uploadInfoMessage";    
     var uploadSliderInnerSelector = "#sliderInner";
@@ -49,30 +52,60 @@
           formPath: "/SiteEngine/Client/Views/forms/imageGalleryForm/imageGalleryForm.html",
         });
 
-        // add to UI components
-        application.addUIComponent("loginCtrl", self);
       },
 
-      intervalUI: function (uiData) {
-        if (!uiData)
-          return;
+      keyDownEventFunc: function (event) {
+        if (!event)
+          return false;
 
-        if (uiData.keyDownEventLast && uiData.keyDownEventLast.which === CONST.ESCAPE_KEY()) {
-          self.showHideNewFolderElem(false);
-        }
-        if (uiData.mouseDownEventLast) {
-          if (isShowNewFolder) {
-            var $dvNewFolderElem = $(dvNewFolderSelector);
-            var rectBound = $dvNewFolderElem[0].getBoundingClientRect();
-            var eventX = uiData.mouseDownEventLast.clientX;
-            var eventY = uiData.mouseDownEventLast.clientY;
-            if (eventX < rectBound.left || eventX > (rectBound.left + rectBound.width) ||
-               eventY < rectBound.top || eventY > (rectBound.top + rectBound.height)) {
+        switch (event.which) {
+          case CONST.ESCAPE_KEY():
+            {
               self.showHideNewFolderElem(false);
-            }            
+              return true;
+            }
+          case CONST.ENTER_KEY():
+            {
+              if (isShowNewFolder) {
+                self.createNewFolder();
+              }
+              return true;
+            }
+        }
+
+        return false;
+      },
+
+      mouseDownEventFunc: function (event) {
+        var rectBound;
+        var eventX = event.clientX;
+        var eventY = event.clientY;
+        if (isShowNewFolder) {
+          var $dvNewFolderElem = $(dvNewFolderSelector);
+          rectBound = $dvNewFolderElem[0].getBoundingClientRect();
+          if (eventX < rectBound.left || eventX > (rectBound.left + rectBound.width) ||
+            eventY < rectBound.top || eventY > (rectBound.top + rectBound.height)) {
+            self.showHideNewFolderElem(false);
           }
         }
 
+        // img-remove folder
+        var $dvFolderElem = $(event.target).parents(".dvFolder");
+        if ($dvFolderElem.length > 0) {
+          var $imgRemoveElem = $dvFolderElem.find(".imgRemove");
+          if ($imgRemoveElem.length > 0) {
+            rectBound = $imgRemoveElem[0].getBoundingClientRect();
+            if (eventX >= rectBound.left && eventX <= (rectBound.left + rectBound.width) &&
+              eventY >= rectBound.top && eventY <= (rectBound.top + rectBound.height)) {
+
+              var idFolder = $dvFolderElem[0].id;
+              var folderItem = allFolderItemsHash[idFolder];
+              if (folderItem) {
+                self.deleteFolder(folderItem);
+              }              
+            }
+          }
+        }
       },
 
       initializeEventsSubscribe: function() {
@@ -83,21 +116,14 @@
           $btnUploadFilesElem = $(btnUploadFilesSelector);
           $btnUploadFilesElem.click(function () {
             var $inputFileDlgElem = $(inputFileDlgSelector);
-            $inputFileDlgElem[0].files = [];
+            //$inputFileDlgElem[0].files = [];
+            $inputFileDlgElem[0].files.length = 0;
             $inputFileDlgElem[0].value = "";
             $inputFileDlgElem.click();
           });
-          $btnAddFolderElem = $(btnAddFolderSelector);
+          $btnAddFolderElem = $("#btnAddFolder");
           $btnAddFolderElem.click(function () {
             self.showHideNewFolderElem(true);
-          });
-          
-          $inputNewFolderElem = $(dvNewFolderSelector).find("input");
-          $inputNewFolderElem.keydown(function (event) {
-            event = event || window.event;
-            if (event.which === CONST.ENTER_KEY()) {
-              self.createNewFolder();
-            }
           });
 
         }
@@ -139,12 +165,77 @@
         });
       },
 
-      populate: function () {
+      renderFolders: function () {
+        allFolderItemsHash = {};
+        _.each(allMediaItems, function (item) {
+          if (item.templateId === CONST.FOLDER_TEMPLATE_ID()) {
+            allFolderItemsHash[item.id] = item;
+          }
+        });
+
+        var $dvFoldersElem = $(".dvFolders");
+        $dvFoldersElem.empty();
+        var html = "<div id='allMediaItem' class='dvFolder'><span>All Media</span></div>";
+        html += "<div class='dvListFolders'></div>";
+        $dvFoldersElem.append(html);
+
+        var $dvListFoldersElem = $dvFoldersElem.find(".dvListFolders");
+        $dvListFoldersElem.empty();
+
+        var itemKeys = _.keys(allFolderItemsHash);
+        for (var i = 0; i < itemKeys.length; i++) {
+          var folderItem = allFolderItemsHash[itemKeys[i]];
+          html = "<div id='" + folderItem.id + "' class='dvFolder'>";
+          var $folder = $(html);
+          $folder.append("<span>" + folderItem.name + "</span>");
+          $folder.append("<img class='imgRemove' src='/SiteEngine/Client/images/remove.png'>");
+
+          $dvListFoldersElem.append($folder);
+        }
+        $dvFoldersElem.find(".dvFolder").click(function (event) {
+          var folderItem = allFolderItemsHash[event.currentTarget.id];
+          self.selectFolder(folderItem);
+        });
+
+        //
+        self.selectFolder(selectedFolderItem);
+      },
+
+      selectFolder: function (folderItem, notPopulate) {
+        selectedFolderItem = (folderItem && allFolderItemsHash[folderItem.id]) ? folderItem : null;
+
+        var $dvFoldersElem = $(".dvFolders");
+        $dvFoldersElem.find(".selected").removeClass("selected");
+        if (selectedFolderItem) {
+          $dvFoldersElem.find("#" + selectedFolderItem.id).addClass("selected");
+        } else {
+          $dvFoldersElem.find("#allMediaItem").addClass("selected");
+        }
+        if (!notPopulate) {
+          //var mediaItems = application.getMediaItems();
+          var itemsFolder = [];
+          if (selectedFolderItem) {
+            if (selectedFolderItem.children)
+              itemsFolder = folderItem.children;
+          } else {
+            itemsFolder = allMediaItems;
+          }
+
+          self.populateItems(itemsFolder);
+        }
+      },
+
+      populateItems: function (items) {
         var $imageGalleryFormElem = $(imageGalleryFormSelector);
         if ($imageGalleryFormElem.length === 0)
           return;
 
-        mediaItems = application.getMediaItems();
+        var mediaItems = [];
+        _.each(items, function (item) {
+          if (item.templateId === CONST.MEDIA_ITEM_TEMPLATE_ID()) {
+            mediaItems.push(item);
+          }
+        });
 
         var mediaItemsCount = mediaItems.length;
         if (mediaItemsCount > 0) {
@@ -207,6 +298,7 @@
         var $dvNewFolderElem = $(dvNewFolderSelector);
         if (isShow) {
           $dvNewFolderElem.css("display", "block");
+          $dvNewFolderElem.find("input").val("");
           $dvNewFolderElem.find("input").focus();
         } else
           $dvNewFolderElem.css("display", "none");
@@ -239,15 +331,38 @@
             if (!response.error) {
               if (response.data && response.data.item) {
                 application.addItem(response.data.item);
+                allMediaItems.push(response.data.item);
+                self.renderFolders();
               }
             } else {
-              Utils.showNotificationModal(response.error);
-            }            
+              
+            }
           }
+          self.showHideNewFolderElem(false);
         }, function (response, status, headers, config) {
-          //self.uploadFileCallback(null, "Error unknown!");
+          self.showHideNewFolderElem(false);
         });
 
+      },
+
+      deleteFolder: function (foderItem) {
+        if (!foderItem)
+          return;
+
+        var deleteFolderCallback = function (item) {
+          allMediaItems = _.without(allMediaItems, _.findWhere(allMediaItems, { id: item.id }));
+          self.renderFolders();
+        };
+
+        var actionCtrl = application.getActionCtrl();
+        if (actionCtrl) {
+          var data = {
+            actionType: "deleteItem",
+            item: foderItem,
+            callback: deleteFolderCallback,
+          };
+          actionCtrl.deleteItem(data);
+        }
       },
 
       defineTypeItem: function (item) {
@@ -314,7 +429,9 @@
         self.setDataCtrl(data);
         isMultipleSelect = (data && data.isMultipleSelect) ? true : false;
 
-        self.populate();
+        allMediaItems = application.getMediaItems();
+        //self.populate();        
+        self.renderFolders();        
 
         if (!isInitializedEventsSubscribe) {
           isInitializedEventsSubscribe = true;

@@ -165,7 +165,7 @@
         });
       },
 
-      renderFolders: function () {
+      renderFolders: function (notSelect) {
         allFolderItemsHash = {};
         _.each(allMediaItems, function (item) {
           if (item.templateId === CONST.FOLDER_TEMPLATE_ID()) {
@@ -198,10 +198,13 @@
         });
 
         //
-        self.selectFolder(selectedFolderItem);
+        if (!notSelect) {
+          self.selectFolder(selectedFolderItem);
+        }        
       },
 
-      selectFolder: function (folderItem, notPopulate) {
+      selectFolder: function (folderItem) {
+
         selectedFolderItem = (folderItem && allFolderItemsHash[folderItem.id]) ? folderItem : null;
 
         var $dvFoldersElem = $(".dvFolders");
@@ -211,18 +214,17 @@
         } else {
           $dvFoldersElem.find("#allMediaItem").addClass("selected");
         }
-        if (!notPopulate) {
-          //var mediaItems = application.getMediaItems();
-          var itemsFolder = [];
-          if (selectedFolderItem) {
-            if (selectedFolderItem.children)
-              itemsFolder = folderItem.children;
-          } else {
-            itemsFolder = allMediaItems;
-          }
-
-          self.populateItems(itemsFolder);
+        
+        //var mediaItems = application.getMediaItems();
+        var itemsFolder = [];
+        if (selectedFolderItem) {
+          if (selectedFolderItem.children)
+            itemsFolder = folderItem.children;
+        } else {
+          itemsFolder = allMediaItems;
         }
+
+        self.populateItems(itemsFolder);        
       },
 
       populateItems: function (items) {
@@ -351,7 +353,10 @@
 
         var deleteFolderCallback = function (item) {
           allMediaItems = _.without(allMediaItems, _.findWhere(allMediaItems, { id: item.id }));
-          self.renderFolders();
+          var isNotSelect = false;
+          if (selectedFolderItem && item.id !== selectedFolderItem.id)
+            isNotSelect = true;
+          self.renderFolders(isNotSelect);
         };
 
         var actionCtrl = application.getActionCtrl();

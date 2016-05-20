@@ -1,24 +1,32 @@
 ﻿#imageGalleryForm {
   cursor: default;
 }
-#imageGalleryForm > div {
+#imageGalleryForm > .imageGalleryInnerDiv {
   height: 450px;
-  width: 950px;  
+  width: 1000px;  
 }
 
 #imageGalleryForm #buttonsArea {
   width: 100%;
-  height: 10%;
+  height: 50px;
   background-color: #D1F6FF;
   border-bottom: 1px solid #DABEBE;
-  display: table;  
+  /*display: table;*/  
 }
-#imageGalleryForm #buttonsArea > div {
+#imageGalleryForm #buttonsArea .dvInner {
+  width: 100%;
+  height: 100%;
+}
+#imageGalleryForm #buttonsArea .dvInner > div {
+  display: table;
+  height: 100%;
+}
+#imageGalleryForm #buttonsArea .dvInner > div > .dvTableCell {
   display: table-cell;
   vertical-align: middle;  
 }
 #imageGalleryForm #buttonsArea .dvSearchCtrl {
-  max-width: 130px;
+  float: left;
   position: relative;
   padding: 0 10px;
 }
@@ -36,9 +44,20 @@
 #imageGalleryForm #buttonsArea .dvSearchCtrl input:focus {
   outline: 0; 
 }
-
-#imageGalleryForm #buttonsArea .dvUploadInformation {
+#imageGalleryForm #buttonsArea .dvInfo {
+  float: left;
+}
+#imageGalleryForm #buttonsArea .dvButtons {
+  float: right;
+  padding: 0;
+}
+#imageGalleryForm #buttonsArea .dvButtons .dvTableCell > div {
+  margin-right: 10px;
+}
+#imageGalleryForm #buttonsArea .dvButtons .dvUploadInformation {
+  float: left;
   display: none;
+  margin-top: 4px;
   padding-left: 15px;
 }
 #imageGalleryForm #buttonsArea #uploadInfo {
@@ -59,15 +78,33 @@
   background-color: #00C6FF;
   border-radius: 10px;  
 }
-#imageGalleryForm #btnUploadFiles {
+#imageGalleryForm #buttonsArea .dvButtons .dvBtnDelete {
+  display: none;
+  float: left;
+  margin-top: 4px;
+}
+#imageGalleryForm #buttonsArea .dvButtons .dvBtnDelete button {
+  color: #ec4d4d;
+  background: 0 0;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  border-bottom: 1px solid #ec4d4d;
+  padding-bottom: 0px;
+  padding: 0px 3px;
+  outline: none;
+}
+#imageGalleryForm #buttonsArea .dvButtons .dvBtnUpload {
+  float: left;
+}
+#imageGalleryForm .dvBtnUpload #btnUploadFiles {
   background-color: #FF7B00;
   padding: 6px 30px;
-  border-radius: 20px;
-  float: right;
-  margin-right: 20px;
+  border-radius: 20px;  
+  /*margin-right: 20px;*/
   color: white;  
 }
-#imageGalleryForm #btnUploadFiles:hover {
+#imageGalleryForm .dvBtnUpload #btnUploadFiles:hover {
   background-color: #EAB05A;
 }
 #imageGalleryForm #imgArea {

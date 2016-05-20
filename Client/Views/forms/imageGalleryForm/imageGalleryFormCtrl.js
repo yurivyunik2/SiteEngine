@@ -1,12 +1,10 @@
 ﻿define(["application", "CONST", "Utils", "CommonTypes"], function (application, CONST, Utils, CommonTypes) {
 
   return function ($scope) {
-
     var self;
 
     var isInitializedEventsSubscribe = false;
-    var countImgInRow = 4;
-    var mediaItems;
+    var countImgInRow = 5;
 
     var allMediaItems = [];
     var allFolderItemsHash = {};
@@ -16,21 +14,9 @@
 
     var isShowNewFolder = false;
 
-    var imageGalleryFormSelector = "#imageGalleryForm";
-    var imgWrapperTemplateSelector = "#imgWrapperTemplate";
-    var loadingTemplateSelector = "#loadingTemplate";
-    var noDataTemplateSelector = "#noDataTemplate";
-    
-
-    var dvUploadInformationSelector = ".dvUploadInformation";
-    var dvNewFolderSelector = ".dvNewFolder";
-    
-    var inputFileDlgSelector = "#inputFileDlg";
-    var btnUploadFilesSelector = "#btnUploadFiles";
-    var uploadInfoSelector = "#uploadInfo";
-    var uploadInfoMessageSelector = "#uploadInfoMessage";    
-    var uploadSliderInnerSelector = "#sliderInner";
-    
+    var $imageGalleryFormElem;
+    var $dvBtnDeleteElem;
+    var $dvNewFolderElem;    
 
     var isMultipleSelect = false;
 
@@ -38,11 +24,6 @@
     var amountUploadFiles = 0;
     var indexFileUpload = 0;
     var uploadErrors = [];
-
-    var $imageGalleryFormElem;
-    var $btnUploadFilesElem;
-    var $btnAddFolderElem;
-    var $inputNewFolderElem;
 
     var imgGalleryObj = new CommonTypes.BaseFormElement();
     _.extend(imgGalleryObj, {
@@ -81,7 +62,6 @@
         var eventX = event.clientX;
         var eventY = event.clientY;
         if (isShowNewFolder) {
-          var $dvNewFolderElem = $(dvNewFolderSelector);
           rectBound = $dvNewFolderElem[0].getBoundingClientRect();
           if (eventX < rectBound.left || eventX > (rectBound.left + rectBound.width) ||
             eventY < rectBound.top || eventY > (rectBound.top + rectBound.height)) {
@@ -109,32 +89,29 @@
       },
 
       initializeEventsSubscribe: function() {
-        $imageGalleryFormElem = $(imageGalleryFormSelector);
-        if ($imageGalleryFormElem.length > 0) {
-          $(inputFileDlgSelector).change(self.uploadFilesSelected);
+        $imageGalleryFormElem.find("#inputFileDlg").change(self.uploadFilesSelected);
 
-          $btnUploadFilesElem = $(btnUploadFilesSelector);
-          $btnUploadFilesElem.click(function () {
-            var $inputFileDlgElem = $(inputFileDlgSelector);
-            //$inputFileDlgElem[0].files = [];
-            $inputFileDlgElem[0].files.length = 0;
-            $inputFileDlgElem[0].value = "";
-            $inputFileDlgElem.click();
-          });
-          $btnAddFolderElem = $("#btnAddFolder");
-          $btnAddFolderElem.click(function () {
-            self.showHideNewFolderElem(true);
-          });
+        var $btnUploadFilesElem = $imageGalleryFormElem.find("#btnUploadFiles");
+        $btnUploadFilesElem.click(function () {
+          var $inputFileDlgElem = $imageGalleryFormElem.find("#inputFileDlg");
+          //$inputFileDlgElem[0].files = [];
+          $inputFileDlgElem[0].files.length = 0;
+          $inputFileDlgElem[0].value = "";
+          $inputFileDlgElem.click();
+        });
+        var $btnAddFolderElem = $imageGalleryFormElem.find("#btnAddFolder");
+        $btnAddFolderElem.click(function () {
+          self.showHideNewFolderElem(true);
+        });
 
-        }
+        $dvBtnDeleteElem.click(self.deleteImages);        
       },
 
       renderMediaItems: function (items) {
-        var $imageGalleryFormElem = $(imageGalleryFormSelector);
         if ($imageGalleryFormElem.length === 0)
           return;
 
-        var $imgWrapperTemplateElem = $(imgWrapperTemplateSelector);
+        var $imgWrapperTemplateElem = $imageGalleryFormElem.find("#imgWrapperTemplate");
 
         var $tableElem = $imageGalleryFormElem.find("table");
         $tableElem.html("");
@@ -160,8 +137,10 @@
         $tableElem.find(".dvImgWrapper").dblclick(function (event) {
           event.notRemovePrevious = true;
           self.clickItem(event);
-          var modalFormCtrl = application.getModalFormCtrl();
-          modalFormCtrl.clickOk();
+          if (!isMultipleSelect) {
+            var modalFormCtrl = application.getModalFormCtrl();
+            modalFormCtrl.clickOk();
+          }          
         });
       },
 
@@ -173,7 +152,7 @@
           }
         });
 
-        var $dvFoldersElem = $(".dvFolders");
+        var $dvFoldersElem = $imageGalleryFormElem.find(".dvFolders");
         $dvFoldersElem.empty();
         var html = "<div id='allMediaItem' class='dvFolder'><span>All Media</span></div>";
         html += "<div class='dvListFolders'></div>";
@@ -207,7 +186,7 @@
 
         selectedFolderItem = (folderItem && allFolderItemsHash[folderItem.id]) ? folderItem : null;
 
-        var $dvFoldersElem = $(".dvFolders");
+        var $dvFoldersElem = $imageGalleryFormElem.find(".dvFolders");
         $dvFoldersElem.find(".selected").removeClass("selected");
         if (selectedFolderItem) {
           $dvFoldersElem.find("#" + selectedFolderItem.id).addClass("selected");
@@ -224,11 +203,10 @@
           itemsFolder = allMediaItems;
         }
 
-        self.populateItems(itemsFolder);        
+        self.populateItems(itemsFolder);
       },
 
       populateItems: function (items) {
-        var $imageGalleryFormElem = $(imageGalleryFormSelector);
         if ($imageGalleryFormElem.length === 0)
           return;
 
@@ -271,25 +249,25 @@
           self.showNoData();
         }
 
+        //
+        self.uploadButtonsState();
       },
 
       setLoading: function () {
-        var $imageGalleryFormElem = $(imageGalleryFormSelector);
         if ($imageGalleryFormElem.length === 0)
           return;
 
-        var $loadingTemplateElem = $(loadingTemplateSelector);
+        var $loadingTemplateElem = $imageGalleryFormElem.find("#loadingTemplate");
 
         var $tableElem = $imageGalleryFormElem.find("table");
         $tableElem.html($loadingTemplateElem.html());
       },
 
       showNoData: function() {
-        var $imageGalleryFormElem = $(imageGalleryFormSelector);
         if ($imageGalleryFormElem.length === 0)
           return;
 
-        var $noDataTemplateElem = $(noDataTemplateSelector);
+        var $noDataTemplateElem = $imageGalleryFormElem.find("#noDataTemplate");
 
         var $tableElem = $imageGalleryFormElem.find("table");
         $tableElem.html($noDataTemplateElem.html());
@@ -297,7 +275,6 @@
 
       showHideNewFolderElem: function (isShow) {
         isShowNewFolder = isShow;
-        var $dvNewFolderElem = $(dvNewFolderSelector);
         if (isShow) {
           $dvNewFolderElem.css("display", "block");
           $dvNewFolderElem.find("input").val("");
@@ -307,7 +284,7 @@
       },
 
       createNewFolder: function () {
-        var $inputNewFolderElem = $(dvNewFolderSelector).find("input");
+        var $inputNewFolderElem = $dvNewFolderElem.find("input");
         var newFolderName = $inputNewFolderElem.val();
         if (!newFolderName)
           return;
@@ -368,6 +345,38 @@
           };
           actionCtrl.deleteItem(data);
         }
+      },
+
+      deleteImages: function () {
+        var selectedItems = self.getSelectedItems();
+        if (!selectedItems || selectedItems.length === 0)
+          return;
+
+        var amountSelectedItems = selectedItems.length;
+        var indexDeletedItem = 0;
+        var deleteItemCallback = function (item) {
+          indexDeletedItem++;
+          var removeItemFound = _.findWhere(allMediaItems, { id: item.id });
+          if (removeItemFound) {
+            allMediaItems = _.without(allMediaItems, removeItemFound);
+          }
+          if (indexDeletedItem === amountSelectedItems) {
+            self.selectFolder(selectedFolderItem);
+          }
+        };
+
+        var actionCtrl = application.getActionCtrl();
+        if (actionCtrl) {
+          _.each(selectedItems, function (item) {
+            var data = {
+              actionType: "deleteItem",
+              item: item,
+              callback: deleteItemCallback,
+            };
+            actionCtrl.deleteItem(data);
+          });
+        }
+        
       },
 
       defineTypeItem: function (item) {
@@ -431,27 +440,36 @@
       },
 
       show: function (data) {
+        if (!$imageGalleryFormElem || $imageGalleryFormElem.length === 0) {
+          $imageGalleryFormElem = $("#imageGalleryForm");
+          isInitializedEventsSubscribe = false;
+        }        
+        if ($imageGalleryFormElem.length === 0)
+          return;
+
+        $dvNewFolderElem = $imageGalleryFormElem.find(".dvNewFolder");
+        $dvBtnDeleteElem = $imageGalleryFormElem.find(".dvBtnDelete");
+
         self.setDataCtrl(data);
         isMultipleSelect = (data && data.isMultipleSelect) ? true : false;
-
-        allMediaItems = application.getMediaItems();
-        //self.populate();        
-        self.renderFolders();        
 
         if (!isInitializedEventsSubscribe) {
           isInitializedEventsSubscribe = true;
           self.initializeEventsSubscribe();
-        }        
+        }
+
+        allMediaItems = application.getMediaItems();
+        //self.populate();        
+        self.renderFolders();        
       },
 
       showHideUploadInfo: function (isShow) {
-        var $imageGalleryFormElem = $(imageGalleryFormSelector);
         if ($imageGalleryFormElem.length === 0)
           return;
 
-        var $dvUploadInformationElem = $imageGalleryFormElem.find(dvUploadInformationSelector);
-        var $uploadSliderInnerElem = $imageGalleryFormElem.find(uploadSliderInnerSelector);
-        var $uploadInfoMessageElem = $imageGalleryFormElem.find(uploadInfoMessageSelector);
+        var $dvUploadInformationElem = $imageGalleryFormElem.find(".dvUploadInformation");
+        var $uploadSliderInnerElem = $imageGalleryFormElem.find("#sliderInner");
+        var $uploadInfoMessageElem = $imageGalleryFormElem.find("#uploadInfoMessage");
         if (isShow) {
           $dvUploadInformationElem.css("display", "table-cell");
           $uploadSliderInnerElem.width("0%");
@@ -462,13 +480,12 @@
       },
 
       uploadFilesSelected: function () {
-        var $imageGalleryFormElem = $(imageGalleryFormSelector);
         if ($imageGalleryFormElem.length === 0)
           return;
 
-        var $inputFileDlgElem = $imageGalleryFormElem.find(inputFileDlgSelector);
+        var $inputFileDlgElem = $imageGalleryFormElem.find("#inputFileDlg");
 
-        var $uploadInfoElem = $imageGalleryFormElem.find(uploadInfoSelector);
+        var $uploadInfoElem = $imageGalleryFormElem.find("#uploadInfo");
 
         var files = $inputFileDlgElem[0].files;
         if (files.length > 0) {
@@ -484,18 +501,12 @@
         }
       },
 
-      uploadFilesFinish: function () {
-        self.showHideUploadInfo(false);
-        self.populate();
-      },
-
       uploadFileCallback: function (response, error) {
-        var $imageGalleryFormElem = $(imageGalleryFormSelector);
         if ($imageGalleryFormElem.length === 0 || amountUploadFiles === 0)
           return;
 
-        var $uploadInfoMessageElem = $imageGalleryFormElem.find(uploadInfoMessageSelector);
-        var $uploadSliderInnerElem = $imageGalleryFormElem.find(uploadSliderInnerSelector);
+        var $uploadInfoMessageElem = $imageGalleryFormElem.find("#uploadInfoMessage");
+        var $uploadSliderInnerElem = $imageGalleryFormElem.find("#sliderInner");
 
 
         //
@@ -507,6 +518,7 @@
           if (!response.error) {
             if (response.data && response.data.item) {
               application.addItem(response.data.item);
+              allMediaItems.push(response.data.item);
             }
           } else if (response.error) {
             uploadErrors.push(response.error);
@@ -521,6 +533,11 @@
 
         if (indexFileUpload === amountUploadFiles)
           self.uploadFilesFinish();
+      },
+
+      uploadFilesFinish: function () {
+        self.showHideUploadInfo(false);
+        self.selectFolder(selectedFolderItem);
       },
 
       readFile: function (file, callback) {
@@ -560,12 +577,17 @@
         if (curlang)
           langCode = curlang.code;
 
+        var parentId = CONST.MEDIA_ROOT_ID();
+        if (selectedFolderItem) {
+          parentId = selectedFolderItem.id;
+        }
+
         var action = "createItem";
         var data = {
           action: action,
           item: {
             name: file.name,
-            parentId: CONST.MEDIA_ROOT_ID(),
+            parentId: parentId,
             templateId: CONST.MEDIA_ITEM_TEMPLATE_ID(),
           },
           lang: langCode
@@ -618,26 +640,32 @@
         if ($curElem.hasClass("dvSelected") && (event && !event.notRemovePrevious)) {
           $curElem.removeClass("dvSelected");
         } else {
-          if (!isMultipleSelect) {
-            var $imageGalleryFormElem = $(imageGalleryFormSelector);
+          if (!isMultipleSelect) {            
             if ($imageGalleryFormElem.length > 0) {
               $imageGalleryFormElem.find(".dvSelected").removeClass("dvSelected");
             }
           }
           $curElem.addClass("dvSelected");
         }
+
+        //
+        self.uploadButtonsState();
+      },
+
+      uploadButtonsState: function() {
+        var deleteDisplay = $imageGalleryFormElem.find(".dvSelected").length > 0 ? "block" : "none";
+        $dvBtnDeleteElem.css("display", deleteDisplay);
       },
 
       getSelectedItems: function () {
         var selectedItems = [];
-        if (!mediaItems)
+        if (!allMediaItems)
           return selectedItems;
 
-        var $imageGalleryFormElem = $(imageGalleryFormSelector);
         if ($imageGalleryFormElem.length > 0) {
           var selectedElems = $imageGalleryFormElem.find(".dvSelected");
           _.each(selectedElems, function (elem) {
-            var itemFound = _.findWhere(mediaItems, { id: parseInt($(elem).attr("itemId")) });
+            var itemFound = _.findWhere(allMediaItems, { id: parseInt($(elem).attr("itemId")) });
             if (itemFound)
               selectedItems.push(itemFound);
           });

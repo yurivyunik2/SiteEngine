@@ -1,32 +1,48 @@
 ﻿<link rel="stylesheet" type="text/css" href="Views/forms/imageGalleryForm/imageGalleryForm.css">
 
 <div id="imageGalleryForm" class="ng-scope">
-  <div>
+  <div class="imageGalleryInnerDiv">
     <div id="buttonsArea">
-      <div class="dvSearchCtrl" >
-        <img src="/SiteEngine/Client/images/32_32/search.png" >
-        <input class="inputSearchCtrl" placeholder="Search" >
-      </div>
-      <div title="Click Upload Files. Files size are up to 50MB.">Click Upload Files. Files size are up to 50MB.</div>
-      <div class="dvUploadInformation">
-        <div id="uploadInfo">
-          <img src="/SiteEngine/Client/images/loading16_16.gif">
-          <span id="uploadInfoMessage">Uploading:</span>  
+      <div class="dvInner">
+        <div class="dvSearchCtrl">
+          <div class="dvTableCell">
+            <img src="/SiteEngine/Client/images/32_32/search.png">
+            <input class="inputSearchCtrl" placeholder="Search">
+          </div>
         </div>
-        <div id="slider">
-          <div id="sliderInner"></div>
+        <div class="dvInfo">
+          <div class="dvTableCell">
+            Click Upload Files. Files size are up to 50MB.
+          </div>
+        </div>
+        <div class="dvButtons">
+          <div class="dvTableCell">
+            <div class="dvUploadInformation">
+              <div id="uploadInfo">
+                <img src="/SiteEngine/Client/images/loading16_16.gif">
+                <span id="uploadInfoMessage">Uploading:</span>
+              </div>
+              <div id="slider">
+                <div id="sliderInner"></div>
+              </div>
+            </div>
+            <div class="dvBtnDelete">
+              <button ng-click="$remove.selected($nestedEntities)" class="ng-binding">Delete</button>
+            </div>
+            <div id="uploadButton" class="dvBtnUpload">
+              <form action="/api" method="post" enctype="multipart/form-data">
+                <input id="inputFileDlg" type="file" multiple="multiple" style="
+                                                                                                    display: none;
+                                                                                                  "/>
+              </form>
+              <div id="btnUploadFiles">
+                <span>Upload Files</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <div id="uploadButton">
-        <form action="/api" method="post" enctype="multipart/form-data">
-          <input id="inputFileDlg" type="file" multiple="multiple" style="
-                                              display: none;
-                                            "/>
-        </form>
-        <div id="btnUploadFiles">
-          <span>Upload Files</span>
-        </div>
-      </div>
+
     </div>
     <div id="imgArea">
       <div id="leftArea">
@@ -37,13 +53,14 @@
           <div class="dvListFolders">
           </div>
           <div class="dvNewFolder">
-            <input >
+            <input>
           </div>
         </div>
-        <div class="dvNewFolder"><input/></div>
-        <div id="btnAddFolder" class="dvAddFolder" >
-          <img src="/SiteEngine/Client/images/32_32/plus.png" >
-          <span >Add New Folder</span>
+        <div class="dvNewFolder"><input/>
+        </div>
+        <div id="btnAddFolder" class="dvAddFolder">
+          <img src="/SiteEngine/Client/images/32_32/plus.png">
+          <span>Add New Folder</span>
         </div>
       </div>
 
@@ -71,11 +88,11 @@
       </div>
     </div>
   </div>
-</div>
 
-<script id="imgWrapperTemplate" type="text/template">
+
+  <script id="imgWrapperTemplate" type="text/template">
     <td>
-      <div itemId="<%= item.id %>" class="dvImgWrapper">
+      <div itemid="<%= item.id %>" class="dvImgWrapper">
         <div class="dvImg">
           <img src="<%= item.imgSrc %>">
         </div>
@@ -84,23 +101,26 @@
         </div>
       </div>
     </td>
-  
-</script>
 
-<script id="loadingTemplate" type="text/template">
-  <div class="dvCenter" >
-    <div class="dvInnerContent">      
-      <img src="/SiteEngine/Client/images/loading.gif">
+  </script>
+
+  <script id="loadingTemplate" type="text/template">
+    <div class="dvCenter">
+      <div class="dvInnerContent">
+        <img src="/SiteEngine/Client/images/loading.gif">
+      </div>
     </div>
-  </div>
 
-</script>
+  </script>
 
-<script id="noDataTemplate" type="text/template">
-  <div class="dvCenter" >
-    <div class="dvInnerContent dvNoData">
-      NO DATA
+  <script id="noDataTemplate" type="text/template">
+    <div class="dvCenter">
+      <div class="dvInnerContent dvNoData">
+        NO DATA
+      </div>
     </div>
-  </div>
 
-</script>
+  </script>
+
+</div>
+

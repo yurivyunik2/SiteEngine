@@ -153,23 +153,23 @@
   border-style: double;
 }
 
-.dvButtons {
+.dvTableMain .dvButtons {
   padding: 4px 7px;
   background-color: #C0DAFF;
   font-size: 14px;
 }
-  .dvButtons input[type=button] {
+  .dvTableMain .dvButtons input[type=button] {
     padding: 2px 5px;
     margin: 0 2px;
     margin-left: 13px;
   }
 
-.tbButtonsPanel {
+.dvTableMain .tbButtonsPanel {
   width: 100%;
   background-color: transparent;
 }
 
-.dvSearch {
+.dvTableMain .dvSearch {
   display: inline-block;
   /*margin-left: 15px;*/
 }

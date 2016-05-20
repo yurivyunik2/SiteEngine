@@ -78,7 +78,7 @@ function (application, CONST, Utils, EngineTree, ActionCtrl, ModalFormCtrl, TabP
         var modalFormCtrl = new ModalFormCtrl($scope);
         application.setModalFormCtrl(modalFormCtrl);
         setTimeout(function() {
-          modalFormCtrl.setType(modalFormCtrl.FORM_TYPE().IMAGE_GALLERY, {  });
+          modalFormCtrl.setType(modalFormCtrl.FORM_TYPE().IMAGE_GALLERY, { isMultipleSelect: true });
         }, 500);
 
 

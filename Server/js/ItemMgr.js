@@ -322,31 +322,46 @@ exports.ItemMgr = function () {
       var self = this;
 
       var createItemCallback = function(dataResponse) {
-        if (!(objResponse.error && objResponse.error != "") && dataResponse.id) {
+        if (!(objResponse.error && objResponse.error !== "") && dataResponse.id) {
           //objResponse.data = dataResponse;
           ////objResponse.requestData = data;
           //if (callback)
           //  callback();
           objResponse.item = dataResponse;
           objResponse.data = null;
-          if (!data.item.fields) {
+          //if (!data.item.fields) {
+
             self.getTemplateItemFields({ id: dataResponse.id, templateId: dataResponse.templateId }, objResponse, function() {
               if (objResponse.data && objResponse.item) {
                 var versionFirst = 1;
                 var fields = objResponse.data;
-                objResponse.item.fields = fields;
-                if (data.item.fields) {
-                  _.each(data.item.fields, function(fieldData) {
+                var newfields = [];
+                if (data.item.fields) {                  
+                  _.each(data.item.fields, function (fieldData) {
                     var fieldChange = _.findWhere(fields, { fieldId: fieldData.fieldId });
                     if (fieldChange) {
-                      fieldChange.value = fieldData.value;
+                      var newField = _(fieldChange).clone();
+                      newField.value = fieldData.value;
+                      if (fieldData.lang && fieldData.version) {
+                        newField.lang = fieldData.lang;
+                        newField.version = fieldData.version;
+                      }
+                      newfields.push(newField);
                     }
-                  });
-                }
-                _.each(fields, function(field) {
-                  field.lang = data.lang;
-                  field.version = versionFirst;
+                    
+                  });                  
+                }                
+                //objResponse.item.fields = fields;
+                _.each(fields, function (field) {
+                  var fieldTemplate = _.findWhere(newfields, { fieldId: field.fieldId });
+                  if (!fieldTemplate) {
+                    field.lang = data.lang;
+                    field.version = versionFirst;
+                    newfields.push(field);
+                  }                  
                 });
+                objResponse.item.fields = newfields;
+
                 self.saveItem({ isCreateNewItem: true, isNewVersion: true, item: objResponse.item, lang: data.lang, version: versionFirst }, objResponse, function() {
                   if (callback)
                     callback();
@@ -356,13 +371,22 @@ exports.ItemMgr = function () {
                   callback();
               }
             });
-          } else {
-            objResponse.item.fields = data.item.fields;
-            self.saveItem({ isCreateNewItem: true, isNewVersion: true, item: objResponse.item }, objResponse, function () {
-              if (callback)
-                callback();
-            });
-          }
+
+          //}
+
+          //else {
+          //  objResponse.item.fields = data.item.fields;
+          //  var versionFirst = 1;
+          //  _.each(objResponse.item.fields, function (field) {
+          //    field.lang = data.lang;
+          //    field.version = versionFirst;
+          //  });
+          //  self.saveItem({ isCreateNewItem: true, isNewVersion: true, item: objResponse.item, lang: data.lang, version: versionFirst }, objResponse, function () {
+          //    if (callback)
+          //      callback();
+          //  });
+          //}
+
         } else {
           if (callback)
             callback();
@@ -673,7 +697,7 @@ exports.ItemMgr = function () {
       var self = this;
 
       var updateFieldValueCallback = function (field) {
-        if (!(objResponse.error && objResponse.error != "")
+        if (!(objResponse.error && objResponse.error !== "")
             && field && field.indexField >= 0) {
           if (data.item.fields && data.item.fields.length > 0 && field.indexField < (data.item.fields.length - 1)) {
             var indexField = field.indexField;

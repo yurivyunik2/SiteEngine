@@ -49,7 +49,7 @@ define(["CONST", "Utils"], function (CONST, Utils) {
         self = this;        
 
         // UI interval
-        setInterval(self.intervalUI, 50);
+        setInterval(self.intervalUI, 200);
       },
 
       initialize: function(_$scope, _$http, _$window) {
@@ -75,8 +75,10 @@ define(["CONST", "Utils"], function (CONST, Utils) {
 
         var uiData = {};
         uiData.keyDownEventLast = Utils.keyDownEventLast;
+        uiData.keyUpEventLast = Utils.keyUpEventLast;
         uiData.mouseDownEventLast = Utils.mouseDownEventLast;
         Utils.keyDownEventLast = null;
+        Utils.keyUpEventLast = null;
         Utils.mouseDownEventLast = null;
 
         var keysComponent = _.keys(uiComponents);

@@ -205,6 +205,11 @@
 #imageGalleryForm #imgArea #imgContainer {
   height: 100%;
 }
+
+#imageGalleryForm #imgArea #imgContainer .tbCenter {
+  width: 100%;
+  height: 100%;
+}
 #imageGalleryForm #imgArea #imgContainer .dvCenter {
   display: table;
   margin: 0 auto;
@@ -225,18 +230,19 @@
   color: #239DBB;  
 }
 #imageGalleryForm #imgArea #imgContainer table {
-  width: 100%;
-  height: 100%;
+  /*width: 100%;
+  height: 100%;*/
 }
 #imageGalleryForm #imgArea #imgContainer table td {
-  vertical-align: top;
+  vertical-align: middle;
   padding: 10px 10px;
-  display: inline-block;
+  height: 160px;
+  /*display: inline-block;*/
 }  
 #imageGalleryForm #imgContainer .dvImgWrapper {
   border: 1px solid #C1B9B9;  
   width: 140px;
-  /*margin: auto;*/
+  margin: auto;
 }
 #imageGalleryForm #imgContainer .dvImgWrapper.dvSelected {
   border: 3px solid #22A6F1;

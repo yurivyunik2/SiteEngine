@@ -138,6 +138,13 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
           }
         }
 
+        if (uiData.keyUpEventLast) {
+          event = uiData.keyUpEventLast;
+          if (currentCtrl && currentCtrl.keyUpEventFunc) {
+            currentCtrl.keyUpEventFunc(event);
+          }
+        }
+
         if (uiData.mouseDownEventLast) {
           event = uiData.mouseDownEventLast;
           if (currentCtrl && currentCtrl.keyDownEventFunc) {
@@ -147,7 +154,8 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
       },
 
       loadFormFinished: function () {
-        $(formSelector).find(".dvContentForm").draggable();
+        //$(formSelector).find(".dvContentForm").draggable();
+        //$(formSelector).find(".dvButtonsFunctional").draggable();        
         //$(formSelector).find(".dvContentForm").resizable();
       },
 

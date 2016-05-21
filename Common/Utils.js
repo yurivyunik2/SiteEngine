@@ -18,6 +18,7 @@ var Utils = function (CONST, Notification) {
       if (typeof window != "undefined") {
         $(window).resize(self.windowResize);
         $(window).keydown(self.windowKeyDown);
+        $(window).keyup(self.windowUpDown);
         $(window).mousedown(self.windowMouseDown);
         _ = window._;
       }
@@ -86,6 +87,14 @@ var Utils = function (CONST, Notification) {
 
     windowKeyDown: function (event) {
       self.keyDownEventLast = event;
+      if (self.isFunctionalKey(event)) {
+        event.preventDefault();
+        return false;
+      }
+      return true;
+    },
+    windowUpDown: function (event) {
+      self.keyUpEventLast = event;
       if (self.isFunctionalKey(event)) {
         event.preventDefault();
         return false;

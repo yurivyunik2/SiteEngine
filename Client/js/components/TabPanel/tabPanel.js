@@ -160,7 +160,7 @@
 
         //var btnHTML = "<a href='#' class='button-ribbon' ></a>";
         //var btnHtmlTempl = _.template("<a href='index.html#/Views/start' id='<%= button.id %>' action='<%= button.action %>' class='button-ribbon' ><%= button.name %></a>");
-        var btnHtmlTempl = _.template("<a href='index.html#/Views/start' id='<%= button.id %>' action='<%= button.action %>' class='button-ribbon' ><%= button.name %></a>");
+        var btnHtmlTempl = _.template("<div class='dvButtonRibbon'><img src='/SiteEngine/Client/images/buttons/save.gif' ><a href='index.html#/Views/start' id='<%= button.id %>' action='<%= button.action %>' ><%= button.name %></a></div>");
 
         var $dvContent = $panelElem.find("#dvTabContent");
         $dvContent.html("");

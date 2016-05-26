@@ -1,5 +1,32 @@
 ﻿/*@actionPanelColor: #A7D6F1;*/
 /*@actionPanelColor: #477D9C;*/
+#tabPanel .dvButtonRibbon {
+  display: inline-block;
+  margin-top: 5px;
+}
+#tabPanel .dvButtonRibbon img {
+  width: 15px;
+  margin-right: 2px;
+  top: -2px;
+  position: relative;
+}
+#tabPanel .dvButtonRibbon a {
+  /*color: #A8EAFF;*/
+  color: #c8fcff;
+  font-size: 15px;
+  font-family: arial, Georgia, serif;
+  text-shadow: rgba(0, 0, 0, 0.4) 0 1px 0;
+  border: 1px solid #c8fcff;
+  border-radius: 5px;
+  padding: 1px 7px;
+  background-color: #5A96B1;
+}
+#tabPanel .dvButtonRibbon a:focus,
+#tabPanel .dvButtonRibbon a:hover {
+  text-decoration: none;
+  color: #ffffff;
+  border-color: #ffffff;
+}
 #tabPanel .dvContent {
   display: table;
   width: 100%;
@@ -10,10 +37,11 @@
 #tabPanel .dvContent .dvTabs {
   display: table-cell;
   width: 70%;
-  border-bottom: 1px solid #9e9e9e;
+  border-bottom: 1px solid #c8ced6;
 }
 #tabPanel .dvContent .dvTabs #ulTabs {
   margin-bottom: -1px;
+  border: none;
 }
 #tabPanel .dvContent .dvTabs li {
   margin-left: 5px;
@@ -25,7 +53,7 @@
   padding: 5px 10px;
   background-color: #EAF6FF;
   margin-right: 0px;
-  border: 1px solid #C8CED6;
+  border: 1px solid #c8ced6;
   border-bottom: none;
 }
 #tabPanel .dvContent .dvTabs li.active {
@@ -42,7 +70,7 @@
   text-align: right;
   vertical-align: middle;
   padding-right: 25px;
-  border-bottom: 1px solid #9e9e9e;
+  border-bottom: 1px solid #c8ced6;
 }
 #tabPanel .dvContent .dvUserInfo span {
   margin-left: 5px;
@@ -55,7 +83,7 @@
   display: table;
   width: 100%;
   height: 35px;
-  border-bottom: 1px solid #9e9e9e;
+  border-bottom: 1px solid #c8ced6;
 }
 #tabPanel #actionPanel #dvTabContent {
   /*background-color: #6097CD;*/
@@ -64,22 +92,7 @@
   width: 70%;
 }
 #tabPanel #actionPanel #dvTabContent .dvButtonRibbon {
-  display: inline-block;
   margin-left: 15px;
-  margin-top: 5px;
-}
-#tabPanel #actionPanel #dvTabContent img {
-  width: 15px;
-  margin-right: 2px;
-  top: -2px;
-  position: relative;
-}
-#tabPanel #actionPanel #dvTabContent a {
-  /*color: #A8EAFF;*/
-  color: #c8fcff;
-  font-size: 15px;
-  font-family: arial, Georgia, serif;
-  text-shadow: rgba(0, 0, 0, 0.4) 0 1px 0;
 }
 #tabPanel #progressBar {
   display: none;
@@ -102,9 +115,13 @@
   padding: 0px;
   display: inline-block;
   margin-left: 5px;
+  border: 1px solid #c8ced6;
 }
 #tabPanel #languageChoosePanel #selLanguage {
   width: 80px;
+}
+#tabPanel #languageChoosePanel .dvButtonRibbon {
+  margin-left: 2px;
 }
 #tabPanel #languageChoosePanel .dvVersion {
   display: inline-block;

@@ -3,11 +3,41 @@
 /*@actionPanelColor: #477D9C;*/
 @actionPanelColor: #748FA2;
 @actionPanelColor: #70A3C7;
-@actionPanelBorderColor: #9E9E9E;
+@actionPanelBorderColor: #C8CED6;
 @linkTabContentColor: #C8FCFF;
+@linkActiveTabContentColor: #FFFFFF;
 
 
 #tabPanel {
+
+  .dvButtonRibbon {
+    display: inline-block;    
+    margin-top: 5px;      
+
+    img {
+      width: 15px;
+      margin-right: 2px;
+      top: -2px;
+      position: relative;
+    }
+    a {
+      /*color: #A8EAFF;*/
+      color: @linkTabContentColor;
+      font-size: 15px;
+      font-family: arial, Georgia, serif;
+      text-shadow: rgba(0, 0, 0, 0.4) 0 1px 0;
+      border: 1px solid @linkTabContentColor;
+      border-radius: 5px;
+      padding: 1px 7px;
+      background-color: #5A96B1;
+    }
+    a:focus, a:hover {
+      text-decoration: none;
+      color: @linkActiveTabContentColor;
+      border-color: @linkActiveTabContentColor;
+    }
+  }
+
   .dvContent{
     display: table;
     width: 100%;  
@@ -22,6 +52,7 @@
 
       #ulTabs {
         margin-bottom: -1px;
+        border:none;
       }
 
       li {
@@ -34,7 +65,7 @@
           padding: 5px 10px;
           background-color: #EAF6FF;
           margin-right: 0px;
-          border: 1px solid #C8CED6;
+          border: 1px solid @actionPanelBorderColor;
           border-bottom: none;
         }        
       }
@@ -80,27 +111,10 @@
       width: 70%;
 
       .dvButtonRibbon {
-        display: inline-block;
         margin-left: 15px;
-        margin-top: 5px;
-}
-
-        img {
-          width: 15px;
-          margin-right: 2px;
-          top: -2px;
-          position: relative;
-        }
-        a {
-          /*color: #A8EAFF;*/
-          color: @linkTabContentColor;
-          font-size: 15px;
-          font-family: arial, Georgia, serif;
-          text-shadow: rgba(0, 0, 0, 0.4) 0 1px 0;
-        }
-
       }
     }
+  }
 
     #progressBar {
       display: none;
@@ -125,10 +139,16 @@
         padding: 0px;
         display: inline-block;
         margin-left: 5px;
+        border: 1px solid @actionPanelBorderColor;
       }
       #selLanguage {
         width: 80px;
       }
+
+      .dvButtonRibbon {
+        margin-left: 2px;
+      }
+
       .dvVersion {
         display: inline-block;
         margin: 0px 3px;

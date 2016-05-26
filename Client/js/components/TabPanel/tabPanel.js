@@ -62,7 +62,6 @@
 
     var activeItem;
 
-    var btnNewVersionSelector = "#btnNewVersion";
     var selVersionSelector = "#selVersion";
     var imgRemoveVersionSelector = "#imgRemoveVersion";    
     var logoutLinkSelector = "#logoutLink";
@@ -115,7 +114,7 @@
           $selVersionElem.change(self.versionChanged);
           
           // newVersionClick
-          var $btnNewVersionElem = $parentElem.find(btnNewVersionSelector);
+          var $btnNewVersionElem = $parentElem.find("#btn_newVersion");
           $btnNewVersionElem.click(self.newVersionClick);
           
           // deleteVersionClick
@@ -160,7 +159,8 @@
 
         //var btnHTML = "<a href='#' class='button-ribbon' ></a>";
         //var btnHtmlTempl = _.template("<a href='index.html#/Views/start' id='<%= button.id %>' action='<%= button.action %>' class='button-ribbon' ><%= button.name %></a>");
-        var btnHtmlTempl = _.template("<div class='dvButtonRibbon'><img src='/SiteEngine/Client/images/buttons/save.gif' ><a href='index.html#/Views/start' id='<%= button.id %>' action='<%= button.action %>' ><%= button.name %></a></div>");
+        //var btnHtmlTempl = _.template("<div class='dvButtonRibbon'><img src='/SiteEngine/Client/images/buttons/save2.png' ><a href='index.html#/Views/start' id='<%= button.id %>' action='<%= button.action %>' ><%= button.name %></a></div>");
+        var btnHtmlTempl = _.template("<div class='dvButtonRibbon'><a href='index.html#/Views/start' id='<%= button.id %>' action='<%= button.action %>' ><%= button.name %></a></div>");
 
         var $dvContent = $panelElem.find("#dvTabContent");
         $dvContent.html("");

@@ -15,10 +15,11 @@ define(["application", "CONST", "Utils", "CommonTypes", "TreeGrid"], function (a
     var self;
     var $el;
 
+    var $btnLayoutElem;
+    var $dvTreeGrid;
+    var $spLayoutElem;
+
     var treeGridLayout;
-    var btnLayoutSelector = ".btnLayout";
-    var dvTreeLayoutSelector = ".dvTreeLayout";
-    var spLayoutSelector = ".spLayout";
 
     var layoutRenderingCtr = CommonTypes.BaseCtrl(field, parentElem, $dvLayoutFormElem);
     _.extend(layoutRenderingCtr, {
@@ -27,12 +28,46 @@ define(["application", "CONST", "Utils", "CommonTypes", "TreeGrid"], function (a
 
         self.createElement(self.createElementCallback);
         $el = self.get$el();
+
+        if ($el && $el.length > 0 && $el[0].id) {
+          application.addUIComponent("layoutRenderingCtr_" + $el[0].id, self);
+        }
       },
 
       dispose: function () {
+        if ($el && $el.length > 0 && $el[0].id) {
+          application.removeUIComponent("layoutRenderingCtr_" + $el[0].id);
+        }
+
         if (treeGridLayout) {
           treeGridLayout.dispose();
           treeGridLayout = null;
+        }
+      },
+
+      intervalUI: function (uiData) {
+        if (!uiData || !$el)
+          return;
+        
+        if (uiData.mouseDownEventLast) {
+          //self.keyDownEventFunc(uiData.keyDownEventLast);
+          var eventX = uiData.mouseDownEventLast.clientX;
+          var eventY = uiData.mouseDownEventLast.clientY;
+
+          var rectBound = $btnLayoutElem[0].getBoundingClientRect();
+          var isTreeGridShow = false;
+          if (eventX >= rectBound.left && eventX <= (rectBound.left + rectBound.width) &&
+            eventY >= rectBound.top && eventY <= (rectBound.top + rectBound.height)) {
+            isTreeGridShow = true;            
+          }
+          rectBound = $dvTreeGrid[0].getBoundingClientRect();
+          if (eventX >= rectBound.left && eventX <= (rectBound.left + rectBound.width) &&
+            eventY >= rectBound.top && eventY <= (rectBound.top + rectBound.height)) {
+            isTreeGridShow = true;
+          }
+          if (!isTreeGridShow) {
+            $dvTreeGrid.css("display", "none");
+          }          
         }
       },
 
@@ -41,23 +76,26 @@ define(["application", "CONST", "Utils", "CommonTypes", "TreeGrid"], function (a
 
         // TreeGridLayout
         if ($el) {
-          treeGridLayout = new TreeGrid($el.find(dvTreeLayoutSelector));
+          $dvTreeGrid = $el.find(".dvTreeLayout");
+          treeGridLayout = new TreeGrid($dvTreeGrid);
           treeGridLayout.setIsCheckBoxElem(false);
 
+          $btnLayoutElem = $el.find(".btnLayout");
+          $spLayoutElem = $el.find(".spLayout");
+
           // events
-          $el.find(btnLayoutSelector).click(self.btnChooseClick);
-          $el.find(dvTreeLayoutSelector).click(self.treeGridClick);
+          $btnLayoutElem.click(self.btnChooseClick);
+          $dvTreeGrid.click(self.treeGridClick);
         }
       },
 
       getValue: function () {
         if (!$el)
           return "";
-
-        var $btnLayoutElem = $el.find(btnLayoutSelector);
+        
         var layout = {
-          name: $btnLayoutElem.find(spLayoutSelector).html(),
-          id: $btnLayoutElem.find(spLayoutSelector).attr("_id")
+          name: $spLayoutElem.html(),
+          id: $spLayoutElem.attr("_id")
         };
         return JSON.stringify(layout);
       },
@@ -69,8 +107,7 @@ define(["application", "CONST", "Utils", "CommonTypes", "TreeGrid"], function (a
 
         treeGridLayout.populate(application.getLayoutItems());
 
-        var $btnLayoutElem = $el.find(btnLayoutSelector);
-        $btnLayoutElem.find(spLayoutSelector).html("");
+        $spLayoutElem.html("");
 
         if (layout) {
           try {
@@ -80,8 +117,8 @@ define(["application", "CONST", "Utils", "CommonTypes", "TreeGrid"], function (a
             else
               layoutObj = layout;
             if (layoutObj) {
-              $btnLayoutElem.find(spLayoutSelector).html(layoutObj.name);
-              $btnLayoutElem.find(spLayoutSelector).attr("_id", layoutObj.id);
+              $spLayoutElem.html(layoutObj.name);
+              $spLayoutElem.attr("_id", layoutObj.id);
             }
           } catch (ex) {
           }
@@ -90,7 +127,6 @@ define(["application", "CONST", "Utils", "CommonTypes", "TreeGrid"], function (a
 
       btnChooseClick: function (event) {
         var $parent = $(event.target).parents(".dropdown");
-        var $dvTreeGrid = $parent.find(dvTreeLayoutSelector);
         var display;
         if ($dvTreeGrid.css("display") === "block")
           display = "none";

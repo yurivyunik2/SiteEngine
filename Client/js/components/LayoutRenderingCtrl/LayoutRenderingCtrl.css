@@ -1,45 +1,34 @@
 ﻿.dvLayoutForm {
   width: 100%;
-  border: 2px solid #C2A9A9;
-  border-radius: 3px;
+  border: 2px solid #b9babb;
+  border-radius: 5px;
   display: none;
 }
 .dvLayoutForm .dvFormContent {
   padding: 10px 10px;
 }
-.dvLayoutForm .dvHeader {
-  display: inline-block;
-  width: 75px;
-}
-
-.dvLayoutForm .dvControl {
-  display: inline-block;
-}
-
 .dvLayoutForm .dvFormContent .dropdown-menu {
   margin: 0;
 }
-
 .dvLayoutForm .dvFormContent .btn-default {
   width: 250px;
   height: 30px;
+  padding-top: 0px;
+  padding-bottom: 0px;
   text-align: left;
 }
-.dvLayoutForm .dvFormContent .btn-default .spLayout {
+.dvLayoutForm .dvFormContent .btn-default .dvLayout {
   float: left;
 }
-.dvLayoutForm .dvFormContent .btn-default .caret {
+.dvLayoutForm .dvFormContent .btn-default .dvCaret {
   float: right;
-  margin-top: 2px;
 }
-
 .dvLayoutForm .dvFormContent .dvTreeLayout {
   padding: 0;
   overflow: auto;
   min-height: 200px;
   max-height: 250px;
   min-width: 300px;
-
   position: absolute;
   top: 100%;
   left: 0;
@@ -53,28 +42,33 @@
   background-color: #fff;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
-  border: 1px solid #ccc;
-  border: 1px solid rgba(0, 0, 0, .15);
-  border-radius: 4px;
-  -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, .175);  
+  border: 2px solid #b9babb;
+  border-radius: 5px;
+  -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
 }
-
+.dvLayoutForm .dvHeader {
+  display: inline-block;
+  width: 75px;
+}
+.dvLayoutForm .dvControl {
+  display: inline-block;
+}
 .dvLayoutForm #sublayouts {
   border: 2px solid red;
-  margin-top: 15px;  
+  margin-top: 15px;
 }
 .dvLayoutForm #sublayouts .dvPlaceholder {
   width: 100%;
-  margin: 10px 0px;  
+  margin: 10px 0px;
 }
 .dvLayoutForm #sublayouts .dvPlaceholder .dvKey {
   display: inline-block;
-  width: 75px;  
+  width: 75px;
 }
 .dvLayoutForm #sublayouts .dvPlaceholder .inputPlaceHolder {
   display: inline-block;
-  width: 250px;  
+  width: 250px;
 }
 .dvLayoutForm #sublayouts .dvSublayout {
   margin-bottom: 10px;
@@ -89,25 +83,25 @@
   overflow: auto;
   height: 170px;
 }
-#subLayoutsList .dvSubLayoutItem {
+.dvLayoutForm #sublayouts #subLayoutsList .dvSubLayoutItem {
   border: 2px solid red;
   min-height: 40px;
-  margin: 10px 10px;  
+  margin: 10px 10px;
   display: block;
 }
-#subLayoutsList .dvSubLayoutItem .dvItemName {
+.dvLayoutForm #sublayouts #subLayoutsList .dvSubLayoutItem .dvItemName {
   padding: 10px;
   display: inline-block;
   float: left;
 }
-#subLayoutsList .dvSubLayoutItem .dvItemRemove {
+.dvLayoutForm #sublayouts #subLayoutsList .dvSubLayoutItem .dvItemRemove {
   padding: 10px;
   display: inline-block;
-  float: right;  
+  float: right;
 }
-#subLayoutsList .dvSubLayoutItem .dvItemRemove img {
+.dvLayoutForm #sublayouts #subLayoutsList .dvSubLayoutItem .dvItemRemove img {
   margin-right: 5px;
   width: 13px;
   height: 13px;
-  padding-bottom: 1px;  
+  padding-bottom: 1px;
 }

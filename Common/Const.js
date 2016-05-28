@@ -91,6 +91,10 @@ var CONST = function (CommonTypes, AppConfig) {
 
     IS_CTRL_S_KEY: function (event) { return ((event.ctrlKey && event.which === 83) ? true : false); },
 
+    //EVENTS
+    EVENT_CLICK_BUTTON: function () { return "CLICK_BUTTON"; },
+    
+
     // ACTIONS
     SAVE_ITEM_ACTION: function () { return "saveItem"; },
 

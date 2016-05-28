@@ -58,8 +58,6 @@
     var panelItems;
     var $parentElem;
 
-    var EVENT_CLICK_BUTTON = "CLICK_BUTTON";
-
     var activeItem;
 
     var selVersionSelector = "#selVersion";
@@ -169,11 +167,11 @@
           var btnElem = $(html);
           $dvContent.append(btnElem);
         });
-        $dvContent.find(".button-ribbon").click(function (event) {
+        $dvContent.find(".dvButtonRibbon a").click(function (event) {
           var $curTarget = $(event.currentTarget);
           var action = $curTarget.attr("action");
           if (action && action != "")
-            $(self).trigger(EVENT_CLICK_BUTTON, action);
+            $(self).trigger(CONST.EVENT_CLICK_BUTTON(), action);
         });
       },
 
@@ -197,12 +195,8 @@
 
         // CTRL+S
         if (CONST.IS_CTRL_S_KEY(event)) {          
-          $(self).trigger(EVENT_CLICK_BUTTON, CONST.SAVE_ITEM_ACTION());
+          $(self).trigger(CONST.EVENT_CLICK_BUTTON(), CONST.SAVE_ITEM_ACTION());
         }
-      },
-
-      getEventClickButton: function () {
-        return EVENT_CLICK_BUTTON;
       },
 
       logoutClick: function (event) {

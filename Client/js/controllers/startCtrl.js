@@ -83,7 +83,7 @@ function (application, CONST, Utils, EngineTree, ActionCtrl, ModalFormCtrl, TabP
 
 
         var tabPanel = new TabPanel($("#tabPanelArea"));
-        $(tabPanel).on(tabPanel.getEventClickButton(), function (event, actionType) {
+        $(tabPanel).on(CONST.EVENT_CLICK_BUTTON(), function (event, actionType) {
           actionCtrl.process({ actionType: actionType });
         });
 

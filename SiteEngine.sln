@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio 2012
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Client", "Client\", "{6E6E19F6-58B2-4FB3-BED8-8F7891CE2185}"
 	ProjectSection(WebsiteProperties) = preProject
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.5"
@@ -85,6 +83,7 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Common", "Common\", "{E5ECA
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EB0D73D5-794D-4D98-A8DF-29693BF16BC8}"
 	ProjectSection(SolutionItems) = preProject
+		WE-settings.xml = WE-settings.xml
 		WebEssentials-Settings.json = WebEssentials-Settings.json
 	EndProjectSection
 EndProject

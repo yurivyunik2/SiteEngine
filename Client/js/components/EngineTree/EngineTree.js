@@ -71,7 +71,7 @@ function (application, CONST, TreeGrid, MenuItem, InfoPanel, TooltipCustom, Util
         this.renderControlPanel();
 
         //
-        var $dvTableElem = $parentElem.find(".dvTable");
+        $dvTableElem = $parentElem.find(".dvTable");
         treeGrid = new TreeGrid($dvTableElem, true);
         //treeGrid.setOpenCloseNodeEvent(self.treeGridOpenCloseNodeEventHandler);
 

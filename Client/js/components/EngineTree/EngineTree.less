@@ -1,0 +1,389 @@
+﻿
+.sc-list, .container-narrow {
+  height:100%;
+  line-height: 1.42;
+}
+
+.scrollCustom::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: whitesmoke;
+  border-radius: 5px;
+}
+.scrollCustom::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+  background-color: whitesmoke;
+}
+.scrollCustom::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: #8f8e99;
+}
+.scrollCustom::-webkit-scrollbar-thumb:hover {
+  background-color: #606066;
+  border: 1px solid #333333;
+}
+
+#dvMainContent.dvContent {
+  /*height: 100%;*/
+  width: 100%;
+  display: table;
+
+  .dvTable {
+    height: 100%;
+    /*width: 15%;*/
+    width: 270px;
+    min-width: 150px;
+    float: left;
+    /*display: table-cell;*/
+    display: block;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border-bottom: 1px solid #D4D4D4;
+    font-size: 12px;
+  }
+
+  .dvTableMain {
+    /*min-width: 200px;*/
+    width: 100%;
+    overflow-y: auto;
+    overflow-x: visible;
+    position: relative;
+    background-color: #FFFFFF;
+
+    table {
+      border-bottom: 1px solid #D4D4D4;
+      table-layout: fixed;
+      width: 100%;
+    }
+
+    .dvButtons {
+      padding: 4px 7px;
+      background-color: #C0DAFF;
+      font-size: 14px;
+
+      input[type=button] {
+        padding: 2px 5px;
+        margin: 0 2px;
+        margin-left: 13px;
+      }
+
+    }
+
+    .tbButtonsPanel {
+      width: 100%;
+      background-color: transparent;
+    }
+
+    .dvSearch {
+      display: inline-block;
+      div {
+        display:inline-block;
+        position: relative;
+        top: -1px;
+        margin-right: 5px;
+      }
+      img {
+        width: 14px;
+        height: 14px;
+        left: -18px;
+        top: 0px;
+        position: relative;
+      }
+      input[type="text"] {
+        height: 21px;
+        width: 150px;
+        font-size: 13px;
+        font-family: arial;
+        padding: 0;
+        padding-left: 5px;
+        padding-right: 21px;
+        margin: 0;
+      }
+
+    }
+
+  }
+
+  .dvInfoPanel {
+    /*display: table-cell;*/
+    display: block;
+    color: #353535;
+    float: left;
+    padding-top: 3px;
+    padding-left: 10px;
+    /*width: 85%;*/
+    min-width: 50px;
+    overflow-y: auto;
+    z-index: 1000;
+    background-color: #e2e2e2;
+    border-left: 4px double rgb(132, 132, 132);
+    border-radius: 1px;
+    cursor: default;
+
+    input {
+      border: 2px solid #B9BABB;
+      border-radius: 3px;
+      padding: 0px 3px;
+    }
+
+    .tbStandardParams, .tbOwnParameters {
+      /*width: 1100px;*/
+      width: 700px;
+      /*margin-top: 14px;
+      margin-bottom: 14px;
+      margin-left: 17px;*/
+      background-color: transparent;
+    }
+
+    .tbStandardParams {
+      tr {
+        vertical-align: baseline;
+      }
+
+      td {
+        padding: 2px 0px;
+      }
+
+      .tdInfoParamName {
+        width: 10%;
+      }
+
+      .tdInfoParamValue {
+        width: 50%;
+      }
+
+      input {
+        background: transparent;
+        
+        font: 8pt tahoma;
+        width: 100%;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        margin: 2px 0;
+        padding: 2px 4px;
+        cursor: default;
+      }
+    }
+
+    .tbOwnParameters {
+      margin-top: 15px;
+
+      .tdFieldName {
+        padding-top: 3px;
+      }
+
+      .tdFieldCtrl {
+        padding-top: 3px;
+        padding-bottom: 20px;
+      }
+
+      span {
+        font: 12px arial;
+      }
+
+      input.itemField {
+        cursor: default;
+        width: 100%;
+      }
+
+      textarea {
+        cursor: default;
+        width: 100%;
+        height: 100px;
+      }
+    }
+  }
+
+  .dvVerticalLine {
+    display: none;
+    width: 1px;
+    height: 100%;
+    background-color: #B0B0B0;
+    position: absolute;
+    left: 10px;
+  }
+
+  .dvResizablePanel {
+    display: none;
+    width: 500px;
+    height: 400px;
+    position: absolute;
+    background-color: #BFB5B5;
+    z-index: 10;
+    border: 1px solid#2663FF;
+    border-style: double;
+  }
+
+  .dvPath {
+    display: inline-block;
+    div {
+      display:inline-block;
+      position: relative;
+      top: -1px;
+      margin-right: 5px;
+    }
+    div span {
+      position: relative;
+      top: 1px;
+    }
+    input[type="text"] {
+      height: 21px;
+      width: 400px;
+      font-size: 13px;
+      font-family: arial;
+      padding: 0;
+      padding-left: 5px;
+      margin: 0;
+    }
+    input[type="button"] {
+      position: relative;
+      top: 2px;
+      width: 27px;
+      height: 23px;
+      background: url('./images/refresh.png');
+      background-position:center;
+      background-repeat:no-repeat;
+      background-color: lightgrey;
+    }
+
+
+  }
+
+  .dvInfoWindowCheckbox {
+    display: inline-block;
+    position: relative;
+    top: 2px;
+    margin-left: 15px;
+
+    div {
+      display:inline-block;
+      margin-right: 5px;
+    }
+    span {
+      position: relative;
+      top: -2px;
+    }
+    input[type="checkbox"] {
+      margin-right: 4px;
+    }
+
+  }
+
+  
+  .dvFields {
+    display: inline-block;
+    margin-left: 15px;
+
+    div {
+      display:inline-block;
+      position: relative;
+      top: -1px;
+      margin-right: 5px;
+    }
+    div span {
+      position: relative;
+      top: 1px;
+    }
+    select {
+      height: 21px;
+      width: 150px;
+      padding: 0;
+      margin: 0;  
+    }
+    input[type="button"] {
+      position: relative;
+      top: 2px;
+      width: 27px;
+      height: 23px;
+      background: url('./images/add-icon.png');
+      background-position:center;
+      background-repeat:no-repeat;
+      background-color: lightgrey;
+    }
+
+  }
+
+  
+  .dvLanguage {
+    div {
+      display:inline-block;
+      margin-right: 5px;
+    }
+    div span {
+      position: relative;
+      top: 1px;
+    }
+    select {
+      height: 21px;
+      width: 76px;
+      padding: 0;
+      margin: 0;  
+    }
+
+  }
+
+  .dvDatabase {
+    div {
+      display:inline-block;
+      margin-right: 5px;
+    }
+    div span{
+      position: relative;
+      top: 1px;
+    }
+    select {
+      height: 21px;
+      width: 76px;
+      padding: 0;
+      margin: 0;  
+    }
+
+  }
+
+  .dvEditImg {
+    position: absolute;
+    display:none;
+    cursor:pointer;
+    background-color: #EFEFEF;
+    z-index: 1;
+    img {
+      width: 12px;
+      height: 12px;
+    }
+
+  }
+  .dvEditControl {
+    position: absolute;
+    z-index: 1;
+    display:none;
+
+    input {
+      height: 18px;
+    }
+    .inputEdit {
+      width: 100%;
+      padding: 0;
+      padding-right: 6px;
+      margin: 0;
+    }
+    .dvEditButtons {
+      min-width: 50px; 
+    }
+    input[type="button"] {
+      display: inline-block;
+      margin-left: 1px;
+      font-size: 10px;
+    }
+    .dvCancelEdit {
+      display: inline-block;
+      margin-left: 3px;
+      cursor: pointer;
+    }
+    .dvCancelEdit img {
+       height: 13px; 
+    }      
+
+  }
+
+}

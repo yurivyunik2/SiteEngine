@@ -68,7 +68,7 @@ function (application, CONST, Utils, EngineTree, ActionCtrl, ModalFormCtrl, TabP
 
       },
       
-      initializeComponents: function () {        
+      initializeComponents: function () {
         var engineTree = new EngineTree($("#engineTreeArea"));
         application.setEngineTree(engineTree);
         
@@ -77,9 +77,9 @@ function (application, CONST, Utils, EngineTree, ActionCtrl, ModalFormCtrl, TabP
         
         var modalFormCtrl = new ModalFormCtrl($scope);
         application.setModalFormCtrl(modalFormCtrl);
-        //setTimeout(function() {
-        //  modalFormCtrl.setType(modalFormCtrl.FORM_TYPE().IMAGE_GALLERY, { isMultipleSelect: true });
-        //}, 500);
+        setTimeout(function() {
+          modalFormCtrl.setType(modalFormCtrl.FORM_TYPE().ASSIGN_TEMPLATE, { item: application.getEngineTree().getTreeGrid().selectedItem });
+        }, 800);
 
 
         var tabPanel = new TabPanel($("#tabPanelArea"));

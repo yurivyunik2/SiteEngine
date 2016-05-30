@@ -21,7 +21,7 @@
         self.initialize();
 
         setInterval(function() {
-          var $newField = self.get$Elem().find("#newField");
+          var $newField = self.get$el().find("#newField");
           var $inName = $newField.find(".inName");
           var val = $inName.val();
           if (val && val !== "" && $inName.hasClass("inputError")) {
@@ -100,7 +100,7 @@
 
       keyDownEventFunc: function (event) {
         if (event && event.which == CONST.ENTER_KEY()) {
-          var $dvFieldElem = self.get$Elem().find(".dvField");
+          var $dvFieldElem = self.get$el().find(".dvField");
           var $inputFieldElem = $dvFieldElem.find("input");
           if ($inputFieldElem.is(":focus")) {
             self.clickAddField();

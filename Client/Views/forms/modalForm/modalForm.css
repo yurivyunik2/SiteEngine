@@ -11,7 +11,6 @@
   vertical-align: middle;
   display: table;
 }
-
 .dvModalForm {
   z-index: 100001;
   position: absolute;
@@ -23,75 +22,85 @@
   vertical-align: middle;
   display: table;
 }
-  .dvModalForm .dvContentContainer {
-    display: table-cell;
-    margin-left: auto;
-    margin-right: auto;
-    vertical-align: middle;
-    text-align: center;
-  }
-  .dvModalForm .dvContentForm {
-    /*min-height: 150px;*/
-    min-height: 90px;
-    min-width: 200px;
-    background-color: #E5E5E5;
-    opacity: 1;                                                    
-    display: inline-block;    
-    border-radius: 15px;
-    border: 2px solid #930C0C;
-    text-align: left;                                    
-    position: relative;
-    cursor: pointer;
-  }
-  .dvModalForm .dvButtonsFunctional {
-    display: block;
-    text-align: right;
-    padding-top: 3px;
-    padding-right: 7px;    
-  }
-  .dvModalForm .dvButtonsFunctional img {
-    width: 12px;
-  }
-  .dvModalForm .dvIncludePart {
-    max-width: 1300px;
-    box-sizing: border-box; 
-    padding: 15px;
-    padding-top: 0px;
-    overflow: auto;
-  }
-  .dvModalForm .dvButtonsForm {
-    overflow: auto;
-    bottom: 0px;
-    /*position: absolute;*/
-    width: 100%;
-    border-radius: inherit;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-
-    padding: 15px;
-    background-color: #CFBC38;
-    text-align: right;
-    border-top: 2px solid #A69999;
-  }
-  .dvModalForm .dvButtonsForm label {
-    float: left;
-    margin-top: 7px;
-    color: red;
-  }
-  .dvModalForm .dvButtonsForm button {
-    float: left;
-    margin-left: 5px;
-  }
-
-.btnForm {
-  border: 1px solid #05B0D8;    
-
-  background-color: #EAE5EA;
-  box-shadow: 0 1px 0 rgba(0, 0, 0, .3),              0 2px 2px -1px rgba(0, 0, 0, .5),              0 1px 0 rgba(255, 255, 255, .3) inset;
-  text-shadow: 0 1px 0 rgba(255,255,255, .9);
-
+.dvModalForm .dvContentContainer {
+  display: table-cell;
+  margin-left: auto;
+  margin-right: auto;
+  vertical-align: middle;
+  text-align: center;
+}
+.dvModalForm .dvContentForm {
+  min-height: 90px;
+  min-width: 200px;
+  /*background-color: #E5E5E5;*/
+  opacity: 1;
+  display: inline-block;
+  border-radius: 15px;
+  text-align: left;
+  position: relative;
+  cursor: pointer;
+}
+.dvModalForm .dvHeaderForm {
+  display: block;
+  height: 40px;
+  text-align: right;
+  background-color: #E5E5E5;
+  padding: 2px 12px 7px 0px;
+  border-top-left-radius: 13px;
+  border-top-right-radius: 13px;
+}
+.dvModalForm .dvHeaderForm .dvTitle {
+  float: left;
+  margin-left: 10px;
+  margin-top: 8px;
+  font: bold 15px arial, sans-serif;
+  color: #585858;
+}
+.dvModalForm .dvHeaderForm .dvButtons {
+  float: right;
+  margin-top: 3px;
+}
+.dvModalForm .dvHeaderForm .dvButtons img {
+  width: 14px;
+}
+.dvModalForm .dvIncludePart {
+  max-width: 1300px;
+  box-sizing: border-box;
+  background-color: #E5E5E5;
+  padding: 15px;
+  padding-top: 0px;
+  overflow: auto;
+}
+.dvModalForm .dvButtonsForm {
+  overflow: auto;
+  bottom: 0px;
+  width: 100%;
+  border-radius: 13px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  padding: 10px 15px;
+  background-color: #C5C5C5;
+  text-align: right;
+  border-top: 2px solid #A69999;
+}
+.dvModalForm .dvButtonsForm label {
+  float: left;
+  margin-top: 7px;
+  color: red;
+}
+.dvModalForm .dvButtonsForm button {
+  float: left;
+  margin-left: 5px;
+}
+.dvModalForm .btnForm {
+  border: 1px solid #05B0D8;
+  /*background-color: #EAE5EA;*/
+  background: linear-gradient(to bottom, #ece0e0 0%, #c7c7c7 100%);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.3), 0 2px 2px -1px rgba(0, 0, 0, 0.5), 0 1px 0 rgba(255, 255, 255, 0.3) inset;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.9);
   font: bold 13px arial, helvetica, sans-serif;
 }
-.btnSelected {
-  background-color: #BFBFBF;
+.dvModalForm .btnActive {
+  /*background-color: #BFBFBF;*/
+  background: linear-gradient(to bottom, #ece0e0 0%, #a5a5a5 100%);
 }

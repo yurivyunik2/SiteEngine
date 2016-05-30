@@ -111,7 +111,7 @@
       },
 
       populate: function () {
-        var $formElem = self.get$Elem();
+        var $formElem = self.get$el();
 
         var $treeLayout = $formElem.find("#" + layoutUI.idTreeGrid);
         treeGridLayout = new TreeGrid($treeLayout);

@@ -36,7 +36,7 @@ define(["application", "CONST"], function (application, CONST) {
         application.addUIComponent("panelFormCtrl" + Date.now(), self);
       },
 
-      get$Elem: function () {
+      get$el: function () {
         return $("#" + idPanel);
       },
 
@@ -107,7 +107,7 @@ define(["application", "CONST"], function (application, CONST) {
       
       mousedown: function () {
         $(panelFormContainerSelector).css("z-index", "0");
-        self.get$Elem().css("z-index", "1");
+        self.get$el().css("z-index", "1");
       },
       
     };

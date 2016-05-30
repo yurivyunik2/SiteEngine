@@ -5,13 +5,13 @@
   left: 100px;*/
   cursor: pointer;
 }
-.dvPanelFormContainer .dvButtonsFunctional {
+.dvPanelFormContainer .dvHeaderForm {
   display: block;
   text-align: right;
   padding-top: 3px;
   padding-right: 7px;    
 }
-.dvPanelFormContainer .dvButtonsFunctional img {
+.dvPanelFormContainer .dvHeaderForm img {
   width: 25px;
 }
 .dvPanelFormContainer .dvIncludePart {

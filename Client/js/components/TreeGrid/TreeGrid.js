@@ -233,7 +233,7 @@ define(["application", "CONST", "Utils", "row", "headerRow", "css!TreeGridCss"],
 
         html +=
           // TableMain 
-          '<div id="' + identifier + '" class="dvTableMain scrollCustom" >' +
+          '<div id="' + identifier + '" class="dvTreeGrid dvTableMain scrollCustom" >' +
           // Img for editing 
           '<div class="dvEditImg"><img src="' + srcEditImg + '" ></div>' +
           // div for editing 
@@ -244,7 +244,7 @@ define(["application", "CONST", "Utils", "row", "headerRow", "css!TreeGridCss"],
             '</tr></tbody></table>' + 
           '</div>' +
           // table 
-          '<table id="tbMain" border="0" cellspacing="0" cellpadding="0">' +
+          '<table class="tbMain" border="0" cellspacing="0" cellpadding="0">' +
           '<tbody></tbody>' +
           '</table>' +
           '<div id="dragLine" style="display: none; position: absolute; width: 30px; height: 2px; background-color: #1A86C8;"></div>' +
@@ -271,7 +271,7 @@ define(["application", "CONST", "Utils", "row", "headerRow", "css!TreeGridCss"],
 
 
         //
-        var tableMain = $parentElem.find("#tbMain").find("tbody");
+        var tableMain = $parentElem.find(".tbMain").find("tbody");
         this.counterRenderedItems = 0;
         for (var i = 0; i < treeItems.length; i++) {
           this.renderItem(tableMain, treeItems[i], isFiltered);

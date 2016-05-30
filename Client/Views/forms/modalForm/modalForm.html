@@ -6,9 +6,14 @@
 
     <div class="dvContentContainer">
       <div class="dvContentForm" >
-      
-        <div class="dvButtonsFunctional">
-          <img src="./images/closeWindow.png" ng-click="clickCancel($event)">
+
+        <div class="dvHeaderForm">
+          <div class="dvTitle" >
+            <span>Title</span>
+          </div>
+          <div class="dvButtons" >
+            <img src="./images/closeWindow.png" ng-click="clickCancel($event)">
+          </div>
         </div>      
         <div class="dvIncludePart">
           <div ng-include="formPath" onload="loadFormCtrlFinished()"></div>
@@ -16,7 +21,7 @@
         <div class="dvButtonsForm" >
           <label ng-show="isError">{{errorMessage}}</label>
           <div style="float:right;">
-            <button type="button" class="btn btnForm btnSelected " ng-click="clickOk($event)">OK</button>
+            <button type="button" class="btn btnForm btnActive " ng-click="clickOk($event)">OK</button>
             <button type="button" class="btn btnForm " ng-click="clickCancel($event)">CANCEL</button>          
           </div>
         </div>

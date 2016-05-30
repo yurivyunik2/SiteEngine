@@ -40,7 +40,7 @@
       },
 
       setUserData: function () {
-        var $modalFormElem = self.modalForm.get$Elem();
+        var $modalFormElem = self.modalForm.get$el();
 
         var $roleSelectElem = $modalFormElem.find(roleSelector).find("select");
         var userRoleList = application.getUserRoles();
@@ -94,7 +94,7 @@
         if (!self.modalForm)
           return newUser;
 
-        var $modalFormElem = self.modalForm.get$Elem();
+        var $modalFormElem = self.modalForm.get$el();
 
         var $userNameElem = $modalFormElem.find(userNameSelector);
         var $input = $userNameElem.find("input");

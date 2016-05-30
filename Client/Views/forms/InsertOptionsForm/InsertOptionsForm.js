@@ -7,16 +7,21 @@
 
 define(["application", "CONST", "selectItemTreeCtrl", "CommonTypes"], function (application, CONST, SelectItemTreeCtrl, CommonTypes) {
 
-  var selectItemTreeCtrl;
-
-  return function () {
-
+  return function($parentElem, $scope) {
     var self;
+    var selectItemTreeCtrl;
+
+    var width = 550;
+    var height = 250;
     
     var insertOptionsForm = new CommonTypes.BaseFormElement();
     _.extend(insertOptionsForm, {
       constructor: function () {
         self = this;
+
+        self.setBaseData({
+          formTitle: "Assign templates form"
+        });
       },
 
       show: function (data) {
@@ -32,9 +37,13 @@ define(["application", "CONST", "selectItemTreeCtrl", "CommonTypes"], function (
           });
         }
 
-        var parentElem = $(".dvIncludePart");
         if (!selectItemTreeCtrl) {
-          selectItemTreeCtrl = new SelectItemTreeCtrl(parentElem, insertOptionsField);
+          var html = "<div style='width: " + width + "px; height: " + height + "px;'></div>";
+          $parentElem.append(html);
+          var $contentElem = $parentElem.children().last();
+          selectItemTreeCtrl = new SelectItemTreeCtrl($contentElem, insertOptionsField);
+          var $el = selectItemTreeCtrl.get$el();
+          $el.height("100%");
         }
         //actualComponents[field.id] = selectItemTreeCtrl;
         selectItemTreeCtrl.render();

@@ -14,6 +14,7 @@
         var formId;
         var formPath;
         var formSelector;
+        var formTitle;
         var $elem;
         var dataCtrl;
         var isButtonsFormHide;
@@ -25,13 +26,15 @@
             formId = data.formId;
             formPath = data.formPath;
             formSelector = data.formSelector;
+            formTitle = data.formTitle;
             isButtonsFormHide = data.isButtonsFormHide;
           },
 
           getFormId: function () { return formId; },
           getFormPath: function () { return formPath; },
+          getFormTitle: function () { return formTitle; },
 
-          get$Elem: function () {
+          get$el: function () {
             if (!$elem || $elem.length === 0)
               $elem = $(formSelector);
             return $elem;
@@ -52,10 +55,12 @@
         return {
 
           createElement: function (callback) {
-            if (!$el && parentElem && field && $templateElem && $templateElem.length > 0) {
+            if (!$el && parentElem && $templateElem && $templateElem.length > 0) {
               var $newElem = $templateElem.clone();
               $newElem.css("display", "block");
-              $newElem[0].id = field.id;
+              if (field) {
+                $newElem[0].id = field.id;
+              }              
 
               var html = $newElem[0].outerHTML;
               if (parentElem) {
@@ -94,8 +99,9 @@
           getIsEnabled: function () { return isEnabled; },
 
           render: function () {
-            if(field)
+            if (field) {
               this.populate(field.value);
+            }            
           },
 
           getValue: function () { },

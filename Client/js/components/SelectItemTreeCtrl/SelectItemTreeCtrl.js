@@ -51,6 +51,9 @@ define(["application", "CONST", "Utils", "CommonTypes", "TreeGrid"], function (a
         return assignedTemplates;
       },
 
+      render: function () {
+        this.populate(field ? field.value : "");
+      },
 
       populate: function () {
         if (!$el) {

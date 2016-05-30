@@ -1,4 +1,4 @@
- .sc-list,
+﻿.sc-list,
 .container-narrow {
   height: 100%;
   line-height: 1.42;
@@ -277,59 +277,4 @@
   width: 76px;
   padding: 0;
   margin: 0;
-}
-#dvMainContent.dvContent .dvDatabase div {
-  display: inline-block;
-  margin-right: 5px;
-}
-#dvMainContent.dvContent .dvDatabase div span {
-  position: relative;
-  top: 1px;
-}
-#dvMainContent.dvContent .dvDatabase select {
-  height: 21px;
-  width: 76px;
-  padding: 0;
-  margin: 0;
-}
-#dvMainContent.dvContent .dvEditImg {
-  position: absolute;
-  display: none;
-  cursor: pointer;
-  background-color: #EFEFEF;
-  z-index: 1;
-}
-#dvMainContent.dvContent .dvEditImg img {
-  width: 12px;
-  height: 12px;
-}
-#dvMainContent.dvContent .dvEditControl {
-  position: absolute;
-  z-index: 1;
-  display: none;
-}
-#dvMainContent.dvContent .dvEditControl input {
-  height: 18px;
-}
-#dvMainContent.dvContent .dvEditControl .inputEdit {
-  width: 100%;
-  padding: 0;
-  padding-right: 6px;
-  margin: 0;
-}
-#dvMainContent.dvContent .dvEditControl .dvEditButtons {
-  min-width: 50px;
-}
-#dvMainContent.dvContent .dvEditControl input[type="button"] {
-  display: inline-block;
-  margin-left: 1px;
-  font-size: 10px;
-}
-#dvMainContent.dvContent .dvEditControl .dvCancelEdit {
-  display: inline-block;
-  margin-left: 3px;
-  cursor: pointer;
-}
-#dvMainContent.dvContent .dvEditControl .dvCancelEdit img {
-  height: 13px;
 }

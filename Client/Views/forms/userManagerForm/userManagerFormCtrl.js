@@ -56,8 +56,8 @@
       },
 
       show: function () {
-        if (self.panelForm && self.panelForm.get$Elem()) {
-          var $panel = self.panelForm.get$Elem();
+        if (self.panelForm && self.panelForm.get$el()) {
+          var $panel = self.panelForm.get$el();
           var $btnNewUser = $panel.find("#btnNewUser");
           $btnNewUser.click(self.newUserClick);
           var $btnEditUser = $panel.find("#btnEditUser");

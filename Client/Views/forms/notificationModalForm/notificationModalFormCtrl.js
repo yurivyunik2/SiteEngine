@@ -20,7 +20,7 @@ define(["CommonTypes", "Utils"], function (CommonTypes, Utils) {
         if (!data || Utils.isValueNull(data.message))
           return;
 
-        var $dvMessageElem = self.get$Elem().find(".dvMessage");
+        var $dvMessageElem = self.get$el().find(".dvMessage");
         $dvMessageElem.html(data.message);
       },
 

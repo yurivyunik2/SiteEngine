@@ -31,6 +31,7 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
   return function ($scope) {
 
     var self;
+    var $el;
     var currentCtrl;
     var dataCtrl;
 
@@ -80,14 +81,18 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
       },
     };
 
+
     var isCtrlLoaded = false;    
-    var formSelector = "#modalFormPanel";
-    var buttonsFormSelector = ".dvButtonsForm";
 
     var modalFormCtrl = {
       curType: null,
       FORM_TYPE: function () { return FormType; },
-      get$Elem: function () { return $(formSelector); },
+      get$el: function () {
+        if (!$el || $el.length === 0) {
+          $el = $("#modalFormPanel");
+        }
+        return $el;
+      },
 
       constructor: function () {
         self = this;
@@ -107,10 +112,11 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
         $scope.errorMessage = "unknown error";
       },
 
-      loadFormControls: function() {
+      loadFormControls: function () {
+        var $parentContentElem = self.get$el().find(".dvIncludePart");
         createTemplateFormCtrl = new CreateTemplateFormCtrl($scope);
         createItemFormCtrl = new CreateItemFormCtrl($scope);
-        insertOptionsForm = new InsertOptionsForm($scope);
+        insertOptionsForm = new InsertOptionsForm($parentContentElem, $scope);
         selectTemplateFormCtrl = new SelectTemplateFormCtrl($scope);
         selectTreeItemFormCtrl = new SelectTreeItemFormCtrl($scope);
         layoutFormCtrl = new LayoutFormCtrl($scope);
@@ -154,9 +160,9 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
       },
 
       loadFormFinished: function () {
-        //$(formSelector).find(".dvContentForm").draggable();
-        //$(formSelector).find(".dvButtonsFunctional").draggable();        
-        //$(formSelector).find(".dvContentForm").resizable();
+        //self.get$el().find(".dvContentForm").draggable();
+        //self.get$el().find(".dvHeaderForm").draggable();        
+        //self.get$el().find(".dvContentForm").resizable();
       },
 
       loadFormCtrlFinished: function () {
@@ -164,11 +170,11 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
         self.showControl(dataCtrl);
         
         if (currentCtrl && currentCtrl.getFormId()) {
-          var $formElem = $(formSelector).find("#" + currentCtrl.getFormId());
+          var $formElem = self.get$el().find("#" + currentCtrl.getFormId());
           var stMinWidth = $formElem.css("min-width");
           var minWidth = parseInt(stMinWidth);
           minWidth += $formElem[0].offsetLeft * 2;
-          $(formSelector).find(".dvContentForm").css("min-width", minWidth + "px");
+          self.get$el().find(".dvContentForm").css("min-width", minWidth + "px");
         }
       },
 
@@ -193,6 +199,10 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
         if (currentCtrl.setDataCtrl)
           currentCtrl.setDataCtrl(data);
 
+        var formTitle = currentCtrl.getFormTitle();
+        var spTitle = self.get$el().find(".dvTitle span");
+        spTitle.html(formTitle ? formTitle : "");
+
         $scope.formPath = currentCtrl.getFormPath();
         if ($scope.formPath) {
           try {
@@ -214,7 +224,7 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
         } catch (ex) { }
 
         if (currentCtrl) {
-          var $buttonsFormElem = $(formSelector).find(buttonsFormSelector);
+          var $buttonsFormElem = self.get$el().find(".dvButtonsForm");
           (currentCtrl.isButtonsFormHide && currentCtrl.isButtonsFormHide()) ? $buttonsFormElem.hide() : $buttonsFormElem.show();
 
           if (currentCtrl.show)

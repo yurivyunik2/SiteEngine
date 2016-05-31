@@ -98,11 +98,11 @@
           },
           getIsEnabled: function () { return isEnabled; },
 
-          render: function () {
-            if (field) {
-              this.populate(field.value);
-            }            
-          },
+          //render: function () {
+          //  if (field) {
+          //    this.populate(field.value);
+          //  }            
+          //},
 
           getValue: function () { },
 

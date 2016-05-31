@@ -78,7 +78,7 @@ function (application, CONST, Utils, EngineTree, ActionCtrl, ModalFormCtrl, TabP
         var modalFormCtrl = new ModalFormCtrl($scope);
         application.setModalFormCtrl(modalFormCtrl);
         setTimeout(function() {
-          modalFormCtrl.setType(modalFormCtrl.FORM_TYPE().ASSIGN_TEMPLATE, { item: application.getEngineTree().getTreeGrid().selectedItem });
+          modalFormCtrl.setType(modalFormCtrl.FORM_TYPE().LAYOUT, { item: application.getEngineTree().getTreeGrid().selectedItem });
         }, 800);
 
 

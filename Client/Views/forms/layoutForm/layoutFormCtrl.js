@@ -1,223 +1,75 @@
-﻿define(["application", "TreeGrid", "CONST", "CommonTypes"], function (application, TreeGrid, CONST, CommonTypes) {
+﻿require.config({
+  paths: {
+    layoutRenderingCtrl: "js/components/LayoutRenderingCtrl/LayoutRenderingCtrl",
+  },
+});
 
-  return function ($scope) {
+
+define(["application", "Utils", "CONST", "layoutRenderingCtrl", "CommonTypes"], function (application, Utils, CONST, LayoutRenderingCtrl, CommonTypes) {
+
+  return function ($parentElem, $scope) {
     var self;
+    var layoutRenderingCtrl;
 
-    var treeGridLayout;
-    var treeGridSublayout;
-
-    var formSelector = "#layoutForm";
-
-    var itemChange;
-
-    var layoutUI = {
-      header: "Layout:",
-      idBtn: "btnLayout",
-      idTreeGrid: "treeLayout"
-    };
-
-    var subLayoutUI = {
-      header: "Sublayout:",
-      idBtn: "btnSubLayout",
-      idTreeGrid: "treeSubLayout"
-    };
-
-    var rendering = {
-      //layout: { name: "name", id: 1},
-      layout: { },
-      subLayouts: [
-        //{ placeholder: "main", name: "sub1", id:2 },
-        //{ placeholder: "main/content", name: "sub2", id: 3 },
-      ]
-    };
-
-    var layoutFormCtrl = new CommonTypes.BaseFormElement();
-    _.extend(layoutFormCtrl, {
+    var layoutForm = new CommonTypes.BaseFormElement();
+    _.extend(layoutForm, {
       constructor: function () {
         self = this;
-        self.setBaseData({
-          formPath: "/SiteEngine/Client/Views/forms/layoutForm/layoutForm.html",
-          formSelector: "#layoutForm",
-        });
 
-        $scope.addSublayout = self.addSublayout;
+        self.setBaseData({
+          formTitle: "Assign layout form"
+        });
       },
 
       show: function (data) {
         if (!data || !data.item)
           return;
 
-        itemChange = data.item;
-
-        var layoutChooseTemplate = _.template($("#layoutChoose").html());
-        //layoutChooseTemplate
-
-        // Layout 
-        //$("#layoutChooseArea").prepend(layoutChooseTemplate(layoutUI));
-        $("#layoutChooseArea").html(layoutChooseTemplate(layoutUI));
-
-        // Sublayout
-        //$("#subLayoutChooseArea").prepend(layoutChooseTemplate(subLayoutUI));
-        $("#subLayoutChooseArea").html(layoutChooseTemplate(subLayoutUI));
-
-        //
-        $("#" + layoutUI.idBtn).click(self.btnChooseClick);
-        $("#" + subLayoutUI.idBtn).click(self.btnChooseClick);
-
-
-        $("#" + layoutUI.idTreeGrid).click(self.treeGridClick);
-        $("#" + subLayoutUI.idTreeGrid).click(self.treeGridClick);
-
-        self.populate(data);
-      },
-
-      btnChooseClick: function (event) {
-        var $parent = $(event.target).parents(".dropdown");
-        var $dvTreeGrid = $parent.find(".dvTreeGrid");
-        var display;
-        if ($dvTreeGrid.css("display") == "block")
-          display = "none";
-        else {
-          display = "block";
-        }
-        $dvTreeGrid.css("display", display);
-      },
-
-      treeGridClick: function (event) {
-        var $parentControl = $(event.target).parents(".dvControl");
-        var $btn = $parentControl.find(".btn");
-
-        var treeGrid;
-        var $parentDvTreeGrid = $(event.target).parents(".dvTreeGrid");
-        if ($parentDvTreeGrid.attr("id") == "treeLayout")
-          treeGrid = treeGridLayout;
-        else {
-          treeGrid = treeGridSublayout;
-        }
-
-        if (treeGrid.selectedItem && (!treeGrid.selectedItem.children
-          || treeGrid.selectedItem.children.length == 0)) {
-          var selItem = treeGrid.selectedItem;
-          $btn.find("#name").html(selItem.name);
-          $btn.find("#name").attr("_id", selItem.id);
-
-          // rendering.layout
-          if (treeGrid === treeGridLayout && rendering) {
-            rendering.layout = { name: selItem.name, id: selItem.id };
-          }
-
-          $parentDvTreeGrid.hide();
-        }
-      },
-
-      populate: function () {
-        var $formElem = self.get$el();
-
-        var $treeLayout = $formElem.find("#" + layoutUI.idTreeGrid);
-        treeGridLayout = new TreeGrid($treeLayout);
-        treeGridLayout.populate(application.getLayoutItems());
-
-        var $treeSubLayout = $formElem.find("#" + subLayoutUI.idTreeGrid);
-        treeGridSublayout = new TreeGrid($treeSubLayout);
-        treeGridSublayout.populate(application.getLayoutItems());
-
-
-        var renderingValue;
-        if (itemChange.fields) {
-          _.each(itemChange.fields, function (field) {
-            if (field.id === CONST.RENDERINGS_FIELD_ID()) {
-              renderingValue = field.value;
+        var layoutField;
+        var fieldsLang = Utils.getFieldsLangVersion(data.item);
+        if (fieldsLang) {
+          _.each(fieldsLang, function (field) {
+            if (field.fieldId === CONST.RENDERINGS_FIELD_ID()) {
+              layoutField = field;
             }
           });
         }
-
-        if (renderingValue) {
-          var renderignObj = JSON.parse(renderingValue);
-          if (renderignObj) {
-            rendering = renderignObj;
-
-            self.render();
-          }
-        }
-
-        self.render();
-      },
-
-      addSublayout: function () {
-
-        var $subLayoutBtn = $("#" + subLayoutUI.idBtn);
-        var nameSub = $subLayoutBtn.find("#name").html();
-        var idSub = $subLayoutBtn.find("#name").attr("_id");
-        var $inputPlaceHolder = $(".inputPlaceHolder");
-        var placeholder = $inputPlaceHolder.val();
-
-        if (rendering && rendering.subLayouts &&
-            idSub && nameSub && placeholder) {
-          rendering.subLayouts.push({ placeholder: placeholder, id: idSub, name: nameSub });
-
-          self.render();
-        }
-      },
-
-      removeSubLayout: function (event) {
-        var idSubLayout = $(event.target).parents(".dvSubLayoutItem").attr("id");
-        if (rendering && rendering.subLayouts) {
-          var foundItems = _.findWhere(rendering.subLayouts, { id: idSubLayout });
-          rendering.subLayouts = _.without(rendering.subLayouts, foundItems);
-
-          self.render();
-        }
-      },
-
-      render: function () {
-        var $layoutBtn = $("#" + layoutUI.idBtn);
-        $layoutBtn.find("#name").html("");
-
-        var $subLayoutsList = $("#subLayoutsList");
-        $subLayoutsList.html("");
-
-        if (rendering) {
-          if (rendering.layout) {
-            $layoutBtn.find("#name").html(rendering.layout.name);
-          }
-          if (rendering.subLayouts) {
-            var subLayoutItemTemplate = _.template($("#subLayoutItem").html());
-            _.each(rendering.subLayouts, function (subLayout) {
-              $subLayoutsList.append(subLayoutItemTemplate(subLayout));
-              $subLayoutsList.find("#" + subLayout.id).find("img").click(self.removeSubLayout);
-            });
-          }
-
-        }
+        
+        layoutRenderingCtrl = new LayoutRenderingCtrl($parentElem, layoutField);
+        layoutRenderingCtrl.populate(layoutField ? layoutField.value : "");
       },
 
       clickOK: function (callback) {
-        if (!rendering || !itemChange)
+        if (!layoutRenderingCtrl)
           return;
 
-        var renderingValue = JSON.stringify(rendering);
-        if (itemChange && itemChange.fields) {
-          _.each(itemChange.fields, function (field) {
-            if (field.fieldId === CONST.RENDERINGS_FIELD_ID()) {
-              field.value = renderingValue;
-            }
-          });
-        }
+        var newLayout = layoutRenderingCtrl.getValue();
+        var dataCtrl = self.getDataCtrl();
+        if (dataCtrl) {
+          var fieldsLang = Utils.getFieldsLangVersion(dataCtrl.item);
+          if (dataCtrl.item && fieldsLang) {
+            _.each(fieldsLang, function (field) {
+              if (field.fieldId === CONST.RENDERINGS_FIELD_ID()) {
+                field.value = newLayout;
+              }
+            });
+          }
 
-        var actionCtrl = application.getActionCtrl();
-        if (actionCtrl) {
-          var data = {
-            actionType: "saveItem",
-            item: itemChange,
-            callback: callback,
-          };
-          actionCtrl.process(data);
+          var actionCtrl = application.getActionCtrl();
+          if (actionCtrl) {
+            var data = {
+              actionType: "saveItem",
+              item: dataCtrl.item,
+              callback: callback,
+            };
+            actionCtrl.process(data);
+          }
         }
       },
 
     });
-    layoutFormCtrl.constructor();
-    return layoutFormCtrl;
+    layoutForm.constructor();
+    return layoutForm;
 
   };
 });

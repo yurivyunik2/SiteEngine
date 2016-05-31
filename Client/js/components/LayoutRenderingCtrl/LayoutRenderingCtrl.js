@@ -101,15 +101,19 @@ define(["application", "CONST", "Utils", "CommonTypes", "TreeGrid"], function (a
       },
 
 
-      populate: function (layout) {
+      populate: function (value) {
         if (!$el)
           return;
 
         treeGridLayout.populate(application.getLayoutItems());
 
-        $spLayoutElem.html("");
+        self.render(value);
+      },
 
-        if (layout) {
+      render: function (value) {
+        $spLayoutElem.html("");
+        if (value) {
+          var layout = value;
           try {
             var layoutObj;
             if (typeof layout === "string")
@@ -120,8 +124,7 @@ define(["application", "CONST", "Utils", "CommonTypes", "TreeGrid"], function (a
               $spLayoutElem.html(layoutObj.name);
               $spLayoutElem.attr("_id", layoutObj.id);
             }
-          } catch (ex) {
-          }
+          } catch (ex) { }
         }
       },
 
@@ -141,7 +144,7 @@ define(["application", "CONST", "Utils", "CommonTypes", "TreeGrid"], function (a
             (!treeGridLayout.selectedItem.children || treeGridLayout.selectedItem.children.length === 0)) {
           var selItem = treeGridLayout.selectedItem;          
           var layout = { name: selItem.name, id: selItem.id };
-          self.populate(layout);
+          self.render(layout);
 
           treeGridLayout.hide();
         }

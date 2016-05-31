@@ -1,6 +1,7 @@
 ﻿.dvTreeGrid.dvTableMain .tbMain {
   font-size: 12px;
   width: 100%;
+  cursor: pointer;
 }
 .dvTreeGrid.dvTableMain .tbMain .trHover {
   background-color: #EFEFEF;

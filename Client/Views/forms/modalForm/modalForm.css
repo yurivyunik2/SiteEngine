@@ -38,7 +38,6 @@
   border-radius: 15px;
   text-align: left;
   position: relative;
-  cursor: pointer;
 }
 .dvModalForm .dvHeaderForm {
   display: block;
@@ -54,7 +53,7 @@
   margin-left: 10px;
   margin-top: 8px;
   font: bold 15px arial, sans-serif;
-  color: #585858;
+  color: #403C3C;
 }
 .dvModalForm .dvHeaderForm .dvButtons {
   float: right;
@@ -62,6 +61,7 @@
 }
 .dvModalForm .dvHeaderForm .dvButtons img {
   width: 14px;
+  cursor: pointer;
 }
 .dvModalForm .dvIncludePart {
   max-width: 1300px;
@@ -69,7 +69,8 @@
   background-color: #E5E5E5;
   padding: 15px;
   padding-top: 0px;
-  overflow: auto;
+  /*overflow: auto;*/
+  overflow: visible;
 }
 .dvModalForm .dvButtonsForm {
   overflow: auto;

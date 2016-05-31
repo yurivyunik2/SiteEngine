@@ -168,7 +168,7 @@ function (application, Utils, CONST, Notification, PanelFormCtrl, PanelTypes) {
             if (selectedItem) {
               engineTree.infoPanel.getValuesForItemFields(selectedItem);
               data.item = selectedItem;
-              self.saveItem(data);
+              self.saveItem(data, data.callback);
             }
             break;
           }

@@ -119,7 +119,7 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
         insertOptionsForm = new InsertOptionsForm($parentContentElem, $scope);
         selectTemplateFormCtrl = new SelectTemplateFormCtrl($scope);
         selectTreeItemFormCtrl = new SelectTreeItemFormCtrl($scope);
-        layoutFormCtrl = new LayoutFormCtrl($scope);
+        layoutFormCtrl = new LayoutFormCtrl($parentContentElem, $scope);
         userManagerFormCtrl = new UserManagerFormCtrl($scope);
         newUserFormCtrl = new NewUserFormCtrl($scope, self);
         imageGalleryFormCtrl = new ImageGalleryFormCtrl($scope);
@@ -202,6 +202,9 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
         var formTitle = currentCtrl.getFormTitle();
         var spTitle = self.get$el().find(".dvTitle span");
         spTitle.html(formTitle ? formTitle : "");
+
+        var $parentContentElem = self.get$el().find(".dvIncludePart");
+        $parentContentElem.html("");
 
         $scope.formPath = currentCtrl.getFormPath();
         if ($scope.formPath) {

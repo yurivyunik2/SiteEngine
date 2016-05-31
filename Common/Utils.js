@@ -102,6 +102,8 @@ var Utils = function (CONST, Notification) {
       return true;
     },
     windowMouseDown: function (event) {
+      if (!event || !event.clientX)
+        return;
       self.mouseDownEventLast = event;
       if (self.isFunctionalKey(event)) {
         event.preventDefault();
@@ -241,6 +243,19 @@ var Utils = function (CONST, Notification) {
         curVersion = $selVersionElem.val();
       }
       return curVersion;
+    },
+
+    getFieldsLangVersion: function (item) {
+      if (!item || !item.fields)
+        return [];
+      var fields = item.fields;
+      var curLangguage = self.getLanguageCurrent();
+      var curVersion = self.getVersionCurrent();
+      var fieldsLang = [];
+      if (fields && curLangguage && curVersion) {
+        fieldsLang = _.where(fields, { itemId: item.id, lang: curLangguage.code, version: parseInt(curVersion) });
+      }
+      return fieldsLang;
     },
 
     isValueNull: function (value) {

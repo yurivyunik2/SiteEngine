@@ -95,20 +95,20 @@ define(["application", "CONST", "imageChangeCtrl", "richTextEditor", "selectItem
           var selectItemTreeCtrl = new SelectItemTreeCtrl(parentTdElem, field);
           actualComponents[field.id] = selectItemTreeCtrl;
 
-          selectItemTreeCtrl.render();
+          selectItemTreeCtrl.populate();
           selectItemTreeCtrl.isEnabled(disabledAttr === "");
         } else if (field.fieldId === CONST.RENDERINGS_FIELD_ID()) {
           var layoutRenderingCtrl = new LayoutRenderingCtrl(parentTdElem, field);
           actualComponents[field.id] = layoutRenderingCtrl;
 
-          layoutRenderingCtrl.render();
+          layoutRenderingCtrl.populate(field.value);
           layoutRenderingCtrl.isEnabled(disabledAttr === "");
         }
         else if (field.fieldId === CONST.LAYOUT_CONTENT_FIELD_ID()) {
           var layoutContentCtrl = new LayoutContentCtrl(parentTdElem, field);
           actualComponents[field.id] = layoutContentCtrl;
 
-          layoutContentCtrl.render();
+          layoutContentCtrl.populate(field.value);
           //layoutContentCtrl.isEnabled(disabledAttr === "");
         }
         else

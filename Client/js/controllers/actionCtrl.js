@@ -48,16 +48,16 @@ function (application, Utils, CONST, Notification, PanelFormCtrl, PanelTypes) {
       processCallback: function (data) {
         if (!data || !data.actionType)
           return;
-
-        var selectedItem;
+        
         var treeGrid;
         var engineTree = application.getEngineTree();
         if (engineTree && engineTree.getTreeGrid()) {
           treeGrid = engineTree.getTreeGrid();
-          selectedItem = treeGrid.selectedItem;
         }
         if (!treeGrid)
           return;
+
+        var selectedItem = treeGrid.selectedItem;
 
         var modalFormCtrl = application.getModalFormCtrl();
         var dataRequest;
@@ -165,9 +165,11 @@ function (application, Utils, CONST, Notification, PanelFormCtrl, PanelTypes) {
             break;
           }
           case "saveItem": {
-            if (selectedItem) {
+            if (!data.item) {
               engineTree.infoPanel.getValuesForItemFields(selectedItem);
               data.item = selectedItem;
+            }
+            if (data.item) {
               self.saveItem(data, data.callback);
             }
             break;

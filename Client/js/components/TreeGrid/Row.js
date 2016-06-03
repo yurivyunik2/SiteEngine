@@ -148,7 +148,7 @@
           $(this).addClass("trSelected");
 
           treeGrid.$trDragStart = $(this);
-          treeGrid.isDrag = true;
+          //treeGrid.isDrag = true;
 
           var selItem = treeGrid.hashItems[this.id];
           treeGrid.selectedItem = selItem;

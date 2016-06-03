@@ -5,7 +5,7 @@
 });
 
 
-define(["application", "CONST", "selectItemTreeCtrl", "CommonTypes"], function (application, CONST, SelectItemTreeCtrl, CommonTypes) {
+define(["application", "Utils", "CONST", "selectItemTreeCtrl", "CommonTypes"], function (application, Utils, CONST, SelectItemTreeCtrl, CommonTypes) {
 
   return function($parentElem, $scope) {
     var self;
@@ -29,45 +29,37 @@ define(["application", "CONST", "selectItemTreeCtrl", "CommonTypes"], function (
           return;
 
         var insertOptionsField;
-        if (data.item.fields) {
-          _.each(data.item.fields, function (field) {
+        var fieldsLang = Utils.getFieldsLangVersion(data.item);
+        if (fieldsLang) {
+          _.each(fieldsLang, function (field) {
             if (field.fieldId === CONST.INSERT_OPTIONS_FIELD_ID()) {
               insertOptionsField = field;
             }
           });
         }
-
-        if (!selectItemTreeCtrl) {
-          var html = "<div style='width: " + width + "px; height: " + height + "px;'></div>";
-          $parentElem.append(html);
-          var $contentElem = $parentElem.children().last();
-          selectItemTreeCtrl = new SelectItemTreeCtrl($contentElem, insertOptionsField);
-          var $el = selectItemTreeCtrl.get$el();
-          $el.height("100%");
-        }
-        //actualComponents[field.id] = selectItemTreeCtrl;
-        selectItemTreeCtrl.render();
+        
+        var html = "<div style='width: " + width + "px; height: " + height + "px;'></div>";
+        $parentElem.append(html);
+        var $contentElem = $parentElem.children().last();
+        selectItemTreeCtrl = new SelectItemTreeCtrl($contentElem, insertOptionsField);
+        selectItemTreeCtrl.populate();
+        var $el = selectItemTreeCtrl.get$el();
+        $el.height("100%");
       },
 
       clickOK: function (callback) {
         if (!selectItemTreeCtrl)
           return;
 
-        var selectedItems = selectItemTreeCtrl.getValue();
-        var insertOptions = "";
-        _.each(selectedItems, function (item) {
-          insertOptions += item.id + "|";
-        });
-
+        var insertOptions = selectItemTreeCtrl.getValue();
         var dataCtrl = self.getDataCtrl();
-        if (dataCtrl) {
-          if (dataCtrl.item && dataCtrl.item.fields) {
-            _.each(dataCtrl.item.fields, function (field) {
-              if (field.id === CONST.INSERT_OPTIONS_FIELD_ID()) {
-                field.value = insertOptions;
-              }
-            });
-          }
+        if (dataCtrl && dataCtrl.item) {
+          var fieldsLang = Utils.getFieldsLangVersion(dataCtrl.item);
+          _.each(fieldsLang, function (field) {
+            if (field.fieldId === CONST.INSERT_OPTIONS_FIELD_ID()) {
+              field.value = insertOptions;
+            }
+          });
 
           var actionCtrl = application.getActionCtrl();
           if (actionCtrl) {

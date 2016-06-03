@@ -86,10 +86,11 @@
   border-bottom: 1px solid #c8ced6;
 }
 #tabPanel #actionPanel #dvTabContent {
-  /*background-color: #6097CD;*/
-  /*padding: 10px 0px;*/
-  float: left;
-  width: 70%;
+  /*float: left;
+      width: 70%;*/
+  display: inline-block;
+  left: 0px;
+  position: absolute;
 }
 #tabPanel #actionPanel #dvTabContent .dvButtonRibbon {
   margin-left: 15px;
@@ -105,8 +106,11 @@
   height: 15px;
 }
 #tabPanel #languageChoosePanel {
-  float: right;
-  width: 30%;
+  /*float: right;
+      width: 30%;*/
+  display: inline-block;
+  right: 0px;
+  position: absolute;
   text-align: right;
   padding: 0px 10px 0px 0px;
 }

@@ -155,7 +155,7 @@ define(["application", "CONST", "Utils"], function (application, CONST, Utils) {
         
         var fieldsLangVersion = _.where(item.fields, { lang: curLangguage.code, version: parseInt(curVersion) });
         _.each(fieldsLangVersion, function (field) {
-          if (fieldsValues[field.id])
+          if (fieldsValues.hasOwnProperty(field.id))
             field.value = fieldsValues[field.id];
         });
       },

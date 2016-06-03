@@ -77,9 +77,9 @@ function (application, CONST, Utils, EngineTree, ActionCtrl, ModalFormCtrl, TabP
         
         var modalFormCtrl = new ModalFormCtrl($scope);
         application.setModalFormCtrl(modalFormCtrl);
-        setTimeout(function() {
-          modalFormCtrl.setType(modalFormCtrl.FORM_TYPE().LAYOUT, { item: application.getEngineTree().getTreeGrid().selectedItem });
-        }, 800);
+        //setTimeout(function() {
+        //  modalFormCtrl.setType(modalFormCtrl.FORM_TYPE().LAYOUT, { item: application.getEngineTree().getTreeGrid().selectedItem });
+        //}, 800);
 
 
         var tabPanel = new TabPanel($("#tabPanelArea"));

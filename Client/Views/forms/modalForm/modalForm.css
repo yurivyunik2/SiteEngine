@@ -26,14 +26,16 @@
   display: table-cell;
   margin-left: auto;
   margin-right: auto;
-  vertical-align: middle;
+  /*vertical-align: middle;*/
   text-align: center;
+  position: relative;
+  top: 30%;
 }
 .dvModalForm .dvContentForm {
   min-height: 90px;
   min-width: 200px;
-  /*background-color: #E5E5E5;*/
-  opacity: 1;
+  box-shadow: 0 0 15px #3D3D3E;
+  border: 1px solid #05A5DE;
   display: inline-block;
   border-radius: 15px;
   text-align: left;
@@ -69,7 +71,6 @@
   background-color: #E5E5E5;
   padding: 15px;
   padding-top: 0px;
-  /*overflow: auto;*/
   overflow: visible;
 }
 .dvModalForm .dvButtonsForm {

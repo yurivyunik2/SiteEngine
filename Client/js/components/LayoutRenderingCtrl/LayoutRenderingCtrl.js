@@ -48,27 +48,30 @@ define(["application", "CONST", "Utils", "CommonTypes", "TreeGrid"], function (a
       intervalUI: function (uiData) {
         if (!uiData || !$el)
           return;
-        
-        if (uiData.mouseDownEventLast) {
-          //self.keyDownEventFunc(uiData.keyDownEventLast);
-          var eventX = uiData.mouseDownEventLast.clientX;
-          var eventY = uiData.mouseDownEventLast.clientY;
 
-          var rectBound = $btnLayoutElem[0].getBoundingClientRect();
-          var isTreeGridShow = false;
-          if (eventX >= rectBound.left && eventX <= (rectBound.left + rectBound.width) &&
-            eventY >= rectBound.top && eventY <= (rectBound.top + rectBound.height)) {
-            isTreeGridShow = true;            
+        try {
+          if (uiData.mouseDownEventLast) {
+            //self.keyDownEventFunc(uiData.keyDownEventLast);
+            var eventX = uiData.mouseDownEventLast.clientX;
+            var eventY = uiData.mouseDownEventLast.clientY;
+
+            var rectBound = $btnLayoutElem[0].getBoundingClientRect();
+            var isTreeGridShow = false;
+            if (eventX >= rectBound.left && eventX <= (rectBound.left + rectBound.width) &&
+              eventY >= rectBound.top && eventY <= (rectBound.top + rectBound.height)) {
+              isTreeGridShow = true;
+            }
+            rectBound = $dvTreeGrid[0].getBoundingClientRect();
+            if (eventX >= rectBound.left && eventX <= (rectBound.left + rectBound.width) &&
+              eventY >= rectBound.top && eventY <= (rectBound.top + rectBound.height)) {
+              isTreeGridShow = true;
+            }
+            if (!isTreeGridShow) {
+              $dvTreeGrid.css("display", "none");
+            }
           }
-          rectBound = $dvTreeGrid[0].getBoundingClientRect();
-          if (eventX >= rectBound.left && eventX <= (rectBound.left + rectBound.width) &&
-            eventY >= rectBound.top && eventY <= (rectBound.top + rectBound.height)) {
-            isTreeGridShow = true;
-          }
-          if (!isTreeGridShow) {
-            $dvTreeGrid.css("display", "none");
-          }          
-        }
+        } catch (ex) { }
+
       },
 
       createElementCallback: function () {

@@ -48,7 +48,7 @@ define(["application", "CONST", "Utils"], function (application, CONST, Utils) {
         ///
         if (itemData.id === CONST.MEDIA_ROOT_ID()) {
           tbody.append('<button type="button" style="margin: 15px 0px;" class="btn btn-success">Open Media Manager</button>');
-          var $btnMediaManager = tbody.last();
+          var $btnMediaManager = tbody.children().last();
           $btnMediaManager.click(function () {
             var modalFormCtrl = application.getModalFormCtrl();
             modalFormCtrl.setType(modalFormCtrl.FORM_TYPE().IMAGE_GALLERY, {});

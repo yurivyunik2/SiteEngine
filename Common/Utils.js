@@ -86,6 +86,7 @@ var Utils = function (CONST, Notification) {
     },
 
     windowKeyDown: function (event) {
+      event = event || window.event;
       self.keyDownEventLast = event;
       if (self.isFunctionalKey(event)) {
         event.preventDefault();

@@ -16,7 +16,6 @@
     
     var selectedFolderItem;
 
-    var isInitializedEventsSubscribe = false;
     var isShowNewFolder = false;
     var isMultipleSelect = false;
 
@@ -33,6 +32,7 @@
       constructor: function () {
         self = this;
         self.setBaseData({
+          formId: "imageGalleryForm",
           formPath: "/SiteEngine/Client/Views/forms/imageGalleryForm/imageGalleryForm.html",
         });
 
@@ -106,7 +106,7 @@
         }
       },
 
-      initializeEventsSubscribe: function() {
+      eventsSubscribe: function() {
         $imageGalleryFormElem.find("#inputFileDlg").change(self.uploadFilesSelected);
 
         var $btnUploadFilesElem = $imageGalleryFormElem.find("#btnUploadFiles");
@@ -480,8 +480,8 @@
         //  $imageGalleryFormElem = $("#imageGalleryForm");
         //  isInitializedEventsSubscribe = false;
         //}
-        $imageGalleryFormElem = $("#imageGalleryForm");
-        isInitializedEventsSubscribe = false;
+        $imageGalleryFormElem = self.get$el();
+        //$imageGalleryFormElem = $("#imageGalleryForm");
 
         if ($imageGalleryFormElem.length === 0)
           return;
@@ -493,9 +493,8 @@
         self.setDataCtrl(data);
         isMultipleSelect = (data && data.isMultipleSelect) ? true : false;
 
-        if (!isInitializedEventsSubscribe) {
-          isInitializedEventsSubscribe = true;
-          self.initializeEventsSubscribe();
+        if (data.isEventsSubscribe) {
+          self.eventsSubscribe();
         }
 
         allMediaItems = application.getMediaItems();

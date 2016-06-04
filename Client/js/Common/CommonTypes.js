@@ -13,7 +13,6 @@
       BaseFormElement: function () {
         var formId;
         var formPath;
-        var formSelector;
         var formTitle;
         var $elem;
         var dataCtrl;
@@ -25,7 +24,6 @@
               return;
             formId = data.formId;
             formPath = data.formPath;
-            formSelector = data.formSelector;
             formTitle = data.formTitle;
             isButtonsFormHide = data.isButtonsFormHide;
           },
@@ -35,8 +33,8 @@
           getFormTitle: function () { return formTitle; },
 
           get$el: function () {
-            if (!$elem || $elem.length === 0)
-              $elem = $(formSelector);
+            //if (!$elem || $elem.length === 0)
+            $elem = $("#" + formId);
             return $elem;
           },
 

@@ -12,7 +12,6 @@
         self.setBaseData({
           formId: "createTemplateForm",
           formPath: "/SiteEngine/Client/Views/forms/createTemplateForm/createTemplateForm.html",
-          formSelector: "#createTemplateForm",
         });
 
         $scope.clickAddField = this.clickAddField;

@@ -35,6 +35,9 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
     var currentCtrl;
     var dataCtrl;
 
+    var $dvContentForm;
+    var heightContentForm = 0;
+
     var createTemplateFormCtrl;
     var createItemFormCtrl;
     var insertOptionsForm;
@@ -82,7 +85,8 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
     };
 
 
-    var isCtrlLoaded = false;    
+    var isCtrlLoaded = false;
+    var isShowFunction = false;
 
     var modalFormCtrl = {
       curType: null,
@@ -134,6 +138,18 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
         if (!uiData || !$scope.isShowModalForm)
           return;
 
+        //var curHeight = $dvContentForm.height();
+        //if (curHeight !== heightContentForm) {
+        //  heightContentForm = curHeight;
+        //  var top = 0;
+        //  if (curHeight > window.innerHeight / 2) {
+        //    top = window.innerHeight / 2 - curHeight / 2;
+        //  } else {
+        //    top = 0.3 * window.innerHeight;
+        //  }
+        //  $dvContentForm.parent().css("top", top + "px");
+        //}
+
         var event;
         if (uiData.keyDownEventLast) {
           event = uiData.keyDownEventLast;
@@ -161,25 +177,21 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
             currentCtrl.mouseDownEventFunc(event);
           }
         }
+
       },
 
       loadFormFinished: function () {
         //self.get$el().find(".dvContentForm").draggable();
         //self.get$el().find(".dvHeaderForm").draggable();        
         //self.get$el().find(".dvContentForm").resizable();
+        $dvContentForm = self.get$el().find(".dvContentForm");
       },
 
       loadFormCtrlFinished: function () {
         isCtrlLoaded = true;
-        self.showControl(dataCtrl);
+        if (!isShowFunction)
+          self.showControl(dataCtrl);
         
-        if (currentCtrl && currentCtrl.getFormId()) {
-          var $formElem = self.get$el().find("#" + currentCtrl.getFormId());
-          var stMinWidth = $formElem.css("min-width");
-          var minWidth = parseInt(stMinWidth);
-          minWidth += $formElem[0].offsetLeft * 2;
-          self.get$el().find(".dvContentForm").css("min-width", minWidth + "px");
-        }
       },
 
       setType: function (formType, data) {
@@ -191,6 +203,9 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
         dataCtrl = data;
         if (currentCtrl !== formType.getControl()) {
           isCtrlLoaded = false;
+          data.isEventsSubscribe = true;
+        } else {
+          data.isEventsSubscribe = false;
         }
         currentCtrl = formType.getControl();
         self.show(data);
@@ -199,6 +214,9 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
       show: function (data) {
         if (!currentCtrl)
           return;
+
+        isShowFunction = true;
+        heightContentForm = 0;
 
         if (currentCtrl.setDataCtrl)
           currentCtrl.setDataCtrl(data);
@@ -222,6 +240,8 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
 
         if (isCtrlLoaded)
           self.showControl(data);
+
+        isShowFunction = false;
       },
 
       showControl: function (data) {
@@ -236,6 +256,15 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
 
           if (currentCtrl.show)
             currentCtrl.show(data);
+
+          if (currentCtrl.get$el()) {
+            var $formElem = currentCtrl.get$el();
+            var stMinWidth = $formElem.css("min-width");
+            var minWidth = parseInt(stMinWidth);
+            minWidth += $formElem[0].offsetLeft * 2;
+            self.get$el().find(".dvContentForm").css("min-width", minWidth + "px");
+          }
+
         }
       },
 

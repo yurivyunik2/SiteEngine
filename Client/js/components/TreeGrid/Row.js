@@ -230,7 +230,7 @@
             var menuItem = application.getMenuItemEngineTree();
             if (menuItem)
               menuItem.show(event.pageX + 5, event.pageY, item);
-          }            
+          }
         });
 
         // mouse down on item-elem(imgArrow)

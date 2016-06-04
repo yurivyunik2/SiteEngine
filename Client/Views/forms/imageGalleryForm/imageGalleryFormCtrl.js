@@ -476,10 +476,13 @@
       },
 
       show: function (data) {
-        if (!$imageGalleryFormElem || $imageGalleryFormElem.length === 0) {
-          $imageGalleryFormElem = $("#imageGalleryForm");
-          isInitializedEventsSubscribe = false;
-        }        
+        //if (!$imageGalleryFormElem || $imageGalleryFormElem.length === 0) {
+        //  $imageGalleryFormElem = $("#imageGalleryForm");
+        //  isInitializedEventsSubscribe = false;
+        //}
+        $imageGalleryFormElem = $("#imageGalleryForm");
+        isInitializedEventsSubscribe = false;
+
         if ($imageGalleryFormElem.length === 0)
           return;
 

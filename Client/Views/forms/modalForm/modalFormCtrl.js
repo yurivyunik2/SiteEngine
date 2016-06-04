@@ -94,6 +94,10 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
         return $el;
       },
 
+      get$parentCtrl: function() {
+        return self.get$el().find(".dvCtrlContent");
+      },
+
       constructor: function () {
         self = this;
         $scope.clickOk = this.clickOk;
@@ -113,7 +117,7 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
       },
 
       loadFormControls: function () {
-        var $parentContentElem = self.get$el().find(".dvIncludePart");
+        var $parentContentElem = self.get$parentCtrl();
         createTemplateFormCtrl = new CreateTemplateFormCtrl($scope);
         createItemFormCtrl = new CreateItemFormCtrl($scope);
         insertOptionsForm = new InsertOptionsForm($parentContentElem, $scope);
@@ -203,7 +207,7 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
         var spTitle = self.get$el().find(".dvTitle span");
         spTitle.html(formTitle ? formTitle : "");
 
-        var $parentContentElem = self.get$el().find(".dvIncludePart");
+        var $parentContentElem = self.get$parentCtrl();
         $parentContentElem.html("");
 
         $scope.formPath = currentCtrl.getFormPath();

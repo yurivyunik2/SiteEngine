@@ -1,4 +1,6 @@
-﻿.dvTreeGrid.dvTableMain {
+﻿@import "../../../css/StyleVariables.less";
+
+.dvTreeGrid.dvTableMain {
 
   .tbMain {
     font-size:12px;
@@ -9,7 +11,7 @@
       background-color: #EFEFEF;  
     }
     .trSelected {
-      background-color: #DFE8F6;
+      background-color: @backColorRowSelected;
     }
 
     .trHeader {

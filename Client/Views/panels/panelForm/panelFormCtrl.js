@@ -12,8 +12,6 @@ define(["application", "CONST"], function (application, CONST) {
     var isCorrectPosition = false;
     var initWidth;
 
-    var imgCloseSelector = "#imgClose";
-
     var panelFormContainerSelector = ".dvPanelFormContainer";
 
     var panelFormCtrl = {
@@ -31,8 +29,6 @@ define(["application", "CONST"], function (application, CONST) {
 
         idPanel = "panelForm" + panelIndex;
 
-        $scope.loadPanelForm = self.loadPanelForm;        
-
         application.addUIComponent("panelFormCtrl" + Date.now(), self);
       },
 
@@ -43,8 +39,8 @@ define(["application", "CONST"], function (application, CONST) {
       addPanelToPage: function () {
         var $panelFormTemplate = $("#panelFormTemplate");
         if ($panelFormTemplate) {
-          var $panelElem = $("#" + idPanel);
-          if ($panelElem.length == 0) {
+          var $panelElem = self.get$el();
+          if ($panelElem.length === 0) {
             var $html = $($panelFormTemplate.html());
             $html[0].id = idPanel;
 
@@ -52,14 +48,14 @@ define(["application", "CONST"], function (application, CONST) {
             if (self.panelType && self.panelType.path) {
               $dvIncludePartElem.load(self.panelType.path, function () {
                 //$("body").append($html[0].outerHTML);
-                $(CONST.VIEW_GLOBAL_SELECTOR()).append($html[0].outerHTML);
-                
+                var $parentElem = $(CONST.VIEW_GLOBAL_SELECTOR());
+                $parentElem.append($html[0].outerHTML);
 
-                $panelElem = $("#" + idPanel);
+                $panelElem = self.get$el();
                 $panelElem.draggable();
                 $panelElem.mousedown(self.mousedown);
 
-                $panelElem.find(imgCloseSelector).click(self.hide);
+                $panelElem.find(".imgClose").click(self.hide);
 
                 self.showPanel();
               });
@@ -79,8 +75,8 @@ define(["application", "CONST"], function (application, CONST) {
       },
 
       show: function () {
-        var $panelElem = $("#" + idPanel);
-        if ($panelElem.length == 0) {
+        var $panelElem = self.get$el();
+        if ($panelElem.length === 0) {
           self.addPanelToPage();
         } else {
           self.showPanel();
@@ -88,12 +84,16 @@ define(["application", "CONST"], function (application, CONST) {
       },
       
       showPanel: function () {
-        var $panelElem = $("#" + idPanel);
+        var $panelElem = self.get$el();
         if ($panelElem.length > 0) {
-          $panelElem.show();
+          var formTitle = self.panelType.ctrl.getFormTitle();
+          var spTitle = self.get$el().find(".dvTitle span");
+          spTitle.html(formTitle ? formTitle : "");
 
           if (self.panelType && self.panelType.ctrl && self.panelType.ctrl.show)
             self.panelType.ctrl.show();
+
+          $panelElem.show();
 
           initWidth = $panelElem.width();
           isCorrectPosition = true;          
@@ -101,15 +101,18 @@ define(["application", "CONST"], function (application, CONST) {
       },
 
       hide: function () {
-        var $panelElem = $("#" + idPanel);
-        $panelElem.hide();
+        var $panelElem = self.get$el();
+        if ($panelElem.length > 0) {
+          $panelElem[0].parentNode.removeChild($panelElem[0]);
+          //$panelElem.hide();
+        }        
       },
       
       mousedown: function () {
         $(panelFormContainerSelector).css("z-index", "0");
         self.get$el().css("z-index", "1");
       },
-      
+
     };
 
     panelFormCtrl.constructor();

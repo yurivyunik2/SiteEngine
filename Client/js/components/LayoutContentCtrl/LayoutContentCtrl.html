@@ -41,36 +41,36 @@
 </div>
 
 <script type="text/template" id='layoutContentTemplate'> 
-    <div class="dvUserAgentPath">
-        <table class="">
-            <tr class="trUserAgent">
-                <td class="tdFirst">
-                  <div class="dvIcon dvRemoveButton"><img src="/SiteEngine/Client/images/remove.png" ></div>
-                  <div class="dvIcon dvEditButton"><img src="/SiteEngine/Client/images/edit16_16.png" ></div>
-                  <div class="dvOkButton"><button type="button" class="btn btnForm">OK</button></div>                  
-                </td>
-                <td class="tdSecond">
-                  <span class="spTitle">User Agent:</span>
-                </td>
-                <td>
-                  <span class="spUserAgentValue" onclick="javascript:this.select();return false"><%= item.userAgent %></span>
-                  <input style="display:none;" class="inUserAgent" >
-                </td>
-            </tr>
-            <tr>
-                <td class="tdFirst"></td>
-                <td class="tdSecond">
-                    <span class="spTitle">Path:</span>
-                </td>
-                <td>
-                  <span class="spPathValue" onclick="javascript:this.select();return false"><%= item.path %></span>
-                  <input style="display:none;" class="inPath" >
-                </td>
+  <div class="dvUserAgentPath" data-useragent="<%= item.userAgent %>">
+    <table class="">
+      <tr class="trUserAgent">
+        <td class="tdFirst">
+          <div class="dvIcon dvRemoveButton"><img src="/SiteEngine/Client/images/remove.png"></div>
+          <div class="dvIcon dvEditButton"><img src="/SiteEngine/Client/images/edit16_16.png"></div>
+          <div class="dvOkButton"><button type="button" class="btn btnForm">OK</button></div>
+        </td>
+        <td class="tdSecond">
+          <span class="spTitle">User Agent:</span>
+        </td>
+        <td>
+          <span class="spUserAgentValue" onclick="javascript:this.select();return false"><%= item.userAgent %></span>
+          <input style="display:none;" class="inUserAgent">
+        </td>
+      </tr>
+      <tr>
+        <td class="tdFirst"></td>
+        <td class="tdSecond">
+          <span class="spTitle">Path:</span>
+        </td>
+        <td>
+          <span class="spPathValue" onclick="javascript:this.select();return false"><%= item.path %></span>
+          <input style="display:none;" class="inPath">
+        </td>
 
-            </tr>
-        </table>
+      </tr>
+    </table>
 
 
-    </div>
+  </div>
         
 </script>

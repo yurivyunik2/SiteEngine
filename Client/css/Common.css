@@ -1,1 +1,10 @@
-﻿
+﻿.btnForm {
+  border: 1px solid #05B0D8;
+  background: linear-gradient(to bottom, #ece0e0 0%, #c7c7c7 100%);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.3), 0 2px 2px -1px rgba(0, 0, 0, 0.5), 0 1px 0 rgba(255, 255, 255, 0.3) inset;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.9);
+  font: bold 13px arial, helvetica, sans-serif;
+}
+.btnActive {
+  background: linear-gradient(to bottom, #ece0e0 0%, #a5a5a5 100%);
+}

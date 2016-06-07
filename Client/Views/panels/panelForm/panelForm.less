@@ -1,0 +1,31 @@
+﻿@import "../../../css/form.less";
+@import "../../../css/StyleVariables.less";
+
+.dvPanelFormContainer {
+  position: absolute;
+  cursor: pointer;
+  width: auto;
+  height: auto;
+
+  .dvHeaderForm {
+    display: block;
+    text-align: right;
+    padding-top: 3px;
+    padding-right: 7px;    
+    border-top-left-radius: @borderRadiusContent;
+    border-top-right-radius: @borderRadiusContent;
+
+    .dvButtons {
+      img {
+        width: 20px;
+      }
+    }    
+  }
+
+  .dvIncludePart {
+    border-bottom-left-radius: @borderRadiusContent;
+    border-bottom-right-radius: @borderRadiusContent;
+  }
+}
+
+

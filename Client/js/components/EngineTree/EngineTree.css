@@ -151,12 +151,12 @@
 #dvMainContent.dvContent .dvInfoPanel .tbOwnParameters .tdFieldName {
   padding-top: 3px;
 }
+#dvMainContent.dvContent .dvInfoPanel .tbOwnParameters .tdFieldName span {
+  font: 12px arial;
+}
 #dvMainContent.dvContent .dvInfoPanel .tbOwnParameters .tdFieldCtrl {
   padding-top: 3px;
   padding-bottom: 20px;
-}
-#dvMainContent.dvContent .dvInfoPanel .tbOwnParameters span {
-  font: 12px arial;
 }
 #dvMainContent.dvContent .dvInfoPanel .tbOwnParameters input.itemField {
   cursor: default;

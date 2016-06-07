@@ -13,6 +13,7 @@ define(["application", "CONST", "Utils", "CommonTypes"], function (application, 
   var dvOkButtonSelector = ".dvOkButton";
 
   var arUserAgents = [];
+  var $editElemUserAgent;
 
   Utils.LoadTemplate(pathTemplate, function ($template) {
     $dvLayoutContentElem = $template.find(".dvLayoutContent");
@@ -103,6 +104,14 @@ define(["application", "CONST", "Utils", "CommonTypes"], function (application, 
         var htmlUserAgent = $layoutContentTemplateObj({ item: userAgent });        
         $dvCurrentFieldsElem.prepend(htmlUserAgent);
         var elemAdded = $dvCurrentFieldsElem.children().first();
+        elemAdded.mouseover(function(event) {
+          //elemAdded.addClass("selected");
+          self.selectUserAgent(event.currentTarget, true);
+        });
+        elemAdded.mouseout(function() {
+          //elemAdded.removeClass("selected");
+          self.selectUserAgent(event.currentTarget, false);
+        });
         elemAdded.find(dvRemoveButtonSelector).click(self.removeClick);
         elemAdded.find(dvEditButtonSelector).click(self.editClick);
         elemAdded.find("input").keydown(function (event) {
@@ -126,29 +135,64 @@ define(["application", "CONST", "Utils", "CommonTypes"], function (application, 
       },
 
       editClick: function (event) {
-        self.setEditMode(true);
+        self.setEditMode($(event.currentTarget).parents(".dvUserAgentPath"), true);
       },
 
-      setEditMode: function (isEdit) {
-        var $dvUserAgentPathElem = $(event.currentTarget).parents(".dvUserAgentPath");
+      selectUserAgent: function (elemUserAgent, isSelect) {
+        if (!elemUserAgent)
+          return;
 
-        var spanDisplay = isEdit ? "none" : "inline-block";
-        var inputDisplay = isEdit ? "block" : "none";
+        var $elemUserAgent = $(elemUserAgent);
+        if (isSelect) {
+          $elemUserAgent.addClass("selected");
+        } else if (!$editElemUserAgent || $elemUserAgent[0] !== $editElemUserAgent[0]) {
+          $elemUserAgent.removeClass("selected");
+        }
+      },
+      setEditMode: function (elemUserAgent, isEdit) {
+        if (!elemUserAgent)
+          return;
+        
+        //var $dvUserAgentPathElem = $(elemUserAgent).parents(".dvUserAgentPath");
+        var $elemUserAgent = $(elemUserAgent);
+        //var userAgent = $dvUserAgentPathElem.attr("data-userAgent");
+        //if (!userAgent)
+        //  return;
 
-        var $spUserAgentValueElem = $dvUserAgentPathElem.find(".spUserAgentValue");
-        var $inUserAgentElem = $dvUserAgentPathElem.find(".inUserAgent");
+        if ($editElemUserAgent && isEdit) {
+          var $el = $editElemUserAgent;
+          $editElemUserAgent = null;
+          self.setEditMode($el, false);
+        }
+
+        $editElemUserAgent = $elemUserAgent;
+        
+        var spanDisplay;
+        var inputDisplay;
+        if (isEdit) {
+          spanDisplay = "none";
+          inputDisplay = "block";
+          $elemUserAgent.addClass("selected");
+        } else {
+          spanDisplay = "inline-block";
+          inputDisplay = "none";
+          $elemUserAgent.removeClass("selected");
+        }
+
+        var $spUserAgentValueElem = $elemUserAgent.find(".spUserAgentValue");
+        var $inUserAgentElem = $elemUserAgent.find(".inUserAgent");
         $inUserAgentElem.val($spUserAgentValueElem.html());
         //$spUserAgentValueElem.css("display", spanDisplay);
         //$inUserAgentElem.css("display", inputDisplay);
 
-        var $spPathValueElem = $dvUserAgentPathElem.find(".spPathValue");
-        var $inPathElem = $dvUserAgentPathElem.find(".inPath");
+        var $spPathValueElem = $elemUserAgent.find(".spPathValue");
+        var $inPathElem = $elemUserAgent.find(".inPath");
         $inPathElem.val($spPathValueElem.html());
         $spPathValueElem.css("display", spanDisplay);
         $inPathElem.css("display", inputDisplay);
 
-        $dvUserAgentPathElem.find(".dvIcon").css("display", spanDisplay);
-        $dvUserAgentPathElem.find(".dvOkButton").css("display", inputDisplay);
+        $elemUserAgent.find(".dvIcon").css("display", spanDisplay);
+        $elemUserAgent.find(".dvOkButton").css("display", inputDisplay);
       },
 
       okClick: function (event) {        
@@ -164,7 +208,7 @@ define(["application", "CONST", "Utils", "CommonTypes"], function (application, 
           $spPathValueElem.html($inPathElem.val());
         }
 
-        self.setEditMode(false);
+        self.setEditMode($dvUserAgentPathElem, false);
       },
 
     });

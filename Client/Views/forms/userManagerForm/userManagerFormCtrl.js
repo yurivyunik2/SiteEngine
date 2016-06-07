@@ -3,7 +3,6 @@
   return function ($scope) {
 
     var self;
-    var userManagerFormSelector = "#userManagerForm";
     var tbUserSelector = "#tbUsers";
     var userTemplateSelector = "#userTemplate";
 
@@ -15,6 +14,7 @@
       constructor: function () {
         self = this;
         self.setBaseData({
+          formTitle: "List Users",
           formPath: "/SiteEngine/Client/Views/forms/userManagerForm/userManagerForm.html",
           isButtonsFormHide: true,
         });
@@ -65,7 +65,7 @@
           var $btnRemoveUser = $panel.find("#btnRemoveUser");
           $btnRemoveUser.click(self.removeUserClick);
 
-          $userManagerFormElem = $panel.find("#userManagerForm");
+          $userManagerFormElem = $panel.find(".userManagerForm");
           $tbUserElem = $userManagerFormElem.find(tbUserSelector);
 
           self.populate();

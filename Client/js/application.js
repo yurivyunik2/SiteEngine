@@ -10,6 +10,8 @@ define(["CONST", "Utils"], function (CONST, Utils) {
     // Data
     var items = [];
     var itemsHash = {};
+    var templateItems = [];
+    var templateItemsHash = [];
     var userList = [];
     var userRoleList = [];
 
@@ -49,7 +51,7 @@ define(["CONST", "Utils"], function (CONST, Utils) {
         self = this;        
 
         // UI interval
-        setInterval(self.intervalUI, 200);
+        setInterval(self.intervalUI, 100);
       },
 
       initialize: function(_$scope, _$http, _$window) {
@@ -607,30 +609,34 @@ define(["CONST", "Utils"], function (CONST, Utils) {
       /// End Items
       ///
 
+      getTemplateItemsHash: function() {
+        return templateItemsHash;
+      },
+
       getTemplateItems: function () {
-        var templateItems = [];
+        var templateItemsRoot = [];
         if (items) {
-          templateItems = _.where(items, { id: CONST.TEMPLATES_ROOT_ID() });
+          templateItemsRoot = _.where(items, { id: CONST.TEMPLATES_ROOT_ID() });
         }
 
         var allChildItems = [];
-        _.each(templateItems, function (item) {
+        _.each(templateItemsRoot, function (item) {
           var newItem = _.clone(item);
           allChildItems.push(_.clone(newItem));
           item.parentObj = null;
           Utils.findChildItems(allChildItems, newItem, true);
         });
 
-        var allTemplates = [];
+        templateItems = [];
+        templateItemsHash = {};
         _.each(allChildItems, function (item) {
           var templateId = parseInt(item.templateId);
-          if (templateId > 0 && templateId !== CONST.TEMPLATE_FIELD_ID())
-            allTemplates.push(item);
-          else {
-            var i = 0;
+          if (templateId > 0 && templateId !== CONST.TEMPLATE_FIELD_ID()) {
+            templateItems.push(item);
+            templateItemsHash[item.id] = item;
           }
         });
-        return allTemplates;
+        return templateItems;
       },
 
       getContentItems: function () {

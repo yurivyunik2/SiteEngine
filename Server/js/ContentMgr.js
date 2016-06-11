@@ -100,12 +100,10 @@
 
         if (renderingObj && renderingObj.id && parseInt(renderingObj.id) > 0) {
           var renderingId = parseInt(renderingObj.id);
-          var items = ServerApplication.getItems();
-          _.each(items, function (item) {
-            if (item.id === renderingId) {
-              renderingObj.layoutItem = item;
-            }
-          });
+          var itemsHash = ServerApplication.getItemsHash();
+          if (itemsHash[renderingId]) {
+            renderingObj.layoutItem = itemsHash[renderingId];
+          }
 
           if (renderingObj.layoutItem) {
 
@@ -117,7 +115,7 @@
                   itemData.fields = objResponse.data;
                   _.each(itemData.fields, function (field) {
                     if (field.fieldId === CONST.LAYOUT_CONTENT_FIELD_ID()) {
-                      stUserAgents = field.value;
+                      var stUserAgents = field.value;
                       try {
                         arUserAgents = JSON.parse(stUserAgents);
                         if (arUserAgents && request.headers["user-agent"]) {
@@ -182,7 +180,7 @@
     getContent: function (request, objResponse, callback) {
       self.getContentItem(request, objResponse, function () {
         if (!(objResponse.error && objResponse.error !== "")) {
-          var contentItem;
+          var contentItem = null;
           if (objResponse.data) {
             contentItem = objResponse.data.item;
           }

@@ -87,15 +87,51 @@ define(["application", "CONST", "Utils"], function (application, CONST, Utils) {
         //listTitle["createdBy"] = "Created by";
 
         for (var i = 0; i < listParam.length; i++) {
-          var valueParam = itemData[listParam[i]];
+          var valueParam = "";
           // "isPublish" for version 
-          if (listParam[i] === "version") {
-            if (fieldsLang && fieldsLang.length > 0) {
-              valueParam = fieldsLang[0].version;
-              if (fieldsLang[0].isPublish) {
-                valueParam += " <font color='red'>(published)</font>";
+          switch (listParam[i]) {
+            case "version":
+              {
+                if (fieldsLang && fieldsLang.length > 0) {
+                  valueParam = fieldsLang[0].version;
+                  if (fieldsLang[0].isPublish) {
+                    valueParam += " <font color='red'>(published)</font>";
+                  }
+                }
+                break;
               }
-            }
+            case "template":
+              {
+                if (itemData.templateId) {
+                  var templateItems = application.getTemplateItemsHash();
+                  if (templateItems[itemData.templateId]) {
+                    valueParam = templateItems[itemData.templateId].name;
+                  } else {
+                    valueParam = "unknown";
+                  }
+                } else {
+                  valueParam = "unknown";
+                }
+                break;
+              }
+            case "path":
+              {
+                var fullPath = itemData.name;
+                var parentObj = itemData.parentObj;
+                while (parentObj) {
+                  if (parentObj) {
+                    fullPath = parentObj.name + "\\" + fullPath;
+                  }
+                  parentObj = parentObj.parentObj;
+                }
+                valueParam = fullPath;
+                break;
+              }
+            default:
+              {
+                valueParam = itemData[listParam[i]];
+                break;
+              }
           }
           html =
             '<tr>' +

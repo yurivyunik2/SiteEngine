@@ -1,7 +1,6 @@
 ﻿require.config({
   paths: {
-    panelFormCtrl: "/SiteEngine/Client/Views/panels/panelForm/panelFormCtrl",
-    panelTypes: "/SiteEngine/Client/Views/panels/panelTypes",
+    panelFormCtrl: "/SiteEngine/Client/Views/panels/panelForm/panelFormCtrl"
   },
 });
 
@@ -10,9 +9,8 @@ define(["application",
         "CONST",
         "notification",
         "panelFormCtrl",
-        "panelTypes",
        ],
-function (application, Utils, CONST, Notification, PanelFormCtrl, PanelTypes) {
+function (application, Utils, CONST, Notification, PanelFormCtrl) {
   //function (application, PanelFormCtrl, PanelTypes) {
 
   var NOTIFICATION_MESSAGES = {
@@ -226,7 +224,7 @@ function (application, Utils, CONST, Notification, PanelFormCtrl, PanelTypes) {
             }
           case "listUsers":
             {
-              var panelFormCtrl = new PanelFormCtrl($scope, (new PanelTypes($scope)).USER_MANAGER);
+              var panelFormCtrl = new PanelFormCtrl($scope, PanelFormCtrl.PANEL_TYPE().USER_MANAGER);
               panelFormCtrl.show();
               break;
             }

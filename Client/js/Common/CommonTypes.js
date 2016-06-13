@@ -16,7 +16,6 @@
         var formTitle;
         var $elem;
         var dataCtrl;
-        var isButtonsFormHide;
 
         return {
           setBaseData: function (data) {
@@ -25,7 +24,6 @@
             formId = data.formId;
             formPath = data.formPath;
             formTitle = data.formTitle;
-            isButtonsFormHide = data.isButtonsFormHide;
           },
 
           getFormId: function () { return formId; },
@@ -41,7 +39,13 @@
           setDataCtrl: function (_dataCtrl) { dataCtrl = _dataCtrl; },
           getDataCtrl: function () { return dataCtrl; },
 
-          isButtonsFormHide: function () { return isButtonsFormHide; },
+          isHeaderFormVisible: function () { return true; },
+          isButtonsFormVisible: function () { return true; },
+          isCancelButtonVisible: function () { return true; },
+
+          isPaddingNone: function() { return false; },
+        
+          clickOk: function() {},
 
         };
       },

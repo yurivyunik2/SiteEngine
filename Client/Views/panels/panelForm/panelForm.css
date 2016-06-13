@@ -81,13 +81,28 @@
   float: left;
   margin-left: 5px;
 }
+.btnForm {
+  border: 1px solid #05B0D8;
+  background: linear-gradient(to bottom, #ece0e0 0%, #c7c7c7 100%);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.3), 0 2px 2px -1px rgba(0, 0, 0, 0.5), 0 1px 0 rgba(255, 255, 255, 0.3) inset;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.9);
+  font: bold 13px arial, helvetica, sans-serif;
+}
+.btnActive {
+  background: linear-gradient(to bottom, #ece0e0 0%, #a5a5a5 100%);
+}
 .dvPanelFormContainer {
   position: absolute;
   cursor: pointer;
   width: auto;
   height: auto;
+  font-size: 1px;
+  z-index: 1000000;
 }
-.dvPanelFormContainer .dvHeaderForm {
+.dvPanelFormContainer .dvContentForm {
+  min-height: 40px;
+}
+.dvPanelFormContainer .dvContentForm .dvHeaderForm {
   display: block;
   text-align: right;
   padding-top: 3px;
@@ -95,10 +110,14 @@
   border-top-left-radius: 14px;
   border-top-right-radius: 14px;
 }
-.dvPanelFormContainer .dvHeaderForm .dvButtons img {
+.dvPanelFormContainer .dvContentForm .dvHeaderForm .dvButtons img {
   width: 20px;
 }
-.dvPanelFormContainer .dvIncludePart {
+.dvPanelFormContainer .dvContentForm .dvIncludePart {
   border-bottom-left-radius: 14px;
   border-bottom-right-radius: 14px;
+}
+.dvPanelFormContainer .dvContentForm .dvButtonsForm {
+  border: none;
+  padding: 5px 11px;
 }

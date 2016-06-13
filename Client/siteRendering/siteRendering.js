@@ -1,4 +1,11 @@
-﻿define(["CONST", "Utils", "application", "actionCtrl", "SiteInitialization"], function (CONST, Utils, application, ActionCtrl, SiteInitialization) {
+﻿require.config({
+  paths: {
+    panelFormCtrl: "/SiteEngine/Client/Views/panels/panelForm/panelFormCtrl"
+  },
+});
+
+define(["CONST", "Utils", "application", "actionCtrl", "SiteInitialization", "panelFormCtrl"],
+        function (CONST, Utils, application, ActionCtrl, SiteInitialization, PanelFormCtrl) {
 
   var SiteRendering = function () {
 
@@ -7,37 +14,40 @@
 
     var itemsChanged = [];
 
-    var v_actionCtrl;
-    var v_isContentRendered = false;
-    var v_contentSource;
-    var v_isIncludeContentLoaded = false;
+    var actionCtrl;
+    var isContentRendered = false;
+    var contentSource;
+    var isIncludeContentLoaded = false;
+    var editContentCtrl;
 
     var siteRendering = {
       constructor: function () {
         self = this;
 
-        v_actionCtrl = ActionCtrl(_$scope, _$http);
+        actionCtrl = ActionCtrl(_$scope, _$http);
+
+        editContentCtrl = new PanelFormCtrl(_$scope, PanelFormCtrl.PANEL_TYPE().EDIT_CONTENT);
 
         setInterval(self.uiTick, 100);
       },
 
       uiTick: function() {
-        if (SiteInitialization.isItemsBound() && v_contentSource && !v_isContentRendered) {
-          v_isContentRendered = true;
-          self.renderContent(v_contentSource);
+        if (SiteInitialization.isItemsBound() && contentSource && !isContentRendered) {
+          isContentRendered = true;
+          self.renderContent(contentSource);
         }
 
-        if (v_isIncludeContentLoaded) {
-          v_isIncludeContentLoaded = false;
+        if (isIncludeContentLoaded) {
+          isIncludeContentLoaded = false;
           self.bindObjMouseEvent();
         }
 
         //$("#btn_save").attr("disabled", "true");
       },
 
-      renderContent: function (v_contentSource) {
+      renderContent: function (contentSource) {
         try {
-          var contentFn = _$compile(v_contentSource);
+          var contentFn = _$compile(contentSource);
           var contentElems = contentFn(_$scope);
 
           $("#wrapperContent").html(contentElems);
@@ -48,7 +58,7 @@
 
           var lastDateTimeIncludeContent = Date.now();
           _$scope.$on('$includeContentLoaded', function (event, a, b, c) {
-            v_isIncludeContentLoaded = true;
+            isIncludeContentLoaded = true;
             lastDateTimeIncludeContent = Date.now();
           });
 
@@ -57,40 +67,29 @@
         }
       },
       render: function (_contentSource) {
-        v_contentSource = _contentSource;
+        contentSource = _contentSource;
       },
 
-      bindObjMouseEvent: function() {
+      bindObjMouseEvent: function () {        
         $("[bindobj]").unbind("mouseover");
         $("[bindobj]").mouseover(function (ev) {
+          curEditItem.htmlElemTarget = ev.currentTarget;
           curEditItem.bindObj = $(ev.currentTarget).attr("bindobj");
           curEditItem.bindField = $(ev.currentTarget).attr("bindfield");
-
-          var bodyRect = document.body.getBoundingClientRect();
-          var elemRect = ev.currentTarget.getBoundingClientRect();
-          var offsetLeft = elemRect.left - bodyRect.left;
-          var offsetTop = elemRect.top - bodyRect.top;
-
-          var padding = 15;
-          $("#editCtrl").css("display", "inline-block");
-          $("#editCtrl").css("left", (offsetLeft - padding / 2) + 'px');
-          $("#editCtrl").css("top", (offsetTop - padding / 2) + 'px');
-          $("#editCtrl").css("width", (ev.currentTarget.offsetWidth + padding) + 'px');
-          //$("#editCtrl").css("height", (ev.currentTarget.offsetHeight + padding) + 'px');
-
-          //$("#editCtrl").find("textarea").css("width", (ev.currentTarget.offsetWidth + padding) + 'px');
-          $("#editCtrl").find("textarea").css("height", (ev.currentTarget.offsetHeight + padding) + 'px');
-          //$("#editCtrl").find("textarea").html($(ev.currentTarget).html());
-          var v_content = $(ev.currentTarget).html().trim();
-          $("#editCtrl").find("textarea").val(v_content);
-          var style = self.getStyle(ev.currentTarget);
-          $("#editCtrl").find("textarea").css("font-size", style.getPropertyValue("font-size"));
-          $("#editCtrl").find("textarea").css("font-weight", style.getPropertyValue("font-weight"));
-          if (style.getPropertyValue("color") == 'rgb(255, 255, 255)') {
-            $("#editCtrl").find("textarea").css("color", "black");
-          } else
-            $("#editCtrl").find("textarea").css("color", style.getPropertyValue("color"));
+          
+          editContentCtrl.show({ editItem: curEditItem, top: (offsetTop - padding / 2), left: (offsetLeft - padding / 2), callback: self.callbackEdit });
         });
+      },
+
+      callbackEdit: function (data) {
+        if (!data || !data.editItem)
+          return;
+
+        var item = _$scope[data.editItem.bindObj];
+        if (item[data.editItem.bindField] && item.fields && data.editItem.bindField) {
+          if (!_.find(itemsChanged, { id: item.id }))
+            itemsChanged.push(item);
+        }
       },
 
       afterRender: function () {
@@ -98,43 +97,17 @@
         _$scope.editItem = self.editItem;
         _$scope.saveItem = self.saveItem;
       },
-      cancelEdit: function () {
-        $("#editCtrl").hide();
-      },
-      editItem: function (ev) {
-        if (curEditItem && curEditItem.bindObj && curEditItem.bindField) {
-          ev = ev || window.event;
-          if (_$scope[curEditItem.bindObj]) {
-            var item = _$scope[curEditItem.bindObj];
-            if (item[curEditItem.bindField] && item.fields && curEditItem.bindField) {
-              var field = _.findWhere(item.fields, { name: curEditItem.bindField });
-              if (field) {
-                field.value = $("#editCtrl").find("textarea").val();
-                _$scope[curEditItem.bindObj][curEditItem.bindField] = field.value;
-
-                if(!_.find(itemsChanged, {id: item.id}))
-                  itemsChanged.push(item);
-              }
-            }
-          }
-          $("#editCtrl").hide();
-        }
-
-      },
+      
       saveItem: function () {
         if (itemsChanged.length > 0) {
           _.each(itemsChanged, function(item) {
-            v_actionCtrl.saveItem({ item: item }, function (data) {
+            actionCtrl.saveItem({ item: item }, function (data) {
               if (data && data.item) {
                 itemsChanged = _.without(itemsChanged, {id: data.item.id});
               }
             });
           });
         }
-      },
-
-      getStyle: function (elem) {
-        return window.getComputedStyle ? getComputedStyle(elem, "") : elem.currentStyle;
       },
 
       loadIncludeFile: function (includePath, callback) {

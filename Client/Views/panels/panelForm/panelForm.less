@@ -1,4 +1,5 @@
 ﻿@import "../../../css/form.less";
+@import "../../../css/Common.less";
 @import "../../../css/StyleVariables.less";
 
 .dvPanelFormContainer {
@@ -6,26 +7,39 @@
   cursor: pointer;
   width: auto;
   height: auto;
+  font-size: 1px;
+  z-index: 1000000;
 
-  .dvHeaderForm {
-    display: block;
-    text-align: right;
-    padding-top: 3px;
-    padding-right: 7px;    
-    border-top-left-radius: @borderRadiusContent;
-    border-top-right-radius: @borderRadiusContent;
+  .dvContentForm {
+    min-height: 40px;
 
-    .dvButtons {
-      img {
-        width: 20px;
+    .dvHeaderForm {
+      display: block;
+      text-align: right;
+      padding-top: 3px;
+      padding-right: 7px;    
+      border-top-left-radius: @borderRadiusContent;
+      border-top-right-radius: @borderRadiusContent;
+
+      .dvButtons {
+        img {
+          width: 20px;
+        }
       }
-    }    
+    }
+
+    .dvIncludePart {
+      border-bottom-left-radius: @borderRadiusContent;
+      border-bottom-right-radius: @borderRadiusContent;
+    }
+
+    .dvButtonsForm {
+      border:none;
+      padding: 5px 11px;
+    }
+
   }
 
-  .dvIncludePart {
-    border-bottom-left-radius: @borderRadiusContent;
-    border-bottom-right-radius: @borderRadiusContent;
-  }
 }
 
 

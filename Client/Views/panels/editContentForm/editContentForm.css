@@ -1,0 +1,8 @@
+﻿.dvPanelFormContainer .dvContentForm {
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+}
+.dvPanelFormContainer .editContentForm textarea {
+  width: 100%;
+  font: 13px arial, serif;
+}

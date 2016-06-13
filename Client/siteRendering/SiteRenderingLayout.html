@@ -19,15 +19,15 @@
           <img src="/SiteEngine/Client/images/loading.gif">
         </div>
       </div>
-  </div>
+  </div>  
 
-
-  <div ng-app="app" ng-controller="ctrlApp" style="height: 100%;">
+<div ng-app="app" ng-controller="ctrlApp" style="height: 100%;">
+    <div ng-include="'/SiteEngine/Client/Views/panels/panelForm/panelForm.html'" onload="loadPanelForm()"></div>
 
     <div id="editCtrl" style=""><textarea name="Text1"></textarea>
       <div class="dvButtons" >
         <a href="#" id="A1" class="button-ribbon" ng-click="editItem($event)">OK</a>
-        <a href="#" id="A2" class="button-ribbon" ng-click="cancelEdit()">CANCEL</a>
+        <!--<a href="#" id="A2" class="button-ribbon" ng-click="cancelEdit()">CANCEL</a>-->
       </div>
     </div>
 
@@ -43,14 +43,16 @@
         </tr>
       </table>
     </div>
-    <div id="wrapperContent" style="display: block; margin: 0 auto;height: 100%;" >
+    <div id="wrapperContent" style="display: block; margin: 0 auto; height: 100%;">
 
-      <!--<div id="loadingElem" style="display: table-cell;vertical-align: middle;">      
+      <!--<div id="loadingElem" style="display: table-cell;vertical-align: middle;">
         <img src="/SiteEngine/Client/images/loading.gif" style="width: 48px;height: 48px;">
       </div>-->
 
     </div>
-  </div>
+
+    <div ng-view id="viewApp" class="dvNgView"></div>
+</div>
   
 <!--    <script src="/SiteEngine/Client/js/lib/require.js"></script>    
     <script src="/SiteEngine/Client/js/lib/angular/angular.js"></script>-->

@@ -5,7 +5,6 @@
     modalFormCtrl: "/SiteEngine/Client/Views/forms/modalForm/modalFormCtrl",
     tabPanel: "js/components/TabPanel/tabPanel",
     panelFormCtrl: "/SiteEngine/Client/Views/panels/panelForm/panelFormCtrl",
-    panelTypes: "/SiteEngine/Client/Views/panels/panelTypes",
 
     componentMgr: "js/components/ComponentMgr",
     //richTextEditor: "js/components/RichTextEditor/RichTextEditor",
@@ -21,11 +20,10 @@ define([
     "modalFormCtrl",
     "tabPanel",
     "panelFormCtrl",
-    "panelTypes",
     "componentMgr",
     //"richTextEditor",
     ],
-function (application, CONST, Utils, EngineTree, ActionCtrl, ModalFormCtrl, TabPanel, PanelFormCtrl, PanelTypes, ComponentMgr) {
+function (application, CONST, Utils, EngineTree, ActionCtrl, ModalFormCtrl, TabPanel, PanelFormCtrl, ComponentMgr) {
 
   return function ($scope, $http, $window) {
 

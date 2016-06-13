@@ -41,13 +41,20 @@
             if (indexDot >= 0) {
               name = name.substring(indexDot, name - indexDot);
             }
-            if (name !== "") {
+            if (name) {
+              name = name.toLowerCase();
               var contentItems = contentParentItems;
               if (finishContentItem)
                 contentItems = finishContentItem.childs;
-              var arFound = _.where(contentItems, { name: name });
-              if (arFound.length > 0)
-                finishContentItem = arFound[0];
+              var itemFound = null;
+              for (var j = 0; j < contentItems.length; j++) {
+                if (contentItems[j].name && contentItems[j].name.toLowerCase() === name) {
+                  itemFound = contentItems[j];
+                  break;
+                }
+              }
+              if (itemFound)
+                finishContentItem = itemFound;
               else {
                 finishContentItem = null;
                 break;

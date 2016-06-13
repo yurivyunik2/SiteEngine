@@ -252,7 +252,8 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
 
         if (currentCtrl) {
           var $buttonsFormElem = self.get$el().find(".dvButtonsForm");
-          (currentCtrl.isButtonsFormHide && currentCtrl.isButtonsFormHide()) ? $buttonsFormElem.hide() : $buttonsFormElem.show();
+          if (!currentCtrl.isButtonsFormVisible)
+            $buttonsFormElem.hide();
 
           if (currentCtrl.show)
             currentCtrl.show(data);

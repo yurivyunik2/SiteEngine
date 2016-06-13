@@ -1,6 +1,6 @@
 ﻿define(["application", "CONST", "CommonTypes"], function (application, CONST, CommonTypes) {
 
-  return function ($scope) {
+  return function (parentForm, $scope) {
 
     var self;
     var tbUserSelector = "#tbUsers";
@@ -12,24 +12,24 @@
     var userManagerObj = new CommonTypes.BaseFormElement();
     _.extend(userManagerObj, {
       constructor: function () {
-        self = this;
-        self.setBaseData({
-          formTitle: "List Users",
-          formPath: "/SiteEngine/Client/Views/forms/userManagerForm/userManagerForm.html",
-          isButtonsFormHide: true,
-        });
+        try {
+          self = this;
+          self.setBaseData({
+            formTitle: "List Users",
+            formPath: "/SiteEngine/Client/Views/forms/userManagerForm/userManagerForm.html",
+          });
 
-        $scope.newUserClick = self.newUserClick;
-        $scope.editUserClick = self.editUserClick;
-        $scope.removeUserClick = self.removeUserClick;
+          $scope.newUserClick = self.newUserClick;
+          $scope.editUserClick = self.editUserClick;
+          $scope.removeUserClick = self.removeUserClick;
 
+          application.addUIComponent("userManagerFormCtrl" + Date.now(), self);
 
-        application.addUIComponent("userManagerFormCtrl" + Date.now(), self);
-
-        application.addUserManager(self);
+          application.addUserManager(self);
+        } catch (ex) { }
       },
 
-      IsButtonsFormHide: function () { return true; },
+      isButtonsFormVisible: function () { return false; },
 
       update: function () {
         self.populate();
@@ -56,8 +56,8 @@
       },
 
       show: function () {
-        if (self.panelForm && self.panelForm.get$el()) {
-          var $panel = self.panelForm.get$el();
+        if (parentForm && parentForm.get$el()) {
+          var $panel = parentForm.get$el();
           var $btnNewUser = $panel.find("#btnNewUser");
           $btnNewUser.click(self.newUserClick);
           var $btnEditUser = $panel.find("#btnEditUser");

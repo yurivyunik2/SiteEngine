@@ -103,33 +103,10 @@
           $arLI.bind("click", { self: self }, self.tabChanged);
           $($arLI[0]).click();
           
-          // languageChanged
-          var $selLanguageElem = $parentElem.find(CONST.LANGUAGE_SELECTOR());
-          $selLanguageElem.change(self.languageChanged);
-
-          // versionChanged
-          var $selVersionElem = $parentElem.find(selVersionSelector);
-          $selVersionElem.change(self.versionChanged);
-          
-          // newVersionClick
-          var $btnNewVersionElem = $parentElem.find("#btn_newVersion");
-          $btnNewVersionElem.click(self.newVersionClick);
-          
-          // deleteVersionClick
-          var $imgRemoveVersionElem = $parentElem.find(imgRemoveVersionSelector);
-          $imgRemoveVersionElem.click(self.deleteVersionClick);
-
-          // logoutClick
-          var $logoutLinkElem = $parentElem.find(logoutLinkSelector);
-          $logoutLinkElem.click(self.logoutClick);
-
-          // session
-          var session = application.getSession();
-          if (session && session.isLogged) {
-            var $userNameElem = $parentElem.find(userNameSelector);
-            $userNameElem.html(session.login);
-          }          
+          //
+          self.subscribeOnEvents();
         });
+
 
         //
         application.addUIComponent("tabPanel", self);
@@ -140,6 +117,35 @@
           return;
         
         self.keyDownEventFunc(uiData.keyDownEventLast);
+      },
+
+      subscribeOnEvents: function () {
+        // languageChanged
+        var $selLanguageElem = $parentElem.find(CONST.LANGUAGE_SELECTOR());
+        $selLanguageElem.change(self.languageChanged);
+
+        // versionChanged
+        var $selVersionElem = $parentElem.find(selVersionSelector);
+        $selVersionElem.change(self.versionChanged);
+
+        // newVersionClick
+        var $btnNewVersionElem = $parentElem.find("#btn_newVersion");
+        $btnNewVersionElem.click(self.newVersionClick);
+
+        // deleteVersionClick
+        var $imgRemoveVersionElem = $parentElem.find(imgRemoveVersionSelector);
+        $imgRemoveVersionElem.click(self.deleteVersionClick);
+
+        // logoutClick
+        var $logoutLinkElem = $parentElem.find(logoutLinkSelector);
+        $logoutLinkElem.click(self.logoutClick);
+
+        // session
+        var session = application.getSession();
+        if (session && session.isLogged) {
+          var $userNameElem = $parentElem.find(userNameSelector);
+          $userNameElem.html(session.login);
+        }
       },
 
       populateTab: function () {

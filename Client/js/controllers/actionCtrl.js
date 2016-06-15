@@ -279,8 +279,10 @@ function (application, Utils, CONST, Notification, PanelFormCtrl) {
                 itemSource.name = responseItem.name;
                 itemSource.templateId = responseItem.templateId;
                 responseItem.fields = responseItem.fields;
-                var treeGrid = application.getEngineTree().getTreeGrid();
-                treeGrid.refreshItem(itemSource);
+                if (application.getEngineTree()) {
+                  var treeGrid = application.getEngineTree().getTreeGrid();
+                  treeGrid.refreshItem(itemSource);
+                }                
               }
             }
           }

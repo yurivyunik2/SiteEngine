@@ -1,4 +1,4 @@
-﻿define(["application", "CONST", "CommonTypes"], function (application, CONST, CommonTypes) {
+﻿define(["application", "CONST", "Utils", "CommonTypes"], function (application, CONST, Utils, CommonTypes) {
 
   return function (parentForm, $scope) {
     var self;
@@ -62,7 +62,8 @@
           if ($scope[editItem.bindObj]) {
             var item = $scope[editItem.bindObj];
             if (item[editItem.bindField] && item.fields && editItem.bindField) {
-              var field = _.findWhere(item.fields, { name: editItem.bindField });
+              var lang = Utils.getLanguageCurrent();
+              var field = _.findWhere(item.fields, { name: editItem.bindField, lang: lang.code, isPublish: 1 });
               if (field) {
                 field.value = parentForm.get$el().find("textarea").val();
                 $scope[editItem.bindObj][editItem.bindField] = field.value;
@@ -79,7 +80,7 @@
         self.editItem();
 
         if (callback) {
-          callback();
+          callback(dataCtrl);
         }
       },
     });

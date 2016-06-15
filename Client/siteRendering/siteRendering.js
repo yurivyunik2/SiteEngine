@@ -29,6 +29,11 @@ define(["CONST", "Utils", "application", "actionCtrl", "SiteInitialization", "pa
         editContentCtrl = new PanelFormCtrl(_$scope, PanelFormCtrl.PANEL_TYPE().EDIT_CONTENT);
 
         setInterval(self.uiTick, 100);
+
+        $("#btn_save").click(function (event) {
+          self.saveItems();
+          event.preventDefault();
+        });
       },
 
       uiTick: function() {
@@ -103,7 +108,7 @@ define(["CONST", "Utils", "application", "actionCtrl", "SiteInitialization", "pa
         _$scope.saveItem = self.saveItem;
       },
       
-      saveItem: function () {
+      saveItems: function () {
         if (itemsChanged.length > 0) {
           _.each(itemsChanged, function(item) {
             actionCtrl.saveItem({ item: item }, function (data) {

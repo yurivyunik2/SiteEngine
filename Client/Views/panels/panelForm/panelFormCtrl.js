@@ -27,6 +27,7 @@ define(["application", "CONST", "userManagerFormCtrl", "editContentFormCtrl"], f
     var idPanel;
     var panelIndex;
     var currentCtrl;
+    var dataCtrl;
 
     var isCorrectPosition = false;
     var initWidth;
@@ -55,6 +56,18 @@ define(["application", "CONST", "userManagerFormCtrl", "editContentFormCtrl"], f
         if ($panelElem.length > 0) {
           $panelElem[0].parentNode.removeChild($panelElem[0]);
           //$panelElem.hide();
+        }
+      },
+
+      intervalUI: function () {
+        if (currentCtrl.isCenterForm()) {
+          var $panelElem = $("#" + idPanel);
+          if (isCorrectPosition && $panelElem.length > 0 && (initWidth < $panelElem.width() || panelIndex > 1)) {
+            isCorrectPosition = false;
+            var top = window.innerHeight / 2 - $panelElem.height() / 2;
+            var left = window.innerWidth / 2 - $panelElem.width() / 2;
+            $panelElem.css({ top: top, left: left });
+          }
         }
       },
 
@@ -92,19 +105,8 @@ define(["application", "CONST", "userManagerFormCtrl", "editContentFormCtrl"], f
         }
       },
 
-      intervalUI: function () {
-        if (currentCtrl.isCenterForm()) {
-          var $panelElem = $("#" + idPanel);
-          if (isCorrectPosition && $panelElem.length > 0 && (initWidth < $panelElem.width() || panelIndex > 1)) {
-            isCorrectPosition = false;
-            var top = window.innerHeight / 2 - $panelElem.height() / 2;
-            var left = window.innerWidth / 2 - $panelElem.width() / 2;
-            $panelElem.css({ top: top, left: left });
-          }
-        }
-      },
-
       show: function (data) {
+        dataCtrl = data;
         var $panelElem = self.get$el();
         if ($panelElem.length === 0) {
           self.addPanelToPage(data);
@@ -186,8 +188,8 @@ define(["application", "CONST", "userManagerFormCtrl", "editContentFormCtrl"], f
       },
 
       clickOkCallback: function (dataResponse) {
-        //if (dataCtrl && dataCtrl.callback)
-        //  dataCtrl.callback(dataResponse);
+        if (dataCtrl && dataCtrl.callback)
+          dataCtrl.callback(dataResponse);
         self.hide();
       },
 

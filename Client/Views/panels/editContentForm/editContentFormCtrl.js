@@ -78,10 +78,6 @@
       clickOK: function (callback) {
         self.editItem();
 
-        if (dataCtrl.callback) {
-          dataCtrl.callback(dataCtrl);
-        }
-
         if (callback) {
           callback();
         }

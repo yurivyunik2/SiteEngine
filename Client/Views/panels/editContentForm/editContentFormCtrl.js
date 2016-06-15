@@ -21,6 +21,7 @@
       isHeaderFormVisible: function () { return false; },
       isCancelButtonVisible: function () { return false; },
       isPaddingNone: function () { return true; },
+      isCenterForm: function () { return false; },
 
       show: function (data) {
         if (!data || !data.editItem || !data.editItem.htmlElemTarget)
@@ -33,15 +34,11 @@
         var content = $(htmlElemTarget).html().trim();
         $textArea.val(content);
 
-        //var bodyRect = document.body.getBoundingClientRect();
-        //var elemRect = ev.currentTarget.getBoundingClientRect();
-        //var offsetLeft = elemRect.left - bodyRect.left;
-        //var offsetTop = elemRect.top - bodyRect.top;
+        var paddingWidth = 30;
+        var paddingHeight = 20;
 
-        var padding = 30;
-
-        $editCtrl.css("width", (htmlElemTarget.offsetWidth + padding) + 'px');
-        $textArea.css("height", (htmlElemTarget.offsetHeight + padding) + 'px');
+        $editCtrl.css("width", (htmlElemTarget.offsetWidth + paddingWidth) + 'px');
+        $textArea.css("height", (htmlElemTarget.offsetHeight + paddingHeight) + 'px');
 
         var style = self.getStyle(htmlElemTarget);
         $textArea.css("font-size", style.getPropertyValue("font-size"));

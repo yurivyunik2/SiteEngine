@@ -43,7 +43,8 @@
           isButtonsFormVisible: function () { return true; },
           isCancelButtonVisible: function () { return true; },
 
-          isPaddingNone: function() { return false; },
+          isPaddingNone: function () { return false; },
+          isCenterForm: function () { return true; },
         
           clickOk: function() {},
 

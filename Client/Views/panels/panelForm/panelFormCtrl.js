@@ -93,12 +93,14 @@ define(["application", "CONST", "userManagerFormCtrl", "editContentFormCtrl"], f
       },
 
       intervalUI: function () {
-        var $panelElem = $("#" + idPanel);
-        if (isCorrectPosition && $panelElem.length > 0 && (initWidth < $panelElem.width() || panelIndex > 1)) {
-          isCorrectPosition = false;            
-          var top = window.innerHeight / 2 - $panelElem.height() / 2;
-          var left = window.innerWidth / 2 - $panelElem.width() / 2;
-          $panelElem.css({ top: top, left: left });
+        if (currentCtrl.isCenterForm()) {
+          var $panelElem = $("#" + idPanel);
+          if (isCorrectPosition && $panelElem.length > 0 && (initWidth < $panelElem.width() || panelIndex > 1)) {
+            isCorrectPosition = false;
+            var top = window.innerHeight / 2 - $panelElem.height() / 2;
+            var left = window.innerWidth / 2 - $panelElem.width() / 2;
+            $panelElem.css({ top: top, left: left });
+          }
         }
       },
 
@@ -114,6 +116,15 @@ define(["application", "CONST", "userManagerFormCtrl", "editContentFormCtrl"], f
       afterShow: function (data) {
         var $panelElem = self.get$el();
 
+        if (data) {
+          if (data.top) {
+            $panelElem.css("top", data.top + "px");
+          }
+          if (data.left) {
+            $panelElem.css("left", data.left + "px");
+          }
+        }
+
         self.showPanel(data);
 
         if (!currentCtrl.isHeaderFormVisible()) {
@@ -127,15 +138,6 @@ define(["application", "CONST", "userManagerFormCtrl", "editContentFormCtrl"], f
         }
         if (currentCtrl.isPaddingNone()) {
           $panelElem.find(".dvIncludePart").css("padding", "0");
-        }
-
-        if (data) {
-          if (data.top) {
-            $panelElem.css("top", data.top + "px");
-          }
-          if (data.left) {
-            $panelElem.css("left", data.left + "px");
-          }
         }
         
       },

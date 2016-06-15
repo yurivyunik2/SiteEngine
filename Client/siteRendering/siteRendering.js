@@ -70,14 +70,19 @@ define(["CONST", "Utils", "application", "actionCtrl", "SiteInitialization", "pa
         contentSource = _contentSource;
       },
 
-      bindObjMouseEvent: function () {        
+      bindObjMouseEvent: function () {
         $("[bindobj]").unbind("mouseover");
         $("[bindobj]").mouseover(function (ev) {
           curEditItem.htmlElemTarget = ev.currentTarget;
           curEditItem.bindObj = $(ev.currentTarget).attr("bindobj");
           curEditItem.bindField = $(ev.currentTarget).attr("bindfield");
+
+          var bodyRect = document.body.getBoundingClientRect();
+          var elemRect = ev.currentTarget.getBoundingClientRect();
+          var offsetLeft = elemRect.left - bodyRect.left;
+          var offsetTop = elemRect.top - bodyRect.top;
           
-          editContentCtrl.show({ editItem: curEditItem, top: (offsetTop - padding / 2), left: (offsetLeft - padding / 2), callback: self.callbackEdit });
+          editContentCtrl.show({ editItem: curEditItem, top: offsetTop, left: offsetLeft, callback: self.callbackEdit });
         });
       },
 
@@ -108,6 +113,10 @@ define(["CONST", "Utils", "application", "actionCtrl", "SiteInitialization", "pa
             });
           });
         }
+      },
+
+      getStyle: function (elem) {
+        return window.getComputedStyle ? getComputedStyle(elem, "") : elem.currentStyle;
       },
 
       loadIncludeFile: function (includePath, callback) {

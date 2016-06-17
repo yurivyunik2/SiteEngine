@@ -68,8 +68,18 @@
 
   <div id="tabPanel">
     <div id="actionPanel">
-      <div id="dvTabContent">        
-        <div class="dvButtonRibbon"><a href="index.html#/Views/start" id="btn_save" action="saveItem">Save</a></div>
+      <div id="dvTabContent">
+        <div class="dvButtonRibbon"><a href="index.html#/Views/start" id="btn_save" action="saveItem">Save</a>
+        </div>
+
+        <div class="dvLanguage" >
+          <span>Language:</span>
+          <select class="form-control" id="selLanguage" >
+            <option value="en">English</option>
+            <option value="ru">Russian</option>
+            <option value="da">Danish</option>
+          </select>
+        </div>
       </div>
       <div id="languageChoosePanel">
         <div id="progressBar">
@@ -77,18 +87,19 @@
           <img src="/SiteEngine/Client/images/progressBar.gif">
         </div>
 
+        <!--<span>Language:</span>
         <select class="form-control" id="selLanguage">
           <option value="en">English</option>
           <option value="ru">Russian</option>
           <option value="da">Danish</option>
-        </select>
-        <div class="dvVersion" style="display: none;">
+        </select>-->
+        <!--<div class="dvVersion" style="display: none;">          
           <select class="form-control" id="selVersion"></select>
           <div id="removeVersion">
             <img id="imgRemoveVersion" src="/SiteEngine/Client/images/remove.png" ng-click="clickAddField($event)">
           </div>
         </div>
-        <div class="dvButtonRibbon"><a href="index.html#/Views/start" id="btn_newVersion">New version</a></div>
+        <div class="dvButtonRibbon"><a href="index.html#/Views/start" id="btn_newVersion">New version</a></div>-->
       </div>
     </div>
   </div>
@@ -231,7 +242,8 @@
     
   });
 
-  require(["jquery", "underscore", "application", "siteRendering", "CONST", "Utils", "SiteInitialization", "bootstrap", "css!bootstrap"], function ($, _, application, siteRendering, CONST, Utils, SiteInitialization) {
+  require(["jquery", "underscore", "application", "siteRendering", "CONST", "Utils", "SiteInitialization", "bootstrap", "css!bootstrap"],
+    function ($, _, application, siteRendering, CONST, Utils, SiteInitialization) {
 
     //var path = "main/test2";
     //var path = "main";

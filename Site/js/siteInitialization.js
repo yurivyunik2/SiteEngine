@@ -10,9 +10,17 @@ define(["application", "Utils", "SiteConst"], function (application, Utils, Site
 
     var self;
     var isItemsBound = false;
+    var itemsGroup = null;
 
-    return {
-      constructor: function(){},
+    var siteInitialization = {
+      constructor: function() {
+        self = this;
+
+      },
+      
+      isItemsBound: function () {
+        return isItemsBound;
+      },
 
       bindItems: function ($scope, items) {
         var contentItems = application.getContentItems();
@@ -50,16 +58,51 @@ define(["application", "Utils", "SiteConst"], function (application, Utils, Site
           }
         });
 
-        application.getItemGroupFields(itemsRequest, function (itemsGroup) {
+        application.getItemGroupFields(itemsRequest, function (_itemsGroup) {
+          itemsGroup = _itemsGroup;
+          self.bindItemFields();
           isItemsBound = true;
         });
       },
 
-      isItemsBound: function () {
-        return isItemsBound;
+      bindItemFields: function () {
+        if (!itemsGroup)
+          return;
+
+        var itemsHash = application.getItemsHash();
+        var curLang = Utils.getLanguageCurrent();
+        var defaultLang = Utils.getLanguageDefault();
+        _.each(itemsGroup, function (item) {
+          if (item.id) {
+            var itemHash = itemsHash[item.id];
+            if (itemHash) {
+              itemHash.fields = item.fields;
+              var fieldNames = [];
+              _.each(itemHash.fields, function (field) {
+                if (field.name && fieldNames.indexOf(field.name) < 0) {
+                  fieldNames.push(field.name);
+                }
+              });
+
+              _.each(fieldNames, function (name) {
+                var field = _.findWhere(item.fields, { name: name, lang: curLang.code, isPublish: 1 });
+                if (!field) {
+                  field = _.findWhere(item.fields, { name: name, lang: defaultLang.code, isPublish: 1 });
+                }
+                if (field) {
+                  itemHash[field.name] = field.value;
+                }
+              });
+
+            }
+          }
+        });
+
       },
 
     };
+    siteInitialization.constructor();
+    return siteInitialization;
   };
 
   return SiteInitialization();

@@ -236,6 +236,9 @@ var Utils = function (CONST, Notification) {
         curLanguage = CONST.LANGUAGE_DEFAULT();
       return curLanguage;
     },
+    getLanguageDefault: function() {
+      return CONST.LANGUAGE_DEFAULT();
+    },
 
     getVersionCurrent: function () {
       var curVersion = 0;

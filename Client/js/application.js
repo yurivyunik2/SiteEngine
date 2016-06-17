@@ -365,15 +365,30 @@ define(["CONST", "Utils"], function (CONST, Utils) {
             var itemsGroup;
             if (responseData.data) {
               itemsGroup = responseData.data;
+              var curLang = Utils.getLanguageCurrent();
+              var defaultLang = Utils.getLanguageDefault();
               _.each(itemsGroup, function (item) {
                 if (item.id) {
                   var itemHash = itemsHash[item.id];
-                  if (itemHash) {
+                  if (itemHash) {                    
                     itemHash.fields = item.fields;
+                    var fieldNames = [];
                     _.each(itemHash.fields, function (field) {
-                      if (field.name)
-                        itemHash[field.name] = field.value;
+                      if (field.name && fieldNames.indexOf(field.name) < 0) {
+                        fieldNames.push(field.name);
+                      }                      
                     });
+
+                    _.each(fieldNames, function(name) {
+                      var field = _.findWhere(item.fields, { name: name, lang: curLang.code, isPublish: 1 });
+                      if (!field) {
+                        field = _.findWhere(item.fields, { name: name, lang: defaultLang.code, isPublish: 1 });
+                      }
+                      if (field) {
+                        itemHash[field.name] = field.value;
+                      }                      
+                    });
+
                   }
                 }
               });

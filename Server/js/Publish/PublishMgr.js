@@ -28,7 +28,8 @@
           itemMgr.getItemFields({ id: data.item.id, templateId: data.item.templateId }, objResponseClone, function () {
             if (objResponseClone.data) {
               var fields = objResponseClone.data;
-              _.each(fields, function(field) {
+              var langFields = _.where(fields, { lang: data.lang });
+              _.each(langFields, function (field) {
                 field.isPublish = false;
               });
               if (!data.isMaxVersion) {
@@ -37,7 +38,7 @@
                   field.isPublish = data.item.isPublish;
                 });
               } else {
-                var langFields = _.where(fields, { lang: data.lang });
+                langFields = _.where(fields, { lang: data.lang });
                 var hashFields = {};
                 _.each(langFields, function(field) {
                   if (!hashFields[field.fieldId])

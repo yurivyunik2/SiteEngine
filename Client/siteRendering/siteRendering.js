@@ -34,6 +34,11 @@ define(["CONST", "Utils", "application", "actionCtrl", "SiteInitialization", "pa
           self.saveItems();
           event.preventDefault();
         });
+
+        $("#selLanguage").change(function(event) {
+          SiteInitialization.bindItemFields();
+          isContentRendered = false;
+        });
       },
 
       uiTick: function() {
@@ -131,7 +136,7 @@ define(["CONST", "Utils", "application", "actionCtrl", "SiteInitialization", "pa
         });
       },
       loadContent: function () {
-        var $contentSource = $("<html></html").html(contentSource)
+        var $contentSource = $("<html></html").html(contentSource);
         var $arInclude = $contentSource.find("[ng-include]");
         var hashFile = {};
         var indexLoad = 0;

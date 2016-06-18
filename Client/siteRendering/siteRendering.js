@@ -28,7 +28,8 @@ define(["CONST", "Utils", "application", "actionCtrl", "SiteInitialization", "pa
 
         editContentCtrl = new PanelFormCtrl(_$scope, PanelFormCtrl.PANEL_TYPE().EDIT_CONTENT);
 
-        setInterval(self.uiTick, 100);
+        //setInterval(self.uiTick, 100);
+        application.addUIComponent("siteRendering", self);
 
         $("#btn_save").click(function (event) {
           self.saveItems();
@@ -41,7 +42,7 @@ define(["CONST", "Utils", "application", "actionCtrl", "SiteInitialization", "pa
         });
       },
 
-      uiTick: function() {
+      intervalUI: function (uiData) {
         if (SiteInitialization.isItemsBound() && contentSource && !isContentRendered) {
           isContentRendered = true;
           self.renderContent(contentSource);
@@ -52,7 +53,27 @@ define(["CONST", "Utils", "application", "actionCtrl", "SiteInitialization", "pa
           self.bindObjMouseEvent();
         }
 
+        if (uiData && uiData.mouseDownEventLast) {
+          self.mouseDownEventFunc(uiData.mouseDownEventLast);
+        }
+
+
         //$("#btn_save").attr("disabled", "true");
+      },
+
+      mouseDownEventFunc: function (event) {
+        if (editContentCtrl && editContentCtrl.get$el()) {
+          var $el = editContentCtrl.get$el();
+          if ($el.length > 0) {
+            var eventX = event.clientX;
+            var eventY = event.clientY;
+            var rectBound = $el[0].getBoundingClientRect();
+            if (eventX < rectBound.left || eventX > (rectBound.left + rectBound.width) ||
+              eventY < rectBound.top || eventY > (rectBound.top + rectBound.height)) {
+              editContentCtrl.hide();
+            }
+          }          
+        }
       },
 
       renderContent: function (contentSource) {

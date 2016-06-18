@@ -1,7 +1,6 @@
-﻿
-.dvLoading {
+﻿.dvLoading {
   display: none;
-  width: 100%;  
+  width: 100%;
   height: 100%;
 }
 .dvLoading .dvLoadingContent {
@@ -16,7 +15,22 @@
 .dvLoading .dvLoadingContent .dvElem img {
   width: 48px;
 }
-
+#actionPanel .dvEditModeTitle {
+  display: inline-block;
+  background-color: #b1acac;
+  height: 34px;
+  position: relative;
+  top: -5px;
+  padding: 0px 15px;
+  border-right: 1px solid #c7b6b6;
+}
+#actionPanel .dvEditModeTitle span {
+  color: white;
+  font-size: 15px;
+  font-weight: bold;
+  position: relative;
+  top: 5px;
+}
 #actionPanel .dvLanguage {
   display: inline;
   margin-left: 21px;
@@ -26,9 +40,11 @@
   display: inline-block;
   height: 24px;
   padding: 0;
-  width: 100px;  
+  width: 100px;
 }
-
+#actionPanel .dvLanguage #progressBar {
+  margin-left: 20px;
+}
 #actionProcess {
   display: none;
   opacity: 0.6;
@@ -36,56 +52,51 @@
   position: absolute;
   top: 0px;
   left: 0px;
-  z-index: 1000;  
+  z-index: 1000;
 }
-#actionProcess .dvElem  img {
+#actionProcess .dvElem img {
   width: 74px;
 }
-
 .dvEditPanel {
-    height: 35px;
-    width: 100%;
-    background-color: #C5C5C5;
+  height: 35px;
+  width: 100%;
+  background-color: #C5C5C5;
 }
-  .dvEditPanel table {
-    height: 100%;
-    width: 100%;
-  }
-    .dvEditPanel table .tdInfo {
-      vertical-align: middle;
-      text-align: center;
-      padding: 0; 
-      width: 150px;
-      height: 100%;
-      background-color: #A0A0A0;
-      font-weight: bold;
-      font-size: 16px;
-      color: #E5E6DA;
-    }
-  .dvEditPanel .dvActions {
-
-  }
-
+.dvEditPanel table {
+  height: 100%;
+  width: 100%;
+}
+.dvEditPanel table .tdInfo {
+  vertical-align: middle;
+  text-align: center;
+  padding: 0;
+  width: 150px;
+  height: 100%;
+  background-color: #A0A0A0;
+  font-weight: bold;
+  font-size: 16px;
+  color: #E5E6DA;
+}
 #editCtrl {
   z-index: 1000;
-  display:none; 
+  display: none;
   min-width: 145px;
-  position: absolute; 
+  position: absolute;
   border: 1px solid #444148;
-  /*padding: 5px;*/  
+  /*padding: 5px;*/
 }
-  #editCtrl textarea {
-    z-index: 1000;
-    resize: none;
-    display: block;
-    width:100%;
-    /*font-size: 18px;*/
-    /*width: 100%;
+#editCtrl textarea {
+  z-index: 1000;
+  resize: none;
+  display: block;
+  width: 100%;
+  /*font-size: 18px;*/
+  /*width: 100%;
     height: 100%;*/
-  }
-  #editCtrl .dvButtons {
-    display: block;
-    background-color: #ABA6A6;
-    margin: 0;
-    padding: 3px 0px;
-  }
+}
+#editCtrl .dvButtons {
+  display: block;
+  background-color: #ABA6A6;
+  margin: 0;
+  padding: 3px 0px;
+}

@@ -101,6 +101,7 @@
 }
 .dvPanelFormContainer .dvContentForm {
   min-height: 40px;
+  width: 100%;
 }
 .dvPanelFormContainer .dvContentForm .dvHeaderForm {
   display: block;

@@ -27,79 +27,34 @@
 
     <div id="editCtrl" style=""><textarea name="Text1"></textarea>
       <div class="dvButtons" >
-        <a href="#" id="A1" class="button-ribbon" ng-click="editItem($event)">OK</a>
+        <a href="#" class="button-ribbon" ng-click="editItem($event)">OK</a>
         <!--<a href="#" id="A2" class="button-ribbon" ng-click="cancelEdit()">CANCEL</a>-->
       </div>
     </div>
 
-  <!--<div class="dvEditPanel">
-    <table>
-      <tr>
-        <td class="tdInfo"><span>Edit mode</span></td>
-        <td>
-          <div id="tabPanel" class="dvActions">
-            <a href="" id="btn_save" action="saveItem" class="button-ribbon" ng-click="saveItem()">Save</a>
-
-            <div id="languageChoosePanel">
-              <div id="progressBar">
-                <span>Processing:</span>
-                <img src="/SiteEngine/Client/images/progressBar.gif">
-              </div>
-
-              <select class="form-control" id="selLanguage">
-                <option value="en">English</option>
-                <option value="ru">Russian</option>
-                <option value="da">Danish</option>
-              </select>
-              <div class="dvVersion" style="display: none;">
-                <select class="form-control" id="selVersion"></select>
-                <div id="removeVersion">
-                  <img id="imgRemoveVersion" src="/SiteEngine/Client/images/remove.png" ng-click="clickAddField($event)">
-                </div>
-              </div>
-              <div class="dvButtonRibbon"><a href="index.html#/Views/start" id="btn_newVersion">New version</a></div>
-            </div>
-
-          </div>
-        </td>
-      </tr>
-    </table>
-  </div>-->
-
   <div id="tabPanel">
     <div id="actionPanel">
       <div id="dvTabContent">
+        <div class="dvEditModeTitle">
+          <span >EDIT MODE</span>
+        </div>
+
         <div class="dvButtonRibbon"><a href="index.html#/Views/start" id="btn_save" action="saveItem">Save</a>
         </div>
 
-        <div class="dvLanguage" >
+        <div class="dvLanguage">
           <span>Language:</span>
-          <select class="form-control" id="selLanguage" >
+          <select class="form-control" id="selLanguage">
             <option value="en">English</option>
             <option value="ru">Russian</option>
             <option value="da">Danish</option>
           </select>
         </div>
-      </div>
-      <div id="languageChoosePanel">
+
         <div id="progressBar">
           <span>Processing:</span>
           <img src="/SiteEngine/Client/images/progressBar.gif">
         </div>
-
-        <!--<span>Language:</span>
-        <select class="form-control" id="selLanguage">
-          <option value="en">English</option>
-          <option value="ru">Russian</option>
-          <option value="da">Danish</option>
-        </select>-->
-        <!--<div class="dvVersion" style="display: none;">          
-          <select class="form-control" id="selVersion"></select>
-          <div id="removeVersion">
-            <img id="imgRemoveVersion" src="/SiteEngine/Client/images/remove.png" ng-click="clickAddField($event)">
-          </div>
-        </div>
-        <div class="dvButtonRibbon"><a href="index.html#/Views/start" id="btn_newVersion">New version</a></div>-->
       </div>
     </div>
   </div>
@@ -111,9 +66,9 @@
         <img src="/SiteEngine/Client/images/loading.gif" style="width: 48px;height: 48px;">
       </div>-->
 
-    </div>
+  </div>
 
-    <div ng-view id="viewApp" class="dvNgView"></div>
+  <div ng-view id="viewApp" class="dvNgView"></div>
 </div>
   
 <!--    <script src="/SiteEngine/Client/js/lib/require.js"></script>    

@@ -93,7 +93,8 @@ define(["application", "CONST", "userManagerFormCtrl", "editContentFormCtrl"], f
                 $parentElem.append($html[0].outerHTML);
 
                 $panelElem = self.get$el();
-                //$panelElem.draggable();
+                $panelElem.draggable();
+                //$panelElem.resizable();
 
                 $panelElem.find(".imgClose").click(self.hide);
                 $panelElem.find(".btnOK").click(self.clickOk);
@@ -157,7 +158,7 @@ define(["application", "CONST", "userManagerFormCtrl", "editContentFormCtrl"], f
           $panelElem.show();
 
           initWidth = $panelElem.width();
-          isCorrectPosition = true;          
+          isCorrectPosition = true;
         }
       },
 

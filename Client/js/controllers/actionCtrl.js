@@ -510,10 +510,16 @@ function (application, Utils, CONST, Notification, PanelFormCtrl) {
                   index++;
                 }
                 if (isContentParentFound) {
-                  window.open(relativePath + "?isEdit=true");
+                  if (isEdit) {
+                    relativePath += "?isEdit=true";
+                  }
+                  window.open(relativePath);
                 }
               }
-            } catch (ex) { }
+            } catch (ex) {
+            }
+          } else {
+            application.showNotificationModal("The current item doesn't have the rendering layout!");
           }
         }
       },

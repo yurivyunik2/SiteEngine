@@ -15,6 +15,9 @@
 .dvLoading .dvLoadingContent .dvElem img {
   width: 48px;
 }
+.editModePanel {
+  display: none;
+}
 #actionPanel .dvEditModeTitle {
   display: inline-block;
   background-color: #b1acac;

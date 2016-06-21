@@ -98,14 +98,15 @@
   float: left;
 }
 #imageGalleryForm .dvBtnUpload #btnUploadFiles {
-  background-color: #FF7B00;
+  background-color: #1491DA;
   padding: 6px 30px;
   border-radius: 20px;  
   /*margin-right: 20px;*/
-  color: white;  
+  color: white;
+  cursor: pointer;
 }
 #imageGalleryForm .dvBtnUpload #btnUploadFiles:hover {
-  background-color: #EAB05A;
+  background-color: #0d74af;
 }
 #imageGalleryForm #imgArea {
   width: 100%;

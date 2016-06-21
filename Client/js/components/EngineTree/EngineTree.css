@@ -134,6 +134,10 @@
 #dvMainContent.dvContent .dvInfoPanel .tbStandardParams .tdInfoParamValue {
   width: 50%;
 }
+#dvMainContent.dvContent .dvInfoPanel .tbStandardParams .tdInfoParamValue .spPublished,
+#dvMainContent.dvContent .dvInfoPanel .tbStandardParams .tdInfoParamValue .spNoVersion {
+  color: #ea0000;
+}
 #dvMainContent.dvContent .dvInfoPanel .tbStandardParams input {
   background: transparent;
   font: 8pt tahoma;

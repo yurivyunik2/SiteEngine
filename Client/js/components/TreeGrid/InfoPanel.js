@@ -95,8 +95,10 @@ define(["application", "CONST", "Utils"], function (application, CONST, Utils) {
                 if (fieldsLang && fieldsLang.length > 0) {
                   valueParam = fieldsLang[0].version;
                   if (fieldsLang[0].isPublish) {
-                    valueParam += " <font color='red'>(published)</font>";
+                    valueParam += " <span style='color:red;'> (published)</span>";
                   }
+                } else {
+                  valueParam += "<span class='spNoVersion'>The current item doesn't have any version!</span>";
                 }
                 break;
               }

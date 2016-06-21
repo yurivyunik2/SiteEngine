@@ -21,11 +21,16 @@
   padding: 1px 7px;
   background-color: #5A96B1;
 }
-#tabPanel .dvButtonRibbon a:focus,
+#tabPanel .dvButtonRibbon a:focus {
+  text-decoration: none;  
+}
 #tabPanel .dvButtonRibbon a:hover {
   text-decoration: none;
   color: #ffffff;
   border-color: #ffffff;
+}
+#tabPanel .dvButtonRibbon a:active {
+  background: linear-gradient(#48c1cc, #068888);
 }
 #tabPanel .dvContent {
   display: table;

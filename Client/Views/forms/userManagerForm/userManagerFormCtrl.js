@@ -30,6 +30,7 @@
       },
 
       isButtonsFormVisible: function () { return false; },
+      isDraggableForm: function () { return true; },
 
       update: function () {
         self.populate();

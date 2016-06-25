@@ -93,7 +93,9 @@ define(["application", "CONST", "userManagerFormCtrl", "editContentFormCtrl"], f
                 $parentElem.append($html[0].outerHTML);
 
                 $panelElem = self.get$el();
-                $panelElem.draggable();
+                if (currentCtrl.isDraggableForm()) {
+                  $panelElem.draggable();
+                }                
                 //$panelElem.resizable();
 
                 $panelElem.find(".imgClose").click(self.hide);

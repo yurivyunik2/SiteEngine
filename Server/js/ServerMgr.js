@@ -76,7 +76,16 @@
     },
 
     responseCallbackPOST: function (response, dataRequest, objResponse) {
+      self.responseCallbackPOSTExtend(response, dataRequest, objResponse);
+    },
+    responseCallbackPOSTExtend: function (response, dataRequest, objResponse, contentType) {
       DatabaseMgr.historyLog(dataRequest, objResponse);
+      var headersObj = {
+        'Access-Control-Allow-Origin': '*'
+      };
+      if (contentType)
+        headersObj["Content-Type"] = contentType;
+      response.writeHead(200, "OK", headersObj);
 
       response.end(JSON.stringify(objResponse));
     },
@@ -257,12 +266,8 @@
               }
             case "getContentSite": {
               contentMgr.getContent(request, objResponse, function () {
-                  response.writeHead(200, "OK", {
-                    'Content-Type': 'text/html',
-                    'Access-Control-Allow-Origin': '*'
-                  });
                   //response.end(JSON.stringify(objResponse));
-                  self.responseCallbackPOST(response, dataRequest, objResponse);
+                  self.responseCallbackPOSTExtend(response, dataRequest, objResponse, 'text/html');
                 });
               break;
               }

@@ -45,6 +45,7 @@
 
           isPaddingNone: function () { return false; },
           isCenterForm: function () { return true; },
+          isDraggableForm: function () { return false; },
         
           clickOk: function() {},
 

@@ -110,6 +110,7 @@ module.exports = function(grunt) {
   
   grunt.registerTask('ftp_push', ['ftpush']);
   //grunt.registerTask('default', ['cssmin', 'htmlmin', 'imagemin', 'uglify', 'ftp_push']);
-  grunt.registerTask('default', ['cssmin', 'htmlmin', 'imagemin', 'ftp_push']);
+  //grunt.registerTask('default', ['cssmin', 'htmlmin', 'imagemin', 'ftp_push']);
+  grunt.registerTask('default', ['cssmin', 'htmlmin', 'imagemin']);
   
 };

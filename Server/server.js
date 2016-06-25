@@ -11,8 +11,8 @@ var Modules = require('./js/Modules.js');
 var CONST = Modules.CONST;
 var AppConfig = Modules.AppConfig;
 
-if (AppConfig.SERVER.isRelease)
-  process.chdir('./SiteEngine_RELEASE');
+//if (AppConfig.SERVER.isRelease)
+//  process.chdir('./SiteEngine_RELEASE');
 
 app.use(session({ secret: 'ssshhhhh' }));
 

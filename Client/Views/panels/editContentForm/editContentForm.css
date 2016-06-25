@@ -5,4 +5,5 @@
 .dvPanelFormContainer .editContentForm textarea {
   width: 100%;
   font: 13px arial, serif;
+  display: block;
 }

@@ -11,12 +11,9 @@
     AppConfig: "/SiteEngine/Common/appConfig",
     routing: "routing",
     application: "js/application",
-    //CONST: "js/const",
     CONST: "/SiteEngine/Common/Const",
     notification: "Views/forms/notificationForm/notification",
-    //notification: "/SiteEngine/Views/forms/notificationForm/notification",
     CommonTypes: "js/Common/CommonTypes",
-    //Utils: "js/Common/Utils",
     Utils: "/SiteEngine/Common/Utils",
   },
     shim: {

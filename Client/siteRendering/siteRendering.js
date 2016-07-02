@@ -12,12 +12,14 @@ define(["CONST", "Utils", "application", "actionCtrl", "SiteInitialization", "pa
     var self;
     var curEditItem = {};
 
+    var contentSource;
     var itemsChanged = [];
 
-    var actionCtrl;
     var isContentRendered = false;
-    var contentSource;
     var isIncludeContentLoaded = false;
+    var isEditSiteMode = false;
+
+    var actionCtrl;
     var editContentCtrl;
 
     var siteRendering = {
@@ -27,6 +29,9 @@ define(["CONST", "Utils", "application", "actionCtrl", "SiteInitialization", "pa
         actionCtrl = ActionCtrl(_$scope, _$http);
 
         editContentCtrl = new PanelFormCtrl(_$scope, PanelFormCtrl.PANEL_TYPE().EDIT_CONTENT);
+
+        //
+        self.isEditSite();
 
         //setInterval(self.uiTick, 100);
         application.addUIComponent("siteRendering", self);
@@ -61,21 +66,6 @@ define(["CONST", "Utils", "application", "actionCtrl", "SiteInitialization", "pa
         //$("#btn_save").attr("disabled", "true");
       },
 
-      mouseDownEventFunc: function (event) {
-        if (editContentCtrl && editContentCtrl.get$el()) {
-          var $el = editContentCtrl.get$el();
-          if ($el.length > 0) {
-            var eventX = event.clientX;
-            var eventY = event.clientY;
-            var rectBound = $el[0].getBoundingClientRect();
-            if (eventX < rectBound.left || eventX > (rectBound.left + rectBound.width) ||
-              eventY < rectBound.top || eventY > (rectBound.top + rectBound.height)) {
-              editContentCtrl.hide();
-            }
-          }          
-        }
-      },
-
       renderContent: function (contentSource) {
         try {
           var contentFn = _$compile(contentSource);
@@ -101,7 +91,46 @@ define(["CONST", "Utils", "application", "actionCtrl", "SiteInitialization", "pa
         contentSource = _contentSource;
       },
 
+      afterRender: function () {
+        _$scope.cancelEdit = self.cancelEdit;
+        _$scope.editItem = self.editItem;
+        _$scope.saveItem = self.saveItem;
+      },
+
+      isEditSite: function() {
+        // enabling "edit" mode if the param is in query string
+        var urlParams = self.getUrlVars();
+        for (var i = 0; i < urlParams.length; i++) {
+          if (urlParams[i] === "isEdit") {
+            isEditSiteMode = true;
+            break;
+          }
+        }
+
+        if (isEditSiteMode) {
+          $(".editModePanel").css("display", "block");
+        }
+      },
+
+      mouseDownEventFunc: function (event) {
+        if (editContentCtrl && editContentCtrl.get$el()) {
+          var $el = editContentCtrl.get$el();
+          if ($el.length > 0) {
+            var eventX = event.clientX;
+            var eventY = event.clientY;
+            var rectBound = $el[0].getBoundingClientRect();
+            if (eventX < rectBound.left || eventX > (rectBound.left + rectBound.width) ||
+              eventY < rectBound.top || eventY > (rectBound.top + rectBound.height)) {
+              editContentCtrl.hide();
+            }
+          }          
+        }
+      },
+
       bindObjMouseEvent: function () {
+        if (!isEditSiteMode)
+          return;
+
         $("[bindobj]").unbind("mouseover");
         $("[bindobj]").mouseover(function (ev) {
           curEditItem.htmlElemTarget = ev.currentTarget;
@@ -112,7 +141,7 @@ define(["CONST", "Utils", "application", "actionCtrl", "SiteInitialization", "pa
           var elemRect = ev.currentTarget.getBoundingClientRect();
           var offsetLeft = elemRect.left - bodyRect.left;
           var offsetTop = elemRect.top - bodyRect.top;
-          
+
           editContentCtrl.show({ editItem: curEditItem, top: offsetTop, left: offsetLeft, callback: self.callbackEdit });
         });
       },
@@ -128,12 +157,6 @@ define(["CONST", "Utils", "application", "actionCtrl", "SiteInitialization", "pa
         }
       },
 
-      afterRender: function () {
-        _$scope.cancelEdit = self.cancelEdit;
-        _$scope.editItem = self.editItem;
-        _$scope.saveItem = self.saveItem;
-      },
-      
       saveItems: function () {
         if (itemsChanged.length > 0) {
           _.each(itemsChanged, function(item) {
@@ -183,6 +206,18 @@ define(["CONST", "Utils", "application", "actionCtrl", "SiteInitialization", "pa
             }              
           });
         });
+      },
+
+      // Read a page's GET URL variables and return them as an associative array.
+      getUrlVars: function () {
+        var vars = [], hash;
+        var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+        for (var i = 0; i < hashes.length; i++) {
+          hash = hashes[i].split('=');
+          vars.push(hash[0]);
+          vars[hash[0]] = hash[1];
+        }
+        return vars;
       },
 
     };

@@ -245,11 +245,6 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
       },
 
       showControl: function (data) {
-        $scope.isShowModalForm = true;        
-        try {
-          $scope.$apply();
-        } catch (ex) { }
-
         if (currentCtrl) {
           var $buttonsFormElem = self.get$el().find(".dvButtonsForm");
           if (!currentCtrl.isButtonsFormVisible)
@@ -267,6 +262,12 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
           }
 
         }
+
+        $scope.isShowModalForm = true;
+        try {
+          $scope.$apply();
+        } catch (ex) { }
+
       },
 
       hide: function () {

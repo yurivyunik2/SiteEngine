@@ -4,7 +4,7 @@
 ++ 4) To invoke the using of shortcut(hotkeys) such as "Save"(Ctrl+S), Enter(to click "OK"), ....
 ++ 5) TreeGrid(EngineTree) - after creating of the new item it's needed to render new created item in the tree without full reloading
 ++ 6) To improve mechanism of the loading page(item) by defined path
--+ 7) To implement the UI controls for rendering value of specified data-type
+++ 7) To implement the UI controls for rendering value of specified data-type
 ++ 8) To add the mechanism of the creating, adding and using of the "users"
 ++ 9) TreeGrid: passing by the items using keyboard arrows(Up, Down,...)
 ++ 10) To add the using of the languages and versions
@@ -30,7 +30,7 @@
 
 
 -- 17_2) Monitoring of the programming news(features, tools), technologies
--- 17_3) Restyling(Crossbrowsing)
+++ 17_3) Restyling(Crossbrowsing)
 
 ++ 18) Developing demo WEB-site
 ++ 18_1) To make up first(main) page

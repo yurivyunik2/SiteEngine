@@ -51,7 +51,7 @@ define(["CONST", "Utils"], function (CONST, Utils) {
         self = this;        
 
         // UI interval
-        setInterval(self.intervalUI, 100);
+        setInterval(self.intervalUI, 50);
       },
 
       initialize: function(_$scope, _$http, _$window) {

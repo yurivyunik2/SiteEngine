@@ -9,6 +9,7 @@
         self = this;
         self.setBaseData({
           formId: "createItemForm",
+          formTitle: "Create item form",
           formPath: "/SiteEngine/Client/Views/forms/createItemForm/createItemForm.html",
         });
 

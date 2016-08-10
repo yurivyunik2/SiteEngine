@@ -222,6 +222,8 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
           currentCtrl.setDataCtrl(data);
 
         var formTitle = currentCtrl.getFormTitle();
+        if (data.formTitle)
+          formTitle = data.formTitle;
         var spTitle = self.get$el().find(".dvTitle span");
         spTitle.html(formTitle ? formTitle : "");
 

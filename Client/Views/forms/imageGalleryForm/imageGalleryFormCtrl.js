@@ -33,6 +33,7 @@
         self = this;
         self.setBaseData({
           formId: "imageGalleryForm",
+          formTitle: "Media manager",
           formPath: "/SiteEngine/Client/Views/forms/imageGalleryForm/imageGalleryForm.html",
         });
 

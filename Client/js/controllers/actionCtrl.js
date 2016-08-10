@@ -111,7 +111,8 @@ function (application, Utils, CONST, Notification, PanelFormCtrl) {
             if (selectedItem) {
               dataForm = {
                 availableItems: application.getContentItems(),
-                title: "Select the parent item:",
+                formTitle: "Copy item",
+                title: "Parent:",
                 callback : function(dataResponse) {
                   dataRequest = {
                     item: {
@@ -130,7 +131,8 @@ function (application, Utils, CONST, Notification, PanelFormCtrl) {
             if (selectedItem) {
               dataForm = {
                 availableItems: application.getContentItems(),
-                title: "Select the parent item:",
+                formTitle: "Move item",
+                title: "Parent:",
                 callback: function (dataResponse) {
                   dataRequest = {
                     item: {

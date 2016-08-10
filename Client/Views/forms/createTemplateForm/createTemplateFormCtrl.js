@@ -11,6 +11,7 @@
         self = this;
         self.setBaseData({
           formId: "createTemplateForm",
+          formTitle: "Create template form",
           formPath: "/SiteEngine/Client/Views/forms/createTemplateForm/createTemplateForm.html",
         });
 

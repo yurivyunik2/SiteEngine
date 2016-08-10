@@ -11,6 +11,7 @@ define(["CommonTypes", "Utils"], function (CommonTypes, Utils) {
         self = this;
         self.setBaseData({
           formId: "notificationModalForm",
+          formTitle: "Warning",
           formPath: "/SiteEngine/Client/Views/forms/notificationModalForm/notificationModalForm.html",
         });
       },

@@ -120,7 +120,7 @@
     getRoleObj: function (roleId) {
       var roleFound;
       _.each(allRoles, function (role) {
-        if (role.getRoleId() == roleId) {
+        if (role.getRoleId() === roleId) {
           roleFound = role;
         }
       });

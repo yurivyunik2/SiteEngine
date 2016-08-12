@@ -90,7 +90,7 @@
       var self = this;
       data.item.isPublish = publishItemTreeData.isPublish;
 
-      self.publishItem(data, objResponse, function () {        
+      self.publishItem(data, objResponse, function () {
         if (publishItemTreeData.publishItemNumber || publishItemTreeData.publishItemNumber === 0)
           publishItemTreeData.publishItemNumber++;
         if (data.item && data.item.childs && data.item.childs.length > 0) {
@@ -122,11 +122,14 @@
 
       var self = this;      
 
-      var items = ServerApplication.getItems();
-      if (items) {
-        var publishItemTreeData = {parentItem: data.item, isPublish: data.item.isPublish, countChilds: 0};
-        Utils.setChildItems(items, publishItemTreeData);
-        publishItemTreeData.countItems = publishItemTreeData.countChilds + 1; // plus Parent item
+      var itemsHash = ServerApplication.getItemsHash();
+      if (itemsHash && itemsHash[data.item.id]) {
+        var isPublish = data.item.isPublish;
+        data.item = itemsHash[data.item.id];
+        var publishItemTreeData = { parentItem: data.item, isPublish: isPublish, countChilds: 0 };
+        var allChildItems = [];
+        Utils.findChildItems(allChildItems, publishItemTreeData.parentItem);
+        publishItemTreeData.countItems = allChildItems.length + 1;
 
         publishItemTreeData.publishItemNumber = 0;
         self.publishItemAndChilds(data, publishItemTreeData, objResponse, function () {
@@ -134,7 +137,7 @@
             if (callback) {
               callback();
             }
-          }            
+          }
         });
       } else {
         objResponse.error = "Items are not accesed!";

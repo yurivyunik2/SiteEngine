@@ -7,13 +7,17 @@ define(["application", "CONST", "Utils"], function (application, CONST, Utils) {
   var pathTemplate = "js/components/ImageChangeCtrl/ImageChangeCtrl.html";
   var srcEmptyImage = "/SiteEngine/Client/images/media/emptyImage.png";
 
-  (function LoadTemplate() {
-    var $template = $("<div></div>");
-    $template.load(pathTemplate, function () {
-      $(document.body).append($template.html());
-      $dvImgChangeCtrlElem = $template.find(".dvImgChangeCtrl");
-    });
-  })();
+  Utils.LoadTemplate(pathTemplate, function ($template) {
+    $dvImgChangeCtrlElem = $template.find(".dvImgChangeCtrl");
+  });
+
+  //(function LoadTemplate() {
+  //  var $template = $("<div></div>");
+  //  $template.load(pathTemplate, function () {
+  //    $(document.body).append($template.html());
+  //    $dvImgChangeCtrlElem = $template.find(".dvImgChangeCtrl");
+  //  });
+  //})();
 
   var ImageChangeCtrl = function (parentElem, field) {
     var self;    

@@ -1,10 +1,11 @@
 ﻿exports.ServerApplication = function (CONST, Utils) {
-
+  var _ = require('underscore');
   var self;
 
   var itemMgr;
   var items;
   var itemsHash;
+  var parentItems;
 
   var contentParentItems;
 
@@ -50,21 +51,34 @@
             items = [];
           }
           itemsHash = {};
+          parentItems = {};
           // content ParentItems
-          var contentItemID = CONST.CONTENT_ROOT_ID();
+          var contentItemId = CONST.CONTENT_ROOT_ID();
           contentParentItems = [];
           for (var i = 0; i < items.length; i++) {
             var item = items[i];
+            item.childs = [];
             itemsHash[item.id] = item;
 
-            if (item.parentId === contentItemID) {
+            if (!parentItems[item.parentId]) {
+              parentItems[item.parentId] = {
+                childs: []
+              };
+            }
+            parentItems[item.parentId].childs.push(item);
+
+            if (item.parentId === contentItemId) {
               contentParentItems.push(item);
             }
           }
-          // finding SubItems for ContentParentItems
-          for (var i = 0; i < contentParentItems.length; i++) {
-            Utils.setChildItems(items, { parentItem: contentParentItems[i] });
-          }
+
+          var parentIds = _.keys(parentItems);
+          _.each(parentIds, function(parentId) {
+            if (itemsHash[parentId]) {
+              itemsHash[parentId].childs = parentItems[parentId].childs;
+            }
+          });
+
         }
         if (callback)
           callback();

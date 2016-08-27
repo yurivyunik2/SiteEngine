@@ -24,15 +24,16 @@ define(["application", "Utils", "SiteConst"], function (application, Utils, Site
 
       bindItems: function ($scope, items) {
         var contentItems = application.getContentItems();
-        var itemsRequest = [];
-        _.each(contentItems, function (item) {
-          if (item.name) {
-            itemsRequest.push(item);
-            if (item.children && item.children.length > 0) {
-              Utils.findChildItems(itemsRequest, item);
-            }
-          }
-        });
+        var itemsRequest = contentItems;
+        //var itemsRequest = [];
+        //_.each(contentItems, function (item) {
+        //  if (item.name) {
+        //    itemsRequest.push(item);
+        //    if (item.children && item.children.length > 0) {
+        //      Utils.findChildItems(itemsRequest, item);
+        //    }
+        //  }
+        //});
 
         // additional items
         var itemNamesId = SiteConst.getItemNamesId();

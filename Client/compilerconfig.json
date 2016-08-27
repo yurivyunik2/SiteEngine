@@ -1,0 +1,18 @@
+﻿[
+  {
+    "outputFile": "css/form.css",
+    "inputFile": "css/form.less"
+  },
+  {
+    "outputFile": "css/Common.css",
+    "inputFile": "css/Common.less"
+  },
+  {
+    "outputFile": "js/components/TabPanel/tabPanel.css",
+    "inputFile": "js/components/TabPanel/tabPanel.less"
+  },
+  {
+    "outputFile": "js/components/TreeGrid/TreeGrid.css",
+    "inputFile": "js/components/TreeGrid/TreeGrid.less"
+  }
+]

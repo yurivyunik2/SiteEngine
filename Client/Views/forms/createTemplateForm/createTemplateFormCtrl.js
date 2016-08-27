@@ -20,8 +20,12 @@
 
         self.initialize();
 
-        setInterval(function() {
-          var $newField = self.get$el().find("#newField");
+        setInterval(function () {
+          var $el = self.get$el();
+          if (!$el)
+            return;
+
+          var $newField = $el.find("#newField");
           var $inName = $newField.find(".inName");
           var val = $inName.val();
           if (val && val !== "" && $inName.hasClass("inputError")) {

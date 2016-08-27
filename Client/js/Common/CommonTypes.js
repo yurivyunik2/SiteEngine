@@ -33,7 +33,7 @@
           get$el: function () {
             //if (!$elem || $elem.length === 0)
             $elem = $("#" + formId);
-            return $elem;
+            return ($elem && $elem.length > 0 ? $elem : null);
           },
 
           setDataCtrl: function (_dataCtrl) { dataCtrl = _dataCtrl; },

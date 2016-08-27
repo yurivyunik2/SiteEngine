@@ -49,7 +49,7 @@ define(["CONST", "Utils", "application", "actionCtrl", "SiteInitialization", "pa
 
       intervalUI: function (uiData) {
         if (SiteInitialization.isItemsBound() && contentSource && !isContentRendered) {
-          isContentRendered = true;
+          isContentRendered = true;          
           self.renderContent(contentSource);
         }
 
@@ -81,6 +81,7 @@ define(["CONST", "Utils", "application", "actionCtrl", "SiteInitialization", "pa
           _$scope.$on('$includeContentLoaded', function (event, a, b, c) {
             isIncludeContentLoaded = true;
             lastDateTimeIncludeContent = Date.now();
+            
           });
 
         }

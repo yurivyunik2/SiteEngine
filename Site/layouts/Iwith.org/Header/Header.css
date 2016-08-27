@@ -2,6 +2,7 @@
   width: 100%;
   display: table;
   letter-spacing: 2px;
+  margin-bottom: 30px;
 }
   .dvTop .dvTopInternal {
     display: table-cell;
@@ -22,7 +23,7 @@
   .dvTop .cellMiddle {
     vertical-align: top;
     height: 100%;
-    padding-left: 100px;
+    padding-left: 50px;
   }
 .dvTop .tbMiddle {
   
@@ -72,9 +73,10 @@
   font-size: 14px;
   border: 1px solid #006E75;
   border-radius: 10px;
-  padding: 5px 0px;
+  padding: 2px 0px;
+  margin-bottom: 2px;
   padding-left: 8px;
-  width: 85px;  
+  width: 120px;
 }
 .dvTop .tbMiddle .inputSearch:focus {
   box-shadow: 0 0 5px rgba(81, 203, 238, 1);
@@ -101,8 +103,16 @@
   width: 0;
   height: 0;
   vertical-align: top;
+  margin-top: 13px;
   border-top: 4px solid #000000;
   border-right: 4px solid transparent;
   border-left: 4px solid transparent;
   content: "";  
+}
+
+.dvTop .tbMiddle .dvLanguageMenu ul {
+  padding: 0px;
+}
+.dvTop .tbMiddle .dvLanguageMenu ul a:hover {
+  background-color: #eae7e7;
 }

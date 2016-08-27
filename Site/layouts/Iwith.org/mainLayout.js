@@ -8,7 +8,7 @@ require.config({
 require(["Utils", "bxSlider", "css!bxSlider"], function (Utils) {
 
   var mainLayout = {
-    constructor: function () {      
+    constructor: function () {
       this.init();
 
       Utils.setLoadingApplication(false);
@@ -16,7 +16,6 @@ require(["Utils", "bxSlider", "css!bxSlider"], function (Utils) {
 
     init: function () {
       console.log("slider=" + $('.dvSlider'));
-
 
       //
       $('.dvSlider').bxSlider({

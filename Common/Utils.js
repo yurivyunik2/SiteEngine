@@ -7,6 +7,8 @@ var Utils = function (CONST, Notification) {
   var isCorrectHeightOnce = false;
   var isWindowResized = false;
 
+  var currentLanguage;
+
   var utilsObj = {
 
     keyDownEventLast: null,
@@ -194,12 +196,12 @@ var Utils = function (CONST, Notification) {
       for (var i = 0; i < allItems.length; i++) {
         var item = allItems[i];
         if (item.parentId === parentItem.id) {
-          if (!parentItem.childs)
-            parentItem.childs = [];
+          if (!parentItem.children)
+            parentItem.children = [];
 
           if (data.countChilds || data.countChilds === 0)
             data.countChilds++;
-          parentItem.childs.push(item);
+          parentItem.children.push(item);
 
           data.parentItem = item;
           self.setChildItems(allItems, data);
@@ -226,11 +228,20 @@ var Utils = function (CONST, Notification) {
     },
 
     getLanguageCurrent: function () {
-      var curLanguage;
-      var $selLanguageElem = $(CONST.LANGUAGE_SELECTOR());
-      if ($selLanguageElem.length > 0) {
-        var langCode = $selLanguageElem.val();
-        curLanguage = _.findWhere(CONST.LANGUAGE_LIST(), { code: langCode });
+      var curLanguage = currentLanguage;      
+      if (!curLanguage && sessionStorage["currentLanguage"]) {
+        try {
+          curLanguage = JSON.parse(sessionStorage["currentLanguage"]);
+        } catch (ex) {
+          curLanguage = null;
+        }
+      }            
+      if (!curLanguage) {
+        var $selLanguageElem = $(CONST.LANGUAGE_SELECTOR());
+        if ($selLanguageElem.length > 0) {
+          var langCode = $selLanguageElem.val();
+          curLanguage = _.findWhere(CONST.LANGUAGE_LIST(), { code: langCode });
+        }
       }
       if (!curLanguage)
         curLanguage = CONST.LANGUAGE_DEFAULT();
@@ -238,6 +249,19 @@ var Utils = function (CONST, Notification) {
     },
     getLanguageDefault: function() {
       return CONST.LANGUAGE_DEFAULT();
+    },
+    setLanguageCurrent: function (langCode) {
+      if (!langCode)
+        return false;
+
+      var curLanguage = _.findWhere(CONST.LANGUAGE_LIST(), { code: langCode });
+      if (curLanguage) {
+        currentLanguage = curLanguage;
+        sessionStorage["currentLanguage"] = JSON.stringify(curLanguage);
+        return true;
+      } else {
+        return false;
+      }      
     },
 
     getVersionCurrent: function () {

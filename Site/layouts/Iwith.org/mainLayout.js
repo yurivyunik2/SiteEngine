@@ -28,15 +28,30 @@ require(["Utils", "bxSlider", "css!bxSlider"], function (Utils) {
 
       $(document).ready(function () {
 
+        var $languageMenu = $("#languageMenu");
         $(".tdLanguage").click(function (event) {
-          if ($("#languageMenu").css("display") === "block") {
+          if ($languageMenu.css("display") === "block") {
           }
           else
-            $("#languageMenu").show();
+            $languageMenu.show();
         });
 
         $(window).mousedown(function () {
           $("#languageMenu").hide();
+        });
+
+        $("#languageMenu").find("li").mousedown(function (event) {
+          var ev = event || window.event;
+          if (!ev.currentTarget)
+            return;
+
+          var langCode = $(ev.currentTarget).attr("langcode");
+          if (langCode) {
+            var res = Utils.setLanguageCurrent(langCode);
+            if (res) {
+              window.location.reload(window.location.href);
+            }
+          }
         });
 
       });

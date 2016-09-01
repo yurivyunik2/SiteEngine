@@ -140,7 +140,7 @@ define(["application", "CONST", "Utils"], function (application, CONST, Utils) {
               '<td class="tdInfoParamName">' + listTitle[listParam[i]] + ': </td>' +
               '<td class="tdInfoParamValue">' +
               //'<input readonly="readonly" onclick="javascript:this.select();return false" value="' + valueParam + '">' +
-              '<span readonly="readonly" onclick="javascript:this.select();return false">' + valueParam + '</span>' + 
+              '<span readonly="readonly" onclick="javascript:if(this.select) { this.select();} return false;">' + valueParam + '</span>' +
               '</td>' +
               '</tr>';
 

@@ -15,7 +15,7 @@ define(["application", "CONST", "TreeGrid", "CommonTypes", "Utils", "notificatio
         self = this;
         self.setBaseData({
           formId: "selectTemplateForm",
-          formTitle: "Create item form",
+          formTitle: "Create new item",
           formPath: "/SiteEngine/Client/Views/forms/selectTemplateForm/selectTemplateForm.html",
         });
       },

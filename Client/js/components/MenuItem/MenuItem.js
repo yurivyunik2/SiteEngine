@@ -208,8 +208,9 @@ define(["application", "Utils", "css!menuItemCss"], function (application, Utils
         if ($menuElem) {
           $menuElem.html($ulElem);
           var arLi = $menuElem.find("li");
-          _.each(arLi, function(li) {
-            li.onclick = self.clickItemEvent;
+          _.each(arLi, function (li) {
+            //li.onclick = self.clickItemEvent;
+            li.onmousedown = self.clickItemEvent;
             li.onmouseenter = self.hoverMenuItem;
           });
           //$menuElem.find("li").click(self.clickItemEvent);

@@ -233,6 +233,9 @@
           $("#wrapperContent").html(responseData.error);
         }
 
+        setTimeout(function() {
+          Utils.setLoadingApplication(false);
+        }, 2000);        
       } else {
 
       }

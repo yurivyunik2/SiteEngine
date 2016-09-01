@@ -1,7 +1,7 @@
 ﻿
 define(["CONST", "Utils"], function (CONST, Utils) {
 
-  var Application = function() {
+  var Application = function () {
     var self;
     var $scope;
     var $http;
@@ -47,14 +47,14 @@ define(["CONST", "Utils"], function (CONST, Utils) {
     var application = {
       isRequestProcess: false,
 
-      constructor: function() {
-        self = this;        
+      constructor: function () {
+        self = this;
 
         // UI interval
         setInterval(self.intervalUI, 50);
       },
 
-      initialize: function(_$scope, _$http, _$window) {
+      initialize: function (_$scope, _$http, _$window) {
         $scope = _$scope;
         $http = _$http;
         $window = _$window;
@@ -71,7 +71,7 @@ define(["CONST", "Utils"], function (CONST, Utils) {
         // callback of application loading
         if (!isLoadingFinish) {
           isLoadingFinish = isLoadUsers && isLoadRoles && isLoadItems;
-          if(isLoadingFinish)
+          if (isLoadingFinish)
             self.loadApplicationCallback();
         }
 
@@ -91,10 +91,10 @@ define(["CONST", "Utils"], function (CONST, Utils) {
         });
       },
 
-      loadApplication: function() {
+      loadApplication: function () {
         // process loading
         Utils.setLoadingApplication(true);
-        
+
         application.loadUsers(function (user) {
           isLoadUsers = true;
         });
@@ -114,11 +114,16 @@ define(["CONST", "Utils"], function (CONST, Utils) {
 
         var treeGrid = engineTree.getTreeGrid();
         if (treeGrid) {
-          treeGrid.populate(items);
+          treeGrid.populate(items);          
           var treeItems = treeGrid.getTreeItems();
-          if (treeItems && treeItems.length > 0) {
+          if (treeItems && treeItems.length > 0) {            
             treeGrid.selectItem(treeItems[0]);
-          }
+            var contentItem = _.findWhere(items, { id: CONST.CONTENT_ROOT_ID() });
+            if (contentItem.children && contentItem.children.length > 0) {
+              treeGrid.selectItem(contentItem);
+              treeGrid.selectItem(contentItem.children[0]);
+            }
+          }          
         }
 
         if (modalFormCtrl)
@@ -128,7 +133,7 @@ define(["CONST", "Utils"], function (CONST, Utils) {
       getSession: function () {
         return _.clone(session);
       },
-      setSession: function(sessionID, login, pass) {
+      setSession: function (sessionID, login, pass) {
         if (sessionID && login && pass) {
           if (!session)
             session = {};
@@ -137,29 +142,29 @@ define(["CONST", "Utils"], function (CONST, Utils) {
           session.pass = pass;
           session.isLogged = true;
         }
-      },      
+      },
 
-      addUIComponent: function(key, component) {
+      addUIComponent: function (key, component) {
         if (key && component)
           uiComponents[key] = component;
       },
-      removeUIComponent: function(key) {
+      removeUIComponent: function (key) {
         delete uiComponents[key];
       },
 
       ///
       /// Setting of the Controls
       ///
-      setEngineTree: function(_engineTree) {
+      setEngineTree: function (_engineTree) {
         if (_engineTree) {
           engineTree = _engineTree;
         }
       },
-      getEngineTree: function() {
+      getEngineTree: function () {
         return engineTree;
       },
 
-      treeGridItemSelected: function() {
+      treeGridItemSelected: function () {
         if (tabPanel) {
           tabPanel.treeGridItemSelected();
         }
@@ -168,11 +173,11 @@ define(["CONST", "Utils"], function (CONST, Utils) {
       setTreeGridFocused: function (treeGrid) { treeGridFocused = treeGrid; },
       getTreeGridFocused: function () { return treeGridFocused; },
 
-      setModalFormCtrl: function(_modalFormCtrl) {
+      setModalFormCtrl: function (_modalFormCtrl) {
         if (_modalFormCtrl)
           modalFormCtrl = _modalFormCtrl;
       },
-      getModalFormCtrl: function() { return modalFormCtrl; },
+      getModalFormCtrl: function () { return modalFormCtrl; },
 
       setComponentMgr: function (_componentMgr) {
         if (_componentMgr)
@@ -186,17 +191,17 @@ define(["CONST", "Utils"], function (CONST, Utils) {
       //},
       //getRichTextEditorCtrl: function() { return richTextEditorCtrl; },
 
-      setActionCtrl: function(_actionCtrl) {
+      setActionCtrl: function (_actionCtrl) {
         if (_actionCtrl)
           actionCtrl = _actionCtrl;
       },
-      getActionCtrl: function() { return actionCtrl; },
+      getActionCtrl: function () { return actionCtrl; },
 
-      setTabPanel: function(_tabPanel) {
+      setTabPanel: function (_tabPanel) {
         if (_tabPanel)
           tabPanel = _tabPanel;
       },
-      getTabPanel: function() { return tabPanel; },
+      getTabPanel: function () { return tabPanel; },
 
       setMenuItemEngineTree: function (menuItem) { menuItemEngineTree = menuItem; },
       getMenuItemEngineTree: function () { return menuItemEngineTree; },
@@ -240,13 +245,13 @@ define(["CONST", "Utils"], function (CONST, Utils) {
       ///
       /// Users
       /// 
-      getUsers: function() {
+      getUsers: function () {
         if (!userList)
           return [];
 
         return _.clone(userList);
       },
-      loadUsers: function(callback) {
+      loadUsers: function (callback) {
         var data = { action: "getUsers" };
         self.isRequestProcess = true;
 
@@ -264,32 +269,32 @@ define(["CONST", "Utils"], function (CONST, Utils) {
             callback();
         });
       },
-      newUser: function(newUser) {
+      newUser: function (newUser) {
         if (userList && newUser) {
           userList.push(newUser);
-          _.each(userManagers, function(manager) {
+          _.each(userManagers, function (manager) {
             if (manager.update)
               manager.update();
           });
         }
       },
-      updateUser: function(user) {
+      updateUser: function (user) {
         if (userList && user) {
           var userEdited = _.findWhere(userList, { id: user.id });
           if (userEdited) {
             var keys = _.keys(userEdited);
-            _.each(keys, function(key) {
+            _.each(keys, function (key) {
               userEdited[key] = user[key];
             });
 
-            _.each(userManagers, function(manager) {
+            _.each(userManagers, function (manager) {
               if (manager.update)
                 manager.update();
             });
           }
         }
       },
-      removeUser: function(user) {
+      removeUser: function (user) {
         if (userList && user) {
           var userRemove = _.findWhere(userList, { id: parseInt(user.id) });
           if (userRemove) {
@@ -299,18 +304,18 @@ define(["CONST", "Utils"], function (CONST, Utils) {
               user: userRemove,
             };
 
-            application.httpRequest(data, function(response) {
+            application.httpRequest(data, function (response) {
               if (!response.error) {
                 if (response.data && response.data.user) {
                   userRemove = _.findWhere(userList, { id: parseInt(response.data.user.id) });
                   userList = _.without(userList, userRemove);
-                  _.each(userManagers, function(manager) {
+                  _.each(userManagers, function (manager) {
                     if (manager.update)
                       manager.update();
                   });
                 }
               }
-            }, function(response, status, headers, config) {
+            }, function (response, status, headers, config) {
             });
 
           }
@@ -325,12 +330,12 @@ define(["CONST", "Utils"], function (CONST, Utils) {
       ///
       /// Items
       ///
-      getItemFields: function(item, callback) {
+      getItemFields: function (item, callback) {
         if (!item || !item.id || !item.templateId)
           return;
         var data = { action: "getItemFields", id: item.id, templateId: item.templateId };
 
-        self.httpRequest(data, function(responseData) {
+        self.httpRequest(data, function (responseData) {
           if (!responseData.error) {
             self.isRequestProcess = false;
             if (responseData.data) {
@@ -343,7 +348,7 @@ define(["CONST", "Utils"], function (CONST, Utils) {
             if (callback)
               callback();
           }
-        }, function() {
+        }, function () {
           if (callback)
             callback();
         });
@@ -355,7 +360,7 @@ define(["CONST", "Utils"], function (CONST, Utils) {
 
         var _items = [];
         _.each(items, function (item) {
-          _items.push({id: item.id, name: item.name, templateId: item.templateId});
+          _items.push({ id: item.id, name: item.name, templateId: item.templateId });
         });
         var data = { action: "getItemGroupFields", items: _items };
 
@@ -370,23 +375,23 @@ define(["CONST", "Utils"], function (CONST, Utils) {
               _.each(itemsGroup, function (item) {
                 if (item.id) {
                   var itemHash = itemsHash[item.id];
-                  if (itemHash) {                    
+                  if (itemHash) {
                     itemHash.fields = item.fields;
                     var fieldNames = [];
                     _.each(itemHash.fields, function (field) {
                       if (field.name && fieldNames.indexOf(field.name) < 0) {
                         fieldNames.push(field.name);
-                      }                      
+                      }
                     });
 
-                    _.each(fieldNames, function(name) {
+                    _.each(fieldNames, function (name) {
                       var field = _.findWhere(item.fields, { name: name, lang: curLang.code, isPublish: 1 });
                       if (!field) {
                         field = _.findWhere(item.fields, { name: name, lang: defaultLang.code, isPublish: 1 });
                       }
                       if (field) {
                         itemHash[field.name] = field.value;
-                      }                      
+                      }
                     });
 
                   }
@@ -426,7 +431,7 @@ define(["CONST", "Utils"], function (CONST, Utils) {
 
         });
       },
-      getItems: function() {
+      getItems: function () {
         return items;
       },
       getItemsHash: function () {
@@ -624,7 +629,7 @@ define(["CONST", "Utils"], function (CONST, Utils) {
       /// End Items
       ///
 
-      getTemplateItemsHash: function() {
+      getTemplateItemsHash: function () {
         return templateItemsHash;
       },
 
@@ -696,7 +701,7 @@ define(["CONST", "Utils"], function (CONST, Utils) {
           //allMediaItems.push(item);
           Utils.findChildItems(allMediaItems, mediaItem);
         }
-        
+
         return allMediaItems;
       },
 
@@ -750,7 +755,7 @@ define(["CONST", "Utils"], function (CONST, Utils) {
           data: JSON.stringify(data)
         };
 
-        if(data.isNotified)
+        if (data.isNotified)
           Utils.showProcessBar(true);
 
         $http(req).
@@ -766,7 +771,7 @@ define(["CONST", "Utils"], function (CONST, Utils) {
           });
       },
 
-      httpRequestCallback: function(data, response) {
+      httpRequestCallback: function (data, response) {
         if (data.isNotified) {
           Utils.showProcessBar(false);
           Utils.showNotification(data, response);

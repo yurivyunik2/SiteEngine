@@ -176,7 +176,7 @@
         $dvContent.find(".dvButtonRibbon a").click(function (event) {
           var $curTarget = $(event.currentTarget);
           var action = $curTarget.attr("action");
-          if (action && action != "")
+          if (action && action !== "")
             $(self).trigger(CONST.EVENT_CLICK_BUTTON(), action);
         });
       },

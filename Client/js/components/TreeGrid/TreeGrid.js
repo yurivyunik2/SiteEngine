@@ -385,7 +385,7 @@ define(["application", "CONST", "Utils", "row", "headerRow", "css!TreeGridCss"],
               {
                 var selItem = self.selectedItem;
                 if (event.which === CONST.LEFT_KEY()) {
-                  if (selItem.parentObj && (!selItem.isOpened || !selItem.childs || selItem.childs.length === 0)) {
+                  if (selItem.parentObj && (!selItem.isOpened || !selItem.children || selItem.children.length === 0)) {
                     var parentItemRow = hashItemRow[selItem.parentObj.id];
                     if (parentItemRow)
                       self.clickNode({ data: [$(parentItemRow.trElem)] });

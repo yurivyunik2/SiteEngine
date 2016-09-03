@@ -21,7 +21,9 @@
 }
 #loginContainerWrapper #loginWrapperInner {
   display: table-cell;
-  vertical-align: middle;
+  /*vertical-align: middle;*/
+  position: relative;
+  top: 20%;
 }
 
 #loginContainer {

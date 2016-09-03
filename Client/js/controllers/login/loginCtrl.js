@@ -38,15 +38,18 @@ define(["application", "CONST", "Utils", "css!loginCSS"], function (application,
           return;
 
         if (uiData.keyDownEventLast.which === CONST.ENTER_KEY()) {
-          self.clickLogin();
-          
+          //console.log("interval");
+          //self.clickLogin();          
         }
       },
 
       clickLogin: function ($event) {
         if (!$scope.userName || !$scope.userPassword) {
           $scope.error = "You need to fill all fields!";
-          $scope.$apply();          
+          try {
+            $scope.$apply();
+          } catch (ex) {
+          }          
           return;
         }
 

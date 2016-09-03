@@ -203,7 +203,10 @@ define(["CONST", "Utils", "application", "actionCtrl", "SiteInitialization", "pa
               var contentElems = contentFn(_$scope);
 
               $("#wrapperContent").html(contentElems);
-              _$scope.$apply();
+              try {
+                _$scope.$apply();
+              } catch (ex) {
+              }              
             }              
           });
         });

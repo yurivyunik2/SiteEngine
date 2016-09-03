@@ -10373,11 +10373,15 @@ function createHttpBackend($browser, createXhr, $browserDefer, callbacks, rawDoc
           status = response ? 200 : urlResolve(url).protocol == 'file' ? 404 : 0;
         }
 
-        completeRequest(callback,
-            status,
-            response,
-            xhr.getAllResponseHeaders(),
-            statusText);
+        try {
+          completeRequest(callback,
+              status,
+              response,
+              xhr.getAllResponseHeaders(),
+              statusText);
+        } catch (ex) {
+        }
+
       };
 
       var requestError = function() {

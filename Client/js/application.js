@@ -93,6 +93,7 @@ define(["CONST", "Utils"], function (CONST, Utils) {
 
       loadApplication: function () {
         // process loading
+        isLoadingFinish = false;
         Utils.setLoadingApplication(true);
 
         application.loadUsers(function (user) {

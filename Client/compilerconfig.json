@@ -14,5 +14,17 @@
   {
     "outputFile": "js/components/TreeGrid/TreeGrid.css",
     "inputFile": "js/components/TreeGrid/TreeGrid.less"
+  },
+  {
+    "outputFile": "js/components/EngineTree/EngineTree.css",
+    "inputFile": "js/components/EngineTree/EngineTree.less"
+  },
+  {
+    "outputFile": "Views/forms/modalForm/modalForm.css",
+    "inputFile": "Views/forms/modalForm/modalForm.less"
+  },
+  {
+    "outputFile": "Views/panels/panelForm/panelForm.css",
+    "inputFile": "Views/panels/panelForm/panelForm.less"
   }
 ]

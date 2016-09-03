@@ -32,6 +32,12 @@ var Utils = function (CONST, Notification) {
 
     },
 
+    initializeData: function() {
+      isCorrectHeightOnce = false;
+      self.$tabPanelAreaElem = null;
+      self.$dvMainContent = null;
+    },
+
     intervalUI: function () {
       if (!isCorrectHeightOnce || isWindowResized) {
         isWindowResized = false;

@@ -228,7 +228,7 @@
         //var $dvType = $newField.find(".inType");
         var $selTypeElem = $newField.find(selTypeSelector);
         var idType = $selTypeElem.val();
-        var typeName = $selTypeElem[0].selectedOptions[0].text;
+        var typeName = $selTypeElem[0].options[$selTypeElem[0].selectedIndex].text;
 
         var field = { name: $dvName.val(), templateId: CONST.TEMPLATE_FIELD_ID(), fields: [{ fieldId: CONST.TYPE_FIELD_ID(), value: idType, typeName: typeName }] };
         $dvName.val("");

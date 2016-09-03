@@ -94,6 +94,9 @@ define(["CONST", "Utils"], function (CONST, Utils) {
       loadApplication: function () {
         // process loading
         isLoadingFinish = false;
+        isLoadUsers = false;
+        isLoadRoles = false;
+        isLoadItems = false;
         Utils.setLoadingApplication(true);
 
         application.loadUsers(function (user) {
@@ -110,9 +113,6 @@ define(["CONST", "Utils"], function (CONST, Utils) {
         if (!items || !engineTree)
           return;
 
-        // loading - turn off
-        Utils.setLoadingApplication(false);
-
         var treeGrid = engineTree.getTreeGrid();
         if (treeGrid) {
           treeGrid.populate(items);          
@@ -123,12 +123,18 @@ define(["CONST", "Utils"], function (CONST, Utils) {
             if (contentItem.children && contentItem.children.length > 0) {
               treeGrid.selectItem(contentItem);
               treeGrid.selectItem(contentItem.children[0]);
-            }
+            } 
           }          
         }
 
         if (modalFormCtrl)
           modalFormCtrl.loadFormControls();
+
+        Utils.initializeData();
+        Utils.correctHeightWindow();
+
+        // loading - turn off
+        Utils.setLoadingApplication(false);
       },
 
       getSession: function () {
@@ -231,11 +237,11 @@ define(["CONST", "Utils"], function (CONST, Utils) {
           if (!response.error && response.data) {
             self.isRequestProcess = false;
             userRoleList = response.data;
-            if (callback)
-              callback(self.getUserRoles());
           } else {
             //response.error
           }
+          if (callback)
+            callback(self.getUserRoles());
         }, function error(response, status, headers) {
           if (callback)
             callback();
@@ -260,11 +266,11 @@ define(["CONST", "Utils"], function (CONST, Utils) {
           if (!response.error && response.data) {
             self.isRequestProcess = false;
             userList = response.data;
-            if (callback)
-              callback(self.getUsers());
           } else {
             //response.error
           }
+          if (callback)
+            callback(self.getUsers());
         }, function error(response, status, headers) {
           if (callback)
             callback();
@@ -710,7 +716,7 @@ define(["CONST", "Utils"], function (CONST, Utils) {
         var typeItems = [];
         var items = self.getItems();
         if (items) {
-          typeItems = _.where(items, { parent: CONST.DATA_TYPES_ROOT_ID() });
+          typeItems = _.where(items, { parentId: CONST.DATA_TYPES_ROOT_ID() });
         }
         return typeItems;
       },
@@ -720,7 +726,7 @@ define(["CONST", "Utils"], function (CONST, Utils) {
           return false;
 
         // "Folder"
-        if (item.templateId === CONST.FOLDER_TEMPLATE_ID())
+        if (item.id === CONST.FOLDER_TEMPLATE_ID() || item.templateId === CONST.FOLDER_TEMPLATE_ID())
           return false;
 
         var isTemplateItem = self.isItemUnderTemplates(item);

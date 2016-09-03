@@ -173,7 +173,7 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
 
         if (uiData.mouseDownEventLast) {
           event = uiData.mouseDownEventLast;
-          if (currentCtrl && currentCtrl.keyDownEventFunc) {
+          if (currentCtrl && currentCtrl.mouseDownEventFunc) {
             currentCtrl.mouseDownEventFunc(event);
           }
         }

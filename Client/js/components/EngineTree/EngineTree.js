@@ -149,7 +149,8 @@ function (application, CONST, TreeGrid, MenuItem, InfoPanel, TooltipCustom, Util
         //var self = this;
 
         var templatesNewField;
-        _.each(item.fields, function (field) {
+        var fieldsLangVersion = Utils.getFieldsLangVersion(item);
+        _.each(fieldsLangVersion, function (field) {
           if (CONST.INSERT_OPTIONS_FIELD_ID() === field.fieldId) {
             templatesNewField = field;
           }

@@ -21,6 +21,12 @@ define(["application", "Utils", "css!menuItemCss"], function (application, Utils
         id: 'addNewFromTemplate',
         title: 'Add from template',
         img: 'images/merge.png',
+        isVisible: function (dataItem) {
+          if (!dataItem)
+            return false;
+
+          return !application.isTemplateItem(dataItem);
+        },
         actionFunc: function () {
           //alert('It will merge row');
         },
@@ -192,6 +198,20 @@ define(["application", "Utils", "css!menuItemCss"], function (application, Utils
           if (menuItem.isVisible && !menuItem.isVisible(dataItem)) {
             return;
           }
+
+          if (menuItem.id === "menu_addNew") {
+            var isSubItemVisible = false;
+            if (menuItem.subMenu) {
+              _.each(menuItem.subMenu, function(item) {
+                if (!item.isVisible || item.isVisible()) {
+                  isSubItemVisible = true;
+                }
+              });
+            }
+            if (!isSubItemVisible)
+              return;
+          }
+          
 
           var htmlElem = "<li id='" + menuItem.id + "'><div class='dvTitle'>" + menuItem.title + "</div>";
           if (menuItem.subMenu) {

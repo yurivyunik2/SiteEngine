@@ -264,7 +264,7 @@ function (application, Utils, CONST, Notification, PanelFormCtrl) {
             name: item.name,
             templateId: item.templateId,
             fields: item.fields,
-            parent: item.parentId,
+            parentId: item.parentId,
           },
           isNotified: true,
           actionName: (data.actionName ? data.actionName : "Saving"),

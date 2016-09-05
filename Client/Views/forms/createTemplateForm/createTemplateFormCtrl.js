@@ -169,44 +169,39 @@
         };
 
         application.httpRequest(data, function (response) {
-          //$scope.isShowModalForm = false;
-          if (!response.error) {
+          if (!response.error && response.requestData) {
             var item = response.requestData.item;
             var fields = response.requestData.fields;
             var removeFields = response.requestData.removeFields;
 
-            var treeGrid = application.getEngineTree().getTreeGrid();
+            if (fields) {
+              if (!item.children)
+                item.children = [];
+              _.each(fields, function (field) {
+                item.children.push(field);
+              });
+            }            
+
+            if (dataCtrl.isChange && removeFields && removeFields.length > 0) {
+              _.each(removeFields, function (field) {
+                item.children = _.without(item.children, { id: field.id });
+              });
+            }
+
             if (!dataCtrl.isChange) {
-              //application.getEngineTree().refresh(true);
-              treeGrid.addChildNode({ id: item.parentId }, item);
-              treeGrid.hashParentItems[item.id] = item;
+              //treeGrid.addChildNode({ id: item.parentId }, item);
+              //treeGrid.hashParentItems[item.id] = item;
+              application.addItem(response.requestData.item);
             } else {
-              if (response.requestData) {
 
-              }
             }
-            
-            _.each(removeFields, function (field) {
-              treeGrid.removeChildNode(field);
-            });
 
-            _.each(fields, function (field) {
-              treeGrid.addChildNode(item, field);
-            });
-
-            // "openCloseNode" for parent item(re-rendering: arrows for node of the new created template)            
-            if (item.parentObj) {
-              var parentItemRow = treeGrid.getHashItemRow()[item.parentObj.id];
-              if (parentItemRow)
-                treeGrid.openCloseNode(parentItemRow.trElem, true);
-            }
-            
-
+            var treeGrid = application.getEngineTree().getTreeGrid();
             // open the node of the new created template
             var itemRow = treeGrid.getHashItemRow()[item.id];
-            if (itemRow) {
+            if (itemRow && itemRow.trElem) {
               item.isOpened = true;
-              treeGrid.openCloseNode(item.trElem, true);
+              treeGrid.openCloseNode(itemRow.trElem, true);
               $(itemRow.trElem).mousedown();
             }
           }

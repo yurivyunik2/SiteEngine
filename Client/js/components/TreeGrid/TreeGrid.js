@@ -138,8 +138,8 @@ define(["application", "CONST", "Utils", "row", "headerRow", "css!TreeGridCss"],
 
       newItemClone: function(item) {
         var newItem = _.clone(item);
-        delete newItem.children;
-        delete newItem.childrenHash;
+        //delete newItem.children;
+        //delete newItem.childrenHash;
         return newItem;
       },
 
@@ -657,11 +657,9 @@ define(["application", "CONST", "Utils", "row", "headerRow", "css!TreeGridCss"],
           if (!parentItem)
             return;
 
-          delete parentItem.childrenHash[item.id];
+          //delete parentItem.childrenHash[item.id];
 
-          parentItem.children = _.without(parentItem.children, _.findWhere(parentItem.children, { id: item.id }));
-          //var index = parentItem.children.indexOf(item);
-          //parentItem.children.splice(index, 1);
+          //parentItem.children = _.without(parentItem.children, _.findWhere(parentItem.children, { id: item.id }));
 
           var itemRow = hashItemRow[parentItem.id];
           self.openCloseNode(itemRow.trElem, true);

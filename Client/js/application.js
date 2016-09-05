@@ -548,6 +548,15 @@ define(["CONST", "Utils"], function (CONST, Utils) {
       addItem: function (item) {
         var parentObj = { id: item.parentId };
         var newItem = { id: item.id, name: item.name, templateId: item.templateId };
+        if (item.children) {
+          newItem.children = [];
+          newItem.childrenHash = {};
+          _.each(item.children, function (child) {
+            child.parentObj = newItem;
+            newItem.children.push(child);
+            newItem.childrenHash[child.id] = child;
+          });
+        }
 
         var parentItem = _.findWhere(items, { id: parentObj.id });
         //if (!parentItem || !parentItem.trElem)

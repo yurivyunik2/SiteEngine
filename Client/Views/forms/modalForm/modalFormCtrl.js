@@ -87,6 +87,7 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
 
     var isCtrlLoaded = false;
     var isShowFunction = false;
+    var isFocusNameNeed = false;
 
     var modalFormCtrl = {
       curType: null,
@@ -149,6 +150,13 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
         //  }
         //  $dvContentForm.parent().css("top", top + "px");
         //}
+
+        if (isFocusNameNeed) {
+          isFocusNameNeed = false;
+          var $inName = self.get$el().find(".inName");
+          if ($inName && $inName.length > 0)
+            $inName[0].focus();
+        }
 
         var event;
         if (uiData.keyDownEventLast) {
@@ -252,8 +260,9 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
           if (!currentCtrl.isButtonsFormVisible)
             $buttonsFormElem.hide();
 
-          if (currentCtrl.show)
+          if (currentCtrl.show) {
             currentCtrl.show(data);
+          }          
 
           if (currentCtrl.get$el()) {
             var $formElem = currentCtrl.get$el();
@@ -262,7 +271,6 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
             minWidth += $formElem[0].offsetLeft * 2;
             self.get$el().find(".dvContentForm").css("min-width", minWidth + "px");
           }
-
         }
 
         $scope.isShowModalForm = true;
@@ -270,6 +278,7 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
           $scope.$apply();
         } catch (ex) { }
 
+        isFocusNameNeed = true;
       },
 
       hide: function () {

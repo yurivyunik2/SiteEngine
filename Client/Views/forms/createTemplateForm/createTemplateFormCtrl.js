@@ -90,11 +90,6 @@
           //$scope.$apply();
         } catch (ex) { }
 
-        var $dvTemplateNameElem = $("#dvTemplateName");
-        var $inName = $dvTemplateNameElem.find(".inName");
-        $inName.val($scope.newTemplateName);
-        $inName.focus();
-
         var $selTypeElem = $(selTypeSelector);
         $selTypeElem.html("");        
         _.each(dataTypes, function (type) {

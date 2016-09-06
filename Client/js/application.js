@@ -477,17 +477,19 @@ define(["CONST", "Utils"], function (CONST, Utils) {
           for (var i = 0; i < items.length; i++) {
             var curItem = items[i];
 
-            //----fix----//
-            if (typeof this.hashParentItems[curItem.id] != 'undefined') {
-              this.hashParentItems[curItem.id].children = curItem.children;
-              curItem = this.hashParentItems[curItem.id];
-            }
-            //----fix end----//
+            this.hashParentItems[curItem.id] = curItem;
+
+            ////----fix----//
+            //if (typeof this.hashParentItems[curItem.id] != 'undefined') {
+            //  this.hashParentItems[curItem.id].children = curItem.children;
+            //  curItem = this.hashParentItems[curItem.id];
+            //}
+            ////----fix end----//
 
             //
             //this.hashItemsPopulate[curItem.id] = curItem;
 
-            var parentItem;
+            var parentItem = null;
 
             if (curItem.parentId && curItem.parentId !== '') {
               parentItem = this.hashParentItems[curItem.parentId];
@@ -578,6 +580,7 @@ define(["CONST", "Utils"], function (CONST, Utils) {
 
         items.push(newItem);
         itemsHash[newItem.id] = newItem;
+        self.hashParentItems[newItem.id] = newItem;        
 
         // to call of the Events' subscribers
         var event = {

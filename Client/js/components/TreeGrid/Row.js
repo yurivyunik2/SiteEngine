@@ -76,7 +76,7 @@
         var imgSrcFolderVisible = "none;";
 
         var imgFolderSrc = srcFolderClose;
-        var hashItem = treeGrid.hashParentItems[item.id];
+        var hashItem = application.hashParentItems[item.id];
         if (hashItem && (hashItem.children || hashItem.templateId == CONST.FOLDER_TEMPLATE_ID())) {
           if(hashItem.children)
             imgSrcArrowVisible = "visible;";

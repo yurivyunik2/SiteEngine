@@ -115,8 +115,10 @@ define(["application", "CONST", "Utils", "row", "headerRow", "css!TreeGridCss"],
       getIsApplicationEvents: function() { return isApplicationEvents; },
 
       initializeItems: function(items) {
-        treeItems = [];
-        this.treeItemsHash = {};
+        //treeItems = [];
+        //this.treeItemsHash = {};
+        treeItems = application.treeItems;
+        this.treeItemsHash = application.treeItemsHash;
 
         this.hashParentItems = {};
         this.hashItems = {};
@@ -130,7 +132,7 @@ define(["application", "CONST", "Utils", "row", "headerRow", "css!TreeGridCss"],
       populate: function(items) {
         this.initializeItems();
 
-        this.populateItems(items);
+        //this.populateItems(items);
 
         //      
         this.renderTree();
@@ -145,75 +147,75 @@ define(["application", "CONST", "Utils", "row", "headerRow", "css!TreeGridCss"],
 
       populateItems: function(_items) {
 
-        var items = _items;
-        //var items = [];
-        //_.each(_items, function(item) {
-        //  var newItem = self.newItemClone(item);
-        //  items.push(newItem);
-        //});
+        //var items = _items;
+        ////var items = [];
+        ////_.each(_items, function(item) {
+        ////  var newItem = self.newItemClone(item);
+        ////  items.push(newItem);
+        ////});
 
-        try {
-          // find parent for each item
-          for (var i = 0; i < items.length; i++) {
-            var curItem = items[i];
+        //try {
+        //  // find parent for each item
+        //  for (var i = 0; i < items.length; i++) {
+        //    var curItem = items[i];
 
-            //
-            //yvy - fix temporary
-            //
-            this.hashParentItems[curItem.id] = curItem;
+        //    //
+        //    //yvy - fix temporary
+        //    //
+        //    this.hashParentItems[curItem.id] = curItem;
 
-            //----fix----//
-            //if (typeof this.hashParentItems[curItem.id] != 'undefined') {
-            if (curItem && curItem.id) {
-              this.hashParentItems[curItem.id].children = curItem.children;
-              curItem = this.hashParentItems[curItem.id];
-            }
-            //----fix end----//
+        //    //----fix----//
+        //    //if (typeof this.hashParentItems[curItem.id] != 'undefined') {
+        //    if (curItem && curItem.id) {
+        //      this.hashParentItems[curItem.id].children = curItem.children;
+        //      curItem = this.hashParentItems[curItem.id];
+        //    }
+        //    //----fix end----//
 
-            //
-            //this.hashItemsPopulate[curItem.id] = curItem;
+        //    //
+        //    //this.hashItemsPopulate[curItem.id] = curItem;
 
-            var parentItem;
+        //    var parentItem;
 
-            if (curItem.parentId && curItem.parentId !== '') {
-              parentItem = this.hashParentItems[curItem.parentId];
+        //    if (curItem.parentId && curItem.parentId !== '') {
+        //      parentItem = this.hashParentItems[curItem.parentId];
 
-              if (!parentItem) {
-                for (var j = 0; j < items.length; j++) {
-                  if (curItem.parentId === items[j].id) {
-                    parentItem = items[j];
-                    break;
-                  }
-                }
-              }
-            }
+        //      if (!parentItem) {
+        //        for (var j = 0; j < items.length; j++) {
+        //          if (curItem.parentId === items[j].id) {
+        //            parentItem = items[j];
+        //            break;
+        //          }
+        //        }
+        //      }
+        //    }
 
-            if (parentItem && curItem.parentId && curItem.parentId !== "") {
-              if (!parentItem.children) {
-                parentItem.children = [];
-                parentItem.childrenHash = {};
-              }
+        //    if (parentItem && curItem.parentId && curItem.parentId !== "") {
+        //      if (!parentItem.children) {
+        //        parentItem.children = [];
+        //        parentItem.childrenHash = {};
+        //      }
 
-              if (typeof parentItem.childrenHash[curItem.id] == 'undefined') {
-                parentItem.children.push(curItem);
-              } else {
-                curItem = parentItem.childrenHash[curItem.id];
-              }
-              parentItem.childrenHash[curItem.id] = curItem;
+        //      if (typeof parentItem.childrenHash[curItem.id] == 'undefined') {
+        //        parentItem.children.push(curItem);
+        //      } else {
+        //        curItem = parentItem.childrenHash[curItem.id];
+        //      }
+        //      parentItem.childrenHash[curItem.id] = curItem;
 
-              curItem.parentObj = parentItem;
-              this.hashParentItems[parentItem.id] = parentItem;
-            } else {
-              if (typeof this.treeItemsHash[curItem.id] == 'undefined') {
-                treeItems.push(curItem);
-              }
-              this.treeItemsHash[curItem.id] = curItem;
-            }
-          }
+        //      curItem.parentObj = parentItem;
+        //      this.hashParentItems[parentItem.id] = parentItem;
+        //    } else {
+        //      if (typeof this.treeItemsHash[curItem.id] == 'undefined') {
+        //        treeItems.push(curItem);
+        //      }
+        //      this.treeItemsHash[curItem.id] = curItem;
+        //    }
+        //  }
 
-        } catch (ex) {
+        //} catch (ex) {
 
-        }
+        //}
       },
 
       // renderTree
@@ -533,7 +535,7 @@ define(["application", "CONST", "Utils", "row", "headerRow", "css!TreeGridCss"],
         var $imgArrowElem = $(trElem).find(".imgArrow");
         var $imgFolderElem = $(trElem).find(".imgFolder");
 
-        var itemObj = self.hashParentItems[trElem.id];
+        var itemObj = application.hashParentItems[trElem.id];
         if (itemObj) {
 
           if (!isNoChange) { // if it's needed to change state
@@ -604,9 +606,9 @@ define(["application", "CONST", "Utils", "row", "headerRow", "css!TreeGridCss"],
 
         try {
 
-          newItem = self.newItemClone(newItem);
+          //newItem = self.newItemClone(newItem);
           //var parentItem = newItem.parentObj;
-          var parentItem = self.hashParentItems[newItem.parentObj.id];
+          var parentItem = application.hashParentItems[newItem.parentObj.id];
           if (!parentItem)
             return;
 
@@ -626,7 +628,7 @@ define(["application", "CONST", "Utils", "row", "headerRow", "css!TreeGridCss"],
           //self.renderItem($trElem, newItem, parentItem.id, marginLeftVar, self.isFiltered);
           //self.openCloseNode(parentItem.trElem, !isNodeUpdate);
           
-          self.hashParentItems[newItem.id] = newItem;
+          application.hashParentItems[newItem.id] = newItem;
           var itemRow = hashItemRow[parentItem.id];
           if (itemRow.trElem) {
             parentItem.isOpened = true;
@@ -653,7 +655,7 @@ define(["application", "CONST", "Utils", "row", "headerRow", "css!TreeGridCss"],
           //  return;
 
           //var parentItem = item.parentObj;
-          var parentItem = self.hashParentItems[item.parentObj.id];
+          var parentItem = application.hashParentItems[item.parentObj.id];
           if (!parentItem)
             return;
 
@@ -697,7 +699,7 @@ define(["application", "CONST", "Utils", "row", "headerRow", "css!TreeGridCss"],
         if (item.name.toLowerCase().indexOf(filterName) >= 0)
           isFound = true;
 
-        var parentItem = this.hashParentItems[item.id];
+        var parentItem = application.hashParentItems[item.id];
 
         if (parentItem) {
           for (var key in parentItem.childrenHash) {

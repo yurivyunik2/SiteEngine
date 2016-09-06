@@ -234,14 +234,14 @@ var Utils = function (CONST, Notification) {
     },
 
     getLanguageCurrent: function () {
-      var curLanguage = currentLanguage;      
+      var curLanguage = currentLanguage;
       if (!curLanguage && sessionStorage["currentLanguage"]) {
         try {
           curLanguage = JSON.parse(sessionStorage["currentLanguage"]);
         } catch (ex) {
           curLanguage = null;
         }
-      }            
+      }
       if (!curLanguage) {
         var $selLanguageElem = $(CONST.LANGUAGE_SELECTOR());
         if ($selLanguageElem.length > 0) {

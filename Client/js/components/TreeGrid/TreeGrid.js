@@ -22,7 +22,6 @@ define(["application", "CONST", "Utils", "row", "headerRow", "css!TreeGridCss"],
     var isHeaderShow = false;
 
     var treeItems = [];
-    var treeItemsHash = {};
 
     var hashItemRow = {};
 
@@ -117,8 +116,12 @@ define(["application", "CONST", "Utils", "row", "headerRow", "css!TreeGridCss"],
       initializeItems: function(items) {
         //treeItems = [];
         //this.treeItemsHash = {};
-        treeItems = application.treeItems;
-        this.treeItemsHash = application.treeItemsHash;
+        if (items && items.length > 0) {
+          treeItems = [];
+          treeItems.push(items[0]);
+        } else {
+          treeItems = application.treeItems;
+        }
 
         this.hashParentItems = {};
         this.hashItems = {};
@@ -130,7 +133,7 @@ define(["application", "CONST", "Utils", "row", "headerRow", "css!TreeGridCss"],
 
       // populate
       populate: function(items) {
-        this.initializeItems();
+        this.initializeItems(items);
 
         //this.populateItems(items);
 
@@ -725,8 +728,8 @@ define(["application", "CONST", "Utils", "row", "headerRow", "css!TreeGridCss"],
           //this.setHashTree();
 
           var itemsFiltered = [];
-          for (var idItem in this.treeItemsHash) {
-            this.filterNode(this.treeItemsHash[idItem], filterName);
+          for (var index = 0; index < this.treeItems.length; index++) {
+            this.filterNode(this.treeItems[index], filterName);
           }
 
           //this.populate(itemsFiltered, true);

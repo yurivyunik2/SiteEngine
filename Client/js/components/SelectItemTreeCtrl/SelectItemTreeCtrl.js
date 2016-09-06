@@ -117,8 +117,10 @@ define(["application", "CONST", "Utils", "CommonTypes", "TreeGrid"], function (a
         if ($el && selectedItems) {
           var $selItemsElem = $el.find("#selItems");
           var selIds = [];
-          _.each($selItemsElem[0].selectedOptions, function(option) {
-            selIds.push(option.id);
+          _.each($selItemsElem[0].options, function (option) {
+            if (option.selected) {
+              selIds.push(option.id);
+            }            
           });
           _.each(selIds, function(id) {
             var itemsFound = _.where(selectedItems, { id: parseInt(id) });

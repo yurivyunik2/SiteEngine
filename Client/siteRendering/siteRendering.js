@@ -41,7 +41,13 @@ define(["CONST", "Utils", "application", "actionCtrl", "SiteInitialization", "pa
           event.preventDefault();
         });
 
-        $("#selLanguage").change(function(event) {
+        $("#selLanguage").change(function (event) {
+          if ($(this).val()) {
+            var langCode = $(this).val();
+            if (langCode) {
+              Utils.setLanguageCurrent(langCode);
+            }
+          }
           SiteInitialization.bindItemFields();
           isContentRendered = false;
         });

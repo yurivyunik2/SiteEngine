@@ -220,6 +220,14 @@
       },
 
       languageChanged: function (event) {
+        var $selLanguageElem = $(CONST.LANGUAGE_SELECTOR());
+        if ($selLanguageElem.length > 0) {
+          var langCode = $selLanguageElem.val();
+          if (langCode) {
+            Utils.setLanguageCurrent(langCode);
+          }
+        }
+
         var treeGrid;
         var engineTree = application.getEngineTree();
         if (engineTree) {

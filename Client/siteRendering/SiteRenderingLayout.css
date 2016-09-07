@@ -18,7 +18,10 @@
 .editModePanel {
   display: none;
 }
-#actionPanel .dvEditModeTitle {
+.editModePanel #actionPanel #dvTabContent {
+  position: absolute;
+}
+.editModePanel #actionPanel .dvEditModeTitle {
   display: inline-block;
   background-color: #63b8de;
   height: 34px;
@@ -27,25 +30,25 @@
   padding: 0px 15px;
   border-right: 1px solid #83e6ff;
 }
-#actionPanel .dvEditModeTitle span {
+.editModePanel #actionPanel .dvEditModeTitle span {
   color: white;
   font-size: 15px;
   font-weight: bold;
   position: relative;
   top: 5px;
 }
-#actionPanel .dvLanguage {
+.editModePanel #actionPanel .dvLanguage {
   display: inline;
   margin-left: 21px;
   color: #ffffff;
 }
-#actionPanel .dvLanguage #selLanguage {
+.editModePanel #actionPanel .dvLanguage #selLanguage {
   display: inline-block;
   height: 24px;
   padding: 0;
   width: 100px;
 }
-#actionPanel .dvLanguage #progressBar {
+.editModePanel #actionPanel .dvLanguage #progressBar {
   margin-left: 20px;
 }
 #actionProcess {

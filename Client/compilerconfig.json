@@ -26,5 +26,9 @@
   {
     "outputFile": "Views/panels/panelForm/panelForm.css",
     "inputFile": "Views/panels/panelForm/panelForm.less"
+  },
+  {
+    "outputFile": "siteRendering/SiteRenderingLayout.css",
+    "inputFile": "siteRendering/SiteRenderingLayout.less"
   }
 ]

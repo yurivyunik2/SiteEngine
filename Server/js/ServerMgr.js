@@ -264,12 +264,14 @@
                 });
                 break;
               }
-            case "getContentSite": {
-              contentMgr.getContent(request, objResponse, function () {
-                  //response.end(JSON.stringify(objResponse));
-                  self.responseCallbackPOSTExtend(response, dataRequest, objResponse, 'text/html');
-                });
-              break;
+            case "getContentSite":
+              {
+                request.dataRequest = dataRequest;
+                contentMgr.getContent(request, objResponse, function () {
+                    //response.end(JSON.stringify(objResponse));
+                    self.responseCallbackPOSTExtend(response, dataRequest, objResponse, 'text/html');
+                  });
+                break;
               }
             case "getUsers":
               {

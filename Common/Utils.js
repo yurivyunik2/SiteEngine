@@ -279,6 +279,21 @@ var Utils = function (CONST, Notification) {
       return curVersion;
     },
 
+    getFieldsLang: function (item, lang) {
+      if (!item || !item.fields)
+        return [];
+      var fields = item.fields;
+      if (!lang) {
+        var curLangguage = self.getLanguageCurrent();
+        lang = curLangguage.code;
+      }
+      var fieldsLang = [];
+      if (fields && lang) {
+        fieldsLang = _.where(fields, { itemId: item.id, lang: lang });
+      }
+      return fieldsLang;
+    },
+
     getFieldsLangVersion: function (item) {
       if (!item || !item.fields)
         return [];

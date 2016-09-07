@@ -8,6 +8,7 @@
   var CONST = Modules.CONST;
   //var Utils = Modules.Utils;
   var ServerApplication = Modules.ServerApplication;
+  var Utils = Modules.Utils;
 
   var self;
 
@@ -91,7 +92,11 @@
 
         var renderingObj;
         var renderingFields = [];
-        _.each(item.fields, function (field) {
+        var fieldsLang = item.fields;
+        if (request.dataRequest && request.dataRequest.lang) {
+          fieldsLang = Utils.getFieldsLang(item, request.dataRequest.lang);
+        }
+        _.each(fieldsLang, function (field) {
           if (field.fieldId === CONST.RENDERINGS_FIELD_ID())
             renderingFields.push(field);
         });

@@ -1,12 +1,12 @@
-
+﻿
 var CONST = function (CommonTypes, AppConfig) {
   var self;
 
   if (CommonTypes) {
     var LanguageList = [
       CommonTypes.Language("English", "en", "EN"),
-      CommonTypes.Language("Russian", "ru", "RU"),
-      CommonTypes.Language("Danish", "da", "DA"),
+      CommonTypes.Language("Русский", "ru", "RU"),
+      CommonTypes.Language("Українська", "ua", "UA"),
     ];
     var LanguageDefault = LanguageList[0];
   }

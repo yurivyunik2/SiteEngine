@@ -584,14 +584,31 @@
         var reader = new FileReader();
         reader.onload = function (readerEvt) {
           try {
-            var binaryString = readerEvt.target.result;
+            //var binaryString = readerEvt.target.result;
+            var buffer = readerEvt.target.result;
+            var bufView = new Uint8Array(buffer);
+            var length = bufView.length;
+            var addition = Math.pow(2, 8) - 1;
+
+            var binaryString = "";
+            for (var i = 0; i < length; i += addition) {
+              if (i + addition > length) {
+                addition = length - i;
+              }
+              binaryString += String.fromCharCode.apply(null, bufView.subarray(i, i + addition));
+            }
+
             var binaryValue = btoa(binaryString);
-            if (callback)
+            //var binaryValue = binaryString;
+            if (callback) {
               callback(file, binaryValue);
+            }            
           } catch (ex) {
           }
         };
-        reader.readAsBinaryString(file);
+        //reader.readAsBinaryString(file);
+        //reader.readAsText(file);
+        reader.readAsArrayBuffer(file);
       },
 
       handleFile: function (file, callback) {

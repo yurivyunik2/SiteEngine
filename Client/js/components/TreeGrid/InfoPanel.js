@@ -51,7 +51,7 @@ define(["application", "CONST", "Utils"], function (application, CONST, Utils) {
           var $btnMediaManager = tbody.children().last();
           $btnMediaManager.click(function () {
             var modalFormCtrl = application.getModalFormCtrl();
-            modalFormCtrl.setType(modalFormCtrl.FORM_TYPE().IMAGE_GALLERY, {});
+            modalFormCtrl.setType(modalFormCtrl.FORM_TYPE().IMAGE_GALLERY, { isMultipleSelect: true });
           });
         }
         

@@ -336,7 +336,7 @@ exports.ItemMgr = function () {
                 var versionFirst = 1;
                 var fields = objResponse.data;
                 var newfields = [];
-                if (data.item.fields) {                  
+                if (data.item.fields) {
                   _.each(data.item.fields, function (fieldData) {
                     var fieldChange = _.findWhere(fields, { fieldId: fieldData.fieldId });
                     if (fieldChange) {
@@ -345,6 +345,9 @@ exports.ItemMgr = function () {
                       if (fieldData.lang && fieldData.version) {
                         newField.lang = fieldData.lang;
                         newField.version = fieldData.version;
+                      } else {
+                        newField.lang = data.lang;
+                        newField.version = versionFirst;
                       }
                       newfields.push(newField);
                     }

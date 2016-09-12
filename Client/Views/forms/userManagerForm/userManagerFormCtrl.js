@@ -74,7 +74,7 @@
       },
 
       intervalUI: function () {
-        if ($userManagerFormElem && $userManagerFormElem.is(":visible")) {
+        if ($userManagerFormElem && $userManagerFormElem.length > 0 && $userManagerFormElem.is(":visible")) {
           var $btnEditElem = $userManagerFormElem.find("#btnEdit");
           var $btnRemoveElem = $userManagerFormElem.find("#btnRemove");
           var $selectedElem = $tbUserElem.find(".selected");

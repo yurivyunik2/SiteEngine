@@ -64,9 +64,7 @@ define(["application", "CONST", "userManagerFormCtrl", "editContentFormCtrl"], f
           var $panelElem = $("#" + idPanel);
           if (isCorrectPosition && $panelElem.length > 0 && (initWidth < $panelElem.width() || panelIndex > 1)) {
             isCorrectPosition = false;
-            var top = window.innerHeight / 2 - $panelElem.height() / 2;
-            var left = window.innerWidth / 2 - $panelElem.width() / 2;
-            $panelElem.css({ top: top, left: left });
+            self.centerForm();
           }
         }
       },
@@ -160,7 +158,17 @@ define(["application", "CONST", "userManagerFormCtrl", "editContentFormCtrl"], f
           $panelElem.show();
 
           initWidth = $panelElem.width();
-          isCorrectPosition = true;
+          //isCorrectPosition = true;
+          self.centerForm();
+        }
+      },
+
+      centerForm: function() {
+        var $panelElem = $("#" + idPanel);
+        if ($panelElem.length > 0) {
+          var top = window.innerHeight / 2 - $panelElem.height() / 2;
+          var left = window.innerWidth / 2 - $panelElem.width() / 2;
+          $panelElem.css({ top: top, left: left });
         }
       },
 

@@ -129,7 +129,7 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
         selectTemplateFormCtrl = new SelectTemplateFormCtrl($scope);
         selectTreeItemFormCtrl = new SelectTreeItemFormCtrl($scope);
         layoutFormCtrl = new LayoutFormCtrl($parentContentElem, $scope);
-        userManagerFormCtrl = new UserManagerFormCtrl($scope);
+        userManagerFormCtrl = new UserManagerFormCtrl($parentContentElem, $scope);
         newUserFormCtrl = new NewUserFormCtrl($scope, self);
         imageGalleryFormCtrl = new ImageGalleryFormCtrl($scope);
         notificationModalFormCtrl = new NotificationModalFormCtrl($scope);

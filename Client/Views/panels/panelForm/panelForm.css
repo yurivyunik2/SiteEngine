@@ -97,8 +97,7 @@
   cursor: pointer;
   width: auto;
   height: auto;
-  font-size: 1px;
-  z-index: 1000000;
+  z-index: 10000;
 }
 .dvPanelFormContainer .dvContentForm {
   min-height: 40px;

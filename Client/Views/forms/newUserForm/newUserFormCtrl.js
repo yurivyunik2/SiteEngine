@@ -22,6 +22,7 @@
       constructor: function () {
         self = this;
         self.setBaseData({
+          formTitle: "Create New User",
           formPath: "/SiteEngine/Client/Views/forms/newUserForm/newUserForm.html",
         });
 

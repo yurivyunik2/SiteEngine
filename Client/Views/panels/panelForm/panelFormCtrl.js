@@ -159,7 +159,9 @@ define(["application", "CONST", "userManagerFormCtrl", "editContentFormCtrl"], f
 
           initWidth = $panelElem.width();
           //isCorrectPosition = true;
-          self.centerForm();
+          if (currentCtrl.isCenterForm()) {
+            self.centerForm();
+          }          
         }
       },
 

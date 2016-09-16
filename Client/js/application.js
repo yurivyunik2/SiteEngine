@@ -138,7 +138,15 @@ define(["CONST", "Utils"], function (CONST, Utils) {
       },
 
       getSession: function () {
-        return _.clone(session);
+        if (!session || !session.id) {
+          var sessionData = sessionStorage["session"];
+          if (sessionData) {
+            try {
+              session = JSON.parse(sessionData);
+            } catch (ex) { }
+          }
+        }
+        return session;
       },
       setSession: function (sessionID, login, pass) {
         if (sessionID && login && pass) {
@@ -148,6 +156,7 @@ define(["CONST", "Utils"], function (CONST, Utils) {
           session.login = login;
           session.pass = pass;
           session.isLogged = true;
+          sessionStorage["session"] = JSON.stringify(session);
         }
       },
 
@@ -765,11 +774,14 @@ define(["CONST", "Utils"], function (CONST, Utils) {
         if (!data || !success)
           return;
 
+        var session = application.getSession();
+        data.sessionID = (session ? session.id : '');
+
         var req = {
           method: 'POST',
           url: CONST.SERVER.PATH(),
           headers: {
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',            
           },
           data: JSON.stringify(data)
         };

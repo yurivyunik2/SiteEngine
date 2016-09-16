@@ -64,9 +64,9 @@
     },
 
     pingSession: function (data, objResponse, callback) {
-      if (currentRequest && currentRequest.sessionID && usersHash[currentRequest.sessionID]) {
+      if (data && data.sessionID && usersHash[data.sessionID]) {
         objResponse.data = {
-          user: usersHash[currentRequest.sessionID],
+          user: usersHash[data.sessionID],
         };
       } else {
         objResponse.error = "User doesn't have the session!";
@@ -76,11 +76,11 @@
     },
 
     logout: function (data, objResponse, callback) {
-      if (currentRequest && currentRequest.sessionID && usersHash[currentRequest.sessionID]) {
+      if (data && data.sessionID && usersHash[data.sessionID]) {
         objResponse.data = {
-          user: usersHash[currentRequest.sessionID],
+          user: usersHash[data.sessionID],
         };
-        delete usersHash[currentRequest.sessionID];
+        delete usersHash[data.sessionID];
       }
       if (callback)
         callback();

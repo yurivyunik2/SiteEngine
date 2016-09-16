@@ -10,7 +10,7 @@
     var self;
 
     var secureOperations = [
-      "pingSession", "login", "getContentSite"
+      "pingSession", "login", "getContentSite", "getItems", "getItemGroupFields"
     ];
     var ownOperations = [];
 

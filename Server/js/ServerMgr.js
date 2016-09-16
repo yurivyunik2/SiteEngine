@@ -59,11 +59,11 @@
       itemMgr.setRequest(request);
       userMgr.setRequest(request);
 
-      if (!request.sessionID) {
-        objResponse.error = "SessionID isn't available!";
-        response.end(JSON.stringify(objResponse));
-        return;
-      }
+      //if (!request.sessionID) {
+      //  objResponse.error = "SessionID isn't available!";
+      //  response.end(JSON.stringify(objResponse));
+      //  return;
+      //}
 
       if (request.method === "POST") {
         this.processPOST(request, response);
@@ -80,13 +80,19 @@
     },
     responseCallbackPOSTExtend: function (response, dataRequest, objResponse, contentType) {
       DatabaseMgr.historyLog(dataRequest, objResponse);
-      var headersObj = {
-        'Access-Control-Allow-Origin': '*'
-      };
-      if (contentType)
-        headersObj["Content-Type"] = contentType;
-      response.writeHead(200, "OK", headersObj);
+      //var headersObj = {
+      //  'Access-Control-Allow-Origin': '*'
+      //};
+      //if (contentType) {
+      //  headersObj["Content-Type"] = contentType;
+      //}      
+      //response.writeHead(200, "OK", headersObj);
 
+      if (contentType) {
+        response.setHeader('Content-Type', contentType);
+      }      
+
+      response.statusCode = 200;
       response.end(JSON.stringify(objResponse));
     },
 
@@ -107,11 +113,11 @@
         if (dataRequest) {
           
           if (!userMgr.isActionSecure(dataRequest.action)) {
-            if (!userMgr.isSessionExist(request.sessionID)) {
+            if (!userMgr.isSessionExist(dataRequest.sessionID)) {
               objResponse.error = "User's session doesn't exist!";
               response.end(JSON.stringify(objResponse));
               return;
-            } else if (!userMgr.hasAccess(dataRequest.action, request.sessionID)) {
+            } else if (!userMgr.hasAccess(dataRequest.action, dataRequest.sessionID)) {
               objResponse.error = "User doesn't have the access to this operation!";
               response.end(JSON.stringify(objResponse));
               return;

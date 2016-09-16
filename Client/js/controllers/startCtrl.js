@@ -39,31 +39,27 @@ function (application, CONST, Utils, EngineTree, ActionCtrl, ModalFormCtrl, TabP
         application.initialize($scope, $http, $window);
 
         var session = application.getSession();
-        if (!session || !session.isLogged) {
+        //if (!session || !session.isLogged) {
+        var action = "pingSession";
+        var data = {
+          action: action,
+          sessionID: (session ? session.id : '')
+        };
 
-          var action = "pingSession";
-          var data = {
-            action: action,
-          };
-
-          self.isRequestProcess = true;
-          application.httpRequest(data, function success(response) {
-            if (!response.error) {
-              if (response.data && response.data.user && response.data.user.sessionID) {
-                var user = response.data.user;
-                application.setSession(user.sessionID, user.name, user.password);
-                self.initializeComponents();
-              }
-            } else {
-              $window.location.href = '#/login';
+        self.isRequestProcess = true;
+        application.httpRequest(data, function success(response) {
+          if (!response.error) {
+            if (response.data && response.data.user && response.data.user.sessionID) {
+              var user = response.data.user;
+              application.setSession(user.sessionID, user.name, user.password);
+              self.initializeComponents();
             }
-          }, function error(response, status, headers) {
-          });
-
-        } else {
-          self.initializeComponents();
-        }
-
+          } else {
+            $window.location.href = '#/login';
+          }
+        }, function error(response, status, headers) {
+        });
+        
       },
       
       initializeComponents: function () {

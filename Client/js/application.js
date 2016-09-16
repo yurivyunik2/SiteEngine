@@ -139,7 +139,7 @@ define(["CONST", "Utils"], function (CONST, Utils) {
 
       getSession: function () {
         if (!session || !session.id) {
-          var sessionData = sessionStorage["session"];
+          var sessionData = localStorage["session"];
           if (sessionData) {
             try {
               session = JSON.parse(sessionData);
@@ -156,7 +156,7 @@ define(["CONST", "Utils"], function (CONST, Utils) {
           session.login = login;
           session.pass = pass;
           session.isLogged = true;
-          sessionStorage["session"] = JSON.stringify(session);
+          localStorage["session"] = JSON.stringify(session);
         }
       },
 

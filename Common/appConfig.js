@@ -4,9 +4,10 @@ var AppConfig = function () {
 
   return {
     SERVER: {
-      PORT: function () { return 1221; },
-      //PORT: function () { return 8080; },
-      HOST: function () { return "localhost"; },
+      //PORT: function () { return 1221; },
+      PORT: function () { return 80; },
+      //HOST: function () { return "localhost"; },
+      HOST: function () { return "46.98.145.74"; },
     },
   };
 };

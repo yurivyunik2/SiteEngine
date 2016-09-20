@@ -777,11 +777,18 @@ define(["CONST", "Utils"], function (CONST, Utils) {
         var session = application.getSession();
         data.sessionID = (session ? session.id : '');
 
+        var url = CONST.SERVER.PATH();
+        //var url = CONST.SERVER.PATH() + (window.location.pathname + window.location.search);
+
         var req = {
           method: 'POST',
-          url: CONST.SERVER.PATH(),
+          url: url,
+          //url: url,
           headers: {
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',            
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+            'Accept': "application/json, text/plain, */*",
+            //'Content-Type': 'application/json;charset=utf-8',            
+            //'Access-Control-Allow-Origin': '*'
           },
           data: JSON.stringify(data)
         };
@@ -800,6 +807,21 @@ define(["CONST", "Utils"], function (CONST, Utils) {
               error(response, status, header, config);
             self.httpRequestCallback(data, response);
           });
+
+        //$.post(url, JSON.stringify(data), function (responseData, textStatus, jqXHR) {
+        //  if (jqXHR && jqXHR.status === 200) {
+        //    responseData = JSON.parse(responseData);
+        //    if (success)
+        //      success(responseData);
+        //    self.httpRequestCallback(data, responseData);
+        //  } else {
+        //    if (error)
+        //      error(responseData, textStatus);
+        //    self.httpRequestCallback(data, responseData);
+        //  }
+
+        //});
+        
       },
 
       httpRequestCallback: function (data, response) {

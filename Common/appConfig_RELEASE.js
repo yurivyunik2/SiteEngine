@@ -6,7 +6,8 @@ var AppConfig = function () {
     SERVER: {
 	  isRelease: true,
       PORT: function () { return 80; },
-      HOST: function () { return "localhost"; },
+      //HOST: function () { return "localhost"; },
+      HOST: function () { return "178.151.211.118"; },
     },
   };
 };

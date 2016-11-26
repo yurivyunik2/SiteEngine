@@ -12,6 +12,8 @@ var Modules = require('./js/Modules.js');
 var CONST = Modules.CONST;
 var AppConfig = Modules.AppConfig;
 
+var port = process.env.PORT || AppConfig.SERVER.PORT();
+
 //if (AppConfig.SERVER.isRelease)
 //  process.chdir('./SiteEngine_RELEASE');
 
@@ -57,7 +59,7 @@ try {
       response.end(JSON.stringify(objResponse));
     }
 
-  }).listen(AppConfig.SERVER.PORT());
-  console.log("Server running at " + AppConfig.SERVER.HOST() + ":" + AppConfig.SERVER.PORT() + "/");
+  }).listen(port);
+  console.log("Server running at " + AppConfig.SERVER.HOST() + ":" + port + "/");
 } catch (ex) { }
 

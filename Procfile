@@ -1,1 +1,1 @@
-web: node ./SiteEngine/Server/server.js 
+web: node ./Server/server.js

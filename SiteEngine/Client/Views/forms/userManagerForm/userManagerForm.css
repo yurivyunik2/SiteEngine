@@ -1,0 +1,48 @@
+﻿.userManagerForm {
+  /*background-color: red;*/
+  height: 300px;
+  width: 900px;
+}
+.userManagerForm #buttonsArea {
+  padding-left: 10px;
+  padding-bottom: 10px;
+}
+.userManagerForm #tableArea {
+  width: 100%;
+  height: 250px;
+  overflow: auto;
+  border: 1px solid #8A9E9B;
+  background-color: white;
+}
+.userManagerForm #tbUsers {
+  width: 100%;
+  /*background-color: white;*/
+}
+.userManagerForm #tbUsers tr {
+  border-bottom: 1px solid #8A9E9B;
+}
+.userManagerForm #tbUsers tr:hover {
+  background-color: #dfe8f6;
+}
+.userManagerForm #tbUsers tr.selected {
+  background-color: #dfe8f6;
+}
+.userManagerForm #tbUsers tr:first-child:hover {
+  background-color: #ABD3F5;
+}
+.userManagerForm #tbUsers tr:last-child {
+  /*border-bottom-color: transparent;*/
+}
+.userManagerForm #tbUsers tr:first-child {
+  /*border-top: 1px solid green;*/
+  background-color: #ABD3F5;
+}
+.userManagerForm #tbUsers td,
+.userManagerForm #tbUsers th {
+  border-left: 1px solid #8A9E9B;
+  padding-left: 10px;
+}
+.userManagerForm #tbUsers td:first-child,
+.userManagerForm #tbUsers th:first-child {
+  border-left-color: transparent;
+}

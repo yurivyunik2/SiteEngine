@@ -1,0 +1,274 @@
+﻿#imageGalleryForm {
+  cursor: default;
+}
+#imageGalleryForm > .imageGalleryInnerDiv {
+  height: 450px;
+  width: 1000px;  
+}
+
+#imageGalleryForm #buttonsArea {
+  width: 100%;
+  height: 50px;
+  background-color: #D1F6FF;
+  border-bottom: 1px solid #DABEBE;
+  /*display: table;*/  
+}
+#imageGalleryForm #buttonsArea .dvInner {
+  width: 100%;
+  height: 100%;
+}
+#imageGalleryForm #buttonsArea .dvInner > div {
+  display: table;
+  height: 100%;
+}
+#imageGalleryForm #buttonsArea .dvInner > div > .dvTableCell {
+  display: table-cell;
+  vertical-align: middle;  
+}
+#imageGalleryForm #buttonsArea .dvSearchCtrl {
+  float: left;
+  position: relative;
+  padding: 0 10px;
+}
+#imageGalleryForm #buttonsArea .dvSearchCtrl img {
+  position: absolute;
+  width: 16px;
+  top: 15px;
+  left: 15px;  
+}
+#imageGalleryForm #buttonsArea .dvSearchCtrl input {
+  border-radius: 10px;
+  border: 1px solid #A7D1EF;
+  padding-left: 22px;  
+}
+#imageGalleryForm #buttonsArea .dvSearchCtrl input:focus {
+  outline: 0; 
+}
+#imageGalleryForm #buttonsArea .dvInfo {
+  float: left;
+}
+#imageGalleryForm #buttonsArea .dvButtons {
+  float: right;
+  padding: 0;
+}
+#imageGalleryForm #buttonsArea .dvButtons .dvTableCell > div {
+  margin-right: 10px;
+}
+#imageGalleryForm #buttonsArea .dvButtons .dvUploadInformation {
+  float: left;
+  display: none;
+  margin-top: 4px;
+  padding-left: 15px;
+}
+#imageGalleryForm #buttonsArea #uploadInfo {
+  display: inline-block;
+}
+#imageGalleryForm #buttonsArea #slider{
+  display: inline-block;
+  width: 150px;
+  height: 6px;
+  background-color: #F1F1F1;
+  border-radius: 10px;
+  border: 1px solid #00C6FF;
+  margin-left: 10px;  
+}
+#imageGalleryForm #buttonsArea #slider #sliderInner {
+  width: 20%;
+  height: 100%;
+  background-color: #00C6FF;
+  border-radius: 10px;  
+}
+#imageGalleryForm #buttonsArea .dvButtons .dvBtnDelete {
+  display: none;
+  float: left;
+  margin-top: 4px;
+}
+#imageGalleryForm #buttonsArea .dvButtons .dvBtnDelete button {
+  color: #ec4d4d;
+  background: 0 0;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  border-bottom: 1px solid #ec4d4d;
+  padding-bottom: 0px;
+  padding: 0px 3px;
+  outline: none;
+}
+#imageGalleryForm #buttonsArea .dvButtons .dvBtnUpload {
+  float: left;
+}
+#imageGalleryForm .dvBtnUpload #btnUploadFiles {
+  background-color: #1491DA;
+  padding: 6px 30px;
+  border-radius: 20px;  
+  /*margin-right: 20px;*/
+  color: white;
+  cursor: pointer;
+}
+#imageGalleryForm .dvBtnUpload #btnUploadFiles:hover {
+  background-color: #0d74af;
+}
+#imageGalleryForm #imgArea {
+  width: 100%;
+  /*height: 88%;*/  
+  height: 400px;
+}
+#imageGalleryForm #imgArea #leftArea {
+  width: 15%;
+  height: 100%;
+  position: relative;
+  background-color: white;
+  float: left;
+  border-right: 1px solid red;  
+}
+
+#imageGalleryForm #imgArea .dvFolders {
+  max-height: 335px;
+  margin-bottom: 7px;
+  overflow: auto;
+}
+  #imageGalleryForm #imgArea .dvFolders .dvFolder {
+    height: 40px;
+    width: 100%;
+    padding: 8px 10px 0px 10px;
+    background-color: transparent;
+    color: black;    
+    /*text-align: center;*/
+    display: table;
+    font-family: sans-serif;
+    cursor: pointer;
+  }
+  #imageGalleryForm #imgArea .dvFolders .dvFolder:last-child {
+    height: 20px;
+  }
+    #imageGalleryForm #imgArea .dvFolders .dvFolder:hover {
+      height: 40px;
+      background-color: #CAF4FB;
+    }
+    #imageGalleryForm #imgArea .dvFolders .dvFolder.selected {
+      height: 40px;
+      background-color: #1491DA;
+      color: white;
+      font-weight: bold;
+    }
+    #imageGalleryForm #imgArea .dvFolders .dvFolder img {
+      width: 10px;
+      float: right;
+      margin-top: 6px;
+      display: none;
+    }
+    #imageGalleryForm #imgArea .dvFolders .dvFolder:hover img {
+      display: block;
+    }
+        
+  #imageGalleryForm #imgArea .dvNewFolder {
+    display:none;
+    padding: 0 5px;
+  }
+    #imageGalleryForm #imgArea .dvNewFolder input {
+      width: 100%;
+      border-radius: 5px;
+      border: 1px solid #579FC1;
+      padding: 0 5px;
+    }
+#imageGalleryForm #imgArea #allMediaSelector span {
+  /*display: table-cell;
+  vertical-align: middle;*/  
+}
+#imageGalleryForm #imgArea .dvAddFolder {
+  width: 100%;
+  cursor: pointer;
+  padding: 5px 0px;
+  position: absolute;
+  bottom: 1px;
+  text-align: center;
+}
+#imageGalleryForm #imgArea .dvAddFolder img {
+  width: 19px;
+  margin-bottom: 2px;  
+}
+#imageGalleryForm #imgArea .dvAddFolder span {
+  font-size: 13px;
+  color: #419EFF;
+  font-family: sans-serif;
+  margin-left: 3px;  
+}
+
+#imageGalleryForm #imgArea #rightArea {
+  width: 85%;
+  height: 100%;
+  background-color: white;
+  float: right;
+  
+  overflow: auto;
+  padding: 15px;  
+}
+#imageGalleryForm #imgArea #imgContainer {
+  height: 100%;
+}
+
+#imageGalleryForm #imgArea #imgContainer .tbCenter {
+  width: 100%;
+  height: 100%;
+}
+#imageGalleryForm #imgArea #imgContainer .dvCenter {
+  display: table;
+  margin: 0 auto;
+  height: 100%;  
+}
+#imageGalleryForm #imgArea #imgContainer .dvCenter .dvInnerContent {
+  display: table-cell;
+  vertical-align: middle;
+}
+#imageGalleryForm #imgArea #imgContainer .dvCenter .dvInnerContent img {
+  width: 48px;
+  height: 48px;
+}
+#imageGalleryForm #imgArea #imgContainer .dvCenter .dvInnerContent.dvNoData {
+  font-family: sans-serif;
+  font-weight: bold;
+  font-size: 24px;
+  color: #239DBB;  
+}
+#imageGalleryForm #imgArea #imgContainer table {
+  /*width: 100%;
+  height: 100%;*/
+}
+#imageGalleryForm #imgArea #imgContainer table td {
+  vertical-align: middle;
+  padding: 10px 10px;
+  height: 160px;
+  /*display: inline-block;*/
+}  
+#imageGalleryForm #imgContainer .dvImgWrapper {
+  border: 1px solid #C1B9B9;  
+  width: 140px;
+  margin: auto;
+}
+#imageGalleryForm #imgContainer .dvImgWrapper.dvSelected {
+  border: 3px solid #22A6F1;
+  border-radius: 5px;
+}
+
+#imageGalleryForm #imgContainer .dvImgWrapper .dvImg {
+  padding: 5px;  
+  text-align: center;
+}
+#imageGalleryForm #imgContainer .dvImgWrapper .dvImg img {
+  width: 100px;
+  height: 100px;
+}
+#imageGalleryForm #imgContainer .dvImgWrapper .dvName {
+  border-top: 1px solid #C1B9B9;
+  width: 100%;
+  padding: 2px 2px;
+  display: block;
+  font-size: 11px;
+  font-weight: bold;
+  text-align: center;
+}
+#imageGalleryForm #imgContainer .dvImgWrapper .dvName div {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

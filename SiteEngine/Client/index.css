@@ -1,0 +1,46 @@
+﻿html, body {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;  
+  font-family: arial;      
+  background: white;
+}
+.dvNgView {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.dvLoading {
+  display: block;
+  width: 100%;  
+  height: 100%;
+}
+.dvLoading .dvLoadingContent {
+  display: table;
+  margin: 0 auto;
+  height: 100%;
+}
+.dvLoading .dvLoadingContent .dvElem {
+  display: table-cell;
+  vertical-align: middle;
+}
+.dvLoading .dvLoadingContent .dvElem img {
+  width: 48px;
+}
+
+#actionProcess {
+  display: none;
+  opacity: 0.6;
+  background-color: black;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: 1000;  
+}
+#actionProcess .dvElem  img {
+  width: 74px;
+}

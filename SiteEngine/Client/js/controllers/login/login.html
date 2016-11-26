@@ -1,0 +1,44 @@
+﻿<!--<link rel="stylesheet" type="text/css" href="/SiteEngine/Client/js/controllers/login/login.css">-->
+
+<div id="loginContainerWrapper">
+  <div id="loginWrapperInner">
+
+    <div id="loginContainer">
+      <form>
+
+        <div class="dvTitle">
+          <span>SiteEngine</span>
+        </div>
+
+        <div ng-show="(error != '')" class="dvError">
+          <div class="dvErrorImg">
+            <img src="/SiteEngine/Client/images/notification/24_24/error.png">
+          </div>
+          <div>
+            <span>{{error}}</span>
+          </div>
+        </div>
+
+        <label for="username">Username:</label>
+        <input ng-model="userName" name="UserName" type="text" value="" id="userName" class="form-control" placeholder="Enter user name" autofocus="">
+
+        <label for="password">Password:</label>
+        <p><a href="#">Forgot your password?</a>
+        </p>
+        <input ng-model="userPassword" name="UserPassword" type="password" value="" id="userPassword" class="form-control" placeholder="Enter user password" autofocus="">
+
+        <div id="lower">
+          <label class="check">
+            <input id="rememberMe" ng-model="rememberMe" type="checkbox" name="RememberMe">Remember me
+          </label>
+
+          <input id="btnLogin" ng-click="clickLogin($event)" type="submit" value="Log in">
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+
+</div>

@@ -1,0 +1,10 @@
+{
+  "keyYuri": {
+    "username": "Yuri",
+    "password": "iostream"
+  },
+  "key2": {
+    "username": "username2",
+    "password": "password2"
+  }
+}

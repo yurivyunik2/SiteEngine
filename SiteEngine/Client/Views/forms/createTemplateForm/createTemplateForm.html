@@ -1,0 +1,49 @@
+﻿
+<link rel="stylesheet" type="text/css" href="Views/forms/createTemplateForm/createTemplateForm.css">
+
+<div id="createTemplateForm" >
+  <div id="dvTemplateName">
+    <div class="dvNameField">
+      <label for="usr">Name: *</label>
+      <input type="text" class="form-control inName" id="Text1" value="{{newTemplateName}}">
+    </div>    
+  </div>  
+  
+  <div class="dvAllFields">
+    
+    <div class="dvEnterFields">
+      <div id="newField" class="dvFieldGroup ng-scope">
+        <div class="dvField">
+          <label>Field:</label>
+          <input type="text" class="form-control inName">  
+        </div>
+        <div class="dvField">
+          <label>Type:</label>
+          <!--<input type="text" class="form-control inType" value="string" disabled="">-->          
+          <select class="form-control" id="selType">
+            <option value="342">Single-Line</option>
+          </select>      
+
+        </div>
+        <div class="dvAddField" ><img src="/SiteEngine/Client/images/add-icon.png" ng-click="clickAddField($event)"></div>
+      </div>  
+	    <!--<button class="btn btnForm" ng-click="clickAddField($event)" style="margin-top: 20px; float: right;">Add field</button>-->
+    </div>
+  
+    <div id="dvCurrentFields" class="dvEnterFields">
+      <div class="dvFieldArea" ng-repeat="field in addFields" >
+        <div class="dvField">
+          <label>Field:</label>
+          <input disabled type="text" class="form-control inName" value="{{field.name}}">
+        </div>
+        <div class="dvField">
+          <label>Type:</label>
+          <input type="text" class="form-control inType" value="{{field.fields[0].typeName}}" disabled="">  
+        </div>
+        <div class="dvRemove" ><img src="/SiteEngine/Client/images/remove.png" ng-click="clickRemoveField($event)"></div>
+      </div>
+    </div>    
+
+  </div>
+  
+</div>

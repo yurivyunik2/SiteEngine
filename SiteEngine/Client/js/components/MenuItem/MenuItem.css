@@ -1,0 +1,40 @@
+﻿.menuItem { 
+  display: none; 
+  z-index: 1000000;
+  position: absolute;
+  border: 1px solid #B5AFDC;
+  margin: 0;
+  background: #FFFFFF;
+  font-family: arial;
+  font-size: 12px;
+
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -o-user-select: none;
+}
+.menuItem ul {
+  margin:0;
+  padding:0;
+}
+.menuItem li {
+  list-style-type: none;
+  padding: 4px 8px;
+  color: #3C3ECB;
+  cursor: pointer;
+}
+.menuItem li:hover {
+  background-color: #4FB5FF;
+  color: white;
+}
+.menuItem .dvTitle {
+  display: inline-block;
+}
+.menuItem .dvImg {
+  display: inline-block;
+  float: right;
+  margin-left: 5px;
+}
+.menuSeparator {
+  border-bottom: 1px solid #B5AFDC;
+}

@@ -1,0 +1,18 @@
+﻿
+<link rel="stylesheet" type="text/css" href="/SiteEngine/Client/Views/start.css">
+
+<div id="formsArea">
+  <!--<div ng-include="'html/tabPanel.html'"></div>-->
+  <div ng-include="'js/components/RichTextEditor/RichTextEditor.html'" ></div>
+
+  <div ng-include="'/SiteEngine/Client/Views/forms/modalForm/modalForm.html'" onload="loadFormFinished()"></div>
+    
+  <div ng-include="'/SiteEngine/Client/Views/panels/panelForm/panelForm.html'" onload="loadPanelForm()"></div>
+
+  <!--<div ng-include="'Views/forms/notificationForm/notificationForm.html'"></div>-->
+</div>
+
+<div id="tabPanelArea"></div>
+    
+<div id="engineTreeArea"></div>
+

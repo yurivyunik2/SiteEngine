@@ -1,0 +1,124 @@
+﻿.dvTop {
+  width: 100%;
+  display: table;
+  letter-spacing: 2px;
+  margin-bottom: 30px;
+}
+  .dvTop .dvTopInternal {
+    display: table-cell;
+    text-align: center;
+    position: relative;
+  }
+  .dvTop .dvTopInternal table {
+    margin: auto;
+  }
+  .dvTop .dvTopInternal .dvLogo {
+    display: table-cell;
+  }
+  .dvTop .dvTopInternal .dvLogo img {
+    width: 125px;
+    height: 155px;
+  }
+
+  .dvTop .cellMiddle {
+    vertical-align: top;
+    height: 100%;
+    padding-left: 50px;
+  }
+.dvTop .tbMiddle {
+  
+}
+.dvTop .tbMiddle td {
+  padding: 16px 0;  
+}
+
+  .dvTop .tbMiddle .dvTitle {
+    text-align: right;
+    color: #EE8234;
+    font-family: 'Titillium Web', sans-serif;
+    text-rendering: optimizelegibility;
+    font-size: 1.3em;
+  }
+
+  .dvTop .tbMiddle .tbHeaderMenu {
+    font-family: sans-serif;
+    font-size: 21px;
+    color: #006E75;
+  }
+
+.dvTop .dvMenu a{
+  font-family: sans-serif;
+  font-size: 21px;
+  color: #006E75;
+}
+.dvTop .dvMenu ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;  
+}
+.dvTop .dvMenu li {
+  padding: 0px 20px;
+  display: inline;
+  border-left: 1px solid #006E75;
+}
+.dvTop .dvMenu li:first-child {
+  padding-left: 0;
+  border-left: none;
+}
+
+  .dvTop .tbMiddle .tdSearch {
+    padding-left: 60px;
+  }
+.dvTop .tbMiddle .tdSearch .inputSearch {
+  font-size: 14px;
+  border: 1px solid #006E75;
+  border-radius: 10px;
+  padding: 2px 0px;
+  margin-bottom: 2px;
+  padding-left: 8px;
+  width: 120px;
+}
+.dvTop .tbMiddle .inputSearch:focus {
+  box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+  outline-width: 0;
+}
+
+.dvTop .tbMiddle .dvLanguageMenu {
+  padding: 0px 15px;
+  display: table;  
+  position: relative;
+}
+  .dvTop .tbMiddle .dvLanguageMenu > div {
+    display: table-cell;
+    padding-left: 15px;
+  }
+  .dvTop .tbMiddle .dvLanguageMenu .dvCaret {
+    display: table-cell;
+    vertical-align: middle;
+    padding-left: 2px;
+  }
+
+.dvTop .tbMiddle .dvLanguageMenu .dvCaret .caret {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  vertical-align: top;
+  margin-top: 13px;
+  border-top: 4px solid #000000;
+  border-right: 4px solid transparent;
+  border-left: 4px solid transparent;
+  content: "";  
+}
+
+.dvTop .tbMiddle .dvLanguageMenu ul {
+  padding: 0px;
+}
+.dvTop .tbMiddle .dvLanguageMenu ul a:hover {
+  background-color: #eae7e7;
+}
+
+.dvTestLayout {
+  font: 14px Arial,Verdana;
+  background-color: aqua;
+  padding: 5px;
+}

@@ -1,0 +1,83 @@
+﻿
+<div class="dvNewsSection dvSection">
+  <table>
+    <tbody>
+      <tr>
+        <td class="tdNews">
+          <div class="dvHeader">
+            <a href=""><span>Our News</span></a>
+          </div>
+          <div class="dvNewsList scrollCustom">
+            <div ng-repeat="newsItem in News.children" class="dvNews">
+              <table editing>
+                <tbody>
+                  <tr>
+                    <td>
+                      <div class="dvImg">
+                        <img src="{{newsItem.Image}}">
+                      </div>
+                    </td>
+                    <td>
+                      <div class="dvNewsContent">
+                        <div class="dvTitle">
+                          <a href="">
+                            <span class="spTitle">{{newsItem.Title}}</span>
+                          </a>
+                        </div>
+                        <br>
+                        <div class="dvContent">
+                          <span class="spContent">{{newsItem.Content}}</span>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+
+            </div>
+          </div>
+        </td>
+        <td class="tdEvent">
+          <div class="dvHeader">
+            <a href=""><span>Events</span></a>
+          </div>
+          <div class="dvEventsList">
+            <div class="dvEvent dvUpcomingEvents"><span>No upcoming events</span>
+
+            </div>
+            <div class="dvEvent dvVideo">
+              <div class="dvHeader">
+                <a href=""><span>Video</span></a>
+              </div>
+              <div class="dvListVideo">
+                <!--<iframe width="260" height="150" src="https://www.youtube.com/embed/RoAdlFTMMx8?list=PLRc4oTA2-nwvNtXmP-ELisoS7n1yJzw79" frameborder="0" allowfullscreen=""></iframe>-->
+
+              </div>
+            </div>
+            <div class="dvEvent dvOurBeneficiaries">
+              <div class="dvHeader">
+                <a href=""><span>Our Beneficiaries</span></a>
+              </div>
+
+              <div class="dvBeneficiary">
+                <table border="0" width="230" height="125">
+                  <tbody>
+                    <tr height="125">
+                      <td width="230" align="center" valign="center">
+                        <a href="/stakeholders/?op=jumpto&amp;item=puntaires&amp;url=http%3A%2F%2Fpuntaires.com" target="_blank" rel="external, nofollow"><img src="http://imscdn.abcore.org/r/iwith.org/w230-h125/img/stakeholders/sk_31.png" border="0" alt="Associació Catalana de Puntaires"></a>
+                        <br>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+
+              </div>
+
+            </div>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+

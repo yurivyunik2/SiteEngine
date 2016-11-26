@@ -1,0 +1,3 @@
+Install jsdom:
+http://www.steveworkman.com/node-js/2012/installing-jsdom-on-windows/
+

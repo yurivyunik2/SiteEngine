@@ -1,0 +1,30 @@
+﻿
+<link href="/SiteEngine/Site/layouts/Iwith.org/Carousel/Carousel.css" rel="stylesheet">
+
+<div class="dvSlider" style="position: relative; transition-duration: 0s; transform: translate3d(-1831px, 0px, 0px);">
+
+  <div ng-repeat="carouselItem in Carousel.children" itemid="<%= id %>" class="slide " style="float: left; list-style: none; position: relative; width: 1831px;">
+    <div class="item">
+      <a editing href=""><img src="{{carouselItem.Image}}"></a>
+      <div class="container">
+        <div class="carousel-caption">
+          <h1>
+            {{carouselItem.Title}}
+          </h1>
+          <p class="lead">
+            {{carouselItem.Info}}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!--    <div class="slide" style="float: left; list-style: none; position: relative; width: 1831px;"><img src="http://www.iwith.org/images_2013/slide/consultoriainternet.jpg"></div>
+    <div class="slide" style="float: left; list-style: none; position: relative; width: 1831px;"><img src="http://www.iwith.org/images_2013/slide/paginaswebresponsive.jpg"></div>
+    <div class="slide" style="float: left; list-style: none; position: relative; width: 1831px;"><img src="http://www.iwith.org/images_2013/slide/googlegrants.jpg"></div>
+    <div class="slide" style="float: left; list-style: none; position: relative; width: 1831px;"><img src="http://www.iwith.org/images_2013/slide/email.jpg"></div>
+    <div class="slide" style="float: left; list-style: none; position: relative; width: 1831px;"><img src="http://www.iwith.org/images_2013/slide/trabajoenred.jpg"></div>
+    <div class="slide" style="float: left; list-style: none; position: relative; width: 1831px;"><img src="http://www.iwith.org/images_2013/slide/redessociales.jpg"></div>
+    <div class="slide" style="float: left; list-style: none; position: relative; width: 1831px;"><img src="http://www.iwith.org/images_2013/slide/formacion.jpg"></div>-->
+  </div>
+

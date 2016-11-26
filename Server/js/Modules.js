@@ -1,5 +1,5 @@
 ﻿
-var appConfigModule = require('../../Common/AppConfig.js');
+var appConfigModule = require('../../Common/appConfig.js');
 module.exports.AppConfig = new appConfigModule.AppConfig();
 
 var constModule = require('../../Common/Const.js');

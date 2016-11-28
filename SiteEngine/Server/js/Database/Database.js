@@ -1,3 +1,4 @@
+
 //
 // Database
 //
@@ -39,7 +40,7 @@ exports.Database = function () {
           //  database: dbConfig.name
           //});
           connection = mysql.createConnection("mysql://bebb3efb6c2b7e:2e3f245c@us-cdbr-iron-east-04.cleardb.net/heroku_86772020d1a3ef3?reconnect=true");
-          this.handleConnection(connection);
+          self.handleConnection(connection, callback);
 
           //console.log("CREATE_CONNECTION");
 
@@ -68,9 +69,9 @@ exports.Database = function () {
       }
     },
 
-    handleConnection: function(conn) {
+    handleConnection: function (connection, callback) {
       
-      conn.on('error', function (err) {
+      connection.on('error', function (err) {
         if (!err.fatal) {
           return;
         }
@@ -81,7 +82,12 @@ exports.Database = function () {
         console.log('Re-connecting lost connection: ' + err.stack);
         connection = mysql.createConnection("mysql://bebb3efb6c2b7e:2e3f245c@us-cdbr-iron-east-04.cleardb.net/heroku_86772020d1a3ef3?reconnect=true");
         self.handleDisconnect(connection);
-        connection.connect();
+      });
+      connection.connect(function (err) {
+        console.log("CONNECT_OKK");
+        isConnectProcessing = false;
+        if (callback)
+          callback(err);
       });
     },
     query: function (queryStr, callback) {

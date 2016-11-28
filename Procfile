@@ -1,1 +1,1 @@
-web: node ./SiteEngine/Server/server.js $PORT
+web: node ./SiteEngine/Server/server.js -p $PORT

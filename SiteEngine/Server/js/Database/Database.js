@@ -16,7 +16,7 @@ exports.Database = function () {
 
   var self;
 
-  var mysql = require('mysql');
+  var mysql = require('mysql'); 
   //var fs = require("fs");
 
   var connection;

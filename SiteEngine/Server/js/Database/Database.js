@@ -9,7 +9,7 @@ exports.Database = function () {
   	name: "heroku_86772020d1a3ef3",
   };
 
-  var self;
+  var self; 
 
   var mysql = require('mysql');
   //var fs = require("fs");

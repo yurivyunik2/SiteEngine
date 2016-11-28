@@ -26,7 +26,7 @@ var CONST = function (CommonTypes, AppConfig) {
       //PORT: function () { return AppConfig.SERVER.PORT(); },
       //HOST: function () { return AppConfig.SERVER.HOST(); },
       PATH: function () {
-        return "http://" + AppConfig.SERVER.HOST() + ":" + AppConfig.SERVER.PORT() + "/";
+        return "https://" + AppConfig.SERVER.HOST() + ":" + AppConfig.SERVER.PORT() + "/";
       },
       //PATH: function () { return "http://localhost:80/"; },
 

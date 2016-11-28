@@ -12,7 +12,8 @@ var Modules = require('./js/Modules.js');
 var CONST = Modules.CONST;
 var AppConfig = Modules.AppConfig;
 
-var port = process.env.PORT || AppConfig.SERVER.PORT();
+//var port = process.env.PORT || AppConfig.SERVER.PORT();
+var port = AppConfig.SERVER.PORT();
 
 //if (AppConfig.SERVER.isRelease)
 //  process.chdir('./SiteEngine_RELEASE');

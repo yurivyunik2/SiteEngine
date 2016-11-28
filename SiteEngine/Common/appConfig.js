@@ -8,7 +8,7 @@ var AppConfig = function () {
       //PORT: function () { return 1221; },
       SetProcessPort: function(port) { processPort = port; },
       //PORT: function () { return processPort || 8088; },
-      PORT: function () { return processPort || 8080; },
+      PORT: function () { return processPort || 8088; },
       HOST: function () { return "localhost"; },
       //HOST: function () { return "178.151.211.118"; },
     },

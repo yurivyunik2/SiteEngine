@@ -1,1 +1,1 @@
-web: node ./SiteEngine/Server/server.js -p 8080
+web: node ./SiteEngine/Server/server.js

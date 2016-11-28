@@ -3,10 +3,10 @@
 //
 exports.Database = function () {
   var dbConfig = {
-    host: "localhost",
-    user: "root",
-    pass: "root",
-    name: "db_site_engine",
+  	host: "us-cdbr-iron-east-04.cleardb.net",
+  	user: "bebb3efb6c2b7e",
+  	pass: "2e3f245c",
+  	name: "heroku_86772020d1a3ef3",
   };
 
   var self;

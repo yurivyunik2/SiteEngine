@@ -1,6 +1,9 @@
 //
 // Database
 //
+
+var mysql = require('mysql');
+
 exports.Database = function () {
   var dbConfig = {
     //host: "localhost",
@@ -10,13 +13,12 @@ exports.Database = function () {
     host: "us-cdbr-iron-east-04.cleardb.net",
     user: "b4aa79412e8e85",
     pass: "c3e5d36c",
-    name: "heroku_e77877c85dea5bc",
+    name: "heroku_e77877c85dea5bc"
 
   };
 
   var self;
 
-  var mysql = require('mysql'); 
   //var fs = require("fs");
 
   var connection;
@@ -31,6 +33,7 @@ exports.Database = function () {
       if (mysql && dbConfig.host && dbConfig.user && dbConfig.pass && dbConfig.name) {
         if (!isConnectProcessing && (!connection || (connection.state && connection.state === "disconnected"))) {
           isConnectProcessing = true;
+          console.log("CREATE_CONNECTION");
           connection = mysql.createConnection({
             host: dbConfig.host,
             user: dbConfig.user,
@@ -38,7 +41,9 @@ exports.Database = function () {
             database: dbConfig.name
           });
 
+          console.log("CONNECTION");
           connection.connect(function (err) {
+            console.log("CONNECT_OKK");
             isConnectProcessing = false;
             if (callback)
               callback(err);

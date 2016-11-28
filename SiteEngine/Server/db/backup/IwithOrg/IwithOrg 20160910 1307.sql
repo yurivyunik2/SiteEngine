@@ -18,8 +18,10 @@
 -- Create schema db_site_engine
 --
 
-CREATE DATABASE /*!32312 IF NOT EXISTS*/ db_site_engine;
-USE db_site_engine;
+-- CREATE DATABASE /*!32312 IF NOT EXISTS*/ db_site_engine;
+-- USE db_site_engine;
+
+USE heroku_86772020d1a3ef3;
 
 --
 -- Table structure for table `db_site_engine`.`fields`

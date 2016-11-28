@@ -1,9 +1,6 @@
 //
 // Database
 //
-
-var mysql = require('mysql');
-
 exports.Database = function () {
   var dbConfig = {
     //host: "localhost",
@@ -19,6 +16,8 @@ exports.Database = function () {
 
   var self;
 
+  var mysql = require('mysql');
+
   //var fs = require("fs");
 
   var connection;
@@ -33,30 +32,33 @@ exports.Database = function () {
       if (mysql && dbConfig.host && dbConfig.user && dbConfig.pass && dbConfig.name) {
         if (!isConnectProcessing && (!connection || (connection.state && connection.state === "disconnected"))) {
           isConnectProcessing = true;
-          console.log("CREATE_CONNECTION");
-          connection = mysql.createConnection({
-            host: dbConfig.host,
-            user: dbConfig.user,
-            password: dbConfig.pass,
-            database: dbConfig.name
-          });
+          //connection = mysql.createConnection({
+          //  host: dbConfig.host,
+          //  user: dbConfig.user,
+          //  password: dbConfig.pass,
+          //  database: dbConfig.name
+          //});
+          connection = mysql.createConnection("mysql://bebb3efb6c2b7e:2e3f245c@us-cdbr-iron-east-04.cleardb.net/heroku_86772020d1a3ef3?reconnect=true");
+          this.handleConnection(connection);
 
-          console.log("CONNECTION");
-          connection.connect(function (err) {
-            console.log("CONNECT_OKK");
-            isConnectProcessing = false;
-            if (callback)
-              callback(err);
-          });
+          //console.log("CREATE_CONNECTION");
 
-          connection.on('error', function (err) {
-            console.log('DB_ERROR', err);
-            if (err.code === 'PROTOCOL_CONNECTION_LOST') { // Connection to the MySQL server is usually
-              // lost due to either server restart, or a
-            } else {                                      // connnection idle timeout (the wait_timeout
-              throw err;                                  // server variable configures this)
-            }
-          });
+          //console.log("CONNECTION");
+          //connection.connect(function (err) {
+          //  console.log("CONNECT_OKK");
+          //  isConnectProcessing = false;
+          //  if (callback)
+          //    callback(err);
+          //});
+
+          //connection.on('error', function (err) {
+          //  console.log('DB_ERROR', err);
+          //  if (err.code === 'PROTOCOL_CONNECTION_LOST') { // Connection to the MySQL server is usually
+          //    // lost due to either server restart, or a
+          //  } else {                                      // connnection idle timeout (the wait_timeout
+          //    throw err;                                  // server variable configures this)
+          //  }
+          //});
 
         } else {
           if (callback)
@@ -64,6 +66,23 @@ exports.Database = function () {
         }
         
       }
+    },
+
+    handleConnection: function(conn) {
+      
+      conn.on('error', function (err) {
+        if (!err.fatal) {
+          return;
+        }
+
+        if (err.code !== 'PROTOCOL_CONNECTION_LOST') {
+          throw err;
+        }
+        console.log('Re-connecting lost connection: ' + err.stack);
+        connection = mysql.createConnection("mysql://bebb3efb6c2b7e:2e3f245c@us-cdbr-iron-east-04.cleardb.net/heroku_86772020d1a3ef3?reconnect=true");
+        self.handleDisconnect(connection);
+        connection.connect();
+      });
     },
     query: function (queryStr, callback) {
       try {

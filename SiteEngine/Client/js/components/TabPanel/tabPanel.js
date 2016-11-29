@@ -83,7 +83,7 @@
         $parentElem = $($parentElem);
 
         var $template = $("<div></div>");
-        $template.load(pathTemplate, function (loadText, status) {
+        $template.load(pathTemplate, function (loadText, status, response) {
 
         	// creating Tabs
         	var $templateLoad = $("<div></div>");

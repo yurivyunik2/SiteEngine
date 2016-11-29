@@ -125,7 +125,7 @@ function (application, CONST, CreateTemplateFormCtrl, CreateItemFormCtrl, Insert
         var $parentContentElem = self.get$parentCtrl();
         createTemplateFormCtrl = new CreateTemplateFormCtrl($scope);
         createItemFormCtrl = new CreateItemFormCtrl($scope);
-        //insertOptionsForm = new InsertOptionsForm($parentContentElem, $scope);
+        //insertOptionsForm = new InsertOptionsForm($parentContentElem, $scope); 
         selectTemplateFormCtrl = new SelectTemplateFormCtrl($scope);
         selectTreeItemFormCtrl = new SelectTreeItemFormCtrl($scope);
         layoutFormCtrl = new LayoutFormCtrl($parentContentElem, $scope);

@@ -4,7 +4,7 @@
   //
   function TabPanel($parentElem, _panelItems) {
 
-    var pathTemplate = "js/components/TabPanel/TabPanel.html";
+    var pathTemplate = "/SiteEngine/Client/js/components/TabPanel/TabPanel.html";
 
     var buttonsAlways = [
       {

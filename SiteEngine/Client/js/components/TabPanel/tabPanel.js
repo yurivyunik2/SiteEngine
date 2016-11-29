@@ -83,17 +83,19 @@
         $parentElem = $($parentElem);
 
         var $template = $("<div></div>");
-        $template.load(pathTemplate, function () {
+        $template.load(pathTemplate, function (loadText, status) {
 
-          // creating Tabs
-          var $liTabs = $template.find("#liTabs");
+        	// creating Tabs
+        	var $templateLoad = $("<div></div>");
+        	$templateLoad.html(loadText);
+        	var $liTabs = $templateLoad.find("#liTabs");
           var liTabsTemplate = _.template($liTabs.html());
           var content = liTabsTemplate({ panelItems: testItems });
 
-          var $ulTabs = $template.find("#" + ulTabsID);
+          var $ulTabs = $templateLoad.find("#" + ulTabsID);
           $ulTabs.html(content);
 
-          $parentElem.append($template.html());
+          $parentElem.append($templateLoad.html());
 
           $panelElem = $parentElem.find(tabPanelSelector);
 

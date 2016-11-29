@@ -27,6 +27,7 @@
     
     jqueryUi: ["jquery"],
     routing: ["jquery", "underscore"],
+    underscore: ["jquery"],
 
     contextMenu: ["jquery"],
   },

@@ -9,7 +9,7 @@ var AppConfig = function () {
       SetProcessPort: function(port) { processPort = port; },
       //PORT: function () { return processPort || 8088; },
       PORT: function () { return processPort || 29035; },
-      HOST: function () { return "localhost"; },
+      HOST: function () { return "site-engine.herokuapp.com"; },
       //HOST: function () { return "178.151.211.118"; },
     },
   };

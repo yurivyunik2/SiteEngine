@@ -5,8 +5,8 @@ var AppConfig = function () {
   return {
     SERVER: {
       PORT: function () { return 8088; },
-      HOST: function () { return "site-engine.herokuapp.com"; },
-      //HOST: function () { return "localhost"; },
+      //HOST: function () { return "site-engine.herokuapp.com"; },
+      HOST: function () { return "localhost"; },
       //HOST: function () { return "178.151.211.118"; },
     },
   };

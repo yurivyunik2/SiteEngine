@@ -85,6 +85,10 @@
       });
     },
 
+    getRootAndContentItems: function (data, objResponse, callback) {
+      var itemsRes = [];
+    },
+
     setItemMgr: function(_itemMgr) {
       if (_itemMgr)
         itemMgr = _itemMgr;

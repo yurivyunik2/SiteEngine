@@ -4,14 +4,14 @@
 //
 exports.Database = function () {
   var dbConfig = {
-    //host: "localhost",
-    //user: "root",
-    //pass: "root",
-    //name: "db_site_engine",
-    host: "us-cdbr-iron-east-04.cleardb.net",
-    user: "b4aa79412e8e85",
-    pass: "c3e5d36c",
-    name: "heroku_e77877c85dea5bc"
+    host: "localhost",
+    user: "root",
+    pass: "root",
+    name: "db_site_engine",
+    //host: "us-cdbr-iron-east-04.cleardb.net",
+    //user: "b4aa79412e8e85",
+    //pass: "c3e5d36c",
+    //name: "heroku_e77877c85dea5bc"
 
   };
 
@@ -33,13 +33,13 @@ exports.Database = function () {
       if (mysql && dbConfig.host && dbConfig.user && dbConfig.pass && dbConfig.name) {
         if (!isConnectProcessing && (!connection || (connection.state && connection.state === "disconnected"))) {
           isConnectProcessing = true;
-          //connection = mysql.createConnection({
-          //  host: dbConfig.host,
-          //  user: dbConfig.user,
-          //  password: dbConfig.pass,
-          //  database: dbConfig.name
-          //});
-          connection = mysql.createConnection("mysql://bebb3efb6c2b7e:2e3f245c@us-cdbr-iron-east-04.cleardb.net/heroku_86772020d1a3ef3?reconnect=true");
+          connection = mysql.createConnection({
+            host: dbConfig.host,
+            user: dbConfig.user,
+            password: dbConfig.pass,
+            database: dbConfig.name
+          });
+          //connection = mysql.createConnection("mysql://bebb3efb6c2b7e:2e3f245c@us-cdbr-iron-east-04.cleardb.net/heroku_86772020d1a3ef3?reconnect=true");
           self.handleConnection(connection, callback);
 
           //console.log("CREATE_CONNECTION");

@@ -136,6 +136,14 @@
                 //});
                 break;
               }
+            case "getRootAndContentItems":
+              {
+                ServerApplication.getRootAndContentItems(dataRequest, objResponse, function () {
+                  //response.end(JSON.stringify(objResponse));
+                  self.responseCallbackPOST(response, dataRequest, objResponse);
+                });
+                break;
+              }
             case "getItemFields":
               {
                 itemMgr.getItemFields(dataRequest, objResponse, function () {
@@ -365,6 +373,10 @@
       } catch (ex) {
         
       }      
+    },
+
+    updateItems: function () {
+      ServerApplication.updateItems();
     },
     
   };
